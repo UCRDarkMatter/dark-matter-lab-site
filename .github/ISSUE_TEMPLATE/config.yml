@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Email the lab instead
+    url: mailto:shawn.westerdale@ucr.edu
+    about: If you prefer not to use GitHub.

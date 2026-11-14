@@ -1,0 +1,54 @@
+{
+ "_how_to_edit": "repo is optional (owner/name on GitHub). When given, the page shows the repository's stars, language and last update automatically.",
+ "lab": [
+  {
+   "name": "NeuCBOT",
+   "repo": "shawest/neucbot",
+   "url": "https://github.com/shawest/neucbot",
+   "text": "A neutron calculator based on TALYS that estimates (α,n) yields from known radioactive contamination."
+  },
+  {
+   "name": "G4CASCADE",
+   "repo": "UCRDarkMatter/CASCADE",
+   "url": "https://github.com/UCRDarkMatter/CASCADE",
+   "text": "A Geant4 module that uses ENSDF data to simulate de-excitation cascades in (n,γ) reactions."
+  },
+  {
+   "name": "NEST",
+   "url": "https://nest.physics.ucdavis.edu/",
+   "text": "The Noble Element Simulation Technique: simulates scintillation and ionization signals in liquid argon and liquid xenon."
+  }
+ ],
+ "other": [
+  {
+   "name": "NIST stopping powers",
+   "text": "ASTAR (alpha particles), PSTAR (protons) and ESTAR (electrons).",
+   "url": "https://physics.nist.gov/PhysRefData/Star/Text/intro.html"
+  },
+  {
+   "name": "CapGam",
+   "text": "BNL/NNDC (n,γ) database.",
+   "url": "https://www.nndc.bnl.gov/capgam/byTarget/"
+  },
+  {
+   "name": "NuDat3",
+   "text": "BNL/NNDC table of isotopes.",
+   "url": "https://www.nndc.bnl.gov/nudat3/"
+  },
+  {
+   "name": "ENDF",
+   "text": "BNL/NNDC neutron-induced reaction data.",
+   "url": "https://www.nndc.bnl.gov/endf/"
+  },
+  {
+   "name": "EXFOR",
+   "text": "IAEA/NNDC nuclear reaction database.",
+   "url": "https://www-nds.iaea.org/exfor/"
+  },
+  {
+   "name": "Relativistic 2-body kinematics calculator",
+   "text": "By Ski Sickness.",
+   "url": "https://skisickness.com/2010/04/relativistic-kinematics-calculator/"
+  }
+ ]
+}

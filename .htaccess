@@ -1,0 +1,3 @@
+# Keep git's own files off the web when the site is served from a git clone.
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.github

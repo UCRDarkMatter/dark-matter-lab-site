@@ -1,0 +1,22 @@
+{
+ "_how_to_edit": "Add events with an ISO date (YYYY-MM-DD). The Outreach page sorts them and moves each one from Upcoming to Past by itself once the date has gone by.",
+ "events": [
+  {
+   "date": "2022-10-13",
+   "title": "Riverside Long Night of Art and Innovation",
+   "where": "Downtown Riverside",
+   "text": "Visit the physics booth, open from mid-afternoon until 10 pm."
+  },
+  {
+   "date": "2022-10-15",
+   "title": "DEAP-3600 master class",
+   "text": "A master class on dark matter searches, organized by Michela Lai and Sarthak Choudhary."
+  },
+  {
+   "date": "2022-10-22",
+   "title": "Discover UCR day",
+   "where": "UC Riverside",
+   "text": "The Department of Physics and Astronomy hosts a morning booth."
+  }
+ ]
+}

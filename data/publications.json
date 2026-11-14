@@ -1,0 +1,94 @@
+{
+ "generated": "2026-11-12T00:00:00Z",
+ "query": "au:Westerdale",
+ "sample": true,
+ "papers": [
+  {
+   "id": "2608.20504",
+   "title": "Measurement of the muon flux at SNOLAB using the DEAP-3600 experiment",
+   "published": "2026-08-01",
+   "authors": [
+    "P. Adhikari"
+   ],
+   "category": "hep-ex",
+   "abstract": "A direct measurement of the muon flux at SNOLAB is performed using the DEAP-3600 experiment, located 2 km underground at SNOLAB near Sudbury, Canada. Primarily designed for the direct detection of weakly interacting massive particles (WIMPs), a dark matter candidate, DEAP-3600 consists of an inner spherical acrylic vessel containing a liquid argon target; this vessel is enclosed within a steel shell which is submerged in an instrumented water tank, serving as a muon veto for the dark matter…",
+   "truncated": true
+  },
+  {
+   "id": "2608.04059",
+   "title": "A Bayesian approach to the long-baseline neutrino oscillation sensitivity of DUNE",
+   "published": "2026-08-01",
+   "authors": [
+    "S. Abbaslu"
+   ],
+   "category": "hep-ex",
+   "abstract": "The sensitivity of the Deep Underground Neutrino Experiment (DUNE) to neutrino oscillation is evaluated using a Bayesian Markov Chain Monte Carlo (MCMC) approach. This analysis uses the same underlying sensitivity inputs as previous DUNE studies [Eur. Phys. J. C 80, 978 (2020)], and therefore does not present updated DUNE sensitivities, but instead explores the additional inferences accessible using a Bayesian approach. We present four-dimensional posterior probability distributions of the…",
+   "truncated": true
+  },
+  {
+   "id": "2607.15927",
+   "title": "Operation and performance of ProtoDUNE Dual Phase liquid argon time projection chamber",
+   "published": "2026-07-01",
+   "authors": [
+    "S. Abbaslu"
+   ],
+   "category": "physics.ins-det",
+   "abstract": "ProtoDUNE-DP was the largest ever built Liquid Argon Time Projection Chamber (LArTPC) operating in Dual-Phase (DP) mode, with a liquid target and charge read-out placed in the gas. It had an active volume of $6\\times6\\times6$\\,m$^3$ corresponding to an active mass of 300\\,t (total LAr mass of 720\\,t), constructed at the CERN Neutrino Platform and took data from 2019 to 2020 with cosmic muons. In ProtoDUNE-DP the electric drift field is oriented in the vertical direction, causing the electrons…",
+   "truncated": true
+  },
+  {
+   "id": "2607.11476",
+   "title": "Search for two-neutrino double electron capture in $^{36}$Ar with the DarkSide-50 detector",
+   "published": "2026-07-01",
+   "authors": [
+    "P. Agnes"
+   ],
+   "category": "hep-ex",
+   "abstract": "Two-neutrino double electron capture is a rare nuclear decay where two electrons are simultaneously captured from the atomic shells and two neutrinos are emitted. We report on the first search for two-neutrino double electron capture in the $\\textit{KK}$- and $\\textit{KL}$-shells of $^{36}$Ar using the low-radioactivity liquid argon target from underground sources in the DarkSide-50 experiment. No statistically significant excess was observed with approximately 12 ton-day exposure of…",
+   "truncated": true
+  },
+  {
+   "id": "2605.12769",
+   "title": "First evidence of neutrino absorption on argon using $^{8}$B solar neutrinos in DEAP-3600",
+   "published": "2026-05-01",
+   "authors": [
+    "P. Adhikari"
+   ],
+   "category": "hep-ex",
+   "journal_ref": "Phys. Rev. Lett. (2026)",
+   "doi": "10.1103/ss4t-vqxr",
+   "abstract": "We report experimental evidence for electron neutrino charged-current interactions (neutrino absorption, CC $\\nu_e$) from $^{8}$B solar neutrinos on $^{40}$Ar using an exposure of ($7.29 \\pm 0.05$) tonne$\\cdot$years in the DEAP-3600 detector. A region of interest (ROI) of 10.5-13.0 MeV reconstructed energy calibrated on single-peak events, corresponding to incident neutrino energy in 12.0-14.5 MeV, is used for this measurement. We observe 5 single-peak and 1 double-peak neutrino-like events…",
+   "truncated": true
+  },
+  {
+   "id": "2604.03059",
+   "title": "The DarkSide-20k Data Acquisition System",
+   "published": "2026-04-01",
+   "authors": [
+    "F. Acerbi"
+   ],
+   "category": "physics.ins-det",
+   "journal_ref": "JINST 21 (2026) P09017",
+   "doi": "10.1088/1748-0221/21/09/p09017",
+   "abstract": "DarkSide-20k is a Weakly Interacting Massive Particles (WIMPs) search experiment using liquid argon as a target, designed to perform a background-free search for dark matter with unprecedented sensitivity, and is currently under construction at INFN Laboratori Nazionali del Gran Sasso, Italy. The detector comprises a dual-phase Time Projection Chamber (TPC) complemented with external veto systems and is equipped with a total of 2720 Silicon PhotoMultiplier (SiPM)-based readout…",
+   "truncated": true
+  },
+  {
+   "id": "2408.02774",
+   "title": "G4RiversideCASCADE: A data-driven implementation of (n,γ) cascades in Geant4",
+   "published": "2024-08-01",
+   "authors": [
+    "Leo Weimer",
+    "E. Ellingwood",
+    "Otis Fischer",
+    "Michela Lai",
+    "Shawn Westerdale"
+   ],
+   "n_authors": 5,
+   "category": "physics.comp-ph",
+   "journal_ref": "Nucl. Instrum. Meth. A (2026)",
+   "doi": "10.1016/j.nima.2026.171940",
+   "abstract": ""
+  }
+ ]
+}

@@ -1,0 +1,105 @@
+{
+ "_how_to_edit": "Add, move or remove entries here and the People page follows. photo is optional (e.g. images/people/alec.jpg). Move someone to the alumni group when they leave; add 'now' to say where they went.",
+ "groups": [
+  {
+   "title": "Faculty",
+   "members": [
+    {
+     "name": "Shawn Westerdale",
+     "role": "Assistant Professor of Physics",
+     "bio": "Shawn's (he/him) research focuses on dark matter and neutrinos, as well as R&D developing low-threshold and low-background detectors.",
+     "email": "shawn.westerdale@ucr.edu",
+     "links": {
+      "arXiv": "https://arxiv.org/search/?query=Westerdale&searchtype=author",
+      "INSPIRE": "https://inspirehep.net/authors?q=Westerdale"
+     }
+    }
+   ]
+  },
+  {
+   "title": "Postdocs",
+   "hiring": "We are currently looking for postdocs. If you're interested, reach out to Shawn Westerdale.",
+   "members": []
+  },
+  {
+   "title": "Graduate students",
+   "hiring": "We are currently looking for graduate students. If you're interested, reach out to Shawn Westerdale.",
+   "members": [
+    {
+     "name": "Alec Peck",
+     "bio": "Alec (he/him) previously worked with the ALICE collaboration at CERN and now develops the outer veto for DarkSide-20k."
+    },
+    {
+     "name": "Veronika Shalamova"
+    },
+    {
+     "name": "Taisiia Smirnova"
+    }
+   ]
+  },
+  {
+   "title": "Undergraduate students",
+   "hiring": "We are currently looking for undergraduate students. If you're interested, reach out to Shawn Westerdale.",
+   "members": [
+    {
+     "name": "Manuel Bostock"
+    },
+    {
+     "name": "Nathan Culman"
+    },
+    {
+     "name": "Sarah Howick"
+    },
+    {
+     "name": "Jared Hudnall",
+     "bio": "Physics major working on the mechanical design of the DarkSide-20k outer veto."
+    },
+    {
+     "name": "Ryan Krismer",
+     "bio": "Physics and astronomy major at the University of Washington, modeling backgrounds for a LArTPC near a nuclear reactor with Geant4."
+    },
+    {
+     "name": "Andrew Le Blanc",
+     "bio": "Physics major searching for solar ⁸B electron neutrinos captured on ⁴⁰Ar in DEAP-3600."
+    },
+    {
+     "name": "Bill Murray"
+    },
+    {
+     "name": "Leo Weimer",
+     "bio": "West Virginia University student in the Physics and Astronomy REU, improving Geant4's simulation of neutron capture cascades."
+    },
+    {
+     "name": "Matthew Lugatiman",
+     "bio": "Works on dark matter theory as a research assistant with Dr. Westerdale and Dr. Tanedo."
+    }
+   ]
+  },
+  {
+   "title": "High school students",
+   "members": [
+    {
+     "name": "Dhruv Trivedi",
+     "bio": "Updating NeuCBOT for the latest version of Python."
+    },
+    {
+     "name": "Yousif Najat"
+    },
+    {
+     "name": "Vignesh Balaji",
+     "bio": "Built the internal page, updated the experiments section, and helped update NeuCBOT to NuDat3."
+    }
+   ]
+  },
+  {
+   "title": "Alumni",
+   "alumni": true,
+   "members": [
+    {
+     "name": "Daniel Gamino Navarro",
+     "role": "Undergraduate student"
+    }
+   ]
+  }
+ ]
+}

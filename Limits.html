@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dark Matter Limit Plotter</title>
+<meta name="description" content="Plot and download dark matter direct detection exclusion limits collected automatically from arXiv.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/limits.css">
+</head>
+<body>
+<script src="assets/site.js"></script>
+<main id="main" class="lim">
+  <div class="wrap page-title stack">
+    <h1>Dark matter limit plotter</h1>
+    <p>Exclusion limits, projected sensitivities, discovery contours and model predictions for dark matter direct detection, collected from arXiv. Tick the curves you want, adjust the plot, and download the figure or the numbers.</p>
+    <div class="disclaimer" id="disclaimer">
+      <p><b>About these curves.</b> They were found, extracted and labeled automatically by a script that reads the figures and data files of arXiv papers. Curves marked <span class="badge warn">unreviewed</span> have not been checked by a person. The others have been checked against the original figure or come from a collaboration’s own data file, but values read from a figure can differ slightly from the published numbers, and a name, plot type or unit may still be wrong. For a publication or talk, use the collaboration’s official data release and cite the original paper.</p>
+      <p>Spotted a mistake, or a missing result? Use <b>Report a problem</b> beside any selected curve, or <button class="linkish" type="button" id="report-general">report something else</button>.</p>
+    </div>
+    <p class="notice" id="lim-notice" hidden></p>
+  </div>
+  <div class="wrap lim-grid">
+    <div class="panel">
+      <label>Plot type<select id="f-channel"></select></label>
+      <label>Find a curve<input type="search" id="f-search" placeholder="Experiment, year, arXiv number…"></label>
+      <div class="row tight">
+        <button class="mini" type="button" id="b-all">Select all shown</button>
+        <button class="mini" type="button" id="b-none">Clear selection</button>
+      </div>
+      <div class="lab">Show
+        <div class="kinds">
+          <label class="check"><input type="checkbox" id="k-limit">Limits <svg width="30" height="8" aria-hidden="true"><line x1="1" x2="29" y1="4" y2="4" stroke="currentColor" stroke-width="2"/></svg></label>
+          <label class="check"><input type="checkbox" id="k-projection">Projections <svg width="30" height="8" aria-hidden="true"><line x1="1" x2="29" y1="4" y2="4" stroke="currentColor" stroke-width="2" stroke-dasharray="9 5"/></svg></label>
+          <label class="check"><input type="checkbox" id="k-discovery">3σ/5σ discovery <svg width="30" height="8" aria-hidden="true"><line x1="1" x2="29" y1="4" y2="4" stroke="currentColor" stroke-width="2" stroke-dasharray="5 3"/></svg></label>
+          <label class="check"><input type="checkbox" id="k-model">Model predictions <svg width="30" height="10" aria-hidden="true"><rect x="1" y="1" width="28" height="8" fill="currentColor" fill-opacity=".25" stroke="currentColor"/></svg></label>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="f-unreviewed">Include unreviewed curves</label>
+      <div class="curve-list" id="curve-list"></div>
+      <details>
+        <summary>Add your own curve</summary>
+        <div class="stack" style="gap:.6rem">
+          <label>Name<input type="text" id="u-label" placeholder="My model"></label>
+          <label>Draw as<select id="u-as"><option value="limit">Solid line</option><option value="projection">Dashed line</option><option value="region">Filled region (points in order around the outline)</option></select></label>
+          <label>Two columns: mass, value (in the units chosen for the axes)<textarea id="u-data" placeholder="10  1e-45&#10;100 2e-46"></textarea></label>
+          <button class="mini" type="button" id="u-add">Add to plot</button>
+          <p class="muted" style="font-size:.85rem">Stays in this browser only.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="stack">
+      <div class="plot-wrap" id="plot-wrap"><div id="plot"></div><div class="tip" id="tip" hidden></div></div>
+      <div class="row tight">
+        <button class="mini" type="button" id="d-png">Download PNG</button>
+        <button class="mini" type="button" id="d-svg">Download SVG</button>
+        <button class="mini" type="button" id="d-csv">Download data (CSV)</button>
+        <button class="mini" type="button" id="d-json">Download data (JSON)</button>
+        <button class="mini" type="button" id="d-copy">Copy CSV</button>
+        <a class="mini" href="data/limits.json" download>Whole database (JSON)</a>
+      </div>
+      <details open>
+        <summary>Plot settings</summary>
+        <div class="settings">
+          <label>Title<input type="text" id="s-title"></label>
+          <label>Mass unit<select id="s-xUnit"><option>eV</option><option>keV</option><option>MeV</option><option selected>GeV</option><option>TeV</option><option>PeV</option><option value="g">g (grams)</option></select></label>
+          <label>Limit unit<select id="s-yUnit"><option value="cm2" selected>cm²</option><option>pb</option><option>fb</option><option>zb</option></select></label>
+          <label>Mass min<input type="text" id="s-xMin" placeholder="auto" inputmode="decimal"></label>
+          <label>Mass max<input type="text" id="s-xMax" placeholder="auto" inputmode="decimal"></label>
+          <label>Limit min<input type="text" id="s-yMin" placeholder="auto" inputmode="decimal"></label>
+          <label>Limit max<input type="text" id="s-yMax" placeholder="auto" inputmode="decimal"></label>
+          <label>Width (px)<input type="number" id="s-width" min="300" max="3000" step="50"></label>
+          <label>Height (px)<input type="number" id="s-height" min="200" max="3000" step="50"></label>
+          <label>Text size<input type="number" id="s-font" min="8" max="40"></label>
+          <label>Line width<input type="number" id="s-lineWidth" min="0.5" max="8" step="0.5"></label>
+          <label>Legend<select id="s-legend"><option value="tr">Top right</option><option value="tl">Top left</option><option value="br">Bottom right</option><option value="bl">Bottom left</option><option value="below">Below the plot</option><option value="none">Hidden</option></select></label>
+          <label>Background<select id="s-bg"><option value="theme">Match page</option><option value="white">White</option><option value="none">Transparent</option></select></label>
+          <label class="check"><input type="checkbox" id="s-xLog">Log mass axis</label>
+          <label class="check"><input type="checkbox" id="s-yLog">Log limit axis</label>
+          <label class="check"><input type="checkbox" id="s-grid">Grid lines</label>
+          <label class="check"><input type="checkbox" id="s-shade">Shade excluded region</label>
+          <button class="mini" type="button" id="s-reset">Reset settings</button>
+        </div>
+      </details>
+      <details open>
+        <summary>Selected curves</summary>
+        <div class="tbl-wrap"><table class="tbl" id="sel-table"></table></div>
+      </details>
+      <div class="panel" id="report" hidden>
+        <h2 id="report-h">Report a problem</h2>
+        <p id="rp-about" class="muted"></p>
+        <label>What is wrong?<select id="rp-what">
+          <option>The name or label is wrong</option>
+          <option>The curve’s values are wrong (shape or position)</option>
+          <option>Wrong plot type, units or kind (limit, projection, discovery, model)</option>
+          <option>It is not this paper’s own result, or should not be listed</option>
+          <option>A paper or curve is missing</option>
+          <option>Something else</option>
+        </select></label>
+        <label>Details<textarea id="rp-text" placeholder="What should it be? A figure number, data file or link helps."></textarea></label>
+        <div class="row tight">
+          <a class="btn" id="rp-issue" href="#" target="_blank" rel="noopener">Open a GitHub issue</a>
+          <a class="mini" id="rp-mail" href="#">Email instead</a>
+          <button class="mini" type="button" id="rp-copy">Copy report</button>
+          <button class="mini" type="button" id="rp-close">Cancel</button>
+        </div>
+        <p class="muted" style="font-size:.9rem">A GitHub issue is public and lets you follow the fix; it needs a free GitHub account. Email goes to <span id="rp-addr"></span>; if the email button does nothing, copy the report and send it there.</p>
+      </div>
+      <details id="awaiting" hidden>
+        <summary>Papers found without usable curve data</summary>
+        <ul class="plain-list" id="awaiting-list" style="font-size:.95rem"></ul>
+      </details>
+    </div>
+  </div>
+
+  <div class="wrap stack" id="admin" hidden style="margin-top:2.5rem">
+    <h2>Review</h2>
+    <p class="steps">You are on the review server. Changes are saved to the database here; run <code>python3 tools/limits.py publish</code> afterwards to send them to GitHub, from where the website picks them up.</p>
+    <details open><summary>Problem reports from visitors <span id="n-issues"></span></summary><div id="rev-issues"><p class="empty">Loading…</p></div></details>
+    <details open><summary>Curves waiting for approval <span id="n-pending"></span></summary><div id="rev-curves"></div></details>
+    <details><summary>Papers without a curve <span id="n-papers"></span></summary><div id="rev-papers"></div></details>
+    <details id="pub-box"><summary>Published curves: rename or correct <span id="n-published"></span></summary>
+      <div class="stack" style="gap:.5rem">
+        <label>Find a published curve<input type="search" id="pub-search" placeholder="Name, experiment, year or arXiv number"></label>
+        <div id="rev-published"></div>
+      </div>
+    </details>
+    <details><summary>Rejected curves, including those rejected automatically <span id="n-rejected"></span></summary><div id="rev-rejected"></div></details>
+    <details id="dz-box"><summary>Digitize a curve from a figure</summary>
+      <div class="stack">
+        <p class="steps" id="dz-step">Load a screenshot of the figure (choose a file, or paste an image with Ctrl/Cmd+V).</p>
+        <div class="settings">
+          <label>Figure image<input type="file" id="dz-file" accept="image/*"></label>
+          <label>arXiv number<input type="text" id="dz-arxiv" placeholder="2207.03764"></label>
+          <label>Curve name<input type="text" id="dz-label"></label>
+          <label>Experiment<input type="text" id="dz-exp"></label>
+          <label>Plot type<select id="dz-channel"></select></label>
+          <label>Kind<select id="dz-kind"></select></label>
+          <label>Shape<select id="dz-shape"><option value="line">Line</option><option value="region">Region (click around the outline)</option></select></label>
+          <label>Sigma (discovery)<select id="dz-sigma"><option value="">n/a</option><option>3</option><option>5</option></select></label>
+          <label>Details<input type="text" id="dz-type" value="observed, 90% CL"></label>
+          <label>Mass at X1<input type="text" id="dz-x1" placeholder="10"></label>
+          <label>Mass at X2<input type="text" id="dz-x2" placeholder="1000"></label>
+          <label>Limit at Y1<input type="text" id="dz-y1" placeholder="1e-48"></label>
+          <label>Limit at Y2<input type="text" id="dz-y2" placeholder="1e-44"></label>
+          <label>Mass unit in figure<select id="dz-xu"><option>eV</option><option>keV</option><option>MeV</option><option selected>GeV</option><option>TeV</option><option>PeV</option><option value="g">g (grams)</option></select></label>
+          <label>Limit unit in figure<select id="dz-yu"><option value="cm2">cm²</option><option>pb</option><option>fb</option><option>zb</option></select></label>
+          <label class="check"><input type="checkbox" id="dz-xlog" checked>Log mass axis</label>
+          <label class="check"><input type="checkbox" id="dz-ylog" checked>Log limit axis</label>
+        </div>
+        <div class="row tight">
+          <button class="mini" type="button" id="dz-undo">Undo last click</button>
+          <button class="mini" type="button" id="dz-restart">Start over</button>
+          <button class="btn" type="button" id="dz-save">Save curve</button>
+        </div>
+        <div class="dz"><canvas id="dz-canvas" width="600" height="80"></canvas></div>
+      </div>
+    </details>
+  </div>
+</main>
+<script src="assets/limits.js"></script>
+</body>
+</html>

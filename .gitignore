@@ -1,0 +1,8 @@
+# The database is rebuilt from tools/limits.sql (which is tracked); these are local only.
+tools/limits.db
+tools/limits.db.rebuild
+tools/backups/
+tools/vendor/
+__pycache__/
+*.tmp
+.DS_Store
