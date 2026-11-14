@@ -1,0 +1,17 @@
+{
+ "generated": "2026-11-14T23:03:07Z",
+ "repos": {
+  "shawest/neucbot": {
+   "stars": 12,
+   "language": "Python",
+   "pushed": "2026-11-13T06:23:23Z",
+   "description": null
+  },
+  "UCRDarkMatter/CASCADE": {
+   "stars": 6,
+   "language": "C++",
+   "pushed": "2026-06-09T18:30:47Z",
+   "description": "Repository for G4CASCADE"
+  }
+ }
+}
