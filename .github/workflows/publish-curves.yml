@@ -4,11 +4,12 @@ name: Publish curves
 on:
   push:
     branches: [main]
-    paths: [tools/limits.sql]
+    paths: [tools/limits.sql, .github/workflows/publish-curves.yml]
   workflow_dispatch:
 
 permissions:
   contents: write
+  issues: write                     # to create the label that problem reports carry
 
 concurrency:
   group: site-data                  # never at the same time as the nightly update
@@ -23,6 +24,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Make sure the problem-report label exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh label create curve-correction --repo "$GITHUB_REPOSITORY" --color d93f0b --description "Problem reported with a curve in the limit plotter" --force
       - name: Rebuild data/limits.json from the database
         run: python3 tools/limits.py export
       - name: Commit and push
