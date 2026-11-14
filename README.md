@@ -31,11 +31,16 @@ The server must not change tracked files, or `git pull` stops; it only reads. `.
 git clone https://github.com/UCRDarkMatter/dark-matter-lab-site.git
 cd dark-matter-lab-site
 python3 tools/limits.py serve     # fetches the latest curves first; open http://127.0.0.1:8787/Limits.html
-python3 tools/limits.py publish   # when done: commits tools/limits.sql and pushes; the site follows within ~15 min
 ```
+On the review page, **Publish my changes and get new curves** sends your changes to GitHub (the site follows
+within ~15 minutes) and brings in curves added since you started, so you can review while a nightly run is
+still going: it pushes after every batch of 10 papers. `python3 tools/limits.py publish` does the same from
+the command line.
 Python 3 is enough for reviewing; the figure reader (`extract`, `figures`) also needs `pip install pymupdf`.
-Publish soon after reviewing: the nightly job and your review both change `tools/limits.sql`, and git combines
-changes to different curves automatically, but two people editing the same curve at once need a manual merge.
+The nightly job and your reviews both change `tools/limits.sql`. When git cannot combine the two line by line,
+the script merges them record by record: your edits and new curves are kept, and so are the job's (where both
+changed the same field of the same curve, the side that publishes later wins). A copy of the unmerged version is
+kept in `tools/backups/unmerged-*.sql` each time.
 
 ### Running the update by hand
 GitHub → Actions → **Nightly update** → **Run workflow**. Set *max_papers* (e.g. 300 for a backfill) or list

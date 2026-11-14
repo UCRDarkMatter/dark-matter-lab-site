@@ -119,7 +119,8 @@
 
   <div class="wrap stack" id="admin" hidden style="margin-top:2.5rem">
     <h2>Review</h2>
-    <p class="steps">You are on the review server. Changes are saved to the database here; run <code>python3 tools/limits.py publish</code> afterwards to send them to GitHub, from where the website picks them up.</p>
+    <p class="steps">You are on the review server. Changes are saved on this computer until you press the button below, which sends them to GitHub (the website follows within about 15 minutes) and brings in any curves added since you started, for example by a nightly run still in progress.</p>
+    <div class="row tight"><button class="btn" type="button" id="sync-btn">Publish my changes and get new curves</button><span class="muted" id="sync-msg"></span></div>
     <details open><summary>Problem reports from visitors <span id="n-issues"></span></summary><div id="rev-issues"><p class="empty">Loading…</p></div></details>
     <details open><summary>Curves waiting for approval <span id="n-pending"></span></summary><div id="rev-curves"></div></details>
     <details><summary>Papers without a curve <span id="n-papers"></span></summary><div id="rev-papers"></div></details>

@@ -40,30 +40,32 @@ jobs:
       - name: Publications
         run: python3 tools/update_site_data.py || echo "::warning::publication update failed; the existing files were kept"
 
-      - name: Dark matter limits
+      - name: Dark matter limits, committed in batches so reviewing can start straight away
         env:
           PAPERS: ${{ inputs.papers }}
           MAX_PAPERS: ${{ inputs.max_papers || '40' }}
+          BATCH: "10"
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Commit and push. If a review was published meanwhile, limits.py merges the two record by
+          # record, and every later run of limits.py starts from the merged data, so no review is lost.
+          push_changes () { python3 tools/limits.py publish --bot -m "$1" || exit 1; }
+          push_changes "Nightly update: publications"
           if [ -n "$PAPERS" ]; then
             # only arXiv numbers, never anything else, reach the command line
             ids=$(echo "$PAPERS" | grep -oE '[0-9]{4}\.[0-9]{4,5}' | tr '\n' ' ')
             python3 tools/limits.py extract $ids
-          else
-            case "$MAX_PAPERS" in (*[!0-9]*|'') MAX_PAPERS=40;; esac
-            python3 tools/limits.py update --max-papers "$MAX_PAPERS"
+            push_changes "Re-extract papers: $ids"
+            exit 0
           fi
-
-      - name: Commit and push the changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tools/limits.sql data/
-          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
-          git commit -q -m "Nightly update: publications and dark matter limits"
-          for attempt in 1 2 3; do
-            git pull -q --rebase && git push -q && exit 0
-            sleep 15
+          case "$MAX_PAPERS" in (*[!0-9]*|'') MAX_PAPERS=40;; esac
+          python3 tools/limits.py update --max-papers 0          # find new papers only
+          push_changes "Nightly update: new papers found"
+          done=0
+          while [ "$done" -lt "$MAX_PAPERS" ] && [ "$(python3 tools/limits.py waiting)" -gt 0 ]; do
+            python3 tools/limits.py update --skip-scrape --max-papers "$BATCH"
+            done=$((done + BATCH))
+            push_changes "Nightly update: curves from up to $done papers"
           done
-          echo "::error::Could not push: someone pushed conflicting changes. The next run starts from theirs."
-          exit 1
+          echo "Processed up to $done papers; $(python3 tools/limits.py waiting) still waiting."

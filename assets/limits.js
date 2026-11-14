@@ -353,6 +353,12 @@
     });
     $('f-search').addEventListener('input', drawList);
     $('pub-search').addEventListener('input', drawPublished);
+    $('sync-btn').addEventListener('click', function () {
+      var b = this; b.disabled = true; $('sync-msg').textContent = 'Talking to GitHub…';
+      post('/api/sync', {}).then(function (j) { $('sync-msg').textContent = j.message; return reload(); })
+        .catch(function (e) { $('sync-msg').textContent = e.message; })
+        .then(function () { b.disabled = false; });
+    });
     $('rev-issues').addEventListener('click', function (ev) {
       var id = ev.target.getAttribute && ev.target.getAttribute('data-find');
       if (!id) return;

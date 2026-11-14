@@ -194,6 +194,10 @@ def http_get(url, tries=3, timeout=120, headers=None):
 def connect(path=DB_PATH):
     db = sqlite3.connect(path)
     db.row_factory = sqlite3.Row
+    return ensure_schema(db)
+
+
+def ensure_schema(db):
     db.executescript("""
     CREATE TABLE IF NOT EXISTS papers (
         arxiv_id TEXT PRIMARY KEY, title TEXT, abstract TEXT, authors TEXT, n_authors INTEGER,
@@ -358,6 +362,131 @@ def in_git():
 
 def git(*args):
     return subprocess.run(["git", "-C", SITE] + list(args), capture_output=True, text=True)
+
+
+def _memory_db(sql_text):
+    con = sqlite3.connect(":memory:")
+    con.row_factory = sqlite3.Row
+    if sql_text.strip():
+        con.executescript(sql_text)
+    return ensure_schema(con)
+
+
+def _table(con, table, key):
+    cols = [r[1] for r in con.execute("PRAGMA table_info(%s)" % table)]
+    return cols, {r[key]: dict(r) for r in con.execute("SELECT * FROM %s" % table)}
+
+
+def merge_databases(base_text, ours_text, theirs_text):
+    """Three-way merge of two versions of the database that both grew from `base`:
+    start from theirs and apply every field that ours changed, add every row that ours added
+    (with a fresh curve number if theirs used the same one), and drop rows ours deleted if theirs
+    left them alone.  Where both changed the same field, ours wins.  Returns (connection, summary)."""
+    base, ours, out = _memory_db(base_text), _memory_db(ours_text), _memory_db(theirs_text)
+    n_new = n_changed = n_deleted = 0
+    for table, key in (("papers", "arxiv_id"), ("curves", "id")):
+        _, b = _table(base, table, key)
+        _, o = _table(ours, table, key)
+        cols, t = _table(out, table, key)
+        for k, row in o.items():
+            row = {c: v for c, v in row.items() if c in cols}
+            old = b.get(k)
+            if old is None or k not in t:
+                if old is not None and t.get(k) is None and row == {c: v for c, v in old.items() if c in cols}:
+                    continue                               # they deleted it and we did not touch it
+                if k in t:
+                    if table == "curves":
+                        row.pop("id")                      # both sides added a curve with this number
+                    else:
+                        if t[k].get("extracted") or not row.get("extracted"):
+                            continue                       # both found this paper: keep the more advanced copy
+                        out.execute("DELETE FROM papers WHERE arxiv_id=?", (k,))
+                out.execute("INSERT INTO %s (%s) VALUES (%s)" % (table, ",".join(row), ",".join("?" * len(row))),
+                            list(row.values()))
+                n_new += 1
+                continue
+            changed = {c: v for c, v in row.items() if v != old.get(c)}
+            if changed:
+                out.execute("UPDATE %s SET %s WHERE %s=?" % (table, ",".join(c + "=?" for c in changed), key),
+                            list(changed.values()) + [k])
+                n_changed += 1
+        for k, old in b.items():
+            if k not in o and k in t and {c: t[k].get(c) for c in old} == old:
+                out.execute("DELETE FROM %s WHERE %s=?" % (table, key), (k,))
+                n_deleted += 1
+    out.commit()
+    return out, "%d added, %d changed, %d removed" % (n_new, n_changed, n_deleted)
+
+
+def sync_with_github(db_path, message="Review of dark matter limit curves", bot=False):
+    """Send local changes to GitHub (if any) and bring in everyone else's (if any).  Returns (ok, text).
+    A reviewer commits only tools/limits.sql (GitHub rebuilds data/limits.json); the nightly job (bot=True)
+    commits the data files too.  When git cannot combine the two versions line by line, the databases
+    are merged record by record instead, so nobody's work is lost."""
+    if not in_git():
+        return False, "This copy of the site is not a git clone, so there is nothing to sync with. See the README."
+    dump = os.path.splitext(os.path.abspath(db_path))[0] + ".sql"
+    con = connect(db_path)
+    write_dump(con)
+    con.close()
+    paths = ["tools/limits.sql", "data/"] if bot else ["tools/limits.sql"]
+    if not bot:
+        git("checkout", "--", "data/limits.json")
+    git("add", *paths)
+    if git("diff", "--cached", "--quiet").returncode != 0:
+        r = git("commit", "-q", "-m", message)
+        if r.returncode:
+            return False, "git commit failed: " + r.stderr.strip()
+    before = git("rev-parse", "HEAD").stdout.strip()
+    merged_note, r = "", None
+    for attempt in range(4):
+        r = git("pull", "--rebase", "-q")
+        if r.returncode:
+            git("rebase", "--abort")
+            git("fetch", "-q")
+            mb = git("merge-base", "HEAD", "@{u}").stdout.strip()
+            base_t = git("show", mb + ":tools/limits.sql").stdout if mb else ""
+            ours_t = git("show", "HEAD:tools/limits.sql").stdout
+            theirs_t = git("show", "@{u}:tools/limits.sql").stdout
+            os.makedirs(BACKUP_DIR, exist_ok=True)       # keep our side as it was, just in case
+            with open(os.path.join(BACKUP_DIR, "unmerged-%s.sql" % dt.datetime.now().strftime("%Y%m%d-%H%M%S")), "w",
+                      encoding="utf-8") as f:
+                f.write(ours_t)
+            mem, summary = merge_databases(base_t, ours_t, theirs_t)
+            git("reset", "-q", "--hard", "@{u}")
+            tmp = db_path + ".rebuild"
+            if os.path.exists(tmp):
+                os.remove(tmp)
+            disk = sqlite3.connect(tmp)
+            mem.backup(disk)
+            disk.close()
+            mem.close()
+            os.replace(tmp, db_path)
+            con = connect(db_path)
+            write_dump(con)
+            if bot:
+                try:
+                    export(con)
+                except ExportRefused as err:
+                    log("WARNING: %s" % err)
+            con.close()
+            git("add", *paths)
+            git("commit", "-q", "-m", message + " (merged record by record with changes made at the same time)")
+            merged_note = " Changes made at the same time were combined record by record (%s)." % summary
+            continue                                      # try the push again
+        new = sync_from_dump(db_path, dump)
+        ahead = "ahead" in (git("status", "-sb").stdout.splitlines() or [""])[0]
+        if not ahead:
+            got = new or bool(merged_note) or git("rev-parse", "HEAD").stdout.strip() != before
+            return True, ("Fetched new curves from GitHub." if got else
+                          "Already up to date: nothing new on GitHub, nothing to send.") + merged_note
+        r = git("push", "-q")
+        if r.returncode == 0:
+            return True, ("Published your changes" + (" and fetched new curves" if new else "") +
+                          ". The website shows them within about 15 minutes." + merged_note)
+        time.sleep(5)
+    return False, ("Could not push to GitHub: " + (r.stderr.strip()[-300:] if r else "?") +
+                   " Your changes are committed locally; try again.")
 
 
 def _prune(prefix, suffix):
@@ -1265,6 +1394,9 @@ class Handler(SimpleHTTPRequestHandler):
         except ValueError:
             return self._json({"error": "bad JSON"}, 400)
         db = connect(self.db_path)
+        if self.path == "/api/sync":                           # the review page's "Publish and get new curves" button
+            ok, text = sync_with_github(self.db_path)
+            return self._json({"ok": ok, "message": text} if ok else {"error": text}, 200 if ok else 409)
         if self.path == "/api/curve":                          # create or edit a curve
             fields = {k: data[k] for k in ("label", "experiment", "channel", "limit_type", "status", "notes", "year", "kind", "shape", "sigma") if k in data}
             if fields.get("kind", "limit") not in KINDS or fields.get("shape", "line") not in ("line", "region", "path"):
@@ -1322,6 +1454,7 @@ def main():
     u.add_argument("--ai", action="store_true", help="also let Claude read figures when nothing else finds a curve "
                                                      "(needs ANTHROPIC_API_KEY; off unless you ask for it)")
     u.add_argument("--no-ai", action="store_true", help=argparse.SUPPRESS)      # accepted for old cron lines; AI is off by default
+    u.add_argument("--skip-scrape", action="store_true", help="only extract papers already found (for batch runs)")
     u.add_argument("--retry-failed", action="store_true", help="run the extractors again on papers where a step failed")
     xp = sub.add_parser("export", help="rewrite data/limits.json from the database")
     xp.add_argument("--force", action="store_true", help="write it even if it holds far fewer curves than the current file")
@@ -1329,6 +1462,7 @@ def main():
     rs.add_argument("file")
     pb = sub.add_parser("publish", help="send your review changes to GitHub; the website follows a few minutes later")
     pb.add_argument("-m", "--message", default="Review of dark matter limit curves", help="commit message")
+    pb.add_argument("--bot", action="store_true", help=argparse.SUPPRESS)   # the nightly job: also commits data/
     s = sub.add_parser("serve", help="review UI on localhost")
     s.add_argument("--no-pull", action="store_true", help="do not fetch the latest changes from GitHub first")
     s.add_argument("--port", type=int, default=8787)
@@ -1361,6 +1495,7 @@ def main():
     a.add_argument("--sigma", type=int, choices=[3, 5], help="for discovery contours")
     sub.add_parser("demo", help="fill an empty database with synthetic demo curves")
     sub.add_parser("check", help="test the connection to arXiv, INSPIRE and HEPData")
+    sub.add_parser("waiting", help="print how many papers are waiting for extraction (for scripts)")
     sub.add_parser("doctor", help="check that the database and data/limits.json are readable by the web page")
     hd = sub.add_parser("add-hepdata", help="import HEPData tables you downloaded in a browser (JSON format)")
     hd.add_argument("arxiv_id")
@@ -1395,13 +1530,14 @@ def main():
                  "    python3 tools/limits.py restore data/limits.json\n"
                  "or from a daily backup:  python3 tools/limits.py restore tools/backups/limits-YYYY-MM-DD.db"
                  % (args.db, n_pub))
-    if args.cmd not in ("check", "figures", "list", "queue"):
+    if args.cmd not in ("check", "figures", "list", "queue", "waiting"):
         backup_db(args.db)
     db = connect(args.db)
 
     if args.cmd == "update":
-        log("Scraping arXiv")
-        log("  %d new candidate papers" % scrape(db, args.since))
+        if not args.skip_scrape:
+            log("Scraping arXiv")
+            log("  %d new candidate papers" % scrape(db, args.since))
         if args.retry_failed:
             db.execute("UPDATE papers SET extracted='' WHERE log LIKE '%failed%' OR log LIKE '%blocked%'")
             db.commit()
@@ -1457,40 +1593,11 @@ def main():
               "published file, so a restore from limits.json does not bring those back.")
         report_export(db)
     elif args.cmd == "publish":
-        if not in_git():
-            sys.exit("This copy of the site is not a git clone, so there is nothing to publish to. See the README.")
-        write_dump(db)
         db.close()
-        # Only the text database is yours to commit; GitHub rebuilds data/limits.json from it after the push.
-        git("checkout", "--", "data/limits.json")
-        git("add", "tools/limits.sql")
-        if git("diff", "--cached", "--quiet").returncode == 0:
-            r = git("status", "-sb")
-            ahead = "ahead" in (r.stdout.splitlines() or [""])[0]
-            if not ahead:
-                print("Nothing new to publish.")
-                return
-        else:
-            r = git("commit", "-q", "-m", args.message)
-            if r.returncode:
-                sys.exit("git commit failed: " + r.stderr.strip())
-        for attempt in range(3):
-            r = git("pull", "--rebase", "-q")
-            if r.returncode:
-                git("rebase", "--abort")
-                sys.exit("Someone else changed the same curves while you were reviewing, so git could not combine the two.\n"
-                         "Your changes are kept in a local commit. To finish, run:\n"
-                         "    git pull --rebase      (then fix tools/limits.sql where git marks a conflict)\n"
-                         "    git add tools/limits.sql && git rebase --continue && git push")
-            sync_from_dump(args.db, DUMP_PATH)        # the database now includes everyone's changes
-            r = git("push", "-q")
-            if r.returncode == 0:
-                print("Published. GitHub is rebuilding the public data now; the website shows the changes within "
-                      "about 15 minutes (when the server next pulls).")
-                return
-            time.sleep(5)
-        sys.exit("Could not push to GitHub: " + r.stderr.strip()[-300:] +
-                 "\nYour changes are committed locally; run  python3 tools/limits.py publish  again to retry.")
+        ok, text = sync_with_github(args.db, args.message, bot=args.bot)
+        print(text)
+        if not ok:
+            sys.exit(1)
     elif args.cmd == "serve":
         Handler.db_path = args.db
         report_export(db)
@@ -1559,6 +1666,9 @@ def main():
         print("added %d curves" % made)
     elif args.cmd == "check":
         check_services()
+    elif args.cmd == "waiting":
+        reclassify(db)
+        print(db.execute("SELECT COUNT(*) FROM papers WHERE status='candidate' AND extracted=''").fetchone()[0])
     elif args.cmd == "doctor":
         bad = 0
         for r in db.execute("SELECT id,label,points FROM curves").fetchall():
