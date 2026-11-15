@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.114,,50.8677685744488,2.0350757638350414,X,L,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+9.114,,27.220445616233917,2.1740815082401963,X,L,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+54.608,,24.138886433766157,1.6774429102234076,X,KA2,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+54.608,,39.834461598619065,0.5455081468848834,X,KA2,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+55.786,,69.71379348725772,0.904651458908163,X,KA1,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+55.786,,42.24516351726664,2.9298475319154003,X,KA1,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+63.333,,22.999081178250375,0.464311007712096,X,KpB1,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+63.333,,13.93698286264777,0.9903176855265219,X,KpB1,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+64.057,,29.139835852843223,0.5769331184610992,X,KB,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+64.057,,17.658157286974724,1.2527959443781096,X,KB,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+64.935,,3.7211744243269544,0.27344320323414806,X,KpB2,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+64.935,,6.14075467459285,0.16909394401188357,X,KpB2,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+

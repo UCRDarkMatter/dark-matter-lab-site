@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.135,,2.8,0.8,X,L,53,64,I,,0,,(5/2)+,2.22,,4,m,133.2,2.4,B+,77,,4657,29,52,65,Te,1-Mar-2009,JEAN BLACHOT,2026-11-15
+27.202,,5.3,0.9,X,KA2,53,64,I,,0,,(5/2)+,2.22,,4,m,133.2,2.4,B+,77,,4657,29,52,65,Te,1-Mar-2009,JEAN BLACHOT,2026-11-15
+27.473,,9.9,1.7,X,KA1,53,64,I,,0,,(5/2)+,2.22,,4,m,133.2,2.4,B+,77,,4657,29,52,65,Te,1-Mar-2009,JEAN BLACHOT,2026-11-15
+31.093,,2.8,0.5,X,KpB1,53,64,I,,0,,(5/2)+,2.22,,4,m,133.2,2.4,B+,77,,4657,29,52,65,Te,1-Mar-2009,JEAN BLACHOT,2026-11-15
+31.359,,3.4,0.6,X,KB,53,64,I,,0,,(5/2)+,2.22,,4,m,133.2,2.4,B+,77,,4657,29,52,65,Te,1-Mar-2009,JEAN BLACHOT,2026-11-15
+31.698,,0.61,0.11,X,KpB2,53,64,I,,0,,(5/2)+,2.22,,4,m,133.2,2.4,B+,77,,4657,29,52,65,Te,1-Mar-2009,JEAN BLACHOT,2026-11-15
+

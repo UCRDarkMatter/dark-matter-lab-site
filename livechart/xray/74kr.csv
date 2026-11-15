@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.535,,2.1,0.5,X,L,36,38,Kr,,0,,0+,11.50,,11,m,690,6.6,EC+B+,100,,2956,6,35,39,Br,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-15
+11.879,,9,3,X,KA2,36,38,Kr,,0,,0+,11.50,,11,m,690,6.6,EC+B+,100,,2956,6,35,39,Br,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-15
+11.925,,18,7,X,KA1,36,38,Kr,,0,,0+,11.50,,11,m,690,6.6,EC+B+,100,,2956,6,35,39,Br,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-15
+13.345,,4.2,1.6,X,KpB1,36,38,Kr,,0,,0+,11.50,,11,m,690,6.6,EC+B+,100,,2956,6,35,39,Br,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-15
+13.377,,4.5,1.7,X,KB,36,38,Kr,,0,,0+,11.50,,11,m,690,6.6,EC+B+,100,,2956,6,35,39,Br,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-15
+13.469,,0.32,0.12,X,KpB2,36,38,Kr,,0,,0+,11.50,,11,m,690,6.6,EC+B+,100,,2956,6,35,39,Br,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-15
+

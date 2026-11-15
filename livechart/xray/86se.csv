@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.535,,1.1536745378568347,0.07921798671569505,X,L,34,52,Se,,0,,0+,14.3,,3,s,14.3,0.3,B-,100,,5129,4,35,51,Br,20-Jan-2025,A. Negret and B. Singh,2026-11-15
+11.879,,2.1511336971344512,0.2220119865979055,X,KA2,34,52,Se,,0,,0+,14.3,,3,s,14.3,0.3,B-,100,,5129,4,35,51,Br,20-Jan-2025,A. Negret and B. Singh,2026-11-15
+11.925,,4.151966217206044,0.4280432413277483,X,KA1,34,52,Se,,0,,0+,14.3,,3,s,14.3,0.3,B-,100,,5129,4,35,51,Br,20-Jan-2025,A. Negret and B. Singh,2026-11-15
+13.345,,0.9847862194425412,0.10186440616218766,X,KpB1,34,52,Se,,0,,0+,14.3,,3,s,14.3,0.3,B-,100,,5129,4,35,51,Br,20-Jan-2025,A. Negret and B. Singh,2026-11-15
+13.377,,1.0608117155835053,0.109704958718323,X,KB,34,52,Se,,0,,0+,14.3,,3,s,14.3,0.3,B-,100,,5129,4,35,51,Br,20-Jan-2025,A. Negret and B. Singh,2026-11-15
+13.469,,0.07602549614096418,0.008183623376611472,X,KpB2,34,52,Se,,0,,0+,14.3,,3,s,14.3,0.3,B-,100,,5129,4,35,51,Br,20-Jan-2025,A. Negret and B. Singh,2026-11-15
+

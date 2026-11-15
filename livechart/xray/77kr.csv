@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.535,,0.8,0.03,X,L,36,41,Kr,,0,,5/2+,71.25,,42,m,4275,25.2,EC+B+,100,,3065,3,35,42,Br,30-SEP-2020,BALRAJ SINGH,2026-11-15
+11.879,,5.53,0.18,X,KA2,36,41,Kr,,0,,5/2+,71.25,,42,m,4275,25.2,EC+B+,100,,3065,3,35,42,Br,30-SEP-2020,BALRAJ SINGH,2026-11-15
+11.925,,10.7,0.3,X,KA1,36,41,Kr,,0,,5/2+,71.25,,42,m,4275,25.2,EC+B+,100,,3065,3,35,42,Br,30-SEP-2020,BALRAJ SINGH,2026-11-15
+13.345,,2.53,0.08,X,KpB1,36,41,Kr,,0,,5/2+,71.25,,42,m,4275,25.2,EC+B+,100,,3065,3,35,42,Br,30-SEP-2020,BALRAJ SINGH,2026-11-15
+13.377,,2.73,0.09,X,KB,36,41,Kr,,0,,5/2+,71.25,,42,m,4275,25.2,EC+B+,100,,3065,3,35,42,Br,30-SEP-2020,BALRAJ SINGH,2026-11-15
+13.469,,0.195,0.009,X,KpB2,36,41,Kr,,0,,5/2+,71.25,,42,m,4275,25.2,EC+B+,100,,3065,3,35,42,Br,30-SEP-2020,BALRAJ SINGH,2026-11-15
+

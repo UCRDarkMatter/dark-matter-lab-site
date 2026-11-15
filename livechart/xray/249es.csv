@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+19.579,,57,4,X,L,99,150,Es,,0,,7/2+,102.2,,6,m,6132,36,EC+B+,99.43,0.08,1452,30,98,151,Cf,12-Oct-2023,C.D. Nesaraja,2026-11-15
+109.867,,23.5,2.2,X,KA2,99,150,Es,,0,,7/2+,102.2,,6,m,6132,36,EC+B+,99.43,0.08,1452,30,98,151,Cf,12-Oct-2023,C.D. Nesaraja,2026-11-15
+115.063,,36,3,X,KA1,99,150,Es,,0,,7/2+,102.2,,6,m,6132,36,EC+B+,99.43,0.08,1452,30,98,151,Cf,12-Oct-2023,C.D. Nesaraja,2026-11-15
+129.671,,13.8,1.3,X,KpB1,99,150,Es,,0,,7/2+,102.2,,6,m,6132,36,EC+B+,99.43,0.08,1452,30,98,151,Cf,12-Oct-2023,C.D. Nesaraja,2026-11-15
+131.332,,18.8,1.8,X,KB,99,150,Es,,0,,7/2+,102.2,,6,m,6132,36,EC+B+,99.43,0.08,1452,30,98,151,Cf,12-Oct-2023,C.D. Nesaraja,2026-11-15
+133.529,,4.9,0.5,X,KpB2,99,150,Es,,0,,7/2+,102.2,,6,m,6132,36,EC+B+,99.43,0.08,1452,30,98,151,Cf,12-Oct-2023,C.D. Nesaraja,2026-11-15
+

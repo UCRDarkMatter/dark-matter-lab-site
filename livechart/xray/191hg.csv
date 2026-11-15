@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+11.419,,59,9,X,L,80,111,Hg,,128,8,13/2(+),50.8,,15,m,3048,90,EC+B+,100,,3206,23,79,112,Au,1-Dec-2023,M.S. Basunia,2026-11-15
+66.991,,28,3,X,KA2,80,111,Hg,,128,8,13/2(+),50.8,,15,m,3048,90,EC+B+,100,,3206,23,79,112,Au,1-Dec-2023,M.S. Basunia,2026-11-15
+68.806,,48,5,X,KA1,80,111,Hg,,128,8,13/2(+),50.8,,15,m,3048,90,EC+B+,100,,3206,23,79,112,Au,1-Dec-2023,M.S. Basunia,2026-11-15
+78.048,,16.1,1.6,X,KpB1,80,111,Hg,,128,8,13/2(+),50.8,,15,m,3048,90,EC+B+,100,,3206,23,79,112,Au,1-Dec-2023,M.S. Basunia,2026-11-15
+78.983,,20.8,2.1,X,KB,80,111,Hg,,128,8,13/2(+),50.8,,15,m,3048,90,EC+B+,100,,3206,23,79,112,Au,1-Dec-2023,M.S. Basunia,2026-11-15
+80.133,,4.7,0.5,X,KpB2,80,111,Hg,,128,8,13/2(+),50.8,,15,m,3048,90,EC+B+,100,,3206,23,79,112,Au,1-Dec-2023,M.S. Basunia,2026-11-15
+

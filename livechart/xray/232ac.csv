@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+15.784,,2.293529186903724,,X,L,89,143,Ac,,0,,(1+),119,,5,s,119,5,B-,100,,3708,13,90,142,Th,1-Nov-2004,E. BROWNE,2026-11-15
+89.954,,0.13307381379828434,,X,KA2,89,143,Ac,,0,,(1+),119,,5,s,119,5,B-,100,,3708,13,90,142,Th,1-Nov-2004,E. BROWNE,2026-11-15
+93.347,,0.21526013231686242,,X,KA1,89,143,Ac,,0,,(1+),119,,5,s,119,5,B-,100,,3708,13,90,142,Th,1-Nov-2004,E. BROWNE,2026-11-15
+105.566,,0.07659699338657679,,X,KpB1,89,143,Ac,,0,,(1+),119,,5,s,119,5,B-,100,,3708,13,90,142,Th,1-Nov-2004,E. BROWNE,2026-11-15
+106.894,,0.10241018015785316,,X,KB,89,143,Ac,,0,,(1+),119,,5,s,119,5,B-,100,,3708,13,90,142,Th,1-Nov-2004,E. BROWNE,2026-11-15
+108.58,,0.025813186771276378,,X,KpB2,89,143,Ac,,0,,(1+),119,,5,s,119,5,B-,100,,3708,13,90,142,Th,1-Nov-2004,E. BROWNE,2026-11-15
+

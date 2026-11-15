@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.426,,0.001030414,,X,L,33,48,As,,0,,3/2-,33.3,,10,s,33.3,1,B-,100,,3855.7,28,34,47,Se,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+11.183,,0.007867324631264596,,X,KA2,33,48,As,,0,,3/2-,33.3,,10,s,33.3,1,B-,100,,3855.7,28,34,47,Se,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+11.223,,0.015252665047042644,,X,KA1,33,48,As,,0,,3/2-,33.3,,10,s,33.3,1,B-,100,,3855.7,28,34,47,Se,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+12.546,,0.0035592788503055832,,X,KpB1,33,48,As,,0,,3/2-,33.3,,10,s,33.3,1,B-,100,,3855.7,28,34,47,Se,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+12.571,,0.003759310321692757,,X,KB,33,48,As,,0,,3/2-,33.3,,10,s,33.3,1,B-,100,,3855.7,28,34,47,Se,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+12.652,,0.00020003147138717377,,X,KpB2,33,48,As,,0,,3/2-,33.3,,10,s,33.3,1,B-,100,,3855.7,28,34,47,Se,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+

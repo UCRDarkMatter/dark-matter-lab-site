@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+14.92,,42,10,X,L,87,144,Fr,,0,,(1/2+),17.6,,6,s,17.6,0.6,B-,100,,3864,14,88,143,Ra,31-Aug-2022,Balraj Singh and  Jagdish K. Tuli and  and Edgardo Browne,2026-11-15
+85.432,,1.23,0.21,X,KA2,87,144,Fr,,0,,(1/2+),17.6,,6,s,17.6,0.6,B-,100,,3864,14,88,143,Ra,31-Aug-2022,Balraj Singh and  Jagdish K. Tuli and  and Edgardo Browne,2026-11-15
+88.471,,2,0.4,X,KA1,87,144,Fr,,0,,(1/2+),17.6,,6,s,17.6,0.6,B-,100,,3864,14,88,143,Ra,31-Aug-2022,Balraj Singh and  Jagdish K. Tuli and  and Edgardo Browne,2026-11-15
+100.119,,0.71,0.12,X,KpB1,87,144,Fr,,0,,(1/2+),17.6,,6,s,17.6,0.6,B-,100,,3864,14,88,143,Ra,31-Aug-2022,Balraj Singh and  Jagdish K. Tuli and  and Edgardo Browne,2026-11-15
+101.37,,0.94,0.16,X,KB,87,144,Fr,,0,,(1/2+),17.6,,6,s,17.6,0.6,B-,100,,3864,14,88,143,Ra,31-Aug-2022,Balraj Singh and  Jagdish K. Tuli and  and Edgardo Browne,2026-11-15
+102.948,,0.23,0.04,X,KpB2,87,144,Fr,,0,,(1/2+),17.6,,6,s,17.6,0.6,B-,100,,3864,14,88,143,Ra,31-Aug-2022,Balraj Singh and  Jagdish K. Tuli and  and Edgardo Browne,2026-11-15
+

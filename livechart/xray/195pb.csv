@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+12.148,,59,4,X,L,82,113,Pb,,202.9,0.7,13/2+,15.0,,12,m,900,72,EC+B+,100,,4417,12,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+70.832,,24.6,0.8,X,KA2,82,113,Pb,,202.9,0.7,13/2+,15.0,,12,m,900,72,EC+B+,100,,4417,12,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+72.874,,41.6,1.4,X,KA1,82,113,Pb,,202.9,0.7,13/2+,15.0,,12,m,900,72,EC+B+,100,,4417,12,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+82.629,,14.1,0.5,X,KpB1,82,113,Pb,,202.9,0.7,13/2+,15.0,,12,m,900,72,EC+B+,100,,4417,12,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+83.631,,18.3,0.7,X,KB,82,113,Pb,,202.9,0.7,13/2+,15.0,,12,m,900,72,EC+B+,100,,4417,12,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+84.866,,4.2,0.17,X,KpB2,82,113,Pb,,202.9,0.7,13/2+,15.0,,12,m,900,72,EC+B+,100,,4417,12,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+

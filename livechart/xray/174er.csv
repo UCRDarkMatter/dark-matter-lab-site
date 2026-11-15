@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+8.215,,3.95354417205,,X,L,68,106,Er,,0,,0+,3.2,,2,m,192,12,B-,100,,1920,300,69,105,Tm,1-Nov-1998,E. BROWNE and  HUO JUNDE,2026-11-15
+49.773,,2.205230854840001,,X,KA2,68,106,Er,,0,,0+,3.2,,2,m,192,12,B-,100,,1920,300,69,105,Tm,1-Nov-1998,E. BROWNE and  HUO JUNDE,2026-11-15
+50.742,,3.893416057274013,,X,KA1,68,106,Er,,0,,0+,3.2,,2,m,192,12,B-,100,,1920,300,69,105,Tm,1-Nov-1998,E. BROWNE and  HUO JUNDE,2026-11-15
+57.612,,1.2729715380047506,,X,KpB1,68,106,Er,,0,,0+,3.2,,2,m,192,12,B-,100,,1920,300,69,105,Tm,1-Nov-1998,E. BROWNE and  HUO JUNDE,2026-11-15
+58.257,,1.6039441378859858,,X,KB,68,106,Er,,0,,0+,3.2,,2,m,192,12,B-,100,,1920,300,69,105,Tm,1-Nov-1998,E. BROWNE and  HUO JUNDE,2026-11-15
+59.034,,0.3309725998812352,,X,KpB2,68,106,Er,,0,,0+,3.2,,2,m,192,12,B-,100,,1920,300,69,105,Tm,1-Nov-1998,E. BROWNE and  HUO JUNDE,2026-11-15
+

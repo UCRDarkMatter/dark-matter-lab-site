@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.767,,0.36458451689841,0.0266609080288222,X,L,36,52,Kr,,0,,0+,2.825,,19,h,10170,68.4,B-,100,,2917.7,26,37,51,Rb,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-15
+13.336,,2.3774722676030713,0.17372884208839867,X,KA2,36,52,Kr,,0,,0+,2.825,,19,h,10170,68.4,B-,100,,2917.7,26,37,51,Rb,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-15
+13.396,,4.576462497792245,0.33368950150526144,X,KA1,36,52,Kr,,0,,0+,2.825,,19,h,10170,68.4,B-,100,,2917.7,26,37,51,Rb,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-15
+15.021,,1.1141250323052712,0.08184848685080255,X,KpB1,36,52,Kr,,0,,0+,2.825,,19,h,10170,68.4,B-,100,,2917.7,26,37,51,Rb,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-15
+15.07,,1.2433635360526827,0.09123413317402437,X,KB,36,52,Kr,,0,,0+,2.825,,19,h,10170,68.4,B-,100,,2917.7,26,37,51,Rb,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-15
+15.187,,0.12923850374741147,0.010488302508385177,X,KpB2,36,52,Kr,,0,,0+,2.825,,19,h,10170,68.4,B-,100,,2917.7,26,37,51,Rb,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-15
+

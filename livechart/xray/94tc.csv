@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.44,,3.4100026809775352,0.10167007908914871,X,L,43,51,Tc,,0,,7+,293,,1,m,17580,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+2.44,,1.14,0.03,X,L,43,51,Tc,,76,3,(2)+,52.0,,10,m,3120,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+17.374,,5.74,0.11,X,KA2,43,51,Tc,,76,3,(2)+,52.0,,10,m,3120,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+17.374,,17.10388349537381,0.3644842653798102,X,KA2,43,51,Tc,,0,,7+,293,,1,m,17580,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+17.479,,10.94,0.2,X,KA1,43,51,Tc,,76,3,(2)+,52.0,,10,m,3120,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+17.479,,32.59745282137185,0.6770669801183281,X,KA1,43,51,Tc,,0,,7+,293,,1,m,17580,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+19.681,,8.553453546365414,0.1936191781095472,X,KpB1,43,51,Tc,,0,,7+,293,,1,m,17580,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+19.681,,2.87,0.06,X,KpB1,43,51,Tc,,76,3,(2)+,52.0,,10,m,3120,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+19.794,,9.870685392505688,0.2193053680069698,X,KB,43,51,Tc,,0,,7+,293,,1,m,17580,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+19.794,,3.31,0.07,X,KB,43,51,Tc,,76,3,(2)+,52.0,,10,m,3120,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+19.963,,0.442,0.017,X,KpB2,43,51,Tc,,76,3,(2)+,52.0,,10,m,3120,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+19.963,,1.3172318461402737,0.05213553255456339,X,KpB2,43,51,Tc,,0,,7+,293,,1,m,17580,60,EC+B+,100,,4256,4,42,52,Mo,1-Jan-2006,D. Abriola(a) and  A.A. Sonzogni,2026-11-15
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.535,,2.71,0.13,X,L,36,40,Kr,,0,,0+,14.79,,5,h,53244,180,EC+B+,100,,1275,10,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+11.879,,19.8,0.9,X,KA2,36,40,Kr,,0,,0+,14.79,,5,h,53244,180,EC+B+,100,,1275,10,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+11.925,,38.3,1.7,X,KA1,36,40,Kr,,0,,0+,14.79,,5,h,53244,180,EC+B+,100,,1275,10,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+13.345,,9.1,0.4,X,KpB1,36,40,Kr,,0,,0+,14.79,,5,h,53244,180,EC+B+,100,,1275,10,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+13.377,,9.8,0.5,X,KB,36,40,Kr,,0,,0+,14.79,,5,h,53244,180,EC+B+,100,,1275,10,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+13.469,,0.7,0.04,X,KpB2,36,40,Kr,,0,,0+,14.79,,5,h,53244,180,EC+B+,100,,1275,10,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+

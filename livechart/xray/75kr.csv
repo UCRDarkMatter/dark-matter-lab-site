@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.535,,0.72,0.03,X,L,36,39,Kr,,0,,5/2+,4.60,,7,m,276,4.2,EC+B+,100,,4783,9,35,40,Br,30-Jun-2013,ALEXANDRU NEGRET and  BALRAJ SINGH,2026-11-15
+11.879,,5.27,0.21,X,KA2,36,39,Kr,,0,,5/2+,4.60,,7,m,276,4.2,EC+B+,100,,4783,9,35,40,Br,30-Jun-2013,ALEXANDRU NEGRET and  BALRAJ SINGH,2026-11-15
+11.925,,10.2,0.4,X,KA1,36,39,Kr,,0,,5/2+,4.60,,7,m,276,4.2,EC+B+,100,,4783,9,35,40,Br,30-Jun-2013,ALEXANDRU NEGRET and  BALRAJ SINGH,2026-11-15
+13.345,,2.41,0.1,X,KpB1,36,39,Kr,,0,,5/2+,4.60,,7,m,276,4.2,EC+B+,100,,4783,9,35,40,Br,30-Jun-2013,ALEXANDRU NEGRET and  BALRAJ SINGH,2026-11-15
+13.377,,2.6,0.11,X,KB,36,39,Kr,,0,,5/2+,4.60,,7,m,276,4.2,EC+B+,100,,4783,9,35,40,Br,30-Jun-2013,ALEXANDRU NEGRET and  BALRAJ SINGH,2026-11-15
+13.469,,0.186,0.009,X,KpB2,36,39,Kr,,0,,5/2+,4.60,,7,m,276,4.2,EC+B+,100,,4783,9,35,40,Br,30-Jun-2013,ALEXANDRU NEGRET and  BALRAJ SINGH,2026-11-15
+

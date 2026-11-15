@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.114,,46.9655933548828,,X,L,73,100,Ta,,0,,5/2-,3.14,,13,h,11304,468,EC+B+,100,,3015,40,72,101,Hf,1-Oct-1993,V. S. SHIRLEY,2026-11-15
+54.608,,34.40396128362612,,X,KA2,73,100,Ta,,0,,5/2-,3.14,,13,h,11304,468,EC+B+,100,,3015,40,72,101,Hf,1-Oct-1993,V. S. SHIRLEY,2026-11-15
+55.786,,60.209942743482884,,X,KA1,73,100,Ta,,0,,5/2-,3.14,,13,h,11304,468,EC+B+,100,,3015,40,72,101,Hf,1-Oct-1993,V. S. SHIRLEY,2026-11-15
+63.333,,19.863692558177583,,X,KpB1,73,100,Ta,,0,,5/2-,3.14,,13,h,11304,468,EC+B+,100,,3015,40,72,101,Hf,1-Oct-1993,V. S. SHIRLEY,2026-11-15
+64.057,,25.167298471210994,,X,KB,73,100,Ta,,0,,5/2-,3.14,,13,h,11304,468,EC+B+,100,,3015,40,72,101,Hf,1-Oct-1993,V. S. SHIRLEY,2026-11-15
+64.935,,5.303605913033414,,X,KpB2,73,100,Ta,,0,,5/2-,3.14,,13,h,11304,468,EC+B+,100,,3015,40,72,101,Hf,1-Oct-1993,V. S. SHIRLEY,2026-11-15
+

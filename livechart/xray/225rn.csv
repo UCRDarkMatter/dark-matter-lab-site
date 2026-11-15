@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+14.5,,41.20002282291456,9.653424316537533,X,L,86,139,Rn,,0,,7/2-,4.66,,4,m,279.6,2.4,B-,100,,2714,16,87,138,Fr,1-Dec-2008,A. K. Jain (a) and  R. Raut (b) and  J. K. Tuli,2026-11-15
+83.227,,4.733826035570445,0.9758423667559034,X,KA2,86,139,Rn,,0,,7/2-,4.66,,4,m,279.6,2.4,B-,100,,2714,16,87,138,Fr,1-Dec-2008,A. K. Jain (a) and  R. Raut (b) and  J. K. Tuli,2026-11-15
+86.102,,7.770561450378274,1.6015249241695262,X,KA1,86,139,Rn,,0,,7/2-,4.66,,4,m,279.6,2.4,B-,100,,2714,16,87,138,Fr,1-Dec-2008,A. K. Jain (a) and  R. Raut (b) and  J. K. Tuli,2026-11-15
+97.469,,2.7105432088121466,0.560000807498873,X,KpB1,86,139,Rn,,0,,7/2-,4.66,,4,m,279.6,2.4,B-,100,,2714,16,87,138,Fr,1-Dec-2008,A. K. Jain (a) and  R. Raut (b) and  J. K. Tuli,2026-11-15
+98.682,,3.588759208467282,0.7413171945114007,X,KB,86,139,Rn,,0,,7/2-,4.66,,4,m,279.6,2.4,B-,100,,2714,16,87,138,Fr,1-Dec-2008,A. K. Jain (a) and  R. Raut (b) and  J. K. Tuli,2026-11-15
+100.209,,0.8782159996551355,0.1819457189724487,X,KpB2,86,139,Rn,,0,,7/2-,4.66,,4,m,279.6,2.4,B-,100,,2714,16,87,138,Fr,1-Dec-2008,A. K. Jain (a) and  R. Raut (b) and  J. K. Tuli,2026-11-15
+

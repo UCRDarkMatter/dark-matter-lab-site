@@ -1,0 +1,12 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.874,,0.000334796552496,0.000016377101830925026,X,L,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+0.874,,0.00018645154238928,0.000009227279447256601,X,L,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+7.461,,0.0018729816156919292,0.00003347334516029346,X,KA2,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+7.461,,0.003363112006813867,0.0000539596206568369,X,KA2,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+7.478,,0.006563450442650013,0.0001003205642592803,X,KA1,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+7.478,,0.00365531150603421,0.00006284506639527023,X,KA1,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+8.296,,0.0013678803055361226,0.00002500300592239442,X,KB,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+8.296,,0.0013678803055361226,0.00002500300592239442,X,KpB1,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+8.296,,0.0007617987921738619,0.000015161111450379513,X,KB,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+8.296,,0.0007617987921738619,0.000015161111450379513,X,KpB1,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-15
+

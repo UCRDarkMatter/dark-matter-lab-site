@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.941,,0.038664108,0.025445702685969917,X,L,50,84,Sn,,0,,0+,1.050,,11,s,1.05,0.011,B-,100,,7585,4,51,83,Sb,31-Jan-2011,K. Abu Saleem and  Z. Wu and  S. Chaudhury and  D and  Bernard and  E. Browne,2026-11-15
+26.111,,0.07214898759748052,0.05238340036657504,X,KA2,50,84,Sn,,0,,0+,1.050,,11,s,1.05,0.011,B-,100,,7585,4,51,83,Sb,31-Jan-2011,K. Abu Saleem and  Z. Wu and  S. Chaudhury and  D and  Bernard and  E. Browne,2026-11-15
+26.359,,0.1347068476427941,0.0978011908812664,X,KA1,50,84,Sn,,0,,0+,1.050,,11,s,1.05,0.011,B-,100,,7585,4,51,83,Sb,31-Jan-2011,K. Abu Saleem and  Z. Wu and  S. Chaudhury and  D and  Bernard and  E. Browne,2026-11-15
+29.821,,0.03832060046373273,0.027825074405209243,X,KpB1,50,84,Sn,,0,,0+,1.050,,11,s,1.05,0.011,B-,100,,7585,4,51,83,Sb,31-Jan-2011,K. Abu Saleem and  Z. Wu and  S. Chaudhury and  D and  Bernard and  E. Browne,2026-11-15
+30.069,,0.04625296475972541,0.03358431825122926,X,KB,50,84,Sn,,0,,0+,1.050,,11,s,1.05,0.011,B-,100,,7585,4,51,83,Sb,31-Jan-2011,K. Abu Saleem and  Z. Wu and  S. Chaudhury and  D and  Bernard and  E. Browne,2026-11-15
+30.387,,0.007932364295992676,0.005762976417101415,X,KpB2,50,84,Sn,,0,,0+,1.050,,11,s,1.05,0.011,B-,100,,7585,4,51,83,Sb,31-Jan-2011,K. Abu Saleem and  Z. Wu and  S. Chaudhury and  D and  Bernard and  E. Browne,2026-11-15
+

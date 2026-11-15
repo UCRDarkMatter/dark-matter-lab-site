@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.74,,44,3,X,L,75,106,Re,,0,,5/2+,19.9,,7,h,71640,2520,EC+B+,100,,1717,13,74,107,W,31-Aug-2005,S. -C. WU,2026-11-15
+57.983,,34,3,X,KA2,75,106,Re,,0,,5/2+,19.9,,7,h,71640,2520,EC+B+,100,,1717,13,74,107,W,31-Aug-2005,S. -C. WU,2026-11-15
+59.32,,59,5,X,KA1,75,106,Re,,0,,5/2+,19.9,,7,h,71640,2520,EC+B+,100,,1717,13,74,107,W,31-Aug-2005,S. -C. WU,2026-11-15
+67.335,,19.6,1.8,X,KpB1,75,106,Re,,0,,5/2+,19.9,,7,h,71640,2520,EC+B+,100,,1717,13,74,107,W,31-Aug-2005,S. -C. WU,2026-11-15
+68.117,,24.9,2.3,X,KB,75,106,Re,,0,,5/2+,19.9,,7,h,71640,2520,EC+B+,100,,1717,13,74,107,W,31-Aug-2005,S. -C. WU,2026-11-15
+69.068,,5.4,0.5,X,KpB2,75,106,Re,,0,,5/2+,19.9,,7,h,71640,2520,EC+B+,100,,1717,13,74,107,W,31-Aug-2005,S. -C. WU,2026-11-15
+

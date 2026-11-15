@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.571,,1.260985045392,,X,L,50,56,Sn,,0,,0+,115,,5,s,115,5,EC+B+,100,,3254,13,49,57,In,1-May-2007,D. DE FRENNE AND A. NEGRET,2026-11-15
+24.001,,4.299317510986469,,X,KA2,50,56,Sn,,0,,0+,115,,5,s,115,5,EC+B+,100,,3254,13,49,57,In,1-May-2007,D. DE FRENNE AND A. NEGRET,2026-11-15
+24.209,,8.066261746691312,,X,KA1,50,56,Sn,,0,,0+,115,,5,s,115,5,EC+B+,100,,3254,13,49,57,In,1-May-2007,D. DE FRENNE AND A. NEGRET,2026-11-15
+27.367,,2.2632127414472443,,X,KpB1,50,56,Sn,,0,,0+,115,,5,s,115,5,EC+B+,100,,3254,13,49,57,In,1-May-2007,D. DE FRENNE AND A. NEGRET,2026-11-15
+27.581,,2.6932231623222207,,X,KB,50,56,Sn,,0,,0+,115,,5,s,115,5,EC+B+,100,,3254,13,49,57,In,1-May-2007,D. DE FRENNE AND A. NEGRET,2026-11-15
+27.858,,0.43001042087497643,,X,KpB2,50,56,Sn,,0,,0+,115,,5,s,115,5,EC+B+,100,,3254,13,49,57,In,1-May-2007,D. DE FRENNE AND A. NEGRET,2026-11-15
+

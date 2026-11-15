@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+12.904,,10.6480793445,0.506880162667275,X,L,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-15
+74.815,,1.807530333350285,0.05423761484660443,X,KA2,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-15
+77.108,,3.0241431041497155,0.08985795314684718,X,KA1,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-15
+87.388,,1.0358871075803981,0.034343744316761154,X,KpB1,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-15
+88.458,,1.3528685625,0.04455287627149197,X,KB,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-15
+89.784,,0.31698145491960183,0.011716208339262029,X,KpB2,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-15
+

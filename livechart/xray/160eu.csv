@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+6.858,,16.9,0.8,X,L,63,97,Eu,,0,,(5-),42.6,,5,s,42.6,0.5,B-,100,,4448.6,14,64,96,Gd,1-May-2021,N. NICA,2026-11-15
+42.308,,13.3,0.4,X,KA2,63,97,Eu,,0,,(5-),42.6,,5,s,42.6,0.5,B-,100,,4448.6,14,64,96,Gd,1-May-2021,N. NICA,2026-11-15
+42.996,,24,0.8,X,KA1,63,97,Eu,,0,,(5-),42.6,,5,s,42.6,0.5,B-,100,,4448.6,14,64,96,Gd,1-May-2021,N. NICA,2026-11-15
+48.802,,7.6,0.3,X,KpB1,63,97,Eu,,0,,(5-),42.6,,5,s,42.6,0.5,B-,100,,4448.6,14,64,96,Gd,1-May-2021,N. NICA,2026-11-15
+49.326,,9.6,0.3,X,KB,63,97,Eu,,0,,(5-),42.6,,5,s,42.6,0.5,B-,100,,4448.6,14,64,96,Gd,1-May-2021,N. NICA,2026-11-15
+49.957,,1.99,0.08,X,KpB2,63,97,Eu,,0,,(5-),42.6,,5,s,42.6,0.5,B-,100,,4448.6,14,64,96,Gd,1-May-2021,N. NICA,2026-11-15
+

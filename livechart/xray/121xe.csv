@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.335,,6,0.3,X,L,54,67,Xe,,0,,5/2(+),40.1,,20,m,2406,120,EC+B+,100,,3765,11,53,68,I,20-Jan-2009,S. OHYA,2026-11-15
+28.318,,15.4,0.7,X,KA2,54,67,Xe,,0,,5/2(+),40.1,,20,m,2406,120,EC+B+,100,,3765,11,53,68,I,20-Jan-2009,S. OHYA,2026-11-15
+28.613,,28.5,1.2,X,KA1,54,67,Xe,,0,,5/2(+),40.1,,20,m,2406,120,EC+B+,100,,3765,11,53,68,I,20-Jan-2009,S. OHYA,2026-11-15
+32.395,,8.2,0.4,X,KpB1,54,67,Xe,,0,,5/2(+),40.1,,20,m,2406,120,EC+B+,100,,3765,11,53,68,I,20-Jan-2009,S. OHYA,2026-11-15
+32.68,,10.1,0.4,X,KB,54,67,Xe,,0,,5/2(+),40.1,,20,m,2406,120,EC+B+,100,,3765,11,53,68,I,20-Jan-2009,S. OHYA,2026-11-15
+33.04,,1.86,0.09,X,KpB2,54,67,Xe,,0,,5/2(+),40.1,,20,m,2406,120,EC+B+,100,,3765,11,53,68,I,20-Jan-2009,S. OHYA,2026-11-15
+

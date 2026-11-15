@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.358,,0.00001886872751107136,0.000004251559122607984,X,L,19,25,K,,0,,2-,22.13,,19,m,1327.8,11.4,B-,100,,5687.2,5,20,24,Ca,20-Jun-2023,Jun Chen and Balraj Singh,2026-11-15
+3.688,,0.00025147420130209057,0.00002855353012961759,X,KA2,19,25,K,,0,,2-,22.13,,19,m,1327.8,11.4,B-,100,,5687.2,5,20,24,Ca,20-Jun-2023,Jun Chen and Balraj Singh,2026-11-15
+3.692,,0.0004968863886624987,0.00005636533520166294,X,KA1,19,25,K,,0,,2-,22.13,,19,m,1327.8,11.4,B-,100,,5687.2,5,20,24,Ca,20-Jun-2023,Jun Chen and Balraj Singh,2026-11-15
+4.013,,0.00009698753245941076,0.00001113464439480711,X,KB,19,25,K,,0,,2-,22.13,,19,m,1327.8,11.4,B-,100,,5687.2,5,20,24,Ca,20-Jun-2023,Jun Chen and Balraj Singh,2026-11-15
+4.013,,0.00009698753245941076,0.00001113464439480711,X,KpB1,19,25,K,,0,,2-,22.13,,19,m,1327.8,11.4,B-,100,,5687.2,5,20,24,Ca,20-Jun-2023,Jun Chen and Balraj Singh,2026-11-15
+

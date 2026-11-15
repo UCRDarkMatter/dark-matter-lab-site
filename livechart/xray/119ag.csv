@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.388,,4.2,0.8,X,L,47,72,Ag,X,0,,(7/2+),2.1,,1,s,2.1,0.1,B-,100,,5330,40,48,71,Cd,1-Dec-2008,D. M. SYMOCHKO and  E. BROWNE and  J. K. TULI,2026-11-15
+22.983,,14,3,X,KA2,47,72,Ag,X,0,,(7/2+),2.1,,1,s,2.1,0.1,B-,100,,5330,40,48,71,Cd,1-Dec-2008,D. M. SYMOCHKO and  E. BROWNE and  J. K. TULI,2026-11-15
+23.173,,27,6,X,KA1,47,72,Ag,X,0,,(7/2+),2.1,,1,s,2.1,0.1,B-,100,,5330,40,48,71,Cd,1-Dec-2008,D. M. SYMOCHKO and  E. BROWNE and  J. K. TULI,2026-11-15
+26.184,,7.5,1.6,X,KpB1,47,72,Ag,X,0,,(7/2+),2.1,,1,s,2.1,0.1,B-,100,,5330,40,48,71,Cd,1-Dec-2008,D. M. SYMOCHKO and  E. BROWNE and  J. K. TULI,2026-11-15
+26.381,,8.9,1.9,X,KB,47,72,Ag,X,0,,(7/2+),2.1,,1,s,2.1,0.1,B-,100,,5330,40,48,71,Cd,1-Dec-2008,D. M. SYMOCHKO and  E. BROWNE and  J. K. TULI,2026-11-15
+26.641,,1.4,0.3,X,KpB2,47,72,Ag,X,0,,(7/2+),2.1,,1,s,2.1,0.1,B-,100,,5330,40,48,71,Cd,1-Dec-2008,D. M. SYMOCHKO and  E. BROWNE and  J. K. TULI,2026-11-15
+

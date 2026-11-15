@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.426,,1.113413313290987,0.03554144750172493,X,L,35,41,Br,,0,,1-,16.14,,20,h,58104,720,EC+B+,100,,4963,9,34,42,Se,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+1.535,,3.1,0.08,X,L,35,41,Br,,102.578,0.028,(4)+,1.31,,2,s,1.31,0.02,IT,99.7,0.3,,,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+11.183,,8.533375588674588,0.1502563598200715,X,KA2,35,41,Br,,0,,1-,16.14,,20,h,58104,720,EC+B+,100,,4963,9,34,42,Se,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+11.223,,16.543961978818512,0.280053959979174,X,KA1,35,41,Br,,0,,1-,16.14,,20,h,58104,720,EC+B+,100,,4963,9,34,42,Se,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+11.879,,22.3,0.3,X,KA2,35,41,Br,,102.578,0.028,(4)+,1.31,,2,s,1.31,0.02,IT,99.7,0.3,,,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+11.925,,43,0.5,X,KA1,35,41,Br,,102.578,0.028,(4)+,1.31,,2,s,1.31,0.02,IT,99.7,0.3,,,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+12.546,,3.8606088699814225,0.07226090327713161,X,KpB1,35,41,Br,,0,,1-,16.14,,20,h,58104,720,EC+B+,100,,4963,9,34,42,Se,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+12.571,,4.077575088474378,0.07603926006322365,X,KB,35,41,Br,,0,,1-,16.14,,20,h,58104,720,EC+B+,100,,4963,9,34,42,Se,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+12.652,,0.21696621849295594,0.00771787925678661,X,KpB2,35,41,Br,,0,,1-,16.14,,20,h,58104,720,EC+B+,100,,4963,9,34,42,Se,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+13.345,,10.2,0.15,X,KpB1,35,41,Br,,102.578,0.028,(4)+,1.31,,2,s,1.31,0.02,IT,99.7,0.3,,,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+13.377,,10.99,0.16,X,KB,35,41,Br,,102.578,0.028,(4)+,1.31,,2,s,1.31,0.02,IT,99.7,0.3,,,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+13.469,,0.79,0.03,X,KpB2,35,41,Br,,102.578,0.028,(4)+,1.31,,2,s,1.31,0.02,IT,99.7,0.3,,,35,41,Br,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-15
+

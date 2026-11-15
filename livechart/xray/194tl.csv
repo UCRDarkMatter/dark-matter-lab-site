@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+11.777,,20.376000685295,1.5957459516297963,X,L,81,113,Tl,,0,,2-,33.0,,5,m,1980,30,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+11.777,,47,5,X,L,81,113,Tl,,260,14,(7+),32.8,,2,m,1968,12,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+68.894,,27,3,X,KA2,81,113,Tl,,260,14,(7+),32.8,,2,m,1968,12,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+68.894,,16.129407555395925,1.3097251182163183,X,KA2,81,113,Tl,,0,,2-,33.0,,5,m,1980,30,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+70.82,,27.34261324867931,2.2172234046800385,X,KA1,81,113,Tl,,0,,2-,33.0,,5,m,1980,30,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+70.82,,47,5,X,KA1,81,113,Tl,,260,14,(7+),32.8,,2,m,1968,12,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+80.316,,9.279410473259679,0.7650970228075923,X,KpB1,81,113,Tl,,0,,2-,33.0,,5,m,1980,30,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+80.316,,15.8,1.8,X,KpB1,81,113,Tl,,260,14,(7+),32.8,,2,m,1968,12,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+81.285,,20.4,2.3,X,KB,81,113,Tl,,260,14,(7+),32.8,,2,m,1968,12,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+81.285,,11.998277741924765,0.9881818343527852,X,KB,81,113,Tl,,0,,2-,33.0,,5,m,1980,30,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+82.477,,4.6,0.5,X,KpB2,81,113,Tl,,260,14,(7+),32.8,,2,m,1968,12,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+82.477,,2.718867268665086,0.2289244682144264,X,KpB2,81,113,Tl,,0,,2-,33.0,,5,m,1980,30,EC+B+,100,,5246,14,80,114,Hg,3-Sep-2021,Jun Chen and Balraj Singh,2026-11-15
+

@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+11.777,,51.7671563088616,,X,L,81,114,Tl,,0,,1/2+,1.16,,5,h,4176,180,EC+B+,100,,2858,26,80,115,Hg,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+12.148,,29.00134166745704,1.8669966716795388,X,L,81,114,Tl,,482.63,0.17,9/2-,3.6,,4,s,3.6,0.4,IT,100,,,,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+68.894,,23.646449959258412,,X,KA2,81,114,Tl,,0,,1/2+,1.16,,5,h,4176,180,EC+B+,100,,2858,26,80,115,Hg,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+70.82,,40.08552290092967,,X,KA1,81,114,Tl,,0,,1/2+,1.16,,5,h,4176,180,EC+B+,100,,2858,26,80,115,Hg,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+70.832,,1.8233827226103119,0.25816036567845807,X,KA2,81,114,Tl,,482.63,0.17,9/2-,3.6,,4,s,3.6,0.4,IT,100,,,,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+72.874,,3.0779586809762187,0.4355936202462473,X,KA1,81,114,Tl,,482.63,0.17,9/2-,3.6,,4,s,3.6,0.4,IT,100,,,,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+80.316,,13.604040610527388,,X,KpB1,81,114,Tl,,0,,1/2+,1.16,,5,h,4176,180,EC+B+,100,,2858,26,80,115,Hg,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+81.285,,17.59002450941191,,X,KB,81,114,Tl,,0,,1/2+,1.16,,5,h,4176,180,EC+B+,100,,2858,26,80,115,Hg,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+82.477,,3.9859838988845246,,X,KpB2,81,114,Tl,,0,,1/2+,1.16,,5,h,4176,180,EC+B+,100,,2858,26,80,115,Hg,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+82.629,,1.0467783876588044,0.14895519126847168,X,KpB1,81,114,Tl,,482.63,0.17,9/2-,3.6,,4,s,3.6,0.4,IT,100,,,,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+83.631,,1.357671568793469,0.19312397371020887,X,KB,81,114,Tl,,482.63,0.17,9/2-,3.6,,4,s,3.6,0.4,IT,100,,,,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+84.866,,0.3108931811346649,0.04454822057026219,X,KpB2,81,114,Tl,,482.63,0.17,9/2-,3.6,,4,s,3.6,0.4,IT,100,,,,81,114,Tl,1-Mar-2014,Huang Xiaolong and Kang Mengxiao,2026-11-15
+

@@ -1,0 +1,3 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+11.777,,27.777685,5.921767923562694,X,L,80,105,Hg,,99.3,0.5,13/2+,21.6,,15,s,21.6,1.5,IT,54,10,,,80,105,Hg,1-Nov-2005,S. -C. WU,2026-11-15
+

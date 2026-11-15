@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.571,,5.67,0.21,X,L,50,59,Sn,,0,,5/2+,18.1,,2,m,1086,12,EC+B+,100,,3859,9,49,60,In,31-May-2016,S. KUMAR(a) and  J. CHEN(b) AND F.G. KONDEV,2026-11-15
+24.001,,18.7,0.5,X,KA2,50,59,Sn,,0,,5/2+,18.1,,2,m,1086,12,EC+B+,100,,3859,9,49,60,In,31-May-2016,S. KUMAR(a) and  J. CHEN(b) AND F.G. KONDEV,2026-11-15
+24.209,,35.1,0.9,X,KA1,50,59,Sn,,0,,5/2+,18.1,,2,m,1086,12,EC+B+,100,,3859,9,49,60,In,31-May-2016,S. KUMAR(a) and  J. CHEN(b) AND F.G. KONDEV,2026-11-15
+27.367,,9.9,0.3,X,KpB1,50,59,Sn,,0,,5/2+,18.1,,2,m,1086,12,EC+B+,100,,3859,9,49,60,In,31-May-2016,S. KUMAR(a) and  J. CHEN(b) AND F.G. KONDEV,2026-11-15
+27.581,,11.7,0.3,X,KB,50,59,Sn,,0,,5/2+,18.1,,2,m,1086,12,EC+B+,100,,3859,9,49,60,In,31-May-2016,S. KUMAR(a) and  J. CHEN(b) AND F.G. KONDEV,2026-11-15
+27.858,,1.87,0.08,X,KpB2,50,59,Sn,,0,,5/2+,18.1,,2,m,1086,12,EC+B+,100,,3859,9,49,60,In,31-May-2016,S. KUMAR(a) and  J. CHEN(b) AND F.G. KONDEV,2026-11-15
+

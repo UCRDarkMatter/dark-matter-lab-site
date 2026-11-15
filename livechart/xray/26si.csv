@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.091,,0.000069,0.000021,X,L,14,12,Si,,0,,0+,2.2453,,7,s,2.2453,0.0007,EC+B+,100,,5069.14,13,13,13,Al,1-Feb-2016,M.S. Basunia and A.M. Hurst,2026-11-15
+1.487,,0.00205,0.00007,X,KA1,14,12,Si,,0,,0+,2.2453,,7,s,2.2453,0.0007,EC+B+,100,,5069.14,13,13,13,Al,1-Feb-2016,M.S. Basunia and A.M. Hurst,2026-11-15
+1.487,,0.00103,0.00003,X,KA2,14,12,Si,,0,,0+,2.2453,,7,s,2.2453,0.0007,EC+B+,100,,5069.14,13,13,13,Al,1-Feb-2016,M.S. Basunia and A.M. Hurst,2026-11-15
+1.558,,0.000065,0.00001,X,KB,14,12,Si,,0,,0+,2.2453,,7,s,2.2453,0.0007,EC+B+,100,,5069.14,13,13,13,Al,1-Feb-2016,M.S. Basunia and A.M. Hurst,2026-11-15
+1.558,,0.000065,0.00001,X,KpB1,14,12,Si,,0,,0+,2.2453,,7,s,2.2453,0.0007,EC+B+,100,,5069.14,13,13,13,Al,1-Feb-2016,M.S. Basunia and A.M. Hurst,2026-11-15
+

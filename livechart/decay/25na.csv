@@ -1,0 +1,15 @@
+energy,unc_en,intensity,unc_i,start_level_hl,start_level_energy,end_level_hl,end_level_energy,multipolarity,mixing_ratio,unc_mr,conversion_coeff,unc_cc,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+389.71,0.035,12.6,0.7,0.0000000000112,974.749,0.00000000338,585.042,M1+E2,0.13,3,9.71E-5,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+585.028,0.03,13,0.7,0.00000000338,585.042,,0,E2,,,9.44E-5,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+836.841,0.05,0.104,0.006,0.000000000000026,2801.46,0.00000000000069,1964.620,M1(+E2),-0.25,LT,1.96E-5,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+974.742,0.035,14.9,0.8,0.0000000000112,974.749,,0,M1+E2,0.34,12,1.52E-5,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+989.865,0.03,0.166,0.009,0.00000000000069,1964.620,0.0000000000112,974.749,M1+E2,-0.25,7,1.44E-5,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+1379.543,0.03,0.231,0.013,0.00000000000069,1964.620,0.00000000338,585.042,E2,,,5.90E-5,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+1611.716,0.011,9.4,0.5,0.000000000000017,1611.772,,0,M1+E2,-0.207,13,1.05E-4,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+1964.501,0.045,0.146,0.008,0.00000000000069,1964.620,,0,M1+E2,-0.58,7,2.51E-4,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+2216.267,0.05,0.093,0.005,0.000000000000026,2801.46,0.00000000338,585.042,M1+E2,0.21,9,3.40E-4,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+2801.312,0.035,0.0492,0.0031,0.000000000000026,2801.46,,0,M1+E2,-0.64,8,6.14E-4,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+0.046,,0.0000015429267807192,0.0000006197286929471957,,,,,,,,,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+1.254,,0.00004889544078442409,0.0000023894204371914085,,,,,,,,,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+1.254,,0.00002459929625864376,0.0000012083164204658925,,,,,,,,,,11,14,Na,,0,,5/2+,59.3,,9,s,59.3,0.9,B-,100,,3835.0,12,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-15
+

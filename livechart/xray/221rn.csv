@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+13.292,,0.2794500735,0.06915318397345928,X,L,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,A,22,1,6163,3,84,133,Po,1-DEC-2017,B. SINGH and  T. ROY and  K. BANERJEE,2026-11-15
+14.5,,23.59682694343392,,X,L,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,B-,78,1,1194,7,87,134,Fr,15-Jan-2007,Ashok Jain and  Sukhjeet Singh and  Suresh Kumar and  Jagdish Tuli,2026-11-15
+76.862,,0.15914409973774768,0.058296966648632854,X,KA2,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,A,22,1,6163,3,84,133,Po,1-DEC-2017,B. SINGH and  T. ROY and  K. BANERJEE,2026-11-15
+79.29,,0.2650193167989137,0.09707444059587335,X,KA1,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,A,22,1,6163,3,84,133,Po,1-DEC-2017,B. SINGH and  T. ROY and  K. BANERJEE,2026-11-15
+83.227,,8.10000594076299,,X,KA2,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,B-,78,1,1194,7,87,134,Fr,15-Jan-2007,Ashok Jain and  Sukhjeet Singh and  Suresh Kumar and  Jagdish Tuli,2026-11-15
+86.102,,13.296135818717975,,X,KA1,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,B-,78,1,1194,7,87,134,Fr,15-Jan-2007,Ashok Jain and  Sukhjeet Singh and  Suresh Kumar and  Jagdish Tuli,2026-11-15
+89.837,,0.09123881271040316,0.03344659704166743,X,KpB1,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,A,22,1,6163,3,84,133,Po,1-DEC-2017,B. SINGH and  T. ROY and  K. BANERJEE,2026-11-15
+90.941,,0.11961408346333853,0.04384611556508674,X,KB,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,A,22,1,6163,3,84,133,Po,1-DEC-2017,B. SINGH and  T. ROY and  K. BANERJEE,2026-11-15
+92.315,,0.028375270752935382,0.01041189048853336,X,KpB2,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,A,22,1,6163,3,84,133,Po,1-DEC-2017,B. SINGH and  T. ROY and  K. BANERJEE,2026-11-15
+97.469,,4.637985411609544,,X,KpB1,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,B-,78,1,1194,7,87,134,Fr,15-Jan-2007,Ashok Jain and  Sukhjeet Singh and  Suresh Kumar and  Jagdish Tuli,2026-11-15
+98.682,,6.140692684971037,,X,KB,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,B-,78,1,1194,7,87,134,Fr,15-Jan-2007,Ashok Jain and  Sukhjeet Singh and  Suresh Kumar and  Jagdish Tuli,2026-11-15
+100.209,,1.5027072733614923,,X,KpB2,86,135,Rn,,0,,7/2+,25,,2,m,1500,120,B-,78,1,1194,7,87,134,Fr,15-Jan-2007,Ashok Jain and  Sukhjeet Singh and  Suresh Kumar and  Jagdish Tuli,2026-11-15
+

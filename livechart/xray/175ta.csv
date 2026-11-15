@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.114,,40,3,X,L,73,102,Ta,,0,,7/2+,10.5,,2,h,37800,720,EC+B+,100,,2073,28,72,103,Hf,29-Oct-2024,Jin Wu,2026-11-15
+54.608,,38.9,2.3,X,KA2,73,102,Ta,,0,,7/2+,10.5,,2,h,37800,720,EC+B+,100,,2073,28,72,103,Hf,29-Oct-2024,Jin Wu,2026-11-15
+55.786,,68,4,X,KA1,73,102,Ta,,0,,7/2+,10.5,,2,h,37800,720,EC+B+,100,,2073,28,72,103,Hf,29-Oct-2024,Jin Wu,2026-11-15
+63.333,,22.5,1.4,X,KpB1,73,102,Ta,,0,,7/2+,10.5,,2,h,37800,720,EC+B+,100,,2073,28,72,103,Hf,29-Oct-2024,Jin Wu,2026-11-15
+64.057,,28.4,1.7,X,KB,73,102,Ta,,0,,7/2+,10.5,,2,h,37800,720,EC+B+,100,,2073,28,72,103,Hf,29-Oct-2024,Jin Wu,2026-11-15
+64.935,,6,0.4,X,KpB2,73,102,Ta,,0,,7/2+,10.5,,2,h,37800,720,EC+B+,100,,2073,28,72,103,Hf,29-Oct-2024,Jin Wu,2026-11-15
+

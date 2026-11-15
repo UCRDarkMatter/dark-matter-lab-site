@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.749,,10.1876111671256,0.8441283003115981,X,L,56,68,Ba,,0,,0+,11.0,,5,m,660,30,EC+B+,100,,2651,15,55,69,Cs,1-Apr-2008,J. KATAKURA and  Z.D. WU,2026-11-15
+30.625,,24.009503045133556,1.8620120005418077,X,KA2,56,68,Ba,,0,,0+,11.0,,5,m,660,30,EC+B+,100,,2651,15,55,69,Cs,1-Apr-2008,J. KATAKURA and  Z.D. WU,2026-11-15
+30.973,,44.35526149110208,3.433783879623237,X,KA1,56,68,Ba,,0,,0+,11.0,,5,m,660,30,EC+B+,100,,2651,15,55,69,Cs,1-Apr-2008,J. KATAKURA and  Z.D. WU,2026-11-15
+35.089,,12.958530126723762,1.0129455545884478,X,KpB1,56,68,Ba,,0,,0+,11.0,,5,m,660,30,EC+B+,100,,2651,15,55,69,Cs,1-Apr-2008,J. KATAKURA and  Z.D. WU,2026-11-15
+35.414,,16.12041147764436,1.2584373975149965,X,KB,56,68,Ba,,0,,0+,11.0,,5,m,660,30,EC+B+,100,,2651,15,55,69,Cs,1-Apr-2008,J. KATAKURA and  Z.D. WU,2026-11-15
+35.818,,3.161881350920598,0.2555103092529849,X,KpB2,56,68,Ba,,0,,0+,11.0,,5,m,660,30,EC+B+,100,,2651,15,55,69,Cs,1-Apr-2008,J. KATAKURA and  Z.D. WU,2026-11-15
+

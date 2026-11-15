@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.767,,0.142,0.014,X,L,36,55,Kr,,0,,5/2(+),8.57,,4,s,8.57,0.04,B-,100,,6771,8,37,54,Rb,1-Sep-2013,Coral M. Baglin,2026-11-15
+13.336,,0.95,0.1,X,KA2,36,55,Kr,,0,,5/2(+),8.57,,4,s,8.57,0.04,B-,100,,6771,8,37,54,Rb,1-Sep-2013,Coral M. Baglin,2026-11-15
+13.396,,1.82,0.18,X,KA1,36,55,Kr,,0,,5/2(+),8.57,,4,s,8.57,0.04,B-,100,,6771,8,37,54,Rb,1-Sep-2013,Coral M. Baglin,2026-11-15
+15.021,,0.44,0.04,X,KpB1,36,55,Kr,,0,,5/2(+),8.57,,4,s,8.57,0.04,B-,100,,6771,8,37,54,Rb,1-Sep-2013,Coral M. Baglin,2026-11-15
+15.07,,0.49,0.05,X,KB,36,55,Kr,,0,,5/2(+),8.57,,4,s,8.57,0.04,B-,100,,6771,8,37,54,Rb,1-Sep-2013,Coral M. Baglin,2026-11-15
+15.187,,0.051,0.006,X,KpB2,36,55,Kr,,0,,5/2(+),8.57,,4,s,8.57,0.04,B-,100,,6771,8,37,54,Rb,1-Sep-2013,Coral M. Baglin,2026-11-15
+

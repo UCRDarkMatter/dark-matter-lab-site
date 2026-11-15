@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+14.5,,8.3,0.9,X,L,89,134,Ac,,0,,(5/2-),2.10,,5,m,126,3,A,99,,6783.2,10,87,132,Fr,19-May-2021,Balraj Singh et al. and ,2026-11-15
+83.227,,0.5268398816305081,,X,KA2,89,134,Ac,,0,,(5/2-),2.10,,5,m,126,3,A,99,,6783.2,10,87,132,Fr,19-May-2021,Balraj Singh et al. and ,2026-11-15
+86.102,,0.8648061090454827,,X,KA1,89,134,Ac,,0,,(5/2-),2.10,,5,m,126,3,A,99,,6783.2,10,87,132,Fr,19-May-2021,Balraj Singh et al. and ,2026-11-15
+97.469,,0.30166344359819436,,X,KpB1,89,134,Ac,,0,,(5/2-),2.10,,5,m,126,3,A,99,,6783.2,10,87,132,Fr,19-May-2021,Balraj Singh et al. and ,2026-11-15
+98.682,,0.39940239932400934,,X,KB,89,134,Ac,,0,,(5/2-),2.10,,5,m,126,3,A,99,,6783.2,10,87,132,Fr,19-May-2021,Balraj Singh et al. and ,2026-11-15
+100.209,,0.09773895572581497,,X,KpB2,89,134,Ac,,0,,(5/2-),2.10,,5,m,126,3,A,99,,6783.2,10,87,132,Fr,19-May-2021,Balraj Singh et al. and ,2026-11-15
+

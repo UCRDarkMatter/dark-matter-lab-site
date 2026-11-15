@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.648,,0.025,0.007,X,L,35,48,Br,,0,,3/2-,2.374,,4,h,8546.4,14.4,B-,100,,977,4,36,47,Kr,31-Dec-2014,E.A. MCCUTCHAN,2026-11-15
+12.596,,0.06,0.022,X,KA2,35,48,Br,,0,,3/2-,2.374,,4,h,8546.4,14.4,B-,100,,977,4,36,47,Kr,31-Dec-2014,E.A. MCCUTCHAN,2026-11-15
+12.649,,0.12,0.04,X,KA1,35,48,Br,,0,,3/2-,2.374,,4,h,8546.4,14.4,B-,100,,977,4,36,47,Kr,31-Dec-2014,E.A. MCCUTCHAN,2026-11-15
+14.169,,0.028,0.01,X,KpB1,35,48,Br,,0,,3/2-,2.374,,4,h,8546.4,14.4,B-,100,,977,4,36,47,Kr,31-Dec-2014,E.A. MCCUTCHAN,2026-11-15
+14.209,,0.031,0.011,X,KB,35,48,Br,,0,,3/2-,2.374,,4,h,8546.4,14.4,B-,100,,977,4,36,47,Kr,31-Dec-2014,E.A. MCCUTCHAN,2026-11-15
+14.313,,0.0028,0.001,X,KpB2,35,48,Br,,0,,3/2-,2.374,,4,h,8546.4,14.4,B-,100,,977,4,36,47,Kr,31-Dec-2014,E.A. MCCUTCHAN,2026-11-15
+

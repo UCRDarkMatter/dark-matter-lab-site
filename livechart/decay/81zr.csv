@@ -1,0 +1,5 @@
+energy,unc_en,intensity,unc_i,start_level_hl,start_level_energy,end_level_hl,end_level_energy,multipolarity,mixing_ratio,unc_mr,conversion_coeff,unc_cc,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+113.31,0.04,,,0.000000007,113.30,70.4,0,,,,,,40,41,Zr,,0,,(3/2-),5.3,,3,s,5.3,0.3,EC+B+,100,,8189,92,39,42,Y,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+175.38,0.03,,,0.000000007,288.66,0.000000007,113.30,,,,,,40,41,Zr,,0,,(3/2-),5.3,,3,s,5.3,0.3,EC+B+,100,,8189,92,39,42,Y,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+230.1,0.2,,,,343.48,0.000000007,113.30,,,,,,40,41,Zr,,0,,(3/2-),5.3,,3,s,5.3,0.3,EC+B+,100,,8189,92,39,42,Y,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-15
+

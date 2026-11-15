@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.74,,34.0756770651728,1.8409932681713435,X,L,75,103,Re,,0,,(3+),13.2,,2,m,792,12,EC+B+,100,,4754,32,74,104,W,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+57.983,,22.294731727570166,1.2748776098601886,X,KA2,75,103,Re,,0,,(3+),13.2,,2,m,792,12,EC+B+,100,,4754,32,74,104,W,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+59.32,,38.7263014201323,2.208087791263349,X,KA1,75,103,Re,,0,,(3+),13.2,,2,m,792,12,EC+B+,100,,4754,32,74,104,W,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+67.335,,12.836449673143063,0.7579681396749078,X,KpB1,75,103,Re,,0,,(3+),13.2,,2,m,792,12,EC+B+,100,,4754,32,74,104,W,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+68.117,,16.35363688358426,0.9635161049640509,X,KB,75,103,Re,,0,,(3+),13.2,,2,m,792,12,EC+B+,100,,4754,32,74,104,W,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+69.068,,3.5171872104411994,0.21737456556760346,X,KpB2,75,103,Re,,0,,(3+),13.2,,2,m,792,12,EC+B+,100,,4754,32,74,104,W,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-15
+

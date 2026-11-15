@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.54,,1.72,0.1,X,L,55,71,Cs,,0,,1+,1.643,,17,m,98.58,1.02,EC+B+,100,,4796,10,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-15
+29.458,,4.32,0.11,X,KA2,55,71,Cs,,0,,1+,1.643,,17,m,98.58,1.02,EC+B+,100,,4796,10,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-15
+29.778,,8,0.2,X,KA1,55,71,Cs,,0,,1+,1.643,,17,m,98.58,1.02,EC+B+,100,,4796,10,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-15
+33.726,,2.32,0.06,X,KpB1,55,71,Cs,,0,,1+,1.643,,17,m,98.58,1.02,EC+B+,100,,4796,10,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-15
+34.03,,2.87,0.08,X,KB,55,71,Cs,,0,,1+,1.643,,17,m,98.58,1.02,EC+B+,100,,4796,10,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-15
+34.414,,0.548,0.019,X,KpB2,55,71,Cs,,0,,1+,1.643,,17,m,98.58,1.02,EC+B+,100,,4796,10,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-15
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.966,,0.067440842727104,0.006591626771477282,X,L,55,87,Cs,,0,,0-,1.684,,14,s,1.684,0.014,B-,100,,7328,8,56,86,Ba,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-15
+31.816,,0.14844556982786095,0.015025936385075048,X,KA2,55,87,Cs,,0,,0-,1.684,,14,s,1.684,0.014,B-,100,,7328,8,56,86,Ba,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-15
+32.193,,0.2734811529621609,0.0276535990546563,X,KA1,55,87,Cs,,0,,0-,1.684,,14,s,1.684,0.014,B-,100,,7328,8,56,86,Ba,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-15
+36.482,,0.08044241911340112,0.008179481908103671,X,KpB1,55,87,Cs,,0,,0-,1.684,,14,s,1.684,0.014,B-,100,,7328,8,56,86,Ba,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-15
+36.827,,0.10071390872997821,0.010232809700302593,X,KB,55,87,Cs,,0,,0-,1.684,,14,s,1.684,0.014,B-,100,,7328,8,56,86,Ba,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-15
+37.255,,0.02027148961657708,0.002100105087278906,X,KpB2,55,87,Cs,,0,,0-,1.684,,14,s,1.684,0.014,B-,100,,7328,8,56,86,Ba,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-15
+

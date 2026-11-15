@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.477,,0.000006935236026576,0.0000014054938772461902,X,L,21,30,Sc,,0,,(7/2)-,12.4,,1,s,12.4,0.1,B-,100,,6482.6,26,22,29,Ti,1-Mar-2016,Wang Jimin and Huang Xiaolong,2026-11-15
+4.505,,0.0000876819301388989,0.0000039008073918713295,X,KA2,21,30,Sc,,0,,(7/2)-,12.4,,1,s,12.4,0.1,B-,100,,6482.6,26,22,29,Ti,1-Mar-2016,Wang Jimin and Huang Xiaolong,2026-11-15
+4.511,,0.00017273823904432407,0.000007637568148883783,X,KA1,21,30,Sc,,0,,(7/2)-,12.4,,1,s,12.4,0.1,B-,100,,6482.6,26,22,29,Ti,1-Mar-2016,Wang Jimin and Huang Xiaolong,2026-11-15
+4.947,,0.00003450567241677704,0.000001595020318629756,X,KB,21,30,Sc,,0,,(7/2)-,12.4,,1,s,12.4,0.1,B-,100,,6482.6,26,22,29,Ti,1-Mar-2016,Wang Jimin and Huang Xiaolong,2026-11-15
+4.947,,0.00003450567241677704,0.0000015950203186297563,X,KpB1,21,30,Sc,,0,,(7/2)-,12.4,,1,s,12.4,0.1,B-,100,,6482.6,26,22,29,Ti,1-Mar-2016,Wang Jimin and Huang Xiaolong,2026-11-15
+

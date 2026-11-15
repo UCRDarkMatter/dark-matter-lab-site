@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+10.063,,14.59634276,0.8680673768884011,X,L,77,96,Ir,,226,18,11/2-,2.20,,5,s,2.2,0.05,A,12,1,5716,9,75,94,Re,1-Oct-2025,M. Shamsuzzoha Basunia,2026-11-15
+59.718,,12.386739376433844,0.6913135415669024,X,KA2,77,96,Ir,,226,18,11/2-,2.20,,5,s,2.2,0.05,A,12,1,5716,9,75,94,Re,1-Oct-2025,M. Shamsuzzoha Basunia,2026-11-15
+61.141,,21.430344941927068,1.1924470357089583,X,KA1,77,96,Ir,,226,18,11/2-,2.20,,5,s,2.2,0.05,A,12,1,5716,9,75,94,Re,1-Oct-2025,M. Shamsuzzoha Basunia,2026-11-15
+69.395,,7.1235674875795505,0.41107793371461354,X,KpB1,77,96,Ir,,226,18,11/2-,2.20,,5,s,2.2,0.05,A,12,1,5716,9,75,94,Re,1-Oct-2025,M. Shamsuzzoha Basunia,2026-11-15
+70.206,,9.096795681639085,0.523736784976435,X,KB,77,96,Ir,,226,18,11/2-,2.20,,5,s,2.2,0.05,A,12,1,5716,9,75,94,Re,1-Oct-2025,M. Shamsuzzoha Basunia,2026-11-15
+71.195,,1.9732281940595355,0.11930920163441411,X,KpB2,77,96,Ir,,226,18,11/2-,2.20,,5,s,2.2,0.05,A,12,1,5716,9,75,94,Re,1-Oct-2025,M. Shamsuzzoha Basunia,2026-11-15
+

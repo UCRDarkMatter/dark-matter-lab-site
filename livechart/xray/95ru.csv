@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.586,,3.5600487754889536,0.10183040143320943,X,L,44,51,Ru,,0,,5/2+,1.643,,13,h,5914.8,46.8,EC+B+,100,,2564,11,43,52,Tc,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-15
+18.25,,16.887494754003328,0.3142174429349513,X,KA2,44,51,Ru,,0,,5/2+,1.643,,13,h,5914.8,46.8,EC+B+,100,,2564,11,43,52,Tc,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-15
+18.367,,32.11160820308676,0.5776558352218223,X,KA1,44,51,Ru,,0,,5/2+,1.643,,13,h,5914.8,46.8,EC+B+,100,,2564,11,43,52,Tc,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-15
+20.695,,8.534645135099371,0.1729399024667908,X,KpB1,44,51,Ru,,0,,5/2+,1.643,,13,h,5914.8,46.8,EC+B+,100,,2564,11,43,52,Tc,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-15
+20.82,,9.88311906644507,0.19566509280951766,X,KB,44,51,Ru,,0,,5/2+,1.643,,13,h,5914.8,46.8,EC+B+,100,,2564,11,43,52,Tc,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-15
+21.003,,1.3484739313457006,0.05067181406489523,X,KpB2,44,51,Ru,,0,,5/2+,1.643,,13,h,5914.8,46.8,EC+B+,100,,2564,11,43,52,Tc,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-15
+

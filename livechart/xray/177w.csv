@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.424,,60,3,X,L,74,103,W,,0,,1/2-,132.4,,20,m,7944,120,EC+B+,100,,2013,28,73,104,Ta,30-Aug-2019,F.G. KONDEV,2026-11-15
+56.28,,42.9,0.8,X,KA2,74,103,W,,0,,1/2-,132.4,,20,m,7944,120,EC+B+,100,,2013,28,73,104,Ta,30-Aug-2019,F.G. KONDEV,2026-11-15
+57.535,,74.8,1.4,X,KA1,74,103,W,,0,,1/2-,132.4,,20,m,7944,120,EC+B+,100,,2013,28,73,104,Ta,30-Aug-2019,F.G. KONDEV,2026-11-15
+65.315,,24.8,0.6,X,KpB1,74,103,W,,0,,1/2-,132.4,,20,m,7944,120,EC+B+,100,,2013,28,73,104,Ta,30-Aug-2019,F.G. KONDEV,2026-11-15
+66.067,,31.4,0.8,X,KB,74,103,W,,0,,1/2-,132.4,,20,m,7944,120,EC+B+,100,,2013,28,73,104,Ta,30-Aug-2019,F.G. KONDEV,2026-11-15
+66.981,,6.68,0.21,X,KpB2,74,103,W,,0,,1/2-,132.4,,20,m,7944,120,EC+B+,100,,2013,28,73,104,Ta,30-Aug-2019,F.G. KONDEV,2026-11-15
+
