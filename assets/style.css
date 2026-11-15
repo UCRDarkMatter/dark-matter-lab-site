@@ -220,3 +220,7 @@ dl.kv dd { margin: 0; }
 .alumni-list li { break-inside: avoid; padding: .3rem 0; border-bottom: 1px solid var(--line); font-size: 1rem; }
 .alumni-list .nm { font-weight: 500; }
 .alumni-list .now { display: block; font-size: .88rem; color: var(--muted); }
+.alumni-list li { display: flex; align-items: center; gap: .65rem; }
+.mini-av { width: 2.4rem; height: 2.4rem; flex: none; border-radius: 50%; object-fit: cover; background: var(--chip); color: var(--blue);
+  display: inline-grid; place-items: center; font-size: .8rem; font-weight: 700; }
+.alumni-list .txt { display: flex; flex-direction: column; }

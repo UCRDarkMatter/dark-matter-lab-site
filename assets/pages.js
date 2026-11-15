@@ -39,14 +39,18 @@
           cats.forEach(function (c) {
             var ms = g.members.filter(function (m) { return (m.category || '') === c; });
             if (c) sec.appendChild(el('h3', 'alumni-cat', c));
-            var withPhoto = ms.filter(function (m) { return m.photo; }), rest = ms.filter(function (m) { return !m.photo; });
-            if (withPhoto.length) { var gr = grid(sec); withPhoto.forEach(function (m) { gr.appendChild(card(m, true)); }); }
+            // Former postdocs (with a role) get full cards; everyone else a compact list with a small photo or initials.
+            var cards = ms.filter(function (m) { return m.role; }), rest = ms.filter(function (m) { return !m.role; });
+            if (cards.length) { var gr = grid(sec); cards.forEach(function (m) { gr.appendChild(card(m, true)); }); }
             if (rest.length) {
               var ul = el('ul', 'alumni-list');
               rest.forEach(function (m) {
-                var li = el('li'); li.appendChild(el('span', 'nm', m.name));
-                if (m.now) li.appendChild(el('span', 'now', m.now));
-                ul.appendChild(li);
+                var li = el('li'), av;
+                if (m.photo) { av = el('img', 'mini-av'); av.src = m.photo; av.alt = ''; av.loading = 'lazy'; }
+                else { av = el('span', 'mini-av', initials(m.name)); av.setAttribute('aria-hidden', 'true'); }
+                var t = el('span', 'txt'); t.appendChild(el('span', 'nm', m.name));
+                if (m.now) t.appendChild(el('span', 'now', m.now));
+                li.appendChild(av); li.appendChild(t); ul.appendChild(li);
               });
               sec.appendChild(ul);
             }

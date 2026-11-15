@@ -72,6 +72,7 @@
    "members": [
     {
      "name": "Weicheng Wang",
+     "photo": "images/people/weicheng-wang.jpg",
      "bio": "CECI Ron Bieniek Award."
     },
     {
@@ -87,13 +88,15 @@
      "name": "Kian Zaravand"
     },
     {
-     "name": "Lillianne Bakshi"
+     "name": "Lillianne Bakshi",
+     "photo": "images/people/lillianne-bakshi.jpg"
     },
     {
      "name": "Arthur Ortiz-Torres"
     },
     {
-     "name": "Kaylan McAdams"
+     "name": "Kaelyn McAdams",
+     "photo": "images/people/kaelyn-mcadams.jpg"
     },
     {
      "name": "Anika Nemana"
@@ -120,7 +123,8 @@
      "name": "Lun Zhao"
     },
     {
-     "name": "Matt Piercy"
+     "name": "Matt Piercy",
+     "photo": "images/people/matt-piercy.jpg"
     }
    ]
   },
@@ -136,6 +140,7 @@
     },
     {
      "name": "Vignesh Balaji",
+     "photo": "images/people/vignesh-balaji.jpg",
      "bio": "Built the internal page, updated the experiments section, and helped update NeuCBOT to NuDat3."
     }
    ]
@@ -157,6 +162,7 @@
     },
     {
      "name": "Nicholas Beattie",
+     "photo": "images/people/nicholas-beattie.jpg",
      "category": "Former undergraduates"
     },
     {
@@ -173,6 +179,7 @@
     },
     {
      "name": "Daniel Gamino Navarro",
+     "photo": "images/people/daniel-gamino-navarro.jpg",
      "category": "Former undergraduates"
     },
     {
@@ -195,15 +202,18 @@
     },
     {
      "name": "Jared Hudnall",
+     "photo": "images/people/jared-hudnall.jpg",
      "category": "Former undergraduates",
      "now": "PhD student, UC Santa Barbara"
     },
     {
      "name": "Ryan Krismer",
+     "photo": "images/people/ryan-krismer.jpg",
      "category": "Former undergraduates"
     },
     {
      "name": "Andrew Le Blanc",
+     "photo": "images/people/andrew-le-blanc.jpg",
      "category": "Former undergraduates"
     },
     {
@@ -234,6 +244,7 @@
     },
     {
      "name": "Leo Weimer",
+     "photo": "images/people/leo-weimer.jpg",
      "category": "Former undergraduates",
      "now": "PhD student, University of Chicago"
     },
