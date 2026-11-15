@@ -1,0 +1,33 @@
+# Downloads ENSDF-based decay and level data from the IAEA LiveChart API onto the branch "gamma-data".
+# tools/gamma/build_gamma_data.py turns it into the Gamma Line Explorer's data files.
+# Runs when the fetch script changes, or by hand (Actions tab → Fetch gamma data → Run workflow).
+name: Fetch gamma data
+
+on:
+  push:
+    branches: [main]
+    paths: [tools/gamma/fetch_livechart.py, .github/workflows/gamma-data.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download from IAEA LiveChart
+        run: python3 tools/gamma/fetch_livechart.py /tmp/livechart
+      - name: Commit to the gamma-data branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan gamma-data
+          git rm -rq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/livechart livechart
+          git add livechart
+          git commit -q -m "IAEA LiveChart data for the Gamma Line Explorer ($(date -u +%F))"
+          git push -q -f origin gamma-data
