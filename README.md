@@ -52,7 +52,7 @@ the `limits.py update` line in `nightly.yml`.
 
 
 ## Pages
-`index.html`, `Publications.html`, `People.html`, `Tools.html`, `Limits.html`, `Outreach.html`, `Contact.html`.
+`index.html`, `Publications.html`, `People.html`, `Tools.html`, `Limits.html`, `Gammas.html`, `Contact.html`. (The Outreach page was removed for now; `data/events.json` and the `events` code in `assets/pages.js` are kept so it can come back by restoring `Outreach.html` from git history and its menu entry in `assets/site.js`.)
 Not rebuilt yet: `Experiments.html` and the individual experiment pages (the menu still points at the existing ones).
 
 ## Where to edit things
@@ -61,7 +61,6 @@ Not rebuilt yet: `Experiments.html` and the individual experiment pages (the men
 | Menu, header logo, footer (all pages) | `assets/site.js`, top of the file |
 | Colours and fonts, day and night | the token block at the top of `assets/style.css` |
 | Lab members | `data/people.json` |
-| Outreach events | `data/events.json` (they move from Upcoming to Past by date) |
 | Tools list | `data/tools.json` |
 | Photos and logos | put them in `images/`; the spots are marked with comments in `index.html` |
 
@@ -70,7 +69,7 @@ Not rebuilt yet: `Experiments.html` and the individual experiment pages (the men
   `data/publications.json` from arXiv, adding citation counts, collaboration names and journal
   references from INSPIRE. Each visitor's browser also asks arXiv for the 25 newest papers.
 - **Tools**: GitHub stars, language and last-update date for each repository.
-- **Outreach**: upcoming/past split. **Footer**: year.
+- **Footer**: year.
 - An experiment page can show its own papers with
   `<div id="pubs" data-group="DUNE" data-compact></div>` plus `<script src="assets/publications.js"></script>`
   (groups: `DarkSide`, `DEAP-3600`, `DUNE`).

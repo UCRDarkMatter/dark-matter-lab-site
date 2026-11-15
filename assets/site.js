@@ -4,7 +4,7 @@
   var NAV = [
     ['index.html', 'Home'], ['Experiments.html', 'Research'], ['People.html', 'People'],
     ['Publications.html', 'Publications'], ['Tools.html', 'Tools'], ['Limits.html', 'DM limits'],
-    ['Outreach.html', 'Outreach'], ['Contact.html', 'Contact']
+    ['Contact.html', 'Contact']
   ];
   /* The Research menu's dropdown. Add an experiment page here and it appears on every page. */
   var EXPERIMENTS = [
