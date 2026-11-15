@@ -210,6 +210,7 @@ MATERIAL_ELEMENTS = {
     "ar": ["Ar"], "xe": ["Xe"], "nai": ["Na", "I", "Tl"], "csi": ["Cs", "I"], "ptfe": ["C", "F"],
     "poly": ["H", "C"], "bpoly": ["H", "C", "B"], "water": ["H", "O"], "rock": ["O", "Si", "Al", "Fe", "Ca", "Na", "K", "Mg", "H", "Cl", "Ti"],
     "ti": ["Ti"], "al": ["Al"], "te": ["Te"], "glass": ["Si", "O", "B", "Na", "K"], "solder": ["Sn", "Pb", "Ag", "Cu"],
+    "acrylic": ["H", "C", "O"], "pmt3": ["Fe", "Ni", "Co", "Si", "O", "Al"],
 }
 # elements that are present (as structural materials, rock or people) in almost every lab
 ALWAYS_ELEMENTS = ["H", "O", "Si", "Al", "Fe", "Ca", "Na", "K", "Cl", "C", "N", "Mg", "Ti", "Mn", "Cr", "Ni", "Cu"]

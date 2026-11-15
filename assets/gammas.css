@@ -18,8 +18,13 @@
 .gx-setup .chips, .gx-kinds { display: flex; flex-wrap: wrap; gap: .4rem; }
 .gx-setup .chip { font-size: .86rem; padding: .22rem .65rem; }
 .gx-res { display: block; margin-top: .5rem; font-size: .92rem; }
-.gx-res input { width: 5.5rem; }
+.gx-res input { width: 6.5rem; }
 .gx-note { font-size: .86rem; color: var(--muted); margin: .2rem 0 .7rem; }
+.gx-masses { grid-column: 1 / -1; }
+.gx-res select { font: inherit; font-size: .92rem; max-width: 100%; }
+.gx-mass-list { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin: .6rem 0 .3rem; }
+.gx-mass { font-size: .9rem; white-space: nowrap; }
+.gx-mass input { width: 5.5rem; }
 
 /* tabs and forms */
 .gx-tabs { display: flex; gap: .3rem; border-bottom: 2px solid var(--line); flex-wrap: wrap; }

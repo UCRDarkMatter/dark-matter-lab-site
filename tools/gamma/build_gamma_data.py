@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import capture                                          # noqa: E402
 import curation as K                                    # noqa: E402
 import materials as MAT                                 # noqa: E402
+import presets as PRESETS                               # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, "data", "gamma")
@@ -234,7 +235,9 @@ def decay_context(name, gs):
 
 
 MAT_NAMES = {"cu": "copper", "ge": "germanium", "steel": "steel", "ar": "argon", "xe": "xenon", "nai": "NaI", "csi": "CsI",
-             "ti": "titanium", "al": "aluminium", "te": "tellurium", "pb": "lead", "ptfe": "PTFE"}
+             "ti": "titanium", "al": "aluminium", "te": "tellurium", "pb": "lead", "ptfe": "PTFE", "poly": "polyethylene",
+             "bpoly": "borated polyethylene", "water": "water", "rock": "rock/concrete", "glass": "borosilicate glass",
+             "solder": "solder", "acrylic": "acrylic", "pmt3": "low-background PMTs"}
 
 
 def cos_names(lst):
@@ -594,7 +597,7 @@ def main(lc, levels_dir):
                      "Underground fast flux ≈ 0.9×10⁻⁷ n cm⁻² s⁻¹ (Gran Sasso), as summarized in R. Bernabei et al., arXiv:1409.3516.",
                      "Surface fast flux (> 1 MeV) 5.5×10⁻³ n cm⁻² s⁻¹: integral of the sea-level spectrum parameterization of M.S. Gordon et al., IEEE Trans. Nucl. Sci. 51 (2004) 3427 (it gives 13 n cm⁻² h⁻¹ above 10 MeV). The surface thermal flux is assumed equal to it (no evaluated default; enter a measured value if you have one)."]}
     meta = {"built": datetime.date.today().isoformat(), "refs": {"@cascade": CASCADE_REF, "@sigma": SIGMA_REF + ".", "@abund": ABUND_REF},
-            "materials": mats, "flux": flux,
+            "materials": mats, "flux": flux, "presets": PRESETS.presets(),
             "text": "Data built %s: %d decaying nuclides, %d capture target isotopes, %d isotopes with (n,n′γ) lines, %d (α,x)γ reactions." % (
                 datetime.date.today().isoformat(), len(core) + len(rest), len(cap), len(inel), len(alp))}
     os.makedirs(OUT, exist_ok=True)

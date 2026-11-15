@@ -164,6 +164,11 @@ Ranking uses expected rates per kilogram (see "How candidates are ranked" on the
 (J.C. Loach et al., Nucl. Instrum. Meth. A 839 (2016) 6) grouped by material, with the data sets behind each material listed. To refresh it,
 re-run the grouping on a new export of radiopurity.org and keep the same JSON layout.
 
+Per-kilogram rates are multiplied by each material's mass: 1 kg each by default, or the ballpark "typical setup" masses in
+`tools/gamma/presets.py` (DarkSide-50, DEAP-3600, XENON1T, COSINE-100, a Gator-like HPGe counter), which users can edit. Preset masses
+are effective masses (component mass × fraction of 1.5 MeV gammas reaching the active volume); the arithmetic and citations for each
+are shown on the page. Acrylic and low-background 3-inch PMTs are defined in `materials.py` with their sources.
+
 Alpha-induced lines ((α,n), (α,p), (α,α′) …) use `tools/gamma/alpha_xs.json`: TALYS-1.95 gamma-production cross sections taken from the
 NeuCBOT datasets. Thick-target yields are computed at build time with the NeuCBOT stopping powers and alpha lists copied into
 `tools/gamma/neucbot_data/` (GPL-3.0, see the license file there). To regenerate the cross-section table:

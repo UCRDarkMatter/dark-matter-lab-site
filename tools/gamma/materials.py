@@ -3,7 +3,7 @@
 Each material gives, per kilogram:
   comp  elemental mass fractions (for neutron capture and inelastic-scattering rates)
   act   activities (Bq/kg) of decay-chain segments and single radionuclides
-together with where every number comes from. The explorer assumes equal masses of all selected materials.
+together with where every number comes from. Masses come from the user or from the presets in presets.py.
 """
 import json
 import os
@@ -39,6 +39,16 @@ def stoich(formula):
     return {el.symbol: n * el.mass / f.mass for el, n in f.atoms.items()}
 
 
+DEAP_REF = ("DEAP-3600 acrylic assays (light-guide acrylic: ²²⁶Ra < 0.1, ²³²Th < 0.3, ⁴⁰K < 1.1 mBq/kg; upper limits used as values): "
+            "R. Ajaj et al. (DEAP Collaboration), Phys. Rev. D 100 (2019) 072009, Table V, doi:10.1103/PhysRevD.100.072009.")
+PMT_COMP_REF = ("Hamamatsu R11410MOD materials per tube (Hamamatsu Photonics, 'Development of PMT (R11410MOD) for Dark Matter Experiment', 2010): "
+                "quartz faceplate 35 g, Kovar body 95 g, ceramic stem 25 g, insulating plates 16 g (171 g in all; the plates are treated as ceramic). "
+                "Kovar taken as 53.5% Fe, 29% Ni, 17% Co (nominal).")
+PMT_ACT_REF = ("Radioactivity per tube quoted by the manufacturer for the R11410-10 (3.3 mBq ²³⁸U, 2.3 mBq ²³²Th, 5.7 mBq ⁴⁰K, 9.1 mBq ⁶⁰Co): "
+               "K. Lung et al., arXiv:1202.2628; divided by 0.171 kg per tube, chains assumed in equilibrium. Screened production tubes "
+               "for recent experiments are often cleaner.")
+PMT_KG = 0.171
+
 MATERIALS = {
     "cu": ("Copper", {"Cu": 1.0}, "Pure copper (OFHC/OFE ≥ 99.99% Cu)."),
     "pb": ("Lead", {"Pb": 1.0}, "Pure lead."),
@@ -58,6 +68,8 @@ MATERIALS = {
     "glass": ("Borosilicate glass", None, "Borosilicate glass, nominal Corning 7740 (Pyrex) composition: 80.6% SiO₂, 13.0% B₂O₃, 4.0% Na₂O, 2.3% Al₂O₃."),
     "te": ("Tellurium", {"Te": 1.0}, "Pure tellurium."),
     "solder": ("Solder (Sn63Pb37)", {"Sn": 0.63, "Pb": 0.37}, "Eutectic tin–lead solder, 63% Sn, 37% Pb by mass."),
+    "acrylic": ("Acrylic (PMMA)", None, "Stoichiometric poly(methyl methacrylate), (C₅H₈O₂)ₙ."),
+    "pmt3": ("Low-background 3-inch PMTs", None, PMT_COMP_REF),
 }
 
 
@@ -88,12 +100,31 @@ def composition(key):
                        "Na2O": 3.27, "K2O": 2.80, "P2O5": 0.15})
     if key == "glass":
         return oxides({"SiO2": 80.6, "B2O3": 13.0, "Na2O": 4.0, "Al2O3": 2.3})
+    if key == "acrylic":
+        return stoich("C5H8O2")
+    if key == "pmt3":
+        parts = {"kovar": (0.095, {"Fe": 0.535, "Ni": 0.29, "Co": 0.175}), "quartz": (0.035, stoich("SiO2")), "ceramic": (0.041, stoich("Al2O3"))}
+        c = {}
+        for w, comp in parts.values():
+            for el, f in comp.items():
+                c[el] = c.get(el, 0) + w * f / PMT_KG
+        return c
     raise KeyError(key)
 
 
 def activities(key, rp):
     """Activities (Bq/kg) per segment and what each is based on."""
     act, basis = {}, {}
+    if key == "acrylic":
+        for seg, v in (("U238", 1e-4), ("Ra226", 1e-4), ("Th232", 3e-4), ("Th228", 3e-4), ("K40", 1.1e-3), ("U235", 1e-4 * U235_PER_U238)):
+            act[seg], basis[seg] = v, "upper limit from DEAP-3600 assays"
+        return act, basis
+    if key == "pmt3":
+        u, th = 3.3e-3 / PMT_KG, 2.3e-3 / PMT_KG
+        for seg, v in (("U238", u), ("Ra226", u), ("Pb210", u), ("Th232", th), ("Th228", th), ("K40", 5.7e-3 / PMT_KG),
+                       ("Co60", 9.1e-3 / PMT_KG), ("U235", u * U235_PER_U238)):
+            act[seg], basis[seg] = v, "manufacturer quote per tube ÷ 0.171 kg"
+        return act, basis
     if key == "rock":
         u, th, k = 2.7 * U_PPM_BQKG, 10.5 * TH_PPM_BQKG, 2.80 * 0.830 * 1e4 * K_PPM_BQKG    # K₂O → K: 0.830
         for seg, v in (("U238", u), ("Ra226", u), ("Pb210", u), ("Th232", th), ("Th228", th), ("K40", k), ("U235", u * U235_PER_U238)):
@@ -146,6 +177,10 @@ def build():
     for key, (name, _, cref) in MATERIALS.items():
         act, basis = activities(key, rp)
         refs = ["Composition: " + cref]
+        if key == "acrylic":
+            refs.append(DEAP_REF)
+        if key == "pmt3":
+            refs.append(PMT_ACT_REF)
         if key in rp and key != "rock":
             refs.append(RP_REF)
             pubs = sorted({r.split(" | ", 1)[1].strip() or ("%s entries contributed to radiopurity.org" % r.split(" | ")[0].strip())
