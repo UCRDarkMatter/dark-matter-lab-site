@@ -1,0 +1,36 @@
+# One-time helper: copies the old Google Sites export (pages and images) onto the branch
+# "old-site-import", so its content can be ported into this site. Remove after use.
+name: Import old site (one-time)
+
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/import-old-site.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mirror https://dark-matter.ucr.edu/Public/
+        run: |
+          mkdir -p /tmp/mirror && cd /tmp/mirror
+          wget -q -r -l 3 -np -p -nH -e robots=off --wait=0.2 https://dark-matter.ucr.edu/Public/ || true
+          echo "files: $(find . -type f | wc -l), size: $(du -sh . | cut -f1)"
+          test -f Public/index.html || test -f Public/Home.html
+      - name: Commit to the old-site-import branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan old-site-import
+          git rm -rq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/mirror/Public ./old-site
+          git add old-site
+          git commit -q -m "Snapshot of the old Google Sites export, for porting"
+          git push -q -f origin old-site-import
