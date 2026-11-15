@@ -23,6 +23,10 @@ missing one.
    (cli.github.com): run `gh auth login`, choose GitHub.com and HTTPS, answer **Yes** to "Authenticate Git
    with your GitHub credentials?", then pick "Login with a web browser". Git for Windows can also ask you
    to sign in the first time you push.
+   If you already use an SSH key with GitHub, use the SSH address in step 4 instead:
+   `git clone git@github.com:UCRDarkMatter/dark-matter-lab-site.git`. (For an existing HTTPS copy, switch it
+   with `git remote set-url origin git@github.com:UCRDarkMatter/dark-matter-lab-site.git`.) If git asks for
+   a username and password when you publish, this sign-in step is missing.
 4. **Get the code:**
    ```
    git clone https://github.com/UCRDarkMatter/dark-matter-lab-site.git

@@ -30,7 +30,7 @@ The server must not change tracked files, or `git pull` stops; it only reads. `.
 Step-by-step guide for reviewers, including what to keep and how to name curves: [REVIEWING.md](REVIEWING.md).
 
 ```
-git clone https://github.com/UCRDarkMatter/dark-matter-lab-site.git
+git clone git@github.com:UCRDarkMatter/dark-matter-lab-site.git     # with an SSH key; or the https:// address
 cd dark-matter-lab-site
 python3 tools/limits.py serve     # fetches the latest curves first; open http://127.0.0.1:8787/Limits.html
 ```
