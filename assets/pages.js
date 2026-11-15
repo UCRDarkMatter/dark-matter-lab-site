@@ -9,48 +9,60 @@
   function initials(name) { return name.split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join('').toUpperCase(); }
 
   function people(host) {
+    function card(m, former) {
+      var c = el('div', 'person'), av;
+      if (m.photo) { av = el('img', 'avatar'); av.src = m.photo; av.alt = ''; av.loading = 'lazy'; }
+      else { av = el('div', 'avatar', initials(m.name)); av.setAttribute('aria-hidden', 'true'); }
+      var body = el('div', 'stack'); body.style.gap = '.25rem';
+      body.appendChild(el('h3', null, m.name));
+      if (m.role) body.appendChild(el('div', 'sub', former ? 'Former ' + m.role.charAt(0).toLowerCase() + m.role.slice(1) : m.role));
+      if (m.now) body.appendChild(el('p', null, 'Now: ' + m.now));
+      if (m.bio) body.appendChild(el('p', null, m.bio));
+      var links = el('p');
+      if (m.email) { var a = el('a', null, m.email); a.href = 'mailto:' + m.email; links.appendChild(a); }
+      Object.keys(m.links || {}).forEach(function (k) {
+        if (links.firstChild) links.appendChild(document.createTextNode(' · '));
+        var a = el('a', null, k); a.href = m.links[k]; links.appendChild(a);
+      });
+      if (links.firstChild) body.appendChild(links);
+      c.appendChild(av); c.appendChild(body); return c;
+    }
+    function grid(parent) { var g = el('div', 'people'); g.style.marginTop = '1rem'; parent.appendChild(g); return g; }
     getJSON('data/people.json').then(function (d) {
       d.groups.forEach(function (g) {
         if (!g.members.length && !g.hiring) return;
         var sec = el('section'); sec.appendChild(el('h2', null, g.title));
-        var members = g.members, after = null;
-        if (g.alumni) {                 // alumni with a photo get a card; the rest a simple list
-          var listed = members.filter(function (m) { return !m.photo; });
-          members = members.filter(function (m) { return m.photo; });
-          if (listed.length) {
-            var ul = el('ul', 'plain-list'); ul.style.marginTop = '1rem';
-            listed.forEach(function (m) { ul.appendChild(el('li', null, m.name + (m.role ? ', ' + m.role : '') + (m.now ? '. Now: ' + m.now : ''))); });
-            after = ul;
-          }
-          if (!members.length) { if (after) sec.appendChild(after); host.appendChild(sec); return; }
-        }
-        var grid = el('div', 'people'); grid.style.marginTop = '1rem';
-        members.forEach(function (m) {
-          var card = el('div', 'person'), av;
-          if (m.photo) { av = el('img', 'avatar'); av.src = m.photo; av.alt = ''; av.loading = 'lazy'; }
-          else { av = el('div', 'avatar', initials(m.name)); av.setAttribute('aria-hidden', 'true'); }
-          var body = el('div', 'stack'); body.style.gap = '.25rem';
-          body.appendChild(el('h3', null, m.name));
-          if (m.role) body.appendChild(el('div', 'sub', g.alumni ? 'Former ' + m.role.charAt(0).toLowerCase() + m.role.slice(1) : m.role));
-          if (m.now) body.appendChild(el('p', null, 'Now: ' + m.now));
-          if (m.bio) body.appendChild(el('p', null, m.bio));
-          var links = el('p');
-          if (m.email) { var a = el('a', null, m.email); a.href = 'mailto:' + m.email; links.appendChild(a); }
-          Object.keys(m.links || {}).forEach(function (k) {
-            if (links.firstChild) links.appendChild(document.createTextNode(' · '));
-            var a = el('a', null, k); a.href = m.links[k]; links.appendChild(a);
+        if (g.alumni) {
+          // Alumni, grouped by category: those with a photo get a card, the rest a compact list.
+          var cats = [];
+          g.members.forEach(function (m) { var c = m.category || ''; if (cats.indexOf(c) < 0) cats.push(c); });
+          cats.forEach(function (c) {
+            var ms = g.members.filter(function (m) { return (m.category || '') === c; });
+            if (c) sec.appendChild(el('h3', 'alumni-cat', c));
+            var withPhoto = ms.filter(function (m) { return m.photo; }), rest = ms.filter(function (m) { return !m.photo; });
+            if (withPhoto.length) { var gr = grid(sec); withPhoto.forEach(function (m) { gr.appendChild(card(m, true)); }); }
+            if (rest.length) {
+              var ul = el('ul', 'alumni-list');
+              rest.forEach(function (m) {
+                var li = el('li'); li.appendChild(el('span', 'nm', m.name));
+                if (m.now) li.appendChild(el('span', 'now', m.now));
+                ul.appendChild(li);
+              });
+              sec.appendChild(ul);
+            }
           });
-          if (links.firstChild) body.appendChild(links);
-          card.appendChild(av); card.appendChild(body); grid.appendChild(card);
-        });
+          host.appendChild(sec); return;
+        }
+        var gr = grid(sec);
+        g.members.forEach(function (m) { gr.appendChild(card(m, false)); });
         if (g.hiring) {
           var open = el('div', 'person open'), q = el('div', 'avatar', '?'); q.setAttribute('aria-hidden', 'true');
           var b = el('div', 'stack'); b.style.gap = '.25rem';
           b.appendChild(el('h3', null, 'You?')); b.appendChild(el('p', null, g.hiring));
           var c = el('a', null, 'Get in touch'); c.href = 'Contact.html'; b.appendChild(c);
-          open.appendChild(q); open.appendChild(b); grid.appendChild(open);
+          open.appendChild(q); open.appendChild(b); gr.appendChild(open);
         }
-        sec.appendChild(grid); if (after) sec.appendChild(after); host.appendChild(sec);
+        host.appendChild(sec);
       });
     }).catch(function () { fail(host, 'The people list'); });
   }

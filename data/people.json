@@ -1,5 +1,5 @@
 {
- "_how_to_edit": "Add, move or remove entries here and the People page follows. photo is optional (e.g. images/people/alec.jpg). Move someone to the alumni group when they leave; add 'now' to say where they went. Alumni with a photo are shown as cards; the rest as a list.",
+ "_how_to_edit": "Add, move or remove entries here and the People page follows. photo is optional (e.g. images/people/alec.jpg). When someone leaves, move them to the Alumni group with a category (Former postdocs, Former graduate students, Former undergraduates, Former lab assistants, ...) and add 'now' to say where they went. Alumni with a photo are shown as cards; the rest as a list.",
  "groups": [
   {
    "title": "Faculty",
@@ -71,36 +71,56 @@
    "hiring": "We are currently looking for undergraduate students. If you're interested, reach out to Shawn Westerdale.",
    "members": [
     {
-     "name": "Manuel Bostock"
+     "name": "Weicheng Wang",
+     "bio": "CECI Ron Bieniek Award."
     },
     {
-     "name": "Nathan Culman"
+     "name": "Mark Gergawy"
     },
     {
-     "name": "Sarah Howick"
+     "name": "Rudra Patel"
     },
     {
-     "name": "Jared Hudnall",
-     "bio": "Physics major working on the mechanical design of the DarkSide-20k outer veto."
+     "name": "Violet Lacey"
     },
     {
-     "name": "Ryan Krismer",
-     "bio": "Physics and astronomy major at the University of Washington, modeling backgrounds for a LArTPC near a nuclear reactor with Geant4."
+     "name": "Kian Zaravand"
     },
     {
-     "name": "Andrew Le Blanc",
-     "bio": "Physics major searching for solar ⁸B electron neutrinos captured on ⁴⁰Ar in DEAP-3600."
+     "name": "Lillianne Bakshi"
     },
     {
-     "name": "Bill Murray"
+     "name": "Arthur Ortiz-Torres"
     },
     {
-     "name": "Leo Weimer",
-     "bio": "West Virginia University student in the Physics and Astronomy REU, improving Geant4's simulation of neutron capture cascades."
+     "name": "Kaylan McAdams"
     },
     {
-     "name": "Matthew Lugatiman",
-     "bio": "Works on dark matter theory as a research assistant with Dr. Westerdale and Dr. Tanedo."
+     "name": "Anika Nemana"
+    },
+    {
+     "name": "Alex Solano"
+    },
+    {
+     "name": "Mani Taleban",
+     "bio": "Cal-Bridge scholar."
+    },
+    {
+     "name": "Dhruv Gupta"
+    }
+   ]
+  },
+  {
+   "title": "Lab assistants",
+   "members": [
+    {
+     "name": "Angel Echevarria"
+    },
+    {
+     "name": "Lun Zhao"
+    },
+    {
+     "name": "Matt Piercy"
     }
    ]
   },
@@ -128,11 +148,108 @@
      "name": "Michela Lai",
      "photo": "images/people/michela-lai.jpg",
      "role": "Postdoctoral researcher",
-     "now": "Faculty at Queen's University"
+     "now": "Faculty at Queen's University",
+     "category": "Former postdocs"
+    },
+    {
+     "name": "Hannah Baylink",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Nicholas Beattie",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Manuel Bostock",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Nathan Culman",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Otis Fischer",
+     "category": "Former undergraduates"
     },
     {
      "name": "Daniel Gamino Navarro",
-     "role": "Undergraduate student"
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Anthony Gomez",
+     "category": "Former undergraduates",
+     "now": "PhD student in our lab"
+    },
+    {
+     "name": "Alexander Gutierrez Torrez",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Vivian Hoang",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Sarah Howick",
+     "category": "Former undergraduates",
+     "now": "PhD student, Illinois Tech"
+    },
+    {
+     "name": "Jared Hudnall",
+     "category": "Former undergraduates",
+     "now": "PhD student, UC Santa Barbara"
+    },
+    {
+     "name": "Ryan Krismer",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Andrew Le Blanc",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Alan Li",
+     "category": "Former undergraduates",
+     "now": "MS, UC San Diego"
+    },
+    {
+     "name": "Matthew Lugatiman",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Sumukh Mahesh",
+     "category": "Former undergraduates",
+     "now": "PhD student, Queen's University"
+    },
+    {
+     "name": "Bill Murray",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Denny Santoso",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Bryan Seratt",
+     "category": "Former undergraduates"
+    },
+    {
+     "name": "Leo Weimer",
+     "category": "Former undergraduates",
+     "now": "PhD student, University of Chicago"
+    },
+    {
+     "name": "Daisy Zamacona",
+     "category": "Former undergraduates",
+     "now": "MS, San Diego State University"
+    },
+    {
+     "name": "Kian Trengove",
+     "category": "Former lab assistants",
+     "now": "Graduate school, University at Albany"
+    },
+    {
+     "name": "Ernest Granollers i Colom",
+     "category": "Former lab assistants"
     }
    ]
   }
