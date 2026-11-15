@@ -6,7 +6,8 @@
 Run by .github/workflows/gamma-data.yml (the IAEA site is not reachable from every machine). Writes the
 API's CSV files unchanged into OUTDIR:
   ground_states.csv           half-lives, decay modes and abundances of every ground state
-  decay/<nuclide>.csv         gamma and X-ray lines emitted in the decay of <nuclide> (all its decaying states)
+  decay/<nuclide>.csv         gamma lines emitted in the decay of <nuclide> (all its decaying states)
+  xray/<nuclide>.csv          X-rays emitted in the decay of <nuclide>
   gammas/<nuclide>.csv        gammas between excited levels of stable <nuclide>, for (n,n'γ) lines
 Only standard-library Python is used.
 """
@@ -44,6 +45,7 @@ def get(params, tries=5):
 
 def main(out):
     os.makedirs(os.path.join(out, "decay"), exist_ok=True)
+    os.makedirs(os.path.join(out, "xray"), exist_ok=True)
     os.makedirs(os.path.join(out, "gammas"), exist_ok=True)
     gs = get("fields=ground_states&nuclides=all")
     open(os.path.join(out, "ground_states.csv"), "w").write(gs)
@@ -61,10 +63,13 @@ def main(out):
             names.append("%d%s" % (a, r["symbol"].lower()))
     print(len(names), "radionuclides with T1/2 >= %g s" % MIN_HALF_LIFE_S)
     for i, nm in enumerate(names):
-        p = os.path.join(out, "decay", nm + ".csv")
-        if not os.path.exists(p):
-            open(p, "w").write(get("fields=decay_rads&nuclides=%s&rad_types=g,x" % nm))
-            time.sleep(0.15)
+        for rt, sub in (("g", "decay"), ("x", "xray")):        # the API takes one radiation type per request
+            p = os.path.join(out, sub, nm + ".csv")
+            if not os.path.exists(p):
+                txt = get("fields=decay_rads&nuclides=%s&rad_types=%s" % (nm, rt))
+                if len(txt.strip()) > 5:                        # a bare number is an API error code (e.g. no data)
+                    open(p, "w").write(txt)
+                time.sleep(0.12)
         if i % 200 == 0:
             print(" decay", i, nm, flush=True)
     for nm in INELASTIC:
