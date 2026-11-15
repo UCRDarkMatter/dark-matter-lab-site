@@ -27,6 +27,8 @@ The server must not change tracked files, or `git pull` stops; it only reads. `.
 `.git/`, `.github/` and `tools/` off the web (Apache with AllowOverride; the repository is public anyway).
 
 ### Reviewing curves (on your laptop)
+Step-by-step guide for reviewers, including what to keep and how to name curves: [REVIEWING.md](REVIEWING.md).
+
 ```
 git clone https://github.com/UCRDarkMatter/dark-matter-lab-site.git
 cd dark-matter-lab-site
