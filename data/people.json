@@ -118,6 +118,13 @@
     },
     {
      "name": "Vedanth Prabhu"
+    },
+    {
+     "name": "Josie Kim",
+     "photo": "images/people/josie-kim.jpg"
+    },
+    {
+     "name": "Vlad Zuev"
     }
    ]
   },
@@ -175,6 +182,7 @@
     },
     {
      "name": "Hannah Baylink",
+     "photo": "images/people/hannah-baylink.jpg",
      "category": "Former undergraduates"
     },
     {
@@ -184,10 +192,12 @@
     },
     {
      "name": "Manuel Bostock",
+     "photo": "images/people/manuel-bostock.jpg",
      "category": "Former undergraduates"
     },
     {
      "name": "Nathan Culman",
+     "photo": "images/people/nathan-culman.jpg",
      "category": "Former undergraduates",
      "now": "Senior Mechanical Engineer, Western Digital"
     },
@@ -198,6 +208,7 @@
     },
     {
      "name": "Otis Fischer",
+     "photo": "images/people/otis-fischer.jpg",
      "category": "Former undergraduates",
      "now": "Software engineer, Flash Biometrics"
     },
@@ -214,6 +225,7 @@
     },
     {
      "name": "Alexander Gutierrez Torrez",
+     "photo": "images/people/alexander-gutierrez-torrez.jpg",
      "category": "Former undergraduates"
     },
     {
@@ -223,6 +235,7 @@
     },
     {
      "name": "Sarah Howick",
+     "photo": "images/people/sarah-howick.jpg",
      "category": "Former undergraduates",
      "now": "PhD student, Illinois Tech"
     },
@@ -246,19 +259,23 @@
     {
      "name": "Andrew Le Blanc",
      "photo": "images/people/andrew-le-blanc.jpg",
-     "category": "Former undergraduates"
+     "category": "Former undergraduates",
+     "now": "MS program, Cal State Long Beach"
     },
     {
      "name": "Alan Li",
+     "photo": "images/people/alan-li.jpg",
      "category": "Former undergraduates",
      "now": "MS, UC San Diego"
     },
     {
      "name": "Matthew Lugatiman",
+     "photo": "images/people/matthew-lugatiman.jpg",
      "category": "Former undergraduates"
     },
     {
      "name": "Sumukh Mahesh",
+     "photo": "images/people/sumukh-mahesh.jpg",
      "category": "Former undergraduates",
      "now": "PhD student, Queen's University"
     },
@@ -284,6 +301,7 @@
     },
     {
      "name": "Brian Uong",
+     "photo": "images/people/brian-uong.jpg",
      "category": "Former undergraduates",
      "now": "Electrical Project Engineer, RTM Engineering Consultants"
     },
