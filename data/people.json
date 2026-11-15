@@ -1,5 +1,5 @@
 {
- "_how_to_edit": "Add, move or remove entries here and the People page follows. photo is optional (e.g. images/people/alec.jpg). Move someone to the alumni group when they leave; add 'now' to say where they went.",
+ "_how_to_edit": "Add, move or remove entries here and the People page follows. photo is optional (e.g. images/people/alec.jpg). Move someone to the alumni group when they leave; add 'now' to say where they went. Alumni with a photo are shown as cards; the rest as a list.",
  "groups": [
   {
    "title": "Faculty",
@@ -20,7 +20,13 @@
   {
    "title": "Postdocs",
    "hiring": "We are currently looking for postdocs. If you're interested, reach out to Shawn Westerdale.",
-   "members": []
+   "members": [
+    {
+     "name": "Iftikhar Ahmad",
+     "photo": "images/people/iftikhar-ahmad.jpg",
+     "role": "Postdoctoral researcher"
+    }
+   ]
   },
   {
    "title": "Graduate students",
@@ -96,6 +102,12 @@
    "title": "Alumni",
    "alumni": true,
    "members": [
+    {
+     "name": "Michela Lai",
+     "photo": "images/people/michela-lai.jpg",
+     "role": "Postdoctoral researcher",
+     "now": "Faculty at Queen's University"
+    },
     {
      "name": "Daniel Gamino Navarro",
      "role": "Undergraduate student"

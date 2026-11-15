@@ -13,19 +13,26 @@
       d.groups.forEach(function (g) {
         if (!g.members.length && !g.hiring) return;
         var sec = el('section'); sec.appendChild(el('h2', null, g.title));
-        if (g.alumni) {
-          var ul = el('ul', 'plain-list'); ul.style.marginTop = '1rem';
-          g.members.forEach(function (m) { ul.appendChild(el('li', null, m.name + (m.role ? ', ' + m.role : '') + (m.now ? '. Now: ' + m.now : ''))); });
-          sec.appendChild(ul); host.appendChild(sec); return;
+        var members = g.members, after = null;
+        if (g.alumni) {                 // alumni with a photo get a card; the rest a simple list
+          var listed = members.filter(function (m) { return !m.photo; });
+          members = members.filter(function (m) { return m.photo; });
+          if (listed.length) {
+            var ul = el('ul', 'plain-list'); ul.style.marginTop = '1rem';
+            listed.forEach(function (m) { ul.appendChild(el('li', null, m.name + (m.role ? ', ' + m.role : '') + (m.now ? '. Now: ' + m.now : ''))); });
+            after = ul;
+          }
+          if (!members.length) { if (after) sec.appendChild(after); host.appendChild(sec); return; }
         }
         var grid = el('div', 'people'); grid.style.marginTop = '1rem';
-        g.members.forEach(function (m) {
+        members.forEach(function (m) {
           var card = el('div', 'person'), av;
           if (m.photo) { av = el('img', 'avatar'); av.src = m.photo; av.alt = ''; av.loading = 'lazy'; }
           else { av = el('div', 'avatar', initials(m.name)); av.setAttribute('aria-hidden', 'true'); }
           var body = el('div', 'stack'); body.style.gap = '.25rem';
           body.appendChild(el('h3', null, m.name));
-          if (m.role) body.appendChild(el('div', 'sub', m.role));
+          if (m.role) body.appendChild(el('div', 'sub', g.alumni ? 'Former ' + m.role.charAt(0).toLowerCase() + m.role.slice(1) : m.role));
+          if (m.now) body.appendChild(el('p', null, 'Now: ' + m.now));
           if (m.bio) body.appendChild(el('p', null, m.bio));
           var links = el('p');
           if (m.email) { var a = el('a', null, m.email); a.href = 'mailto:' + m.email; links.appendChild(a); }
@@ -43,7 +50,7 @@
           var c = el('a', null, 'Get in touch'); c.href = 'Contact.html'; b.appendChild(c);
           open.appendChild(q); open.appendChild(b); grid.appendChild(open);
         }
-        sec.appendChild(grid); host.appendChild(sec);
+        sec.appendChild(grid); if (after) sec.appendChild(after); host.appendChild(sec);
       });
     }).catch(function () { fail(host, 'The people list'); });
   }
