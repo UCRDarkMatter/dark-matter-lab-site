@@ -9,7 +9,7 @@
  *
  * Use:  <div id="pubs"></div>                       full list with search and filters
  *       <div id="pubs" data-limit="5" data-compact></div>   newest five, no controls
- *       <div id="pubs" data-group="DUNE" data-compact></div> only one collaboration (DarkSide, DEAP-3600, DUNE)
+ *       <div id="pubs" data-group="DUNE" data-compact></div> only one category (DarkSide-50, DarkSide-20k, GADMC, DEAP-3600, DUNE, SBC); add data-match="regex" to narrow further
  */
 (function () {
   'use strict';
@@ -24,11 +24,20 @@
   };
 
   /* Collaboration tags, tested in order against title + abstract + comment + author list. */
+  // Collaboration categories. A paper can carry several (a DarkSide-20k paper is also a GADMC paper).
+  // `re` is tested on the title, collaboration, comment and author list; `abs` (optional) also on the abstract,
+  // which mentions other experiments too often to be used for every category.
   var GROUPS = [
-    { key: 'DarkSide', re: /dark\s?side|\bDS-?(50|20k)\b|global argon dark matter/i },
+    { key: 'DarkSide-50', re: /DarkSide-50|\bDS-50\b/i },
+    { key: 'DarkSide-20k', re: /DarkSide-20k|\bDS-20k\b/i },
+    { key: 'GADMC', re: /global argon|\bGADMC\b|\bArgo\b|DarkSide-LowMass|\bDS-LM\b|\bAria\b|\bUrania\b|\bDArT\b|dark\s?side|ReD TPC|Mechanical Ventilator Milano/i,
+      abs: /global argon dark matter|\bArgo\b|DarkSide-LowMass/i },
     { key: 'DEAP-3600', re: /\bDEAP\b/i },
-    { key: 'DUNE', re: /\b(proto)?DUNE\b|deep underground neutrino experiment/i }
+    { key: 'DUNE', re: /\b(proto)?DUNE\b|deep underground neutrino experiment/i },
+    { key: 'SBC', re: /bubble chamber|\bSBC\b/i }
   ];
+  var LONG = { 'DEAP-3600': 'DEAP', 'GADMC': 'Global Argon Dark Matter' };   // for "(X Collaboration)"
+
   var SMALL = 'Small-team';               // papers with 15 authors or fewer
 
   // ---------- helpers ----------
@@ -70,11 +79,13 @@
   function arxivId(url) {            // "http://arxiv.org/abs/2301.11878v2" -> "2301.11878"
     return String(url).replace(/^.*\/abs\//, '').replace(/v\d+$/, '');
   }
-  function groupOf(p) {
-    var hay = [p.collaboration, p.title, p.abstract, p.comment, (p.authors || []).join(' ')].join(' ');
-    for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].re.test(hay)) return GROUPS[i].key;
-    return null;
+  function groupOf(p) {               // all categories that fit, in GROUPS order
+    var hay = [p.collaboration, p.title, p.comment, (p.authors || []).join(' ')].join(' ');
+    var tags = GROUPS.filter(function (g) { return g.re.test(hay) || (g.abs && g.abs.test(p.abstract || '')); })
+                     .map(function (g) { return g.key; });
+    return tags;
   }
+  function hasTag(p, k) { return (p.tags || []).indexOf(k) >= 0; }
   function isSmall(p) { return typeof p.n_authors === 'number' && p.n_authors <= 15; }
 
   // ---------- data ----------
@@ -146,7 +157,8 @@
     var a = p.authors || [], n = typeof p.n_authors === 'number' ? p.n_authors : a.length;
     function one(name) { return CONFIG.highlight.test(name) ? '<b>' + esc(name) + '</b>' : esc(name); }
     if (!p.truncated && n <= CONFIG.maxAuthorsShown && a.length >= n) return a.map(one).join(', ');
-    var g = p.group && p.group !== SMALL ? ' (' + esc(p.group.replace('-3600', '')) + ' Collaboration)' : '';
+    var t0 = (p.tags || [])[0];
+    var g = t0 ? ' (' + esc(LONG[t0] || t0) + ' Collaboration)' : '';
     var first = a[0] && !/collaboration/i.test(a[0]) ? a[0] : (a[1] || a[0] || '');
     var count = typeof p.n_authors === 'number' ? ' · ' + p.n_authors + ' authors incl. <b>S. Westerdale</b>' : '';
     return one(first) + ' <i>et al.</i>' + g + count;
@@ -186,7 +198,7 @@
     link('PDF', 'https://arxiv.org/pdf/' + p.id);
     if (p.doi) link('Journal', 'https://doi.org/' + p.doi);
     if (p.citations) act.appendChild(el('span', 'tag', 'cited ' + p.citations + '×'));
-    if (p.group) act.appendChild(el('span', 'tag', p.group));
+    (p.tags || []).forEach(function (t) { act.appendChild(el('span', 'tag', t)); });
     if (p.isNew) act.appendChild(el('span', 'tag live', 'new'));
     li.appendChild(act);
     if (abs) li.appendChild(abs);
@@ -197,6 +209,7 @@
     var limit = parseInt(host.getAttribute('data-limit') || '0', 10);
     var compact = host.hasAttribute('data-compact');
     var only = host.getAttribute('data-group');        // e.g. data-group="DUNE" on an experiment page
+    var onlyRe = host.getAttribute('data-match') ? new RegExp(host.getAttribute('data-match'), 'i') : null;  // narrower still
     var state = { pubs: [], q: '', group: 'All', allOpen: false, meta: null, live: 'pending' };
 
     var tools = el('div', 'pub-tools'), status = el('div', 'pub-status'), list = el('div');
@@ -216,19 +229,20 @@
     status.textContent = 'Loading publications…';
 
     function matches(p) {
-      if (only && p.group !== only) return false;
+      if (only && !hasTag(p, only)) return false;
+      if (onlyRe && !onlyRe.test(p.title + ' ' + (p.abstract || ''))) return false;
       if (state.group !== 'All') {
-        if (state.group === SMALL ? !isSmall(p) : p.group !== state.group) return false;
+        if (state.group === SMALL ? !isSmall(p) : !hasTag(p, state.group)) return false;
       }
       if (!state.q) return true;
-      return [p.title, p.abstract, (p.authors || []).join(' '), p.journal_ref, p.id, p.group].join(' ').toLowerCase().indexOf(state.q) >= 0;
+      return [p.title, p.abstract, (p.authors || []).join(' '), p.journal_ref, p.id, (p.tags || []).join(' ')].join(' ').toLowerCase().indexOf(state.q) >= 0;
     }
     function drawChips() {
       if (!chips) return;
       chips.textContent = '';
       var counts = { All: state.pubs.length };
       state.pubs.forEach(function (p) {
-        if (p.group) counts[p.group] = (counts[p.group] || 0) + 1;
+        (p.tags || []).forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
         if (isSmall(p)) counts[SMALL] = (counts[SMALL] || 0) + 1;
       });
       ['All'].concat(GROUPS.map(function (g) { return g.key; }), [SMALL]).forEach(function (k) {
@@ -279,7 +293,7 @@
       if (state.allOpen) Array.prototype.forEach.call(list.querySelectorAll('.abs-btn[aria-expanded="false"]'), function (b) { b.click(); });
     }
     function setPubs(arr) {
-      arr.forEach(function (p) { if (!p.group) p.group = groupOf(p) || (isSmall(p) ? SMALL : null); });
+      arr.forEach(function (p) { if (!p.tags) p.tags = groupOf(p); });
       state.pubs = arr; drawChips(); draw();
     }
 

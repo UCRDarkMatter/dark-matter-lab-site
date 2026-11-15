@@ -17,6 +17,7 @@
     return t ? t === 'dark' : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
   }
   var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (/^(darkside-20k|deap-3600|darkside-50|darkside-lowmass|dune)\.html$/.test(here)) here = 'experiments.html';  // experiment pages sit under Research
   var items = NAV.map(function (n) {
     return '<li><a href="' + n[0] + '"' + (n[0].toLowerCase() === here ? ' aria-current="page"' : '') + '>' + n[1] + '</a></li>';
   }).join('');
