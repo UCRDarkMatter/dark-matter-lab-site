@@ -69,8 +69,7 @@
    "members": [
     {
      "name": "Weicheng Wang",
-     "photo": "images/people/weicheng-wang.jpg",
-     "bio": "CECI Ron Bieniek Award; admitted to DUNE-Tech."
+     "photo": "images/people/weicheng-wang.jpg"
     },
     {
      "name": "Mark Gergawy",
@@ -105,8 +104,7 @@
     },
     {
      "name": "Mani Taleban",
-     "photo": "images/people/mani-taleban.jpg",
-     "bio": "Cal-Bridge scholar."
+     "photo": "images/people/mani-taleban.jpg"
     },
     {
      "name": "Dhruv Gupta",
@@ -270,7 +268,8 @@
     },
     {
      "name": "Bill Murray",
-     "category": "Former undergraduates"
+     "category": "Former undergraduates",
+     "now": "Graduate school, UC San Diego"
     },
     {
      "name": "Denny Santoso",
