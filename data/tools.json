@@ -1,6 +1,13 @@
 {
- "_how_to_edit": "repo is optional (owner/name on GitHub). When given, the page shows the repository's stars, language and last update automatically. site is optional: the tool's own website, linked alongside GitHub.",
+ "_how_to_edit": "repo is optional (owner/name on GitHub). When given, the page shows the repository's stars, language and last update automatically. site is optional: the tool's own website, linked alongside GitHub. beta: true shows a Beta tag.",
  "lab": [
+  {
+   "name": "Gamma Line Explorer",
+   "beta": true,
+   "site": "Gammas.html",
+   "text": "Identify gamma lines in low-background spectra: natural radioactivity, cosmogenics, neutron capture (n,γ) and inelastic lines, with the correlations that test each hypothesis.",
+   "siteLabel": "Open the explorer"
+  },
   {
    "name": "NeuCBOT",
    "repo": "shawest/neucbot",

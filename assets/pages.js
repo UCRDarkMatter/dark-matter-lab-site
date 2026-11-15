@@ -122,9 +122,10 @@
           var c;
           if (t.site) {                 // a tool with its own website: the card links there, with a separate GitHub link
             c = el('div', 'card');
+            if (t.beta) c.appendChild(el('span', 'tag live', 'Beta'));
             var h = el('h3'), ha = el('a', null, t.name); ha.href = t.site; h.appendChild(ha); c.appendChild(h);
             c.appendChild(el('p', null, t.text));
-            var lk = el('p', 'tool-links'), w = el('a', null, 'Website'); w.href = t.site; lk.appendChild(w);
+            var lk = el('p', 'tool-links'), w = el('a', null, t.siteLabel || 'Website'); w.href = t.site; lk.appendChild(w);
             if (t.url && t.url !== t.site) { lk.appendChild(document.createTextNode(' · ')); var gl = el('a', null, t.repo ? 'GitHub' : 'Code'); gl.href = t.url; lk.appendChild(gl); }
             c.appendChild(lk);
           } else {

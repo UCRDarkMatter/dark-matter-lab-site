@@ -146,3 +146,16 @@ Notes
 - `tools/.htaccess` blocks web access to `tools/` (the database and scripts) on Apache. On another web
   server, block that folder in its own configuration.
 - The list of collaborations and search words is `COLLABS` at the top of `tools/limits.py`; plot types are `CHANNELS`.
+
+## Gamma Line Explorer (beta)
+
+`Gammas.html` runs entirely in the browser from `data/gamma/core.json` and `data/gamma/all.json`. To rebuild them:
+
+1. Fetch fresh ENSDF data: run the **Fetch gamma data** workflow (Actions tab). It saves the IAEA LiveChart files on the `gamma-data` branch.
+2. On any machine with Python 3 and `pip install --user numpy periodictable xraylib`:
+   ```sh
+   git fetch origin gamma-data && mkdir -p /tmp/lc && git archive origin/gamma-data | tar -x -C /tmp/lc
+   git clone --depth 1 https://github.com/UCRDarkMatter/CASCADE.git /tmp/CASCADE
+   python3 tools/gamma/build_gamma_data.py /tmp/lc/livechart /tmp/CASCADE/Supplemental/LevelStructureTXTs
+   ```
+3. Commit `data/gamma/`. Curated context (where sources appear, tests, cosmogenics by material, reactions) lives in `tools/gamma/curation.py`.
