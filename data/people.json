@@ -19,7 +19,6 @@
   },
   {
    "title": "Postdocs",
-   "hiring": "We are currently looking for postdocs. If you're interested, reach out to Shawn Westerdale.",
    "members": [
     {
      "name": "Iftikhar Ahmad",
@@ -30,12 +29,11 @@
   },
   {
    "title": "Graduate students",
-   "hiring": "We are currently looking for graduate students. If you're interested, reach out to Shawn Westerdale.",
+   "hiring": "Applying to UCR for grad school? List “Experimental Cosmology” as your interest to work with us.",
    "members": [
     {
      "name": "Alec Peck",
-     "photo": "images/people/alec-peck.jpg",
-     "bio": "Alec (he/him) previously worked with the ALICE collaboration at CERN and now develops the outer veto for DarkSide-20k."
+     "photo": "images/people/alec-peck.jpg"
     },
     {
      "name": "Veronika Shalamova",
@@ -68,7 +66,6 @@
   },
   {
    "title": "Undergraduate students",
-   "hiring": "We are currently looking for undergraduate students. If you're interested, reach out to Shawn Westerdale.",
    "members": [
     {
      "name": "Weicheng Wang",
@@ -133,16 +130,14 @@
    "title": "High school students",
    "members": [
     {
-     "name": "Dhruv Trivedi",
-     "bio": "Updating NeuCBOT for the latest version of Python."
+     "name": "Dhruv Trivedi"
     },
     {
      "name": "Yousif Najat"
     },
     {
      "name": "Vignesh Balaji",
-     "photo": "images/people/vignesh-balaji.jpg",
-     "bio": "Built the internal page, updated the experiments section, and helped update NeuCBOT to NuDat3."
+     "photo": "images/people/vignesh-balaji.jpg"
     }
    ]
   },
