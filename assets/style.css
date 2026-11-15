@@ -156,10 +156,14 @@ dl.kv dd { margin: 0; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 @media print { .site-header, .pub-tools, .pub-actions .mini, .site-footer { display: none; } .abstract[hidden] { display: block; } }
 
-/* ---- funder logos: on white chips so they read in night mode too ---- */
-.funders a { display: inline-flex; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: .55rem .9rem; }
+/* ---- funder logos: equal-height seals on white tiles (readable in night mode), name underneath ---- */
+.funders { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 1rem; align-items: stretch; }
+.funders a { display: flex; flex-direction: column; align-items: center; gap: .6rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem .75rem .8rem; }
 .funders a:hover { border-color: var(--blue); }
-.funders img { height: 3.6rem; width: auto; display: block; }
+.funders img { height: 4.5rem; width: auto; max-width: 100%; display: block; }
+.funders span { font-size: .82rem; line-height: 1.3; color: #5b6470; text-align: center; font-weight: 400; }
+.funders a:hover span { color: #0070c4; }
 
 /* ---- research pages ---- */
 .crumbs { font-size: .95rem; color: var(--muted); margin-bottom: .25rem; }
