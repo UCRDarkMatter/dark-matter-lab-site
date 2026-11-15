@@ -6,6 +6,12 @@
     ['Publications.html', 'Publications'], ['Tools.html', 'Tools'], ['Limits.html', 'DM limits'],
     ['Outreach.html', 'Outreach'], ['Contact.html', 'Contact']
   ];
+  /* The Research menu's dropdown. Add an experiment page here and it appears on every page. */
+  var EXPERIMENTS = [
+    ['Experiments.html', 'Overview'],
+    ['DarkSide-20k.html', 'DarkSide-20k'], ['DEAP-3600.html', 'DEAP-3600'], ['DarkSide-50.html', 'DarkSide-50'],
+    ['DarkSide-LowMass.html', 'DarkSide-LowMass'], ['DUNE.html', 'DUNE']
+  ];
   /* To show the UCR Physics & Astronomy logo in the header, put the image in images/
      and set LOGO to its path, e.g. 'images/ucr-physics-astronomy.png'. */
   var LOGO = '';
@@ -16,10 +22,18 @@
     var t = root.getAttribute('data-theme');
     return t ? t === 'dark' : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
   }
-  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  if (/^(darkside-20k|deap-3600|darkside-50|darkside-lowmass|dune)\.html$/.test(here)) here = 'experiments.html';  // experiment pages sit under Research
+  var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  var inResearch = EXPERIMENTS.some(function (e) { return e[0].toLowerCase() === page; });
   var items = NAV.map(function (n) {
-    return '<li><a href="' + n[0] + '"' + (n[0].toLowerCase() === here ? ' aria-current="page"' : '') + '>' + n[1] + '</a></li>';
+    var mine = n[0].toLowerCase() === page || (n[0] === 'Experiments.html' && inResearch);
+    var link = '<a href="' + n[0] + '"' + (mine ? ' aria-current="' + (n[0].toLowerCase() === page ? 'page' : 'true') + '"' : '') + '>' + n[1] + '</a>';
+    if (n[0] !== 'Experiments.html') return '<li>' + link + '</li>';
+    var sub = EXPERIMENTS.map(function (e) {
+      return '<li><a href="' + e[0] + '"' + (e[0].toLowerCase() === page ? ' aria-current="page"' : '') + '>' + e[1] + '</a></li>';
+    }).join('');
+    return '<li class="has-sub">' + link +
+      '<button class="sub-btn" type="button" aria-expanded="false" aria-controls="sub-research" aria-label="Show experiments">▾</button>' +
+      '<ul class="sub" id="sub-research">' + sub + '</ul></li>';
   }).join('');
   document.body.insertAdjacentHTML('afterbegin',
     '<a class="skip" href="#main">Skip to main content</a>' +
@@ -46,6 +60,12 @@
     label();
   });
   var mb = document.getElementById('menu-btn'), list = document.getElementById('nav-list');
+  var hs = list.querySelector('.has-sub'), sb = hs.querySelector('.sub-btn');
+  function setSub(open) { hs.classList.toggle('open', open); sb.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  sb.addEventListener('click', function (e) { e.stopPropagation(); setSub(!hs.classList.contains('open')); });
+  document.addEventListener('click', function (e) { if (!hs.contains(e.target)) setSub(false); });
+  hs.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setSub(false); sb.focus(); } });
+  hs.addEventListener('focusout', function (e) { if (!hs.contains(e.relatedTarget)) setSub(false); });
   mb.addEventListener('click', function () {
     mb.setAttribute('aria-expanded', list.classList.toggle('open') ? 'true' : 'false');
   });
