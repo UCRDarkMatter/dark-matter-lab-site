@@ -1,14 +1,15 @@
 {
- "_how_to_edit": "repo is optional (owner/name on GitHub). When given, the page shows the repository's stars, language and last update automatically.",
+ "_how_to_edit": "repo is optional (owner/name on GitHub). When given, the page shows the repository's stars, language and last update automatically. site is optional: the tool's own website, linked alongside GitHub.",
  "lab": [
   {
    "name": "NeuCBOT",
    "repo": "shawest/neucbot",
    "url": "https://github.com/shawest/neucbot",
+   "site": "https://neucbot.ucr.edu/",
    "text": "A neutron calculator based on TALYS that estimates (α,n) yields from known radioactive contamination."
   },
   {
-   "name": "G4CASCADE",
+   "name": "G4RiversideCASCADE",
    "repo": "UCRDarkMatter/CASCADE",
    "url": "https://github.com/UCRDarkMatter/CASCADE",
    "text": "A Geant4 module that uses ENSDF data to simulate de-excitation cascades in (n,γ) reactions."
