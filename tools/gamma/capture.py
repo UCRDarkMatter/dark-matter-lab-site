@@ -106,7 +106,7 @@ def analyse(path, a_compound, min_line=1e-4, n_strong=40):
         partners.sort(key=lambda t: -t[1])
         for item in res:
             if abs(item["e"] - round(a[0], 2)) < 1e-6 and abs(item["i"] - round(a[1] * 100, 4)) < 1e-9:
-                item["c"] = partners[:8]
+                item["c"] = partners[:6]
                 break
     return {"lines": res, "mult": round(float(mult), 3), "sn": round(float(E[top]), 2), "n_levels": n}
 

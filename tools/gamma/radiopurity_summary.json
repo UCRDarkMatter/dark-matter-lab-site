@@ -1,0 +1,768 @@
+{
+ "_about": "Medians of assay records in the radiopurity.org Material Assay Database (J.C. Loach et al., Nucl. Instrum. Meth. A 839 (2016) 6-11), retrieved 2026-11-15 by searching all records and grouping them by material keyword. iso: [median of measured values (Bq/kg), number measured, median of upper limits (Bq/kg), number of limits]. ppm/ppb values converted with radiopurity.org factors (1 ppm U = 12.3 Bq/kg 238U, 1 ppm Th = 4.07 Bq/kg, 1 ppm K = 31.0 mBq/kg 40K). refs: data set (grouping) | publication, as given in each record.",
+ "cu": {
+  "n": 86,
+  "iso": {
+   "U-238": [
+    1.36e-06,
+    22,
+    0.0019,
+    41
+   ],
+   "Th-232": [
+    1.1e-06,
+    19,
+    0.000162,
+    34
+   ],
+   "K-40": [
+    0.000944,
+    14,
+    0.0014,
+    36
+   ],
+   "Pb-210": [
+    0.195,
+    2,
+    0.255,
+    6
+   ],
+   "Cs-137": [
+    0.0057,
+    2,
+    0.00029,
+    19
+   ],
+   "Co-60": [
+    0.00019,
+    12,
+    0.001,
+    14
+   ],
+   "Ra-228": [
+    2.1e-05,
+    1,
+    0.00037,
+    1
+   ],
+   "Th-228": [
+    6.15e-05,
+    4,
+    0.00076,
+    11
+   ],
+   "Ra-226": [
+    7e-05,
+    3,
+    0.000685,
+    14
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "ILIAS ROSEBUD | ILIAS Database http://radiopurity.in2p3.fr/",
+   "EXO (2008) | D.S.Leonard et al., Nucl. Instr. and Meth. A 591 (2008)(http://dx.doi.org/10.1016/j.nima.2008.03.001)",
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011)  (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "EDELWEISS (2011) | E. Armengaud et al., Astropart. Phys. 47 (2013) (http://dx.doi.org/10.1016/j.astropartphys.2013.05.004)",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "TREX-DM (2019) | J. Castel et al, Eur. Phys. J. C (2019) 79:782, https://doi.org/10.1140/epjc/s10052-019-7282-6, Table1 #4",
+   "TREX-DM (2019) | J. Castel et al, Eur. Phys. J. C (2019) 79:782, https://doi.org/10.1140/epjc/s10052-019-7282-6, Table1 #2",
+   "TREX (2013) | F. Aznar et al, 2013 JINST 8 C11012, https://doi.org/10.1088/1748-0221/8/11/C11012, Table 4, #7",
+   "TREX (2013) | F. Aznar et al, 2013 JINST 8 C11012, https://doi.org/10.1088/1748-0221/8/11/C11012, Table 4, #10",
+   "QBITS-CUTE | ",
+   "DAMIC-M | ",
+   "NEWS-G | ",
+   "SBC | ",
+   "SNOLAB | ",
+   "LEGEND | ",
+   "DAMIC | "
+  ]
+ },
+ "steel": {
+  "n": 122,
+  "iso": {
+   "U-238": [
+    0.01,
+    29,
+    0.064,
+    39
+   ],
+   "Th-232": [
+    0.00488,
+    47,
+    0.001,
+    11
+   ],
+   "K-40": [
+    0.00598,
+    30,
+    0.00464,
+    67
+   ],
+   "Ra-228": [
+    0.007,
+    1,
+    0.00275,
+    4
+   ],
+   "Th-228": [
+    0.00475,
+    22,
+    0.0018,
+    15
+   ],
+   "Ra-226": [
+    0.00255,
+    47,
+    0.00125,
+    18
+   ],
+   "Cs-137": [
+    0.0121,
+    29,
+    0.00082,
+    41
+   ],
+   "Co-60": [
+    0.0111,
+    68,
+    0.0003,
+    9
+   ],
+   "Ac-228": [
+    0.04,
+    2,
+    0.001,
+    9
+   ],
+   "Pb-210": [
+    0.6,
+    1,
+    0.7,
+    11
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011)  (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "BOREXINO (2002) | C. Apresella et al., Astropart. Phys., 18 (2002) (http://dx.doi.org/10.1016/S0927-6505(01)00179-7)",
+   "EXO (2008) | D.S.Leonard et al., Nucl. Instr. and Meth. A 591 (2008) (http://dx.doi.org/10.1016/j.nima.2008.03.001)",
+   "ILIAS ROSEBUD | ILIAS Database http://radiopurity.in2p3.fr/",
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011) (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "EDELWEISS (2011) | E. Armengaud et al., Astropart. Phys. 47 (2013) (http://dx.doi.org/10.1016/j.astropartphys.2013.05.004)",
+   "ILIAS ANAIS | ILIAS Database http://radiopurity.in2p3.fr/",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "LRT 2010 | Lawson I, Cleveland B. 2010. Low Background Counting At SNOLAB",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "COSINUS | ",
+   "PICO | ",
+   "Stainless | ",
+   "SNOLAB | "
+  ]
+ },
+ "ptfe": {
+  "n": 51,
+  "iso": {
+   "Ra-228": [
+    0.0005,
+    1,
+    0.000275,
+    4
+   ],
+   "Th-228": [
+    0.0007,
+    6,
+    0.0018,
+    13
+   ],
+   "U-238": [
+    0.00101,
+    9,
+    0.0091,
+    26
+   ],
+   "Ra-226": [
+    0.0014,
+    11,
+    0.00045,
+    10
+   ],
+   "K-40": [
+    0.0254,
+    19,
+    0.0113,
+    14
+   ],
+   "Cs-137": [
+    8.5e-05,
+    2,
+    0.00068,
+    20
+   ],
+   "Co-60": [
+    0.005,
+    5,
+    0.0023,
+    9
+   ],
+   "Pb-210": [
+    0.11,
+    5,
+    0.053,
+    2
+   ],
+   "Th-232": [
+    0.00158,
+    8,
+    0.0066,
+    7
+   ]
+  },
+  "refs": [
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011) (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "BOREXINO (2002) | C. Apresella et al., Astropart. Phys., 18 (2002) (http://dx.doi.org/10.1016/S0927-6505(01)00179-7)",
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "EDELWEISS (2011) | E. Armengaud et al., Astropart. Phys. 47 (2013) (http://dx.doi.org/10.1016/j.astropartphys.2013.05.004)",
+   "ILIAS ANAIS | ILIAS Database http://radiopurity.in2p3.fr/",
+   "EXO (2008) | D.S.Leonard et al., Nucl. Instr. and Meth. A 591 (2008) (http://dx.doi.org/10.1016/j.nima.2008.03.001)",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "LRT 2010 | Lawson I, Cleveland B. 2010. Low Background Counting At SNOLAB",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "TREX (2013) | F. Aznar et al, 2013 JINST 8 C11012, https://doi.org/10.1088/1748-0221/8/11/C11012, Table 4, #12",
+   "TREX (2013) | F. Aznar et al, 2013 JINST 8 C11012, https://doi.org/10.1088/1748-0221/8/11/C11012, Table 4, #13",
+   "QBITS-CUTE | ",
+   "LEGEND | ",
+   "SBC | "
+  ]
+ },
+ "rock": {
+  "n": 73,
+  "iso": {
+   "Ra-228": [
+    4.7,
+    2,
+    null,
+    0
+   ],
+   "Th-228": [
+    5.9,
+    2,
+    null,
+    0
+   ],
+   "U-238": [
+    8.23,
+    5,
+    160,
+    3
+   ],
+   "Ra-226": [
+    15,
+    3,
+    null,
+    0
+   ],
+   "K-40": [
+    77,
+    5,
+    0.00124,
+    1
+   ],
+   "Cs-137": [
+    0.8,
+    3,
+    0.00033,
+    1
+   ],
+   "Co-60": [
+    0.00274,
+    2,
+    0.58,
+    3
+   ],
+   "Th-232": [
+    2.89,
+    6,
+    0.00407,
+    1
+   ]
+  },
+  "refs": [
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011) (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "LRT 2010 | Lawson I, Cleveland B. 2010. Low Background Counting At SNOLAB",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "SNOLAB | ",
+   "UCalgary | "
+  ]
+ },
+ "glass": {
+  "n": 40,
+  "iso": {
+   "Ra-226": [
+    0.82,
+    3,
+    null,
+    0
+   ],
+   "Th-228": [
+    1.36,
+    2,
+    0.0031,
+    1
+   ],
+   "K-40": [
+    2.11,
+    14,
+    0.155,
+    5
+   ],
+   "U-238": [
+    0.117,
+    28,
+    0.0494,
+    8
+   ],
+   "Th-232": [
+    0.0335,
+    24,
+    0.0102,
+    11
+   ],
+   "Co-60": [
+    0.00495,
+    1,
+    0.0016,
+    1
+   ],
+   "Cs-137": [
+    0.0793,
+    1,
+    0.006,
+    1
+   ]
+  },
+  "refs": [
+   "BOREXINO (2002) | C. Apresella et al., Astropart. Phys., 18 (2002) (http://dx.doi.org/10.1016/S0927-6505(01)00179-7)",
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "PICO | "
+  ]
+ },
+ "pb": {
+  "n": 58,
+  "iso": {
+   "K-40": [
+    0.00908,
+    14,
+    0.00099,
+    17
+   ],
+   "Ra-228": [
+    null,
+    0,
+    0.00525,
+    4
+   ],
+   "Th-228": [
+    null,
+    0,
+    0.00076,
+    6
+   ],
+   "U-238": [
+    0.00177,
+    7,
+    0.00396,
+    30
+   ],
+   "Ra-226": [
+    0.0143,
+    2,
+    0.0003,
+    11
+   ],
+   "Cs-137": [
+    0.00063,
+    3,
+    0.00054,
+    10
+   ],
+   "Co-60": [
+    0.00096,
+    5,
+    0.00011,
+    10
+   ],
+   "Pb-210": [
+    24,
+    3,
+    0.28,
+    4
+   ],
+   "Th-232": [
+    0.000656,
+    10,
+    0.000407,
+    24
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011)  (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "EDELWEISS (2011) | E. Armengaud et al., Astropart. Phys. 47 (2013) (http://dx.doi.org/10.1016/j.astropartphys.2013.05.004)",
+   "EXO (2008) | D.S.Leonard et al., Nucl. Instr. and Meth. A 591 (2008) (http://dx.doi.org/10.1016/j.nima.2008.03.001)",
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011) (10.1016/j.astropartphys.2011.06.001)",
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "LRT 2010 | Lawson I, Cleveland B. 2010. Low Background Counting At SNOLAB",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "TREX-DM (2019) | J. Castel et al, Eur. Phys. J. C (2019) 79:782, https://doi.org/10.1140/epjc/s10052-019-7282-6, Table 1, #1",
+   "DAMIC | ",
+   "SNO+ | ",
+   "SNOLAB | "
+  ]
+ },
+ "nai": {
+  "n": 15,
+  "iso": {
+   "U-238": [
+    null,
+    0,
+    0.00494,
+    7
+   ],
+   "Th-232": [
+    null,
+    0,
+    0.00407,
+    7
+   ],
+   "K-40": [
+    0.752,
+    15,
+    null,
+    0
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/"
+  ]
+ },
+ "solder": {
+  "n": 19,
+  "iso": {
+   "U-238": [
+    0.00281,
+    2,
+    0.0037,
+    7
+   ],
+   "Th-232": [
+    0.00528,
+    1,
+    0.00035,
+    6
+   ],
+   "K-40": [
+    1.71,
+    2,
+    0.00082,
+    4
+   ],
+   "Pb-210": [
+    400,
+    7,
+    2,
+    1
+   ],
+   "Co-60": [
+    null,
+    0,
+    0.0152,
+    2
+   ],
+   "Ra-226": [
+    0.391,
+    2,
+    null,
+    0
+   ],
+   "Th-228": [
+    null,
+    0,
+    0.017,
+    2
+   ],
+   "Cs-137": [
+    null,
+    0,
+    0.0205,
+    2
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "TREX (2013) | F. Aznar et al, 2013 JINST 8 C11012, https://doi.org/10.1088/1748-0221/8/11/C11012, Table 4, #20",
+   "PICO | "
+  ]
+ },
+ "poly": {
+  "n": 18,
+  "iso": {
+   "U-238": [
+    0.0071,
+    4,
+    0.02,
+    8
+   ],
+   "Th-232": [
+    0.00328,
+    4,
+    0.0163,
+    5
+   ],
+   "Pb-210": [
+    0.4,
+    3,
+    0.1,
+    1
+   ],
+   "Cs-137": [
+    6e-05,
+    1,
+    0.002,
+    5
+   ],
+   "K-40": [
+    0.016,
+    5,
+    0.00822,
+    8
+   ],
+   "Co-60": [
+    0.01,
+    3,
+    0.003,
+    5
+   ],
+   "Ra-226": [
+    0.0009,
+    4,
+    0.0058,
+    2
+   ],
+   "Th-228": [
+    null,
+    0,
+    0.002,
+    5
+   ],
+   "Ra-228": [
+    null,
+    0,
+    0.0043,
+    3
+   ]
+  },
+  "refs": [
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "EDELWEISS (2011) | E. Armengaud et al., Astropart. Phys. 47 (2013) (http://dx.doi.org/10.1016/j.astropartphys.2013.05.004)",
+   "XENON100 (2011) | E. Aprile et al., Astropart. Phys., 35 (2011) (http://dx.doi.org/10.1016/j.astropartphys.2011.06.001)",
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "LRT 2010 | Lawson I, Cleveland B. 2010. Low Background Counting At SNOLAB",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "PICO | ",
+   "SNOLAB | "
+  ]
+ },
+ "al": {
+  "n": 27,
+  "iso": {
+   "Ac-228": [
+    0.228,
+    2,
+    null,
+    0
+   ],
+   "Cs-137": [
+    0.00209,
+    2,
+    0.018,
+    5
+   ],
+   "K-40": [
+    0.129,
+    7,
+    0.255,
+    4
+   ],
+   "Co-60": [
+    0.0033,
+    4,
+    0.08,
+    5
+   ],
+   "U-238": [
+    0.0891,
+    10,
+    null,
+    0
+   ],
+   "Th-232": [
+    0.395,
+    12,
+    0.002,
+    1
+   ],
+   "Ra-226": [
+    0.0422,
+    7,
+    null,
+    0
+   ],
+   "Th-228": [
+    0.244,
+    4,
+    null,
+    0
+   ],
+   "Pb-210": [
+    0.0925,
+    3,
+    null,
+    0
+   ]
+  },
+  "refs": [
+   "ILIAS ROSEBUD | ILIAS Database http://radiopurity.in2p3.fr/",
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "BOREXINO (2002) | C. Apresella et al., Astropart. Phys., 18 (2002) (http://dx.doi.org/10.1016/S0927-6505(01)00179-7)",
+   "EDELWEISS (2011) | E. Armengaud et al., Astropart. Phys. 47 (2013) (http://dx.doi.org/10.1016/j.astropartphys.2013.05.004)",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "LRT 2010 | Lawson I, Cleveland B. 2010. Low Background Counting At SNOLAB",
+   "EDELWEISS-III (2017) | E. Armengaud et al., Performance of the EDELWEISS-III experiment for direct dark matter searches (2017), JINST 12 (2017) 08, P08010",
+   "TREX (2013) | F. Aznar et al, 2013 JINST 8 C11012, https://doi.org/10.1088/1748-0221/8/11/C11012, Table 4, #9",
+   "QBITS-CUTE | ",
+   "COSINUS | ",
+   "CUTE | ",
+   "DAMIC | "
+  ]
+ },
+ "ge": {
+  "n": 4,
+  "iso": {
+   "U-238": [
+    0.0165,
+    3,
+    0.00617,
+    1
+   ],
+   "Th-232": [
+    0.00142,
+    3,
+    0.00203,
+    1
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)"
+  ]
+ },
+ "csi": {
+  "n": 11,
+  "iso": {
+   "U-238": [
+    0.123,
+    1,
+    3.7,
+    5
+   ],
+   "Th-232": [
+    0.0407,
+    1,
+    0.447,
+    5
+   ],
+   "K-40": [
+    0.138,
+    6,
+    4.18,
+    2
+   ]
+  },
+  "refs": [
+   "ILIAS UKDM | ILIAS Database http://radiopurity.in2p3.fr/",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "SNOLAB | "
+  ]
+ },
+ "ti": {
+  "n": 15,
+  "iso": {
+   "Th-232": [
+    0.0126,
+    2,
+    0.00163,
+    1
+   ],
+   "U-238": [
+    0.029,
+    8,
+    0.032,
+    3
+   ],
+   "K-40": [
+    0.00326,
+    1,
+    0.00315,
+    8
+   ],
+   "Cs-137": [
+    null,
+    0,
+    0.00034,
+    8
+   ],
+   "Ra-226": [
+    0.0011,
+    1,
+    0.00101,
+    6
+   ],
+   "Th-228": [
+    0.0009,
+    5,
+    0.0012,
+    2
+   ]
+  },
+  "refs": [
+   "ILIAS Rosebud | ILIAS Database http://radiopurity.in2p3.fr/",
+   "SuperCDMS | Gopher: High-Purity Ge gamma counter at Soudan",
+   "ILIAS Edelweiss | ILIAS Database http://radiopurity.in2p3.fr/",
+   "Majorana (2016) | N. Abgrall et al., Nucl. Instr. and Meth. A 828 (2016) (doi:10.1016/j.nima.2016.04.070)",
+   "XENON1T | Aprile, E., Aalbers, J., Agostini, F. et al., Eur. Phys. J. C 77, 890 (2017)",
+   "QBITS-CUTE | "
+  ]
+ }
+}

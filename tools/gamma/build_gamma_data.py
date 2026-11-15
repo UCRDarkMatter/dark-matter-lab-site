@@ -22,6 +22,7 @@ import periodictable as pt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import capture                                          # noqa: E402
 import curation as K                                    # noqa: E402
+import materials as MAT                                 # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, "data", "gamma")
@@ -48,6 +49,20 @@ def read_csv(path):
     if not txt.strip() or txt.lstrip().startswith(("<", "{")):
         return []
     return list(csv.DictReader(io.StringIO(txt)))
+
+
+def ensdf_ref(row, what):
+    """Citation of the ENSDF evaluation a LiveChart row comes from."""
+    au = re.sub(r"\s+", " ", (row.get("ensdf_authors") or "").strip()).replace(" and ", ", ").replace(", ,", ",")
+    if au.isupper():
+        au = au.title()
+    cut = (row.get("ensdf_publication_cut-off") or "").strip()
+    out = "%s: ENSDF evaluation" % what
+    if au:
+        out += " by " + au
+    if cut:
+        out += " (literature cut-off " + cut + ")"
+    return out + ", retrieved from the IAEA LiveChart of Nuclides " + (row.get("Extraction_date") or "").strip() + "."
 
 
 def nuc_name(z, n, sym, iso=""):
@@ -122,12 +137,15 @@ def decay_sources(lc, gs):
             if pe > 0:
                 name = re.sub(r"^(\d+)", r"\1m", name)
             d = by_parent.setdefault(name, {"lines": [], "hl": fnum(r.get("p_half_life_sec") or r.get("half_life_sec")), "lev": {}})
+            if sub == "decay" and "ref" not in d:
+                d["ref"] = ensdf_ref(r, "Decay data")
             is_x = sub == "xray"
             d["lines"].append([round(e, 3), i, "x" if is_x else "", fnum(r.get("start_level_energy")), fnum(r.get("end_level_energy")), (r.get("decay") or "").strip()])
         for name, d in by_parent.items():
             if name in src:
                 src[name]["lines"] += d["lines"]
                 src[name]["hl"] = src[name]["hl"] or d["hl"]
+                src[name].setdefault("ref", d.get("ref"))
             else:
                 src[name] = d
     return src
@@ -224,7 +242,7 @@ def cos_names(lst):
 
 
 # ------------------------------------------------------------------ neutron capture by element
-SIGMA_GAMMA = {(5, 10): 0.5, (3, 6): 0.0385, (7, 14): 0.075, (2, 3): 3.1e-5}     # (n,γ) part where absorption is mostly not capture
+SIGMA_GAMMA = {(5, 10): 0.5, (3, 6): 0.0385, (7, 14): 0.0795, (2, 3): 3.1e-5}     # (n,γ) part where absorption is mostly not capture
 
 
 def conversion_table(lc):
@@ -239,93 +257,99 @@ def conversion_table(lc):
     return tab
 
 
+CASCADE_REF = ("Level scheme and branching ratios: G4RiversideCASCADE capture data (L. Weimer, E. Ellingwood, O. Fischer, M. Lai, "
+               "S. Westerdale, Nucl. Instrum. Meth. A 1093 (2027) 171940, doi:10.1016/j.nima.2026.171940), built from ENSDF thermal-neutron-capture "
+               "evaluations; line intensities computed here by following every branch of the cascade.")
+SIGMA_REF = ("Thermal (2200 m/s) absorption cross section: H. Rauch and W. Waschkowski, Neutron Scattering Lengths, ILL Neutron Data Booklet, "
+             "2nd ed. (2003), via the periodictable package" )
+ABUND_REF = "Isotopic abundance: IAEA LiveChart of Nuclides (ENSDF/NUBASE ground-state data)."
+
+
 def capture_sources(levels_dir, gs, conv):
     iso = capture.all_targets(levels_dir)
-    by_z = {}
-    for (z, a), r in iso.items():
-        by_z.setdefault(z, {})[a] = r
-    out, weights = [], {}
-    for z, isos in sorted(by_z.items()):
+    out = []
+    elem_rate = {}
+    for (z, a) in iso:
         el = pt.elements[z]
-        comp = []
-        missing = []
-        for i in el:                                   # natural isotopes
-            ab = getattr(i, "abundance", 0) or 0
-            if ab <= 0:
-                continue
-            sig = SIGMA_GAMMA.get((z, i.isotope))
-            if sig is None:
-                try:
-                    sig = i.neutron.absorption or 0
-                except Exception:
-                    sig = 0
-            rate = ab / 100 * sig
-            if i.isotope in isos:
-                comp.append((i.isotope, rate))
-            elif rate > 0:
-                missing.append((i.isotope, rate))
-        tot = sum(r for _, r in comp) + sum(r for _, r in missing)
-        if not comp or tot <= 0:
+        if z in elem_rate:
             continue
+        tot = 0.0
+        for i in el:
+            ab = (gs.get("%d%s" % (i.isotope, el.symbol), {}).get("ab") or 0) / 100
+            if ab > 0:
+                sig = SIGMA_GAMMA.get((z, i.isotope))
+                if sig is None:
+                    try:
+                        sig = i.neutron.absorption or 0
+                    except Exception:
+                        sig = 0
+                tot += ab * sig
+        elem_rate[z] = tot
+    for (z, a), r in sorted(iso.items()):
+        el = pt.elements[z]
+        sym = el.symbol
+        tgt = "%d%s" % (a, sym)
+        ab = (gs.get(tgt, {}).get("ab") or 0)
+        if ab <= 0:
+            continue                                   # radioactive or not naturally present: skip
+        sig = SIGMA_GAMMA.get((z, a))
+        if sig is None:
+            try:
+                sig = el[a].neutron.absorption or 0
+            except Exception:
+                sig = 0
+        rate = ab / 100 * sig                          # barns per atom of the natural element
+        share = rate / elem_rate[z] if elem_rate.get(z) else 0
+        ctab = conv.get((z, a + 1), [])
         lines = []
-        coinc = {}
-        for a, rate in comp:
-            f = rate / tot
-            ctab = conv.get((z, a + 1), [])
-            for ln in isos[a]["lines"]:
-                I = ln["i"] * f
-                flags = "p" if ln.get("pe") else ""
-                cc = [c for e, c in ctab if abs(e - ln["e"]) < 0.6]
-                if cc:
-                    I /= 1 + cc[0]                     # internal conversion: fewer photons than transitions
-                elif ln["e"] < 150:
-                    flags += "k"                       # low energy, conversion unknown: intensity is an upper limit
-                if I < 0.05:
-                    continue
-                lines.append([ln["e"], round(I, 4), flags, "%d%s" % (a, el.symbol), ln.get("c")])
-        lines = [l for l in lines if l[1] >= 0.1 or l[4]]
-        lines = sorted(sorted(lines, key=lambda l: -l[1])[:120], key=lambda l: l[0])
-        L = []
+        for ln in r["lines"]:
+            I = ln["i"]
+            flags = "p" if ln.get("pe") else ""
+            cc = [c for e, c in ctab if abs(e - ln["e"]) < 0.6]
+            if cc:
+                I /= 1 + cc[0]                         # internal conversion: fewer photons than transitions
+            elif ln["e"] < 150:
+                flags += "k"                           # low energy, conversion unknown: intensity is an upper limit
+            if I < 0.1 and not ln.get("c"):
+                continue
+            lines.append([ln["e"], round(I, 3), flags, "", ln.get("c")])
+        lines = sorted(sorted(lines, key=lambda l: -l[1])[:70], key=lambda l: l[0])
+        L, coinc = [], {}
         for k, l in enumerate(lines):
             L.append(l[:4])
             if l[4]:
                 coinc[k] = l[4]
-        sym = el.symbol
+        if not L:
+            continue
+        prod = "%d%s" % (a + 1, sym)
         mats = [m for m, els in K.MATERIAL_ELEMENTS.items() if sym in els]
-        det = {"Ge": ["hpge"], "Ar": ["lar"], "Xe": ["lxe"], "Na": ["nai"], "I": ["nai"], "Cs": [], "H": ["plastic"], "C": ["plastic"]}.get(sym, [])
-        isot = sorted([("%d%s" % (a, sym), r / tot) for a, r in comp + missing], key=lambda t: -t[1])
-        sigma_el = tot                                  # barns per atom of natural element
-        miss = ["%d%s" % (a, sym) for a, r in missing if r / tot > 0.01]
-        src = {"id": "c:" + sym, "name": "%s (n,γ) <span class=\"muted\">%s</span>" % (sym, el.name.capitalize()), "kind": "capture",
-               "key": ("%s %s capture ncapture ngamma neutroncapture" % (sym, el.name)).lower(),
-               "tier": 1 if sym in ("H", "Fe", "Cu", "Ge", "Cl", "Pb", "Ar", "Gd", "Cd", "Na", "I", "Xe", "Si", "Al", "Ca", "Mn", "Ni", "Cr", "N", "Ti", "K") else 2,
-               "mats": mats, "det": det, "always": sym in K.ALWAYS_ELEMENTS, "wt": round(min(sigma_el, 50), 3),
-               "how": "Thermal-neutron capture on %s (σ ≈ %s b per atom of the natural element). Multiplicity ≈ %.1f gammas per capture." % (
-                   el.name, ("%.3g" % sigma_el), sum(isos[a]["mult"] * r / tot for a, r in comp) / max(1e-9, sum(r / tot for _, r in comp))),
+        det = {"Ge": ["hpge"], "Ar": ["lar"], "Xe": ["lxe"], "Na": ["nai"], "I": ["nai"], "H": ["plastic"], "C": ["plastic"]}.get(sym, [])
+        nm = "%s(n,γ)%s" % (pretty(tgt), pretty(prod))
+        src = {"id": "c:" + tgt, "name": nm, "kind": "capture", "elem": sym, "ntype": "thermal",
+               "ab": ab, "sig": round(sig, 6), "M": round(el.mass, 4),
+               "key": ("%s %s %s %s capture ncapture ngamma neutroncapture %s-%d" % (tgt, sym + str(a), el.name, sym, sym, a)).lower().replace(" ", ""),
+               "tier": 1 if sym in ("H", "Fe", "Cu", "Ge", "Cl", "Pb", "Ar", "Gd", "Cd", "Na", "I", "Xe", "Si", "Al", "Ca", "Mn", "Ni", "Cr", "N", "Ti", "K", "B") else 2,
+               "mats": mats, "det": det, "always": sym in K.ALWAYS_ELEMENTS, "wt": round(min(rate, 50), 4),
+               "how": "Thermal-neutron capture on %s (%.4g%% of natural %s, σ ≈ %s b): %s of captures in natural %s. The compound nucleus %s emits ≈ %.1f gammas per capture (separation energy %.0f keV)." % (
+                   pretty(tgt), ab, el.name, "%.3g" % sig, ("%.1f%%" % (100 * share)) if share >= 0.001 else "<0.1%", el.name, pretty(prod), r["mult"], r["sn"]),
                "where": "Anywhere %s sits in a thermal neutron flux." % el.name + (" Present in: " + ", ".join(MAT_NAMES.get(m, m) for m in mats) + "." if mats else ""),
                "tests": ["Rate follows the thermal neutron flux: it rises with moderators (water, polyethylene) nearby and drops with boron or cadmium shielding.",
                          "Appears or grows during neutron-source calibrations and falls back afterwards with no delay.",
                          "Strong lines come with coincident partners from the same cascade (see the table); several of them should be present together."],
-               "unit": "Intensity: gammas per 100 captures in natural %s, from the G4RiversideCASCADE level scheme." % el.name.lower(),
-               "L": L, "C": {str(k): v for k, v in coinc.items()}, "iso": [[n, round(f, 4)] for n, f in isot if f > 0.002]}
-        if miss:
-            src["miss"] = miss
-        if sym == "Gd":
-            src["tests"].append("Gadolinium-loaded scintillators and water show this strongly; capture gammas total about 8 MeV per capture.")
+               "unit": "Intensity: gammas per 100 captures on %s." % pretty(tgt),
+               "L": L, "C": {str(k): v for k, v in coinc.items()},
+               "refs": ["@cascade", "@sigma", "@abund"]}
         if sym == "H":
             src["tests"] = ["The 2223 keV line follows the thermal neutron flux in hydrogenous material (water, polyethylene, people, scintillator).",
                             "No coincident gamma: a single line per capture.", "Delayed by ~200 µs after a neutron enters water or scintillator (thermalisation and capture time)."]
-        # activation product of the main isotope(s): delayed lines after neutron exposure
-        prods = []
-        for a, rate in comp:
-            pn = "%d%s" % (a + 1, sym)
-            g = gs.get(pn)
-            if g and g["hl"] and math.isfinite(g["hl"]) and rate / tot > 0.02:
-                prods.append(pn)
-        if prods:
-            src["act"] = prods
+        if sym == "Gd":
+            src["tests"].append("Gadolinium-loaded scintillators and water show this strongly; capture gammas total about 8 MeV per capture.")
+        if (z, a) in SIGMA_GAMMA:
+            src["refs"][1] = "Thermal (n,γ) cross section: only the radiative-capture part of the absorption (the rest is a charged-particle reaction); approximate value."
+        g = gs.get(prod)
+        if g and g["hl"] and math.isfinite(g["hl"]) and share > 0.02:
+            src["act"] = prod
         out.append(src)
-        weights[sym] = sigma_el
     return out
 
 
@@ -336,13 +360,19 @@ INEL_ELEMS = {}
 def inelastic_sources(lc, gs):
     out = []
     gdir = os.path.join(lc, "gammas")
-    by_el = {}
     for f in sorted(os.listdir(gdir)):
         m = re.match(r"(\d+)([a-z]+)\.csv", f)
         if not m:
             continue
         a, sym = int(m.group(1)), m.group(2).capitalize()
+        el = pt.elements.symbol(sym)
+        tgt = "%d%s" % (a, sym)
+        ab = gs.get(tgt, {}).get("ab") or 0
+        if ab < 0.5 and sym != "Ge":
+            continue
         rows = read_csv(os.path.join(gdir, f))
+        if not rows:
+            continue
         per = {}
         for r in rows:
             e = fnum(r.get("energy"))
@@ -352,42 +382,31 @@ def inelastic_sources(lc, gs):
             if e is None or st is None or st > 3200 or e < 30 or (r.get("multipolarity") or "").strip() == "E0":
                 continue
             per.setdefault(st, []).append((e, ri if ri is not None else 100.0, cc))
-        lines = []
-        for st, gl in per.items():                     # photon fraction of each gamma among the level's decays
+        L = []
+        for st, gl in per.items():                     # photon fraction of each gamma among its level's decays
             tot = sum(ri * (1 + cc) for _, ri, cc in gl) or 1.0
             for e, ri, cc in gl:
-                lines.append((st, e, 100.0 * ri / tot))
-        if not lines:
-            continue
-        by_el.setdefault(sym, []).append((a, lines))
-    for sym, lst in sorted(by_el.items(), key=lambda t: pt.elements.symbol(t[0]).number):
-        el = pt.elements.symbol(sym)
-        L = []
-        for a, lines in lst:
-            ab = (getattr(el[a], "abundance", 0) or 0) / 100
-            if ab < 0.005 and sym not in ("Ge",):
-                continue
-            for st, e, ri in lines:
-                # weight: abundance, lower levels much more likely, relative branching from that level
-                w = ab * math.exp(-st / 1500.0) * (ri / 100 if ri else 1)
-                L.append([round(e, 2), round(100 * w, 3), "b" if a < 30 else "", "%d%s, level %s keV" % (a, sym, ("%.0f" % st))])
+                w = math.exp(-st / 1500.0) * ri / tot   # higher levels need faster neutrons: rough weight
+                L.append([round(e, 2), w, "b" if a < 30 else "", "level %.0f keV" % st])
         if not L:
             continue
         mx = max(l[1] for l in L)
         L = [[l[0], round(100 * l[1] / mx, 1), l[2], l[3]] for l in L if l[1] / mx > 0.02]
-        L = sorted(sorted(L, key=lambda l: -l[1])[:45], key=lambda l: l[0])
+        L = sorted(sorted(L, key=lambda l: -l[1])[:30], key=lambda l: l[0])
         mats = [m for m, els in K.MATERIAL_ELEMENTS.items() if sym in els]
         det = {"Ge": ["hpge"], "Ar": ["lar"], "Xe": ["lxe"], "Na": ["nai"], "I": ["nai"]}.get(sym, [])
-        out.append({"id": "i:" + sym, "name": "%s (n,n′γ) <span class=\"muted\">%s</span>" % (sym, el.name.capitalize()), "kind": "inel",
-                    "key": ("%s %s inelastic nn' fastneutron" % (sym, el.name)).lower(), "tier": 1 if sym in ("Ge", "Pb", "Fe", "Cu", "Ar", "Xe", "Al", "Na", "I", "O", "C", "Si", "F") else 2,
+        out.append({"id": "i:" + tgt, "name": "%s(n,n′γ)%s" % (pretty(tgt), pretty(tgt)), "kind": "inel", "elem": sym, "ntype": "fast", "ab": ab,
+                    "M": round(el.mass, 4),
+                    "key": ("%s %s %s %s inelastic nn' fastneutron %s-%d" % (tgt, sym + str(a), el.name, sym, sym, a)).lower().replace(" ", ""),
+                    "tier": 1 if sym in ("Ge", "Pb", "Fe", "Cu", "Ar", "Xe", "Al", "Na", "I", "O", "C", "Si", "F") else 2,
                     "mats": mats, "det": det, "always": sym in K.ALWAYS_ELEMENTS,
-                    "how": "Fast neutrons (from (α,n) reactions in rock, fission and cosmic-ray muons) excite low-lying levels of %s, which emit these gammas." % el.name,
+                    "how": "Fast neutrons (from (α,n) reactions and fission in rock, and from cosmic-ray muons) excite low-lying levels of %s (%.4g%% of natural %s), which emit these gammas." % (pretty(tgt), ab, el.name),
                     "where": "Anywhere %s sees fast neutrons." % el.name + (" Present in: " + ", ".join(MAT_NAMES.get(m, m) for m in mats) + "." if mats else ""),
                     "tests": ["Rate follows the fast neutron flux; moderators reduce it, boron does not.",
                               "Lines from the first excited state are the strongest; higher levels need faster neutrons.",
                               "Inside a germanium or argon target the recoiling nucleus adds energy, giving an asymmetric tail to higher energy."],
-                    "unit": "Relative weights (abundance × level energy) only: real strengths depend on the neutron spectrum.",
-                    "L": L})
+                    "unit": "Relative weights only (strongest = 100), from each level's gamma branching and a factor favouring low-lying levels. For ranking, a total gamma-production cross section of 1 b per nucleus is assumed and shared by these weights; real strengths depend on the neutron spectrum and on per-level cross sections, which are not yet included.",
+                    "L": L, "refs": [ensdf_ref(rows[0], "Level energies and gamma branching (adopted levels of %s)" % pretty(tgt)), "@abund"]})
     return out
 
 
@@ -416,7 +435,8 @@ def xray_sources():
                     "tier": tier, "when": {"mat": [mat]} if mat else {}, "how": text, "where": text,
                     "tests": ["X-ray energies are fixed by the element: all K lines of the element should appear together with these ratios.",
                               "Fluorescence grows with the gamma or beta activity hitting the material; a graded liner (Cd/Cu or Sn/Cu) suppresses lead X-rays."],
-                    "unit": "Relative K-line intensities (xraylib).", "L": L})
+                    "unit": "Relative K-line intensities.", "L": L,
+                    "refs": ["X-ray energies and radiative rates: xraylib %s (T. Schoonjans et al., Spectrochim. Acta B 66 (2011) 776–784, doi:10.1016/j.sab.2011.09.011)." % getattr(x, "__version__", "")]})
     return out
 
 
@@ -437,7 +457,8 @@ def main(lc, levels_dir):
         s = {"id": "d:" + name, "name": pretty(name), "nuc": name, "kind": "decay", "tier": ctx["tier"], "hl": hl,
              "key": (name + " " + re.sub(r"(\d+)(m?)([A-Za-z]+)", r"\3\1\2 \3-\1\2", name) + " " + pt.elements.symbol(re.sub(r"^\d+m?", "", name)).name +
                      " " + " ".join(ctx.get("cosmo", []) and ["cosmogenic"] + cos_names(ctx["cosmo"])) + " " + ctx.get("chainName", "")).lower().replace("-", "").replace(" ", ""),
-             "unit": "Intensity: gammas per 100 decays (ENSDF).", "L": L}
+             "unit": "Intensity: gammas per 100 decays.", "L": L,
+             "refs": [d.get("ref") or "Decay data: ENSDF, retrieved from the IAEA LiveChart of Nuclides."]}
         if coinc:
             s["C"] = {str(k): v for k, v in coinc.items()}
         dau = daughters(re.sub(r"m$", "", name) if not name[-1].isdigit() else name, gs)
@@ -473,11 +494,11 @@ def main(lc, levels_dir):
     # activation products of captured elements: promote to core with a note
     byid = {s["id"]: s for s in core + rest}
     for c in cap:
-        for p in c.get("act", []):
+        for p in ([c["act"]] if c.get("act") else []):
             s = byid.get("d:" + p)
             if not s:
                 continue
-            note = "Made by neutron capture on %s: appears after neutron exposure and decays with its half-life." % c["name"].split(" ")[0]
+            note = "Made by neutron capture, %s: appears after neutron exposure and decays with its half-life." % c["name"]
             s.setdefault("how", note)
             s["tests"] = s.get("tests", []) + ["Grows during neutron calibrations or reactor operation and decays afterwards with its half-life."]
             s.setdefault("when", {})["n"] = ["source", "reactor"]
@@ -489,20 +510,29 @@ def main(lc, levels_dir):
     for r in K.REACTIONS:
         r = dict(r); r["kind"] = "rx"; r["L"] = r.pop("lines")
         r["key"] = (r["name"] + " " + r["id"]).lower().replace(" ", "")
-        r["unit"] = "Relative intensities."
+        r["unit"] = r.get("unit", "Relative intensities.")
         rx.append(r)
     xr = xray_sources()
     for s in core + rest:
         if s.get("chain"):
             s.setdefault("name", s["name"])
-    meta = {"built": datetime.date.today().isoformat(),
-            "text": "Data built %s: %d decaying nuclides (ENSDF via IAEA LiveChart), %d elements with thermal-capture cascades (G4RiversideCASCADE), %d elements with (n,n′γ) lines." % (
+    mats = MAT.build()
+    flux = {"underground": {"th": 1.08e-6, "fast": 0.9e-7}, "surface": {"th": 5.5e-3, "fast": 5.5e-3},
+            "refs": ["Underground thermal flux 1.08×10⁻⁶ n cm⁻² s⁻¹: P. Belli et al., Il Nuovo Cimento A 101 (1989) 959 (Gran Sasso).",
+                     "Underground fast flux ≈ 0.9×10⁻⁷ n cm⁻² s⁻¹ (Gran Sasso), as summarized in R. Bernabei et al., arXiv:1409.3516.",
+                     "Surface fast flux (> 1 MeV) 5.5×10⁻³ n cm⁻² s⁻¹: integral of the sea-level spectrum parameterization of M.S. Gordon et al., IEEE Trans. Nucl. Sci. 51 (2004) 3427 (it gives 13 n cm⁻² h⁻¹ above 10 MeV). The surface thermal flux is assumed equal to it (no evaluated default; enter a measured value if you have one)."]}
+    meta = {"built": datetime.date.today().isoformat(), "refs": {"@cascade": CASCADE_REF, "@sigma": SIGMA_REF + ".", "@abund": ABUND_REF},
+            "materials": mats, "flux": flux,
+            "text": "Data built %s: %d decaying nuclides, %d capture target isotopes, %d isotopes with (n,n′γ) lines." % (
                 datetime.date.today().isoformat(), len(core) + len(rest), len(cap), len(inel))}
     os.makedirs(OUT, exist_ok=True)
     json.dump({"meta": meta, "S": core + cap + inel + rx + xr}, open(os.path.join(OUT, "core.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     json.dump({"S": rest}, open(os.path.join(OUT, "all.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     for f in ("core.json", "all.json"):
         print(f, os.path.getsize(os.path.join(OUT, f)) // 1024, "kB")
+    missing = sorted({"%d%s" % (i.isotope, pt.elements[z].symbol) for z in range(1, 93) for i in pt.elements[z]
+                      if (gs.get("%d%s" % (i.isotope, pt.elements[z].symbol), {}).get("ab") or 0) > 5 and ("c:%d%s" % (i.isotope, pt.elements[z].symbol)) not in {c["id"] for c in cap}})
+    print("abundant (>5%) isotopes without capture data:", " ".join(missing))
     print(meta["text"])
 
 

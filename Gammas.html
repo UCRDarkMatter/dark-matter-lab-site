@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261115">
-<link rel="stylesheet" href="assets/gammas.css?v=20261115">
+<link rel="stylesheet" href="assets/style.css?v=20261115b">
+<link rel="stylesheet" href="assets/gammas.css?v=20261115b">
 </head>
 <body>
-<script src="assets/site.js?v=20261115"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261115b"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Gamma Line Explorer <span class="beta">beta</span></h1>
@@ -28,10 +28,13 @@
         <fieldset><legend>Detector</legend><div class="chips" data-key="det" data-single></div>
           <label class="gx-res">Resolution (FWHM) at 1 MeV <input type="number" id="fwhm" min="0.1" step="0.1"> keV</label></fieldset>
         <fieldset><legend>Location</legend><div class="chips" data-key="env" data-single></div></fieldset>
-        <fieldset><legend>Neutrons</legend><div class="chips" data-key="n"></div></fieldset>
+        <fieldset><legend>Neutrons</legend><div class="chips" data-key="n"></div>
+          <label class="gx-res">Thermal flux <input type="number" id="flux-th" min="0" step="any"> n/cm²/s</label>
+          <label class="gx-res">Fast flux (&gt; 1 MeV) <input type="number" id="flux-fast" min="0" step="any"> n/cm²/s</label>
+          <p class="gx-note">Leave blank for typical values at your location. Inside neutron shielding, or near a source or reactor, enter your own.</p></fieldset>
         <fieldset><legend>Materials nearby</legend><div class="chips" data-key="mat"></div></fieldset>
       </div>
-      <p class="gx-note">These choices only change how candidates are ranked; nothing is hidden. Your setup is remembered in this browser.</p>
+      <p class="gx-note">Ranking uses expected emission rates per kilogram, assuming equal masses of every selected material (plus your detector's own material). Nothing is hidden. Your setup is remembered in this browser.</p>
     </details>
 
     <div class="gx-tabs" role="tablist">
@@ -70,15 +73,29 @@
     </section>
 
     <aside class="gx-about">
-      <h2>About the data</h2>
+      <h2>How candidates are ranked</h2>
+      <p>Each line gets an expected emission rate, in gammas per second per kilogram, summed over the materials you select (equal masses of each) and your detector's own material:</p>
       <ul>
-        <li><b>Decay gammas, X-rays and half-lives</b>: ENSDF, through the IAEA LiveChart of Nuclides.</li>
-        <li><b>Thermal-neutron capture (n,γ)</b>: computed from the ENSDF/CapGam level schemes used by
-          <a href="https://github.com/UCRDarkMatter/CASCADE">G4RiversideCASCADE</a>, including which lines arrive in the same cascade
-          (coincidences and sum peaks). Elements are weighted by isotopic abundance × thermal capture cross section.</li>
-        <li><b>Inelastic scattering (n,n′γ)</b>: gamma transitions from low-lying levels of stable isotopes (ENSDF). Their strength depends on the neutron spectrum, so they are listed but not given absolute intensities.</li>
-        <li><b>Context</b> (where sources appear, what produces them, how to test them): curated by the
-          <a href="index.html">UCR Dark Matter and Neutrino Lab</a>.</li>
+        <li><b>Decays</b>: typical activity of the decay-chain segment in each material × branching × line intensity. Activities are medians of the assay records in the
+          <a href="https://radiopurity.org/">radiopurity.org</a> Material Assay Database (J.C. Loach et al., Nucl. Instrum. Meth. A 839 (2016) 6) for that material, or the
+          upper-continental-crust averages of Rudnick &amp; Gao (2003) for rock. Each source's “Sources” list names the data sets used.</li>
+        <li><b>Neutron capture (n,γ)</b>: thermal neutron flux × atoms of the target isotope per kilogram (composition × isotopic abundance) × thermal cross section × gammas per capture.</li>
+        <li><b>Inelastic scattering (n,n′γ)</b>: fast neutron flux × atoms per kilogram × an assumed 1 b gamma-production cross section, shared over the levels. Per-level cross sections are not included yet, so treat these rates as order-of-magnitude.</li>
+        <li><b>Activation products</b>: saturation activity, equal to the capture rate on the parent isotope.</li>
+        <li><b>Everything else</b> (cosmogenic activation, calibration and medical sources, airborne radon, X-ray fluorescence, annihilation): no rate model yet, so these use a coarse prior on a fixed reference scale.</li>
+      </ul>
+      <p>Default neutron fluxes: underground thermal 1.08×10⁻⁶ n cm⁻² s⁻¹ (P. Belli et al., Il Nuovo Cimento A 101 (1989) 959) and fast ≈ 0.9×10⁻⁷ n cm⁻² s⁻¹ (Gran Sasso, as summarized in R. Bernabei et al., arXiv:1409.3516);
+        surface fast 5.5×10⁻³ n cm⁻² s⁻¹ (integral of the sea-level spectrum of M.S. Gordon et al., IEEE Trans. Nucl. Sci. 51 (2004) 3427), with the surface thermal flux assumed equal to it. Real fluxes vary a lot between sites and inside shielding: enter your own.</p>
+      <h2>Data sources</h2>
+      <ul>
+        <li><b>Decay gammas, half-lives, level gammas, isotopic abundances</b>: ENSDF evaluations, retrieved from the <a href="https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html">IAEA LiveChart of Nuclides</a>. Each source cites its evaluation.</li>
+        <li><b>Thermal-neutron-capture cascades</b>: level schemes and branching ratios from <a href="https://github.com/UCRDarkMatter/CASCADE">G4RiversideCASCADE</a>
+          (L. Weimer et al., Nucl. Instrum. Meth. A 1093 (2027) 171940, doi:10.1016/j.nima.2026.171940), built from ENSDF capture evaluations. Line intensities and coincidences are computed here.
+          No level schemes yet for some abundant isotopes, including ¹²⁷I, ¹³³Cs, ¹⁰⁷Ag, ²⁰⁶Pb, ²⁰⁷Pb and ¹⁹⁷Au.</li>
+        <li><b>Thermal cross sections</b>: H. Rauch and W. Waschkowski, ILL Neutron Data Booklet (2003), via the periodictable package; radiative capture only for ¹⁰B, ⁶Li, ¹⁴N and ³He.</li>
+        <li><b>X-rays</b>: xraylib (T. Schoonjans et al., Spectrochim. Acta B 66 (2011) 776).</li>
+        <li><b>Material compositions</b>: nominal compositions (listed per material in each source's “Sources”); rock from Rudnick &amp; Gao (2003), doi:10.1016/B0-08-043751-6/03016-4.</li>
+        <li><b>Context</b> (where sources appear, how to test them): curated by the <a href="index.html">UCR Dark Matter and Neutrino Lab</a>.</li>
       </ul>
       <p id="about-meta" class="muted"></p>
       <p>This is a beta. Rankings are guidance, not identifications. Found a wrong number or a missing source?
@@ -86,6 +103,6 @@
     </aside>
   </div>
 </main>
-<script src="assets/gammas.js?v=20261115"></script>
+<script src="assets/gammas.js?v=20261115b"></script>
 </body>
 </html>

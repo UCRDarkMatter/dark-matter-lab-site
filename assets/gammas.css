@@ -86,3 +86,6 @@
 .gx-about { border-top: 1px solid var(--line); padding-top: 1rem; font-size: 1rem; }
 .gx-about h2 { font-size: 1.3rem; }
 .gx-about ul { padding-left: 1.2rem; }
+.gx-refs { font-size: .88rem; color: var(--muted); }
+.gx-refs summary { cursor: pointer; color: var(--grey); font-weight: 500; }
+.gx-refs ul { margin: .3rem 0 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .2rem; }

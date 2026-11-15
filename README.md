@@ -158,3 +158,8 @@ Notes
    python3 tools/gamma/build_gamma_data.py /tmp/lc/livechart /tmp/CASCADE/Supplemental/LevelStructureTXTs
    ```
 3. Commit `data/gamma/`. Curated context (where sources appear, tests, cosmogenics by material, reactions) lives in `tools/gamma/curation.py`.
+
+Ranking uses expected rates per kilogram (see "How candidates are ranked" on the page). Material compositions and typical activities are in
+`tools/gamma/materials.py`; the activities come from `tools/gamma/radiopurity_summary.json`, medians of the radiopurity.org assay records
+(J.C. Loach et al., Nucl. Instrum. Meth. A 839 (2016) 6) grouped by material, with the data sets behind each material listed. To refresh it,
+re-run the grouping on a new export of radiopurity.org and keep the same JSON layout.

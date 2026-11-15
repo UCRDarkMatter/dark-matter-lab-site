@@ -68,10 +68,23 @@
     });
     $('#fwhm').value = ctx.fwhm;
     $('#fwhm').addEventListener('change', function () { ctx.fwhm = +this.value || FWHM1MEV[ctx.det[0]]; save(); setupSummary(); rerun(); });
+    ctx.flux = ctx.flux || { th: null, fast: null };
+    ['th', 'fast'].forEach(function (k) {
+      var inp = $('#flux-' + k);
+      inp.value = ctx.flux[k] != null ? ctx.flux[k] : '';
+      inp.addEventListener('change', function () { var v = parseFloat(this.value); ctx.flux[k] = isFinite(v) && v >= 0 ? v : null; save(); setupSummary(); rerun(); });
+    });
     setupSummary();
   }
   function label(key, v) { var o = OPTS[key].filter(function (x) { return x[0] === v; })[0]; return o ? o[1] : v; }
+  function fluxPlaceholders() {
+    if (!META.flux) return;
+    var d = META.flux[ctx.env[0]] || {};
+    $('#flux-th').placeholder = d.th != null ? d.th.toExponential(2) : '';
+    $('#flux-fast').placeholder = d.fast != null ? d.fast.toExponential(2) : '';
+  }
   function setupSummary() {
+    fluxPlaceholders();
     $('#setup-sum').textContent = '· ' + [label('det', ctx.det[0]) + ' (' + ctx.fwhm + ' keV FWHM at 1 MeV)', label('env', ctx.env[0]),
       ctx.n.length ? ctx.n.map(function (v) { return label('n', v).split(' (')[0]; }).join(', ') : 'no neutrons',
       ctx.mat.length + ' materials'].join(' · ');
@@ -113,32 +126,104 @@
     return load('data/gamma/all.json').then(function (d) { ALL = d; index(d.S); });
   }
 
-  /* prior: how plausible a source is in this setup (relative; only used for ranking) */
+  /* prior: relative plausibility of a source in this setup. Only used for ranking; see "How candidates are ranked" on the page.
+     Neutron-induced lines are strongly suppressed: neutron fluxes (and so capture and inelastic rates) are tiny compared with
+     the decay rates of the primordial and cosmogenic activity in and around a detector, unless a neutron source or reactor is nearby. */
+  function neutronFactor(type) {
+    if (!ctx.n.length) return 1e-3;
+    var f = 0, surf = ctx.env[0] === 'surface';
+    if (ctx.n.indexOf('ambient') >= 0) f = Math.max(f, type === 'fast' ? (surf ? 0.03 : 0.005) : (surf ? 0.05 : 0.01));
+    if (ctx.n.indexOf('source') >= 0) f = Math.max(f, 0.5);
+    if (ctx.n.indexOf('reactor') >= 0) f = Math.max(f, type === 'fast' ? 0.2 : 0.5);
+    return f;
+  }
   function prior(s) {
     var p = s.tier === 1 ? 1 : s.tier === 2 ? 0.3 : 0.03, w = s.when || {};
     ['env', 'n', 'mat', 'det'].forEach(function (k) {
       if (!w[k]) return;
       var hit = w[k].some(function (v) { return ctx[k].indexOf(v) >= 0; });
       if (hit) p *= 3;
-      else if (k === 'det') p *= 0.05;                       // detector-specific effects (Ge triangles, LaBr₃ …)
-      else if (k === 'n' && !ctx.n.length) p *= 0.1;
+      else if (k === 'det') p *= 0.05;                       // detector-specific effects (Ge triangles …)
+      else if (k === 'n') p *= 0.05;                         // needs a neutron source or reactor that isn't selected
       else if (k === 'mat') p *= 0.5;
     });
     if (s.cosmo) {                                           // cosmogenic in the listed materials
       var m = s.cosmo.some(function (v) { return ctx.mat.indexOf(v) >= 0 || (v === 'ge' && ctx.det[0] === 'hpge') || (v === 'ar' && ctx.det[0] === 'lar') || (v === 'xe' && ctx.det[0] === 'lxe') || (v === 'nai' && ctx.det[0] === 'nai'); });
       p *= (m ? 3 : 0.4) * (ctx.env[0] === 'surface' ? 3 : 1);
     }
+    if (s.ntype) p *= neutronFactor(s.ntype);                // neutron-induced (capture, inelastic, neutron reactions)
     if (s.kind === 'capture' || s.kind === 'inel') {
       var present = (s.mats || []).some(function (v) { return ctx.mat.indexOf(v) >= 0; }) || (s.det || []).indexOf(ctx.det[0]) >= 0;
-      if (s.kind === 'inel') p *= 0.3;                      // fast-neutron lines are usually weaker than capture and decay lines
-      p *= present ? 4 : s.always ? 1 : 0.15;
-      if (!ctx.n.length) p *= 0.1;
-      if (ctx.n.indexOf('source') >= 0 || ctx.n.indexOf('reactor') >= 0) p *= 2;
-      if (s.kind === 'capture' && s.wt != null) p *= Math.min(3, 0.3 + Math.sqrt(s.wt));   // capture-rate weight of the element
+      p *= present ? 4 : s.always ? 1 : 0.15;                 // is the target element actually nearby?
+      if (s.kind === 'capture' && s.wt != null) p *= Math.min(3, 0.1 + Math.sqrt(s.wt));   // abundance × σ of the target isotope
+      if (s.kind === 'inel' && s.ab != null) p *= Math.min(1, 0.1 + s.ab / 100);
     }
     if (s.radon && ctx.env[0] === 'underground') p *= 1.5;
     return p;
   }
+  /* ---------------- physical rate model ----------------
+     Every line gets an expected emission rate in gammas per second per kilogram, summed over the selected materials
+     (equal masses assumed) plus the detector's own material:
+       decays      activity of the chain segment in each material (radiopurity.org medians, crust averages for rock) x branching x intensity
+       (n,g)       thermal flux x atoms of the target isotope per kg x sigma x gammas per capture
+       (n,n'g)     fast flux x atoms per kg x 1 b (assumed) x the line's share of the isotope's relative weights
+       activation  saturation activity = capture rate on the parent isotope
+     Sources with no model (cosmogenic activation, calibration and medical sources, airborne radon, X-ray fluorescence, ...)
+     fall back to a coarse prior on a fixed reference scale (1e-4 gammas/s/kg). */
+  var NA = 6.02214076e23, REF = 1e-4;
+  var SEG = {};
+  [['U238', '238U 234Th 234mPa 234Pa 234U 230Th'], ['Ra226', '226Ra 222Rn 218Po 214Pb 214Bi 214Po'], ['Pb210', '210Pb 210Bi 210Po'],
+   ['Th232', '232Th 228Ra 228Ac'], ['Th228', '228Th 224Ra 220Rn 216Po 212Pb 212Bi 212Po 208Tl'],
+   ['U235', '235U 231Th 231Pa 227Ac 227Th 223Ra 219Rn 215Po 211Pb 211Bi 207Tl'], ['K40', '40K'], ['Co60', '60Co'], ['Cs137', '137Cs']]
+    .forEach(function (p) { p[1].split(' ').forEach(function (n) { SEG[n] = p[0]; }); });
+  var DETMAT = { hpge: 'ge', lar: 'ar', lxe: 'xe', nai: 'nai', plastic: 'poly' };
+  function matsInUse() {
+    var m = ctx.mat.slice(), d = DETMAT[ctx.det[0]];
+    if (d && m.indexOf(d) < 0) m.push(d);
+    return m.filter(function (k) { return META.materials && META.materials[k]; });
+  }
+  function fluxes() {
+    var env = ctx.env[0], def = (META.flux || {})[env] || { th: 0, fast: 0 };
+    var any = ctx.n.length > 0;
+    return { th: any ? (ctx.flux && ctx.flux.th != null ? ctx.flux.th : def.th) : 0, fast: any ? (ctx.flux && ctx.flux.fast != null ? ctx.flux.fast : def.fast) : 0 };
+  }
+  var RCACHE = {}, RKEY = '';
+  function ctxKey() { return JSON.stringify([matsInUse(), fluxes()]); }
+  function srcRate(s) {               // {tot, by: {material: rate}} in decays or reactions per s per kg; null = not modelled
+    var k = ctxKey(); if (k !== RKEY) { RCACHE = {}; RKEY = k; }
+    if (s.id in RCACHE) return RCACHE[s.id];
+    var r = null, mats = matsInUse(), F = fluxes(), M = META.materials || {};
+    function add(m, v) { if (!r) r = { tot: 0, by: {} }; if (v > 0) { r.by[m] = (r.by[m] || 0) + v; r.tot += v; } }
+    function atoms(m, el, molar, ab) { var w = (M[m].comp || {})[el] || 0; return w * 1000 / molar * NA * ab / 100; }
+    if (s.kind === 'decay') {
+      var nuc = s.group ? s.group[0].nuc : s.nuc, seg = SEG[nuc];
+      var af = s.group ? Math.max.apply(null, s.group.map(function (g) { return g.af || 1; })) : (s.af != null ? s.af : 1);
+      if (seg) { if (!r) r = { tot: 0, by: {} }; mats.forEach(function (m) { add(m, ((M[m].act || {})[seg] || 0) * af); }); }
+      if (s.act && BYID[s.act]) {                       // activation product: saturation activity = capture rate on the parent
+        var c = srcRate(BYID[s.act]); if (!r) r = { tot: 0, by: {} }; if (c) Object.keys(c.by).forEach(function (m) { add(m, c.by[m]); });
+      }
+    } else if (s.kind === 'capture') {
+      r = { tot: 0, by: {} };
+      mats.forEach(function (m) { add(m, F.th * atoms(m, s.elem, s.M, s.ab) * s.sig * 1e-24); });
+    } else if (s.kind === 'inel') {
+      r = { tot: 0, by: {} };
+      var sw = s.L.reduce(function (a, l) { return a + l[1]; }, 0) || 1;
+      mats.forEach(function (m) { add(m, F.fast * atoms(m, s.elem, s.M, s.ab) * 1e-24 * 100 / sw); });
+    } else if (s.nphys) {
+      var p = s.nphys; r = { tot: 0, by: {} };
+      mats.forEach(function (m) { add(m, (p.fast ? F.fast : F.th) * atoms(m, p.el, p.M, p.ab) * p.sig * 1e-24); });
+    }
+    RCACHE[s.id] = r;
+    return r;
+  }
+  function lineRate(s, l) {           // expected gammas per s per kg for one line (physical model or fallback prior)
+    var r = srcRate(s);
+    if (r && r.tot > 0) return r.tot * l[1] / 100;
+    if (r) return 1e-12 * l[1] / 100;                 // modelled, but nothing in your setup produces it
+    return prior(s) * REF * strength(s, l[1]);
+  }
+  function rel(v, top) { return Math.max(0, Math.min(1, 1 + Math.log10(Math.max(v, 1e-300) / top) / 8)); }   // 8 decades of rate
+
   function strength(s, I) {           // how much a line's intensity matters for ranking
     if (s.kind === 'inel' || s.kind === 'xray') return 0.15 + 0.5 * Math.min(1, I / 100);
     return Math.sqrt(Math.min(1, Math.max(I, 0.01) / 100));
@@ -231,6 +316,21 @@
     grid.appendChild(col2);
     box.appendChild(grid);
 
+    // expected rate in this setup
+    var rr = srcRate(s), rp = el('p', 'gx-small');
+    rp.appendChild(el('b', null, 'In your setup: '));
+    if (rr && rr.tot > 0) {
+      var parts = Object.keys(rr.by).sort(function (a, b) { return rr.by[b] - rr.by[a]; }).map(function (m) { return META.materials[m].name + ' ' + sci(rr.by[m]); });
+      var sl = s.L[li];
+      rp.appendChild(document.createTextNode('≈ ' + sci(rr.tot * sl[1] / 100) + ' γ/s per kg in the ' + fmt(sl[0], 1) + ' keV line (' +
+        (s.kind === 'decay' ? 'decays' : 'reactions') + ' per s per kg: ' + parts.join(', ') + '; equal masses of each material assumed).'));
+    } else if (rr) {
+      rp.appendChild(document.createTextNode(s.kind === 'decay' ? 'none of your selected materials has assay data for this activity.' : 'nothing in your selected materials and neutron flux produces this reaction.'));
+    } else {
+      rp.appendChild(document.createTextNode('no rate model (ranked with a coarse prior instead).'));
+    }
+    box.appendChild(rp);
+
     // time, chain, tests
     var tt = el('p'); tt.appendChild(el('b', null, 'Time behaviour: ')); tt.appendChild(document.createTextNode(timeText(s))); box.appendChild(tt);
     if (s.par || (s.dau && s.dau.length)) {
@@ -252,10 +352,17 @@
       box.appendChild(el('h4', null, 'How to test this'));
       var ul = el('ul', 'gx-tests'); s.tests.forEach(function (x) { ul.appendChild(el('li', null, x)); }); box.appendChild(ul);
     }
-    if (s.iso && s.iso.length) {
+    if (false) {
       var ip = el('p', 'gx-small muted', 'Capture rate by isotope (abundance × σ): ' + s.iso.map(function (x) { return pretty(x[0]) + ' ' + (x[1] * 100).toFixed(x[1] < 0.1 ? 1 : 0) + '%'; }).join(', ') + (s.miss ? '. Not covered: ' + s.miss.map(pretty).join(', ') + '.' : '.'));
       box.appendChild(ip);
     }
+    var refs = (s.refs || []).map(function (r) { return r.charAt(0) === '@' ? (META.refs || {})[r] : r; }).filter(Boolean);
+    if (s.group) s.group.forEach(function (m) { (m.refs || []).forEach(function (r) { refs.push(m.name.replace(/<[^>]+>/g, '') + ' ' + r.charAt(0).toLowerCase() + r.slice(1)); }); });
+    if (rr && rr.tot > 0) Object.keys(rr.by).forEach(function (m) { (META.materials[m].refs || []).forEach(function (x) { refs.push(META.materials[m].name + ' — ' + x); }); });
+    if (s.ntype || s.nphys) ((META.flux || {}).refs || []).forEach(function (x) { refs.push('Neutron flux — ' + x); });
+    refs.push('Where it shows up and how to test it: curated by the UCR Dark Matter and Neutrino Lab (guidance, not evaluated data).');
+    var rb = el('details', 'gx-refs'); rb.appendChild(el('summary', null, 'Sources'));
+    var rl = el('ul'); refs.forEach(function (r) { rl.appendChild(el('li', null, r)); }); rb.appendChild(rl); box.appendChild(rb);
     if (s.nuc) {
       var lk = el('p', 'gx-small'), a = el('a', null, 'ENSDF data for ' + pretty(s.nuc) + ' at NNDC NuDat');
       a.href = 'https://www.nndc.bnl.gov/nudat3/decaysearchdirect.jsp?nuc=' + encodeURIComponent(s.nuc) + '&unc=NDS'; a.rel = 'noopener';
@@ -263,6 +370,7 @@
     }
     return box;
   }
+  function sci(v) { return v >= 0.01 && v < 1e4 ? v.toPrecision(2) : v.toExponential(1).replace('e', '×10^').replace('+', ''); }
   function srcLink(id) {
     var s = BYID[id], a = el('a', null, s ? s.name : pretty(id.replace(/^d:/, '')));
     a.href = '#src=' + encodeURIComponent(id);
@@ -291,12 +399,12 @@
         if (l[1] < 1 && s.kind !== 'inel') return;
         [[511, 'single escape'], [1022, 'double escape']].forEach(function (e) {
           var E = l[0] - e[0];
-          if (l[0] > 1022 && E >= lo && E <= hi) out.push({ E: E, s: s, li: i, what: e[1] + ' of ' + fmt(l[0], 1) + ' keV', score: p * strength(s, l[1]) * 0.15 });
+          if (l[0] > 1022 && E >= lo && E <= hi) out.push({ E: E, s: s, li: i, what: e[1] + ' of ' + fmt(l[0], 1) + ' keV', score: lineRate(s, l) * 0.1 });
         });
         (s.C && s.C[i] || []).forEach(function (c) {
           var E = l[0] + c[0];
           var direct = s.L.some(function (m) { return Math.abs(m[0] - E) < 1.5; });   // same energy as a real line: not a separate peak
-          if (c[0] > l[0] && E >= lo && E <= hi && !direct) out.push({ E: E, s: s, li: i, what: 'sum peak ' + fmt(l[0], 1) + ' + ' + fmt(c[0], 1) + ' keV', score: p * strength(s, l[1]) * c[1] * 0.1 });
+          if (c[0] > l[0] && E >= lo && E <= hi && !direct) out.push({ E: E, s: s, li: i, what: 'sum peak ' + fmt(l[0], 1) + ' + ' + fmt(c[0], 1) + ' keV', score: lineRate(s, l) * c[1] * 0.01 });
         });
       });
     });
@@ -308,7 +416,7 @@
       var p = prior(s);
       s.L.forEach(function (l, i) {
         var pad = $('#widen').checked ? 2 * width(l[0], l[2]) : 0;
-        if (l[0] >= lo - pad && l[0] <= hi + pad) res.push({ E: l[0], s: s, li: i, I: l[1], score: p * strength(s, l[1]) });
+        if (l[0] >= lo - pad && l[0] <= hi + pad) res.push({ E: l[0], s: s, li: i, I: l[1], score: lineRate(s, l) });
       });
     });
     artifacts(lo, hi).forEach(function (a) { res.push({ E: a.E, s: a.s, li: a.li, art: a.what, score: a.score }); });
@@ -351,7 +459,7 @@
       more(40);
     }).catch(function (e) { out.textContent = 'Could not load the data: ' + e.message; });
   }
-  function bar(v) { var b = el('span', 'gx-bar'); var f = el('span'); f.style.width = Math.max(4, Math.round(100 * v)) + '%'; b.appendChild(f); b.title = 'Relative plausibility in your setup'; return b; }
+  function bar(v) { var b = el('span', 'gx-bar'); var f = el('span'); f.style.width = Math.max(4, Math.round(100 * v)) + '%'; b.appendChild(f); b.title = 'Expected rate in your setup (log scale, 8 decades)'; return b; }
   function resultRow(r, top) {
     var li = el('li', 'gx-row');
     var d = el('details'), sm = el('summary');
@@ -362,7 +470,7 @@
     if (r.art) info.textContent = r.art;
     else info.textContent = (KIND[r.s.kind] || '') + (r.s.kind === 'inel' ? '' : ' · ' + (r.I >= 0.1 ? fmt(r.I, r.I >= 10 ? 1 : 2) : r.I.toPrecision(2)) + '%') + (r.s.hl != null && r.s.kind === 'decay' ? ' · T½ ' + hlText(r.s.hl) : '');
     sm.appendChild(info);
-    sm.appendChild(bar(Math.sqrt(r.score / top)));
+    sm.appendChild(bar(rel(r.score, top)));
     d.appendChild(sm);
     d.addEventListener('toggle', function () { if (d.open && !d.querySelector('.gx-detail')) d.appendChild(details(r.s, r.li)); });
     li.appendChild(d);
@@ -382,29 +490,30 @@
   function eff(E) { return E < 120 ? Math.pow(E / 120, 1.5) : Math.pow(120 / E, 0.85); }   // rough detection efficiency shape
   function explain(peaks) {
     var lo = Math.max(20, peaks[0].E - 100), hi = peaks[peaks.length - 1].E + 150;
-    var cands = [];
+    var cands = [], top = 0;
     sources().concat(GROUPS).forEach(function (s) {
-      var p = prior(s) * (s.group ? 1.5 : 1), m = [];
+      var m = [];
       peaks.forEach(function (pk, k) {
         var best = null;
         s.L.forEach(function (l, i) {
           var g = match(pk.E, l);
           if (pk.w) g = Math.max(g, Math.exp(-0.5 * Math.pow((pk.E - l[0]) / Math.max(pk.w / 2.355, 0.01), 2)));
-          if (g > 0.05 && (!best || g * strength(s, l[1]) > best.v)) best = { k: k, i: i, g: g, v: g * strength(s, l[1]) };
+          if (g > 0.05) { var rt = lineRate(s, l); if (!best || g * rt > best.g * best.rt) best = { k: k, i: i, g: g, rt: rt }; }
         });
-        if (best) m.push(best);
+        if (best) { m.push(best); top = Math.max(top, best.rt); }
       });
-      if (m.length) cands.push({ s: s, p: p, m: m });
+      if (m.length) cands.push({ s: s, p: 1, m: m });
     });
+    cands.forEach(function (c) { c.m.forEach(function (x) { x.v = x.g * rel(x.rt, top || 1); }); });
     function missing(c) {                     // strong expected lines in the observed range with no peak
       var ref = c.m.reduce(function (a, x) { var l = c.s.L[x.i]; return Math.max(a, l[1] * eff(l[0])); }, 0);
       if (c.s.kind === 'xray') return [];
-      var rel = c.s.kind === 'inel';                       // inelastic weights are relative (strongest = 100)
+      var relw = c.s.kind === 'inel';                       // inelastic weights are relative (strongest = 100)
       var used = {}; c.m.forEach(function (x) { used[x.i] = 1; });
       return c.s.L.map(function (l, i) { return [l, i]; }).filter(function (p) {
         var l = p[0];
         var matched = peaks.some(function (pk) { return match(pk.E, l) > 0.3; });
-        return !used[p[1]] && !matched && l[0] >= lo && l[0] <= hi && l[1] * eff(l[0]) >= (rel ? 0.6 : 0.35) * ref && l[1] >= (rel ? 40 : 0.5);
+        return !used[p[1]] && !matched && l[0] >= lo && l[0] <= hi && l[1] * eff(l[0]) >= (relw ? 0.6 : 0.35) * ref && l[1] >= (relw ? 40 : 0.5);
       }).sort(function (a, b) { return b[0][1] - a[0][1]; }).slice(0, 4);
     }
     cands.forEach(function (c) { c.miss = missing(c); c.pen = Math.pow(0.45, c.miss.length); });
@@ -431,7 +540,7 @@
     }
     // alternatives per peak
     var alts = peaks.map(function (pk, k) {
-      return cands.filter(function (c) { return !c.s.group; }).map(function (c) { var x = c.m.filter(function (y) { return y.k === k; })[0]; return x ? { c: c, x: x, v: c.p * x.v } : null; })
+      return cands.filter(function (c) { return !c.s.group; }).map(function (c) { var x = c.m.filter(function (y) { return y.k === k; })[0]; return x ? { c: c, x: x, v: x.v } : null; })
         .filter(Boolean).sort(function (a, b) { return b.v - a.v; }).slice(0, 6);
     });
     // detector effects for peaks nothing explains well
@@ -563,7 +672,8 @@
     if (!list) {
       var q = $('#browse-q').value.trim().toLowerCase().replace(/[-\s]/g, '');
       if (!q) { out.appendChild(browseIntro()); return; }
-      list = sources().filter(function (s) { return s.key.indexOf(q) >= 0; }).sort(function (a, b) { return prior(b) - prior(a); }).slice(0, 60);
+      var srt = function (s) { var r = srcRate(s); return r && r.tot > 0 ? r.tot : prior(s) * REF; };
+      list = sources().filter(function (s) { return s.key.indexOf(q) >= 0; }).sort(function (a, b) { return srt(b) - srt(a); }).slice(0, 60);
       if (!list.length) { out.appendChild(el('p', 'muted', 'No source matches. Try a nuclide (e.g. 60Co), an element or a word like "cosmogenic".')); return; }
     }
     var ol = el('ol', 'gx-results');
@@ -583,7 +693,7 @@
     box.appendChild(el('p', 'muted', 'Common starting points:'));
     var groups = [['Uranium chain', ['d:214Bi', 'd:214Pb', 'd:226Ra', 'd:234Th', 'd:234Pa', 'd:210Pb']], ['Thorium chain', ['d:208Tl', 'd:212Pb', 'd:212Bi', 'd:228Ac']],
       ['Other primordial and man-made', ['d:40K', 'd:137Cs', 'd:60Co', 'd:235U']], ['Cosmogenic', ['d:68Ge', 'd:58Co', 'd:57Co', 'd:54Mn', 'd:65Zn', 'd:46Sc']],
-      ['Neutron capture', ['c:H', 'c:Fe', 'c:Cu', 'c:Ge', 'c:Cl', 'c:Gd', 'c:Pb', 'c:Ar']], ['Reactions', ['rx:b10na', 'rx:ge72e0', 'rx:annihilation', 'rx:f19aa']]];
+      ['Neutron capture', ['c:1H', 'c:56Fe', 'c:63Cu', 'c:73Ge', 'c:35Cl', 'c:157Gd', 'c:113Cd', 'c:40Ar', 'c:208Pb']], ['Inelastic', ['i:72Ge', 'i:74Ge', 'i:56Fe', 'i:63Cu', 'i:208Pb', 'i:40Ar']], ['Reactions', ['rx:b10na', 'rx:ge72e0', 'rx:annihilation', 'rx:f19aa']]];
     groups.forEach(function (g) {
       var p = el('p'); p.appendChild(el('b', null, g[0] + ': '));
       var first = true;
@@ -616,7 +726,7 @@
     $('#browse-q').addEventListener('input', function () { current = null; needAll().then(function () { renderBrowse(); }); });
     try { var sp = localStorage.getItem('gx-peaks'); if (sp) $('#peaks').value = sp; } catch (e) {}
     load('data/gamma/core.json').then(function (d) {
-      DATA = d; META = d.meta || {}; index(d.S); buildGroups();
+      DATA = d; META = d.meta || {}; index(d.S); buildGroups(); fluxPlaceholders();
       $('#about-meta').textContent = META.text || '';
       renderBrowse();
       var h = decodeURIComponent(location.hash || '');
