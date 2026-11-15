@@ -58,3 +58,9 @@ table.tbl th { color: var(--grey); font-weight: 700; white-space: nowrap; }
 #sel-table .mini { white-space: nowrap; }
 #report .btn { padding: .45rem 1rem; font-size: 1rem; }
 .steps.warn-box { border-left-color: #cc6600; }
+/* The plotter is a wide tool page: let its introduction and notice span the same width as the plot. */
+.lim .page-title p, .lim .disclaimer, .lim .disclaimer p, .lim .notice { max-width: none; }
+/* Long curve names wrap inside the list instead of making it scroll sideways. */
+.curve-list { overflow-x: hidden; }
+.lim label.curve-row { grid-template-columns: auto minmax(0, 1fr) auto; }
+.curve-row > span { min-width: 0; overflow-wrap: anywhere; }

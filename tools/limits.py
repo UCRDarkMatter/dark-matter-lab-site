@@ -571,6 +571,15 @@ def export(db, path=EXPORT_PATH, force=False):
 # ------------------------------------------------------------------ units and guesses
 def guess_channel(text, default="SI"):
     t = text.lower().replace("_", " ")
+    # compact file-name words: "dmelectron", "lightmediator", "sdneutron", "dmnucleon"
+    t = re.sub(r"dm(electron|e)\b", "dm-electron scattering", t)
+    t = re.sub(r"dark ?photon", "dark photon", t)
+    t = re.sub(r"light ?mediator", "light mediator", t)
+    t = re.sub(r"heavy ?mediator", "heavy mediator", t)
+    t = re.sub(r"sd ?(neutron|proton)", r"spin-dependent \1", t)
+    t = re.sub(r"\bsi ?nr\b|\bsi ?nucleon", "spin-independent", t)
+    if re.search(r"light mediator", t) and re.search(r"\bnr\b|nuclear recoil|nucleon", t) and not re.search(r"electron", t):
+        return "other"                             # light-mediator nuclear-recoil limits are not standard SI
     if UHDM_RE.search(t):                          # ultra-heavy: per-nucleus (A-independent) or per-nucleon (A^4)
         return "UHDM-A" if UHDM_NUCLEUS_RE.search(t) and not UHDM_A4_RE.search(t) else "UHDM-A4"
     if re.search(r"dark[- ]photon|kinetic mixing|hidden photon", t):
@@ -929,11 +938,18 @@ def ancillary_curves(tar_bytes, context):
         if min(xs) <= 0 or min(ys) <= 0:
             continue
         # the file's own name and header say more than the paper's abstract does
-        channel = guess_channel(base + " " + header, None) or guess_channel(context)
+        own_guess = guess_channel(base + " " + header, None)
+        decided = bool(own_guess)
+        if own_guess in ("DMe-heavy", "DMe-light") and not re.search(r"heavy|light|f ?= ?1|fdm|q\^?-?2|1/q|contact|massless",
+                                                                      (base + " " + header).lower()):
+            decided = False                            # the file says electron scattering but not which mediator
+        channel = own_guess or guess_channel(context)
         cols = [c for c in re.split(r"[,\t;|]+|\s{2,}", header.lstrip("#% ")) if c.strip()]
         pts, confident, note = to_canonical(xs, ys, cols[0] if cols else header,
                                             (cols[1] if len(cols) > 1 else header) + " " + re.sub(r"[_.\-]", " ", base), channel)
-        out.append((base, channel, pts, confident and in_anc, (note + "; " if note else "") + "from " + m.name))
+        if not decided:                                # the plot type is not fully stated by the file itself
+            note = (note + "; " if note else "") + "plot type not stated by the file (guessed): check it"
+        out.append((base, channel, pts, confident and in_anc and decided, (note + "; " if note else "") + "from " + m.name))
     return out
 
 
