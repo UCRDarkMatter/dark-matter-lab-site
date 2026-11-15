@@ -50,6 +50,12 @@
                 else { av = el('span', 'mini-av', initials(m.name)); av.setAttribute('aria-hidden', 'true'); }
                 var t = el('span', 'txt'); t.appendChild(el('span', 'nm', m.name));
                 if (m.now) t.appendChild(el('span', 'now', m.now));
+                var lk = Object.keys(m.links || {});
+                if (lk.length) {
+                  var lp = el('span', 'now');
+                  lk.forEach(function (k, n) { if (n) lp.appendChild(document.createTextNode(' · ')); var a = el('a', null, k); a.href = m.links[k]; lp.appendChild(a); });
+                  t.appendChild(lp);
+                }
                 li.appendChild(av); li.appendChild(t); ul.appendChild(li);
               });
               sec.appendChild(ul);
