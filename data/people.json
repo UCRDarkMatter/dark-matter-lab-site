@@ -48,7 +48,8 @@
      "photo": "images/people/jay-huang.jpg"
     },
     {
-     "name": "Taisiia Smirnova"
+     "name": "Taisiia Smirnova",
+     "photo": "images/people/taisiia-smirnova.jpg"
     },
     {
      "name": "Letty Ramos",
@@ -100,7 +101,8 @@
      "name": "Anika Nemana"
     },
     {
-     "name": "Alex Solano"
+     "name": "Alex Solano",
+     "photo": "images/people/alex-solano.jpg"
     },
     {
      "name": "Mani Taleban",
@@ -293,6 +295,7 @@
     },
     {
      "name": "Daisy Zamacona",
+     "photo": "images/people/daisy-zamacona.jpg",
      "category": "Former undergraduates",
      "now": "MS, San Diego State University"
     },
