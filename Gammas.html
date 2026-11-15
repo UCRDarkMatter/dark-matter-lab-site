@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261115b">
-<link rel="stylesheet" href="assets/gammas.css?v=20261115b">
+<link rel="stylesheet" href="assets/style.css?v=20261116a">
+<link rel="stylesheet" href="assets/gammas.css?v=20261116a">
 </head>
 <body>
-<script src="assets/site.js?v=20261115b"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261116a"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Gamma Line Explorer <span class="beta">beta</span></h1>
@@ -81,8 +81,11 @@
           upper-continental-crust averages of Rudnick &amp; Gao (2003) for rock. Each source's “Sources” list names the data sets used.</li>
         <li><b>Neutron capture (n,γ)</b>: thermal neutron flux × atoms of the target isotope per kilogram (composition × isotopic abundance) × thermal cross section × gammas per capture.</li>
         <li><b>Inelastic scattering (n,n′γ)</b>: fast neutron flux × atoms per kilogram × an assumed 1 b gamma-production cross section, shared over the levels. Per-level cross sections are not included yet, so treat these rates as order-of-magnitude.</li>
+        <li><b>Alpha-induced reactions (α,n), (α,p), (α,α′) …</b>: alpha activity of each chain segment in the material × thick-target gamma yield per alpha, for alphas stopping in that material.
+          Yields are ∫σ<sub>γ</sub>(E)/S(E) dE over each alpha's slowing down, the method of NeuCBOT, using TALYS cross sections and SRIM stopping powers. These matter mainly for light elements (F, Na, Mg, Al, Si, B, O); heavier nuclei are shielded by the Coulomb barrier.</li>
         <li><b>Activation products</b>: saturation activity, equal to the capture rate on the parent isotope.</li>
         <li><b>Everything else</b> (cosmogenic activation, calibration and medical sources, airborne radon, X-ray fluorescence, annihilation): no rate model yet, so these use a coarse prior on a fixed reference scale.</li>
+        <li><b>Isotopes with no reason to be there</b> (not a chain member, not cosmogenic, not an activation product, not a common man-made or calibration source) are ranked below every neutron- and alpha-induced line, though still listed.</li>
       </ul>
       <p>Default neutron fluxes: underground thermal 1.08×10⁻⁶ n cm⁻² s⁻¹ (P. Belli et al., Il Nuovo Cimento A 101 (1989) 959) and fast ≈ 0.9×10⁻⁷ n cm⁻² s⁻¹ (Gran Sasso, as summarized in R. Bernabei et al., arXiv:1409.3516);
         surface fast 5.5×10⁻³ n cm⁻² s⁻¹ (integral of the sea-level spectrum of M.S. Gordon et al., IEEE Trans. Nucl. Sci. 51 (2004) 3427), with the surface thermal flux assumed equal to it. Real fluxes vary a lot between sites and inside shielding: enter your own.</p>
@@ -93,6 +96,9 @@
           (L. Weimer et al., Nucl. Instrum. Meth. A 1093 (2027) 171940, doi:10.1016/j.nima.2026.171940), built from ENSDF capture evaluations. Line intensities and coincidences are computed here.
           No level schemes yet for some abundant isotopes, including ¹²⁷I, ¹³³Cs, ¹⁰⁷Ag, ²⁰⁶Pb, ²⁰⁷Pb and ¹⁹⁷Au.</li>
         <li><b>Thermal cross sections</b>: H. Rauch and W. Waschkowski, ILL Neutron Data Booklet (2003), via the periodictable package; radiative capture only for ¹⁰B, ⁶Li, ¹⁴N and ³He.</li>
+        <li><b>Alpha-induced gamma cross sections</b>: TALYS-1.95 (A.J. Koning &amp; D. Rochman, Nucl. Data Sheets 113 (2012) 2841, doi:10.1016/j.nds.2012.11.002), tabulated in the <a href="https://github.com/neucbot-datasets">NeuCBOT datasets</a>.
+          Alpha spectra (from ENSDF), chain branchings and stopping-power tables from <a href="https://neucbot.ucr.edu/">NeuCBOT</a> (S. Westerdale &amp; P.D. Meyers, Nucl. Instrum. Meth. A 875 (2017) 57, doi:10.1016/j.nima.2017.09.007);
+          stopping powers computed with SRIM (J.F. Ziegler, M.D. Ziegler &amp; J.P. Biersack, Nucl. Instrum. Meth. B 268 (2010) 1818, doi:10.1016/j.nimb.2010.02.091).</li>
         <li><b>X-rays</b>: xraylib (T. Schoonjans et al., Spectrochim. Acta B 66 (2011) 776).</li>
         <li><b>Material compositions</b>: nominal compositions (listed per material in each source's “Sources”); rock from Rudnick &amp; Gao (2003), doi:10.1016/B0-08-043751-6/03016-4.</li>
         <li><b>Context</b> (where sources appear, how to test them): curated by the <a href="index.html">UCR Dark Matter and Neutrino Lab</a>.</li>
@@ -103,6 +109,6 @@
     </aside>
   </div>
 </main>
-<script src="assets/gammas.js?v=20261115b"></script>
+<script src="assets/gammas.js?v=20261116a"></script>
 </body>
 </html>

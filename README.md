@@ -163,3 +163,14 @@ Ranking uses expected rates per kilogram (see "How candidates are ranked" on the
 `tools/gamma/materials.py`; the activities come from `tools/gamma/radiopurity_summary.json`, medians of the radiopurity.org assay records
 (J.C. Loach et al., Nucl. Instrum. Meth. A 839 (2016) 6) grouped by material, with the data sets behind each material listed. To refresh it,
 re-run the grouping on a new export of radiopurity.org and keep the same JSON layout.
+
+Alpha-induced lines ((α,n), (α,p), (α,α′) …) use `tools/gamma/alpha_xs.json`: TALYS-1.95 gamma-production cross sections taken from the
+NeuCBOT datasets. Thick-target yields are computed at build time with the NeuCBOT stopping powers and alpha lists copied into
+`tools/gamma/neucbot_data/` (GPL-3.0, see the license file there). To regenerate the cross-section table:
+```sh
+for el in B C N O F Na Mg Al Si P K Ca Ti Cr Mn Fe Ni Cu; do
+  git clone --depth 1 https://github.com/neucbot-datasets/${el}_v2.git /tmp/talys/$el
+  mkdir -p /tmp/talys/$el/x && tar -xzf /tmp/talys/$el/$el.tar.gz -C /tmp/talys/$el/x
+done
+python3 tools/gamma/alpha.py extract /tmp/talys tools/gamma/alpha_xs.json
+```

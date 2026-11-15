@@ -209,6 +209,14 @@
       r = { tot: 0, by: {} };
       var sw = s.L.reduce(function (a, l) { return a + l[1]; }, 0) || 1;
       mats.forEach(function (m) { add(m, F.fast * atoms(m, s.elem, s.M, s.ab) * 1e-24 * 100 / sw); });
+    } else if (s.kind === 'alpha') {                   // (α,x)γ: thick-target yield per chain-segment decay × segment activity
+      r = { tot: 0, by: {} };
+      mats.forEach(function (m) {
+        var y = (s.ay || {})[m]; if (!y) return;
+        var a = (M[m] || {}).act || {}, v = 0;
+        Object.keys(y).forEach(function (g) { v += (a[g] || 0) * y[g]; });
+        add(m, v);
+      });
     } else if (s.nphys) {
       var p = s.nphys; r = { tot: 0, by: {} };
       mats.forEach(function (m) { add(m, (p.fast ? F.fast : F.th) * atoms(m, p.el, p.M, p.ab) * p.sig * 1e-24); });
@@ -220,7 +228,11 @@
     var r = srcRate(s);
     if (r && r.tot > 0) return r.tot * l[1] / 100;
     if (r) return 1e-12 * l[1] / 100;                 // modelled, but nothing in your setup produces it
+    if (unmotivated(s)) return 1e-17 * strength(s, l[1]);   // no reason to expect it nearby: below every neutron- or alpha-induced line
     return prior(s) * REF * strength(s, l[1]);
+  }
+  function unmotivated(s) {           // a decay that is not a chain member, cosmogenic, activation product or common man-made/calibration source
+    return s.kind === 'decay' && !s.group && s.tier >= 3 && !SEG[s.nuc] && !s.cosmo && !s.act && !s.chain && !s.radon && !(s.when && (s.when.n || s.when.src || s.when.mat));
   }
   function rel(v, top) { return Math.max(0, Math.min(1, 1 + Math.log10(Math.max(v, 1e-300) / top) / 8)); }   // 8 decades of rate
 
@@ -231,6 +243,7 @@
   function width(E, flags) {          // expected peak σ: detector ⊕ Doppler/recoil broadening
     var s = sigma(E);
     if (flags && flags.indexOf('b') >= 0) s = Math.sqrt(s * s + Math.pow(0.004 * E, 2));
+    else if (flags && flags.indexOf('a') >= 0) s = Math.sqrt(s * s + Math.pow(0.001 * E, 2));   // (α,x)γ: some recoil Doppler broadening; the centroid stays at the line energy
     return s;
   }
   function match(E, line) {           // agreement of a measured energy with a line (0..1)
@@ -239,7 +252,7 @@
     return Math.exp(-0.5 * d * d / (s * s));
   }
 
-  var KIND = { decay: 'Decay', capture: 'Neutron capture (n,γ)', inel: 'Inelastic (n,n′γ)', rx: 'Other reaction', xray: 'X-ray', art: 'Detector effect' };
+  var KIND = { decay: 'Decay', capture: 'Neutron capture (n,γ)', inel: 'Inelastic (n,n′γ)', alpha: 'Alpha-induced (α,x)γ', rx: 'Other reaction', xray: 'X-ray', art: 'Detector effect' };
 
   /* ------------------------------------------------------------ correlations panel */
   function strongest(s, n) {
@@ -249,6 +262,7 @@
   }
   function timeText(s) {
     if (s.kind === 'capture' || s.kind === 'inel') return 'Prompt: appears only while neutrons are present and follows the neutron flux in real time.';
+    if (s.kind === 'alpha') return 'Prompt: follows the alpha activity of the material (²¹⁰Po, radon progeny, U/Th chains); constant in time if that activity is.';
     if (s.kind === 'rx') return s.time || 'Prompt: follows the rate of the reaction that produces it.';
     if (s.kind === 'xray') return 'Follows whatever excites the material (gammas, betas or the decays listed above).';
     var t = s.hl != null ? 'Decays with T½ = ' + hlText(s.hl) + '.' : '';
@@ -389,7 +403,7 @@
   }
 
   /* ------------------------------------------------------------ energy-range search */
-  var rangeKinds = { decay: true, capture: true, inel: true, rx: true, xray: true, art: true };
+  var rangeKinds = { decay: true, capture: true, inel: true, alpha: true, rx: true, xray: true, art: true };
   function artifacts(lo, hi) {        // escape and sum peaks from the most relevant sources
     var out = [];
     DATA.S.forEach(function (s) {
@@ -504,7 +518,8 @@
       });
       if (m.length) cands.push({ s: s, p: 1, m: m });
     });
-    cands.forEach(function (c) { c.m.forEach(function (x) { x.v = x.g * rel(x.rt, top || 1); }); });
+    // a line more than 6 decades weaker than the strongest candidate would not be seen beside it: keep it as an alternative only
+    cands.forEach(function (c) { c.m.forEach(function (x) { x.v = x.g * rel(x.rt, top || 1) * (x.rt < 1e-6 * (top || 1) ? 0.01 : 1); }); });
     function missing(c) {                     // strong expected lines in the observed range with no peak
       var ref = c.m.reduce(function (a, x) { var l = c.s.L[x.i]; return Math.max(a, l[1] * eff(l[0])); }, 0);
       if (c.s.kind === 'xray') return [];

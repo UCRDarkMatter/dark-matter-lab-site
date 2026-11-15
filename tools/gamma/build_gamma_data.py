@@ -379,7 +379,7 @@ def inelastic_sources(lc, gs):
             st = fnum(r.get("start_level_energy") or r.get("level_energy"))
             ri = fnum(r.get("relative_intensity") or r.get("intensity"))
             cc = fnum(r.get("tot_conv_coeff")) or 0.0
-            if e is None or st is None or st > 3200 or e < 30 or (r.get("multipolarity") or "").strip() == "E0":
+            if e is None or st is None or st > (7200 if a < 30 else 3200) or e < 30 or (r.get("multipolarity") or "").strip() == "E0":
                 continue
             per.setdefault(st, []).append((e, ri if ri is not None else 100.0, cc))
         L = []
@@ -409,6 +409,75 @@ def inelastic_sources(lc, gs):
                     "L": L, "refs": [ensdf_ref(rows[0], "Level energies and gamma branching (adopted levels of %s)" % pretty(tgt)), "@abund"]})
     return out
 
+
+
+# ------------------------------------------------------------------ alpha-induced (α,x)γ
+TALYS_REF = ("Gamma-production cross sections σγ(Eα): TALYS-1.95 (A.J. Koning & D. Rochman, Nucl. Data Sheets 113 (2012) 2841, "
+             "doi:10.1016/j.nds.2012.11.002), as tabulated in the NeuCBOT datasets (github.com/neucbot-datasets).")
+NEUCBOT_REF = ("Thick-target yield method, alpha spectra (from ENSDF) and stopping-power tables: NeuCBOT (S. Westerdale & P.D. Meyers, "
+               "Nucl. Instrum. Meth. A 875 (2017) 57, doi:10.1016/j.nima.2017.09.007).")
+SRIM_REF = ("Alpha stopping powers: SRIM (J.F. Ziegler, M.D. Ziegler & J.P. Biersack, Nucl. Instrum. Meth. B 268 (2010) 1818, "
+            "doi:10.1016/j.nimb.2010.02.091), combined over elements by Bragg additivity.")
+EJECT = {(0, 0): "γ", (0, 1): "n", (1, 1): "p", (0, 2): "2n", (1, 2): "np", (1, 3): "t", (2, 3): "³He", (2, 5): "αn", (3, 5): "αp"}
+
+
+def alpha_sources(gs, mats):
+    import alpha as AL
+    X = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "alpha_xs.json")))
+    ab = lambda el, A: gs.get("%d%s" % (A, el), {}).get("ab") or 0
+    mol = lambda el, A: pt.elements.symbol(el)[A].mass
+    Y = {m: AL.yields(d["comp"], X, ab, mol) for m, d in mats.items()}
+    groups = {}
+    for tgt, t in X["targets"].items():
+        for li, l in enumerate(t["lines"]):
+            groups.setdefault((tgt, l["res"]), []).append(li)
+    out = []
+    for (tgt, res), lis in groups.items():
+        t = X["targets"][tgt]
+        ay, w = {}, {}
+        for m, d in mats.items():
+            ym = Y[m].get(tgt)
+            if not ym:
+                continue
+            for li in lis:
+                for seg, v in ym.get(li, {}).items():
+                    ay.setdefault(m, {})[seg] = ay.get(m, {}).get(seg, 0) + v
+                    w[li] = w.get(li, 0) + v * (d["act"].get(seg, 0) or 1e-3)
+        if not ay:
+            continue
+        top = max(sum(mats[m]["act"].get(sg, 0) * v for sg, v in segs.items()) for m, segs in ay.items())
+        if top < 1e-10:
+            continue
+        tot = sum(w.values()) or 1
+        L = []
+        for li in lis:
+            if w.get(li, 0) / tot < 0.005:
+                continue
+            l = t["lines"][li]
+            L.append([round(l["E"], 2), round(100 * w[li] / tot, 2), "a" if t["A"] < 40 else "", "level %.0f keV" % l["Exi"]])
+        if not L:
+            continue
+        L = sorted(sorted(L, key=lambda l: -l[1])[:20], key=lambda l: l[0])
+        share = sum(l[1] for l in L) / 100
+        ay = {m: {sg: float("%.4g" % (v * share)) for sg, v in segs.items()} for m, segs in ay.items()}
+        zr = pt.elements.symbol(re.sub(r"\d", "", res)).number
+        ar = int(re.sub(r"\D", "", res))
+        zt = pt.elements.symbol(t["el"]).number
+        ej = "α′" if (zr, ar) == (zt, t["A"]) else EJECT.get((zt + 2 - zr, t["A"] + 4 - ar), "x")
+        name = "%s(α,%s)%s" % (pretty(tgt), ej, pretty(res))
+        mlist = [m for m in ay]
+        out.append({"id": "a:%s>%s" % (tgt, res), "name": name, "kind": "alpha", "elem": t["el"], "tier": 2, "ab": ab(t["el"], t["A"]),
+                    "ay": ay, "mats": mlist, "L": L,
+                    "key": ("%s %s %s alpha a%s %s alphainduced" % (tgt, t["el"] + str(t["A"]), res, ej, pt.elements.symbol(t["el"]).name)).lower().replace(" ", ""),
+                    "how": "Alphas from uranium- and thorium-chain contaminants and ²¹⁰Po inside the material hit %s nuclei (%.4g%% of natural %s). "
+                           "The %s reaction leaves %s in excited states, which emit these gammas at once." % (pretty(tgt), ab(t["el"], t["A"]), pt.elements.symbol(t["el"]).name, name, pretty(res)),
+                    "where": "Materials containing %s with alpha-emitting contamination: %s." % (pt.elements.symbol(t["el"]).name, ", ".join(MAT_NAMES.get(m, m) for m in mlist)),
+                    "tests": ["Rate follows the material's alpha activity (²¹⁰Po, radon progeny, U/Th chains), not the neutron flux: shielding does not change it.",
+                              "Lines from light nuclei are Doppler-broadened: the residual nucleus recoils fast and often decays in flight.",
+                              "The same reaction may also emit a neutron" + (" (it is an (α,n) reaction), so look for capture or inelastic lines too." if "n" in ej else "; check the other lines from this target.")],
+                    "unit": "Intensity: share of this reaction's gammas (%%, weighted over typical materials). Rates: thick-target yields for alphas stopping in each material, times that material's chain activities." ,
+                    "refs": [TALYS_REF, NEUCBOT_REF, SRIM_REF, "@abund"]})
+    return out
 
 # ------------------------------------------------------------------ X-rays
 def xray_sources():
@@ -506,8 +575,12 @@ def main(lc, levels_dir):
             if s in rest:
                 rest.remove(s); s["tier"] = 2; core.append(s)
     inel = inelastic_sources(lc, gs)
+    mats = MAT.build()
+    alp = alpha_sources(gs, mats)
     rx = []
     for r in K.REACTIONS:
+        if r["id"] in ("rx:f19aa", "rx:c13an"):        # now computed explicitly (alpha_sources)
+            continue
         r = dict(r); r["kind"] = "rx"; r["L"] = r.pop("lines")
         r["key"] = (r["name"] + " " + r["id"]).lower().replace(" ", "")
         r["unit"] = r.get("unit", "Relative intensities.")
@@ -516,17 +589,16 @@ def main(lc, levels_dir):
     for s in core + rest:
         if s.get("chain"):
             s.setdefault("name", s["name"])
-    mats = MAT.build()
     flux = {"underground": {"th": 1.08e-6, "fast": 0.9e-7}, "surface": {"th": 5.5e-3, "fast": 5.5e-3},
             "refs": ["Underground thermal flux 1.08×10⁻⁶ n cm⁻² s⁻¹: P. Belli et al., Il Nuovo Cimento A 101 (1989) 959 (Gran Sasso).",
                      "Underground fast flux ≈ 0.9×10⁻⁷ n cm⁻² s⁻¹ (Gran Sasso), as summarized in R. Bernabei et al., arXiv:1409.3516.",
                      "Surface fast flux (> 1 MeV) 5.5×10⁻³ n cm⁻² s⁻¹: integral of the sea-level spectrum parameterization of M.S. Gordon et al., IEEE Trans. Nucl. Sci. 51 (2004) 3427 (it gives 13 n cm⁻² h⁻¹ above 10 MeV). The surface thermal flux is assumed equal to it (no evaluated default; enter a measured value if you have one)."]}
     meta = {"built": datetime.date.today().isoformat(), "refs": {"@cascade": CASCADE_REF, "@sigma": SIGMA_REF + ".", "@abund": ABUND_REF},
             "materials": mats, "flux": flux,
-            "text": "Data built %s: %d decaying nuclides, %d capture target isotopes, %d isotopes with (n,n′γ) lines." % (
-                datetime.date.today().isoformat(), len(core) + len(rest), len(cap), len(inel))}
+            "text": "Data built %s: %d decaying nuclides, %d capture target isotopes, %d isotopes with (n,n′γ) lines, %d (α,x)γ reactions." % (
+                datetime.date.today().isoformat(), len(core) + len(rest), len(cap), len(inel), len(alp))}
     os.makedirs(OUT, exist_ok=True)
-    json.dump({"meta": meta, "S": core + cap + inel + rx + xr}, open(os.path.join(OUT, "core.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump({"meta": meta, "S": core + cap + inel + alp + rx + xr}, open(os.path.join(OUT, "core.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     json.dump({"S": rest}, open(os.path.join(OUT, "all.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     for f in ("core.json", "all.json"):
         print(f, os.path.getsize(os.path.join(OUT, f)) // 1024, "kB")
