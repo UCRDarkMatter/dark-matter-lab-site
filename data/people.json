@@ -70,7 +70,7 @@
     {
      "name": "Weicheng Wang",
      "photo": "images/people/weicheng-wang.jpg",
-     "bio": "CECI Ron Bieniek Award."
+     "bio": "CECI Ron Bieniek Award; admitted to DUNE-Tech."
     },
     {
      "name": "Mark Gergawy"
@@ -130,14 +130,10 @@
    "title": "High school students",
    "members": [
     {
-     "name": "Dhruv Trivedi"
+     "name": "Daniel Galvan"
     },
     {
-     "name": "Yousif Najat"
-    },
-    {
-     "name": "Vignesh Balaji",
-     "photo": "images/people/vignesh-balaji.jpg"
+     "name": "Ayaan Aslam"
     }
    ]
   },
@@ -167,11 +163,18 @@
     },
     {
      "name": "Nathan Culman",
-     "category": "Former undergraduates"
+     "category": "Former undergraduates",
+     "now": "Senior Mechanical Engineer, Western Digital"
+    },
+    {
+     "name": "Jose Escatel Casas",
+     "category": "Former undergraduates",
+     "now": "Metrology Engineer, Skorpios Technologies"
     },
     {
      "name": "Otis Fischer",
-     "category": "Former undergraduates"
+     "category": "Former undergraduates",
+     "now": "Software engineer, Flash Biometrics"
     },
     {
      "name": "Daniel Gamino Navarro",
@@ -180,6 +183,7 @@
     },
     {
      "name": "Anthony Gomez",
+     "photo": "images/people/anthony-gomez.jpg",
      "category": "Former undergraduates",
      "now": "PhD student in our lab"
     },
@@ -202,6 +206,11 @@
      "photo": "images/people/jared-hudnall.jpg",
      "category": "Former undergraduates",
      "now": "PhD student, UC Santa Barbara"
+    },
+    {
+     "name": "Alyssa Kongmalay",
+     "category": "Former undergraduates",
+     "now": "Medical engineer, Agiliti Health"
     },
     {
      "name": "Ryan Krismer",
@@ -228,6 +237,11 @@
      "now": "PhD student, Queen's University"
     },
     {
+     "name": "Sidra Mazhar",
+     "category": "Former undergraduates",
+     "now": "Medical school, Meritus School of Osteopathic Medicine"
+    },
+    {
      "name": "Bill Murray",
      "category": "Former undergraduates"
     },
@@ -239,6 +253,11 @@
      "name": "Bryan Seratt",
      "photo": "images/people/bryan-seratt.jpg",
      "category": "Former undergraduates"
+    },
+    {
+     "name": "Brian Uong",
+     "category": "Former undergraduates",
+     "now": "Electrical Project Engineer, RTM Engineering Consultants"
     },
     {
      "name": "Leo Weimer",
@@ -259,6 +278,27 @@
     {
      "name": "Ernest Granollers i Colom",
      "category": "Former lab assistants"
+    },
+    {
+     "name": "Vignesh Balaji",
+     "photo": "images/people/vignesh-balaji.jpg",
+     "category": "Former high school students"
+    },
+    {
+     "name": "Tharun Manigandan",
+     "category": "Former high school students"
+    },
+    {
+     "name": "Yousif Najat",
+     "category": "Former high school students"
+    },
+    {
+     "name": "Dhruv Trivedi",
+     "category": "Former high school students"
+    },
+    {
+     "name": "Kausthubh Veldanda",
+     "category": "Former high school students"
     }
    ]
   }
