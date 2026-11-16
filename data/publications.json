@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14T23:03:06Z",
+ "generated": "2026-11-16T21:02:14Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -2252,7 +2252,7 @@
    "doi": "10.1140/epjc/s10052-021-09655-y",
    "comment": "20 pages, 8 figures, 4 tables, version 2 to match publication. Version 3 to reflect erratum regarding Section 2.2.1",
    "category": "hep-ex",
-   "citations": 348
+   "citations": 349
   },
   {
    "id": "2103.12202",
@@ -2647,7 +2647,7 @@
    "doi": "10.1103/PhysRevLett.121.111303",
    "comment": "replaced with published version",
    "category": "astro-ph.CO",
-   "citations": 338,
+   "citations": 339,
    "collaboration": "DarkSide"
   },
   {
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7511
+ "total_citations": 7513
 }
