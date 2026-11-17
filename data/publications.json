@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T21:02:14Z",
+ "generated": "2026-11-17T19:51:09Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -742,7 +742,7 @@
    "doi": "10.1103/zfmd-k11f",
    "comment": "8 pages, 4 figures",
    "category": "hep-ph",
-   "citations": 4,
+   "citations": 5,
    "collaboration": "DarkSide-50"
   },
   {
@@ -1553,7 +1553,7 @@
    "doi": "10.1103/PhysRevD.110.102006",
    "comment": "10 pages, 5 figures",
    "category": "hep-ex",
-   "citations": 13,
+   "citations": 14,
    "collaboration": "DarkSide-50"
   },
   {
@@ -1809,7 +1809,7 @@
    "doi": "10.1103/PhysRevLett.130.101001",
    "comment": "7 pages, 3 figures",
    "category": "hep-ex",
-   "citations": 147,
+   "citations": 148,
    "collaboration": "DarkSide"
   },
   {
@@ -2067,7 +2067,7 @@
    "doi": "10.1088/1361-6471/ad307f",
    "comment": "Contribution to Snowmass 2021 by the NF02 Topical Group (Understanding Experimental Neutrino Anomalies). Published in J. Phys. G as a Major Report",
    "category": "hep-ex",
-   "citations": 165
+   "citations": 166
   },
   {
    "id": "2203.06508",
@@ -2359,7 +2359,7 @@
    "doi": "10.1103/PhysRevD.102.082001",
    "comment": "",
    "category": "astro-ph.CO",
-   "citations": 59,
+   "citations": 60,
    "collaboration": "DEAP"
   },
   {
@@ -2620,7 +2620,7 @@
    "doi": "10.1103/PhysRevD.98.102006",
    "comment": "17 pages, 13 figures. V3 changes: updates for clarity for publication, additional figure",
    "category": "astro-ph.CO",
-   "citations": 412,
+   "citations": 413,
    "collaboration": "DarkSide"
   },
   {
@@ -2647,7 +2647,7 @@
    "doi": "10.1103/PhysRevLett.121.111303",
    "comment": "replaced with published version",
    "category": "astro-ph.CO",
-   "citations": 339,
+   "citations": 340,
    "collaboration": "DarkSide"
   },
   {
@@ -3185,7 +3185,7 @@
    "doi": "10.1016/j.physletb.2015.03.012",
    "comment": "26 pages, 7 figures; updated figures and references, notably Fig. 7 has updated CDMSII curve; fixed typos; clarified some language and figures; updated references",
    "category": "astro-ph.CO",
-   "citations": 424,
+   "citations": 425,
    "collaboration": "DarkSide"
   },
   {
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7513
+ "total_citations": 7521
 }
