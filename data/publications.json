@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17T19:51:09Z",
+ "generated": "2026-11-18T19:24:32Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -313,7 +313,7 @@
    "doi": "",
    "comment": "16 pages, 9 figures",
    "category": "hep-ex",
-   "citations": 4,
+   "citations": 5,
    "collaboration": "DEAP"
   },
   {
@@ -474,7 +474,7 @@
    "doi": "10.1103/x3vt-q676",
    "comment": "10 pages, 8 figures, 1 table",
    "category": "hep-ex",
-   "citations": 11,
+   "citations": 12,
    "collaboration": "DarkSide-50, DarkSide-20k"
   },
   {
@@ -661,7 +661,7 @@
    "doi": "10.1140/epjc/s10052-026-16193-y",
    "comment": "15 pages, 19 figures",
    "category": "hep-ex",
-   "citations": 6,
+   "citations": 7,
    "collaboration": "DarkSide-50"
   },
   {
@@ -877,7 +877,7 @@
    "doi": "10.1088/1748-0221/20/07/P07012",
    "comment": "24 pages, 16 figures, updated some texts after journal review was completed, and added one author who was missing in the previous submission",
    "category": "physics.ins-det",
-   "citations": 5,
+   "citations": 6,
    "collaboration": "DEAP"
   },
   {
@@ -985,7 +985,7 @@
    "doi": "10.1140/epjc/s10052-025-14196-9",
    "comment": "",
    "category": "physics.ins-det",
-   "citations": 15,
+   "citations": 16,
    "collaboration": "DarkSide-20k"
   },
   {
@@ -1242,7 +1242,7 @@
    "doi": "10.1038/s42005-024-01896-z",
    "comment": "13 pages, 4 figures, supplementary material (4 figures)",
    "category": "hep-ex",
-   "citations": 47,
+   "citations": 48,
    "collaboration": "DarkSide-20k"
   },
   {
@@ -1322,7 +1322,7 @@
    "doi": "10.1088/1361-6471/adeffa",
    "comment": "39 pages, 8 figures Submitted to Journal of Physics G: Nuclear and Particle Physics",
    "category": "nucl-ex",
-   "citations": 9
+   "citations": 10
   },
   {
    "id": "2404.18492",
@@ -1553,7 +1553,7 @@
    "doi": "10.1103/PhysRevD.110.102006",
    "comment": "10 pages, 5 figures",
    "category": "hep-ex",
-   "citations": 14,
+   "citations": 15,
    "collaboration": "DarkSide-50"
   },
   {
@@ -1677,7 +1677,7 @@
    "doi": "10.3389/fdest.2024.1480975",
    "comment": "28 Pages, 4 Tables, 7 Figures, 21 Equations, and 131 References",
    "category": "hep-ex",
-   "citations": 66
+   "citations": 67
   },
   {
    "id": "2209.07426",
@@ -1782,7 +1782,7 @@
    "doi": "10.1103/PhysRevLett.130.101002",
    "comment": "6 pages, 2 figures",
    "category": "hep-ex",
-   "citations": 166,
+   "citations": 167,
    "collaboration": "DarkSide"
   },
   {
@@ -1809,7 +1809,7 @@
    "doi": "10.1103/PhysRevLett.130.101001",
    "comment": "7 pages, 3 figures",
    "category": "hep-ex",
-   "citations": 148,
+   "citations": 149,
    "collaboration": "DarkSide"
   },
   {
@@ -1836,7 +1836,7 @@
    "doi": "10.1103/PhysRevD.107.063001",
    "comment": "11 pages, 12 figures",
    "category": "hep-ex",
-   "citations": 242,
+   "citations": 243,
    "collaboration": "DarkSide-50"
   },
   {
@@ -1863,7 +1863,7 @@
    "doi": "",
    "comment": "35 pages, 12 figures, contributed white paper to Snowmass 2021 (final version for Snowmass proceedings)",
    "category": "physics.ins-det",
-   "citations": 30
+   "citations": 31
   },
   {
    "id": "2207.00124",
@@ -1964,7 +1964,7 @@
    "doi": "",
    "comment": "Contribution to Snowmass 2021. v2: includes endorsers and minor changes",
    "category": "hep-ph",
-   "citations": 199
+   "citations": 201
   },
   {
    "id": "2203.08084",
@@ -2252,7 +2252,7 @@
    "doi": "10.1140/epjc/s10052-021-09655-y",
    "comment": "20 pages, 8 figures, 4 tables, version 2 to match publication. Version 3 to reflect erratum regarding Section 2.2.1",
    "category": "hep-ex",
-   "citations": 349
+   "citations": 351
   },
   {
    "id": "2103.12202",
@@ -2332,7 +2332,7 @@
    "doi": "10.1088/1475-7516/2021/03/043",
    "comment": "21 pages, 8 figures",
    "category": "astro-ph.HE",
-   "citations": 60,
+   "citations": 61,
    "collaboration": "DarkSide 20k"
   },
   {
@@ -2574,7 +2574,7 @@
    "doi": "10.1103/PhysRevD.100.022004",
    "comment": "",
    "category": "astro-ph.CO",
-   "citations": 324,
+   "citations": 325,
    "collaboration": "DEAP"
   },
   {
@@ -2647,7 +2647,7 @@
    "doi": "10.1103/PhysRevLett.121.111303",
    "comment": "replaced with published version",
    "category": "astro-ph.CO",
-   "citations": 340,
+   "citations": 341,
    "collaboration": "DarkSide"
   },
   {
@@ -2674,7 +2674,7 @@
    "doi": "10.1103/PhysRevLett.121.081307",
    "comment": "9 pages, 8 figures; submission accepted by journal",
    "category": "astro-ph.HE",
-   "citations": 704,
+   "citations": 706,
    "collaboration": "DarkSide"
   },
   {
@@ -2782,7 +2782,7 @@
    "doi": "10.1140/epjp/i2018-11973-4",
    "comment": "",
    "category": "physics.ins-det",
-   "citations": 562,
+   "citations": 563,
    "collaboration": "DarkSide-20k"
   },
   {
@@ -2933,7 +2933,7 @@
    "doi": "10.1016/j.nima.2017.09.007",
    "comment": "",
    "category": "physics.ins-det",
-   "citations": 65
+   "citations": 66
   },
   {
    "id": "1611.02750",
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7521
+ "total_citations": 7545
 }
