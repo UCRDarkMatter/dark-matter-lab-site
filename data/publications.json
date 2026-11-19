@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18T19:24:32Z",
+ "generated": "2026-11-19T19:29:42Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -1836,7 +1836,7 @@
    "doi": "10.1103/PhysRevD.107.063001",
    "comment": "11 pages, 12 figures",
    "category": "hep-ex",
-   "citations": 243,
+   "citations": 244,
    "collaboration": "DarkSide-50"
   },
   {
@@ -2145,7 +2145,7 @@
    "doi": "10.1103/PhysRevLett.128.011801",
    "comment": "",
    "category": "astro-ph.CO",
-   "citations": 86,
+   "citations": 87,
    "collaboration": "(DEAP Collaboration)‡, DEAP"
   },
   {
@@ -2252,7 +2252,7 @@
    "doi": "10.1140/epjc/s10052-021-09655-y",
    "comment": "20 pages, 8 figures, 4 tables, version 2 to match publication. Version 3 to reflect erratum regarding Section 2.2.1",
    "category": "hep-ex",
-   "citations": 351
+   "citations": 353
   },
   {
    "id": "2103.12202",
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7545
+ "total_citations": 7549
 }
