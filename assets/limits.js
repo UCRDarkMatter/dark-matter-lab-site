@@ -264,7 +264,7 @@
     var rows = chosen(), t = $('sel-table');
     if (!rows.length) { t.innerHTML = '<tr><td class="muted">Nothing selected.</td></tr>'; return; }
     t.innerHTML = '<tr><th>Curve</th><th>Kind</th><th>Details</th><th>Source</th><th>Points</th><th>Paper</th><th></th></tr>' + rows.map(function (c) {
-      var st = styleOf(c), src = { hepdata: 'HEPData', ancillary: 'arXiv data file', figure: 'Read from the vector figure', ai: 'Digitized by AI', manual: 'Digitized by hand', demo: 'Demo', user: 'Your data' }[c.source] || c.source;
+      var st = styleOf(c), src = { hepdata: 'HEPData', ancillary: 'arXiv data file', figure: 'Read from the vector figure', ai: 'Digitized by AI', manual: 'Digitized by hand', compilation: 'O\'Hare compilation', demo: 'Demo', user: 'Your data' }[c.source] || c.source;
       return '<tr><td><span class="swatch" style="border-color:' + st.color + '"></span>' + esc(c.label) + '</td><td>' + esc(KIND_ONE[c.kind || 'limit']) + (c.sigma ? ' (' + c.sigma + 'σ)' : '') + '</td><td>' + esc(c.limit_type) + '</td><td>' +
         (c.source_url ? '<a href="' + esc(c.source_url) + '">' + esc(src) + '</a>' : esc(src)) + (c.status === 'pending' ? ' <span class="badge warn">unreviewed</span>' : '') +
         (c.notes ? '<br><small class="muted">' + esc(c.notes) + '</small>' : '') + '</td><td>' + c.points.length + '</td><td>' +

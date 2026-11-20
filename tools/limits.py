@@ -103,6 +103,15 @@ COLLABS += [
     ("DAMIC-M", ["DAMIC-M"]), ("PICO-500", ["PICO-500"]), ("CYGNUS", ["CYGNUS"]), ("SABRE", ["SABRE"]),
     ("HeRALD", ["HeRALD"]), ("SPICE", ["SPICE"]), ("DarkSide-LowMass", ["DarkSide-LowMass"]),
 ]
+# Landmark results the keyword filter must never miss, whatever their wording: always treated as results,
+# and fetched from arXiv by number if the search did not bring them in (e.g. before --since, or LUX's short name).
+FORCE_RESULTS = {
+    "1608.07648": "LUX", "1705.03380": "LUX", "1602.03489": "LUX", "1704.02297": "LUX",
+    "1902.03234": "XENON", "1907.12771": "XENON", "2207.11330": "XENON", "2006.09721": "XENON", "2112.12116": "XENON",
+    "1904.00498": "CRESST", "2207.07640": "CRESST", "2004.11378": "SENSEI", "2312.13342": "SENSEI", "2410.18716": "SENSEI",
+    "2503.14617": "DAMIC", "1911.11905": "SuperCDMS", "2108.09405": "DEAP-3600", "2402.08865": "LZ",
+    "1806.06499": "KIMS", "1601.03729": "PICO", "1906.01791": "COSINE",
+}
 # Theory models whose predicted regions are worth overlaying: (name shown in the UI, search phrases).
 MODELS = [
     # (name shown in the UI, phrases searched on arXiv, what the paper's TITLE must mention)
@@ -126,20 +135,23 @@ RESULT_RE = re.compile(r"we report|no (significant |statistically significant )?
                        r"search results|first results|live[- ]days|were observed|exposure of|data (taken|collected|acquired)", re.I)
 # A paper must look like it reports a curve, judged mostly by its title: this keeps out detector,
 # calibration and analysis-technique papers that merely mention limits or future sensitivity.
-TITLE_RE = re.compile(r"search|limits?\b|constraints?|results?\b|exclu|sensitivity|prospects|projected|discovery|"
-                      r"reach\b|first .*(data|run)|bounds?\b", re.I)
-CURVE_RE = re.compile(r"cross[- ]sections?|coupling|kinetic mixing|parameter space|exclu\w+|wimp[- ]nucleon", re.I)
+TITLE_RE = re.compile(r"search|limits?\b|constrain\w*|results?\b|exclu|sensitivity|prospects|projected|discovery|"
+                      r"reach\b|first .*(data|run)|bounds?\b|prob(e|es|ing)\b", re.I)
+CURVE_RE = re.compile(r"cross[- ]sections?|coupling|kinetic mixing|parameter space|exclu\w+|wimp[- ]nucleon|"
+                      r"scattering|interactions?\b|absorption|electron recoils?|nuclear recoils?", re.I)
 OFF_TOPIC_RE = re.compile(r"\bLHC\b|collider|displaced|indirect detection|gamma[- ]ray|gravitational[- ]wave|"
                           r"neutrino mass|cosmic[- ]ray|\bCMB\b|neutron stars?|white dwarf|paleo-?detector|"
                           r"formalism|state of the art|review|Super-Kamiokande|Fermi-LAT|boosted", re.I)
 # Collaboration papers that are not dark matter curves: other physics, and analysis-method papers.
-NOT_DM_TITLE_RE = re.compile(r"double[- ]beta|neutrinoless|0\s?ν\s?ββ|background model|modell?ing and|"
-                             r"statistical inference|calibration|simulation", re.I)
+NOT_DM_TITLE_RE = re.compile(r"double[- ]beta|neutrinoless|0\s?ν\s?ββ|background model|modell?ing|"
+                             r"statistical inference|calibration|simulation|performance of|tagging|readout|electrode|"
+                             r"approximate likelihood|neutrino flux|gamma-ray emission|solar \$?\^?8\$?B", re.I)
 MIN_COLLAB_AUTHORS = 20     # a paper without "Collaboration" in its author list needs this many authors
 MODEL_RE = re.compile(r"predict\w*|benchmark|favou?red|preferred|viable|allowed (region|parameter)|"
                       r"global fit|target|parameter space|relic (density|abundance)", re.I)
 LIMIT_RE = re.compile(r"\b(upper limits?|limits? (?:on|are|is)|exclu\w+|constrain\w*|90\s?% C\.?L|"
-                      r"confidence level|new limits?|world-leading|most stringent|strongest)\b", re.I)
+                      r"confidence level|new limits?|world-leading|most stringent|strongest|sets? (?:\w+ ){0,3}limits?|"
+                      r"leading (?:limits?|constraints?|sensitivity)|best (?:limits?|sensitivity)|improv\w+ (?:\w+ ){0,3}limits?)\b", re.I)
 MASS_UNITS = {"ev": 1e-9, "kev": 1e-6, "mev": 1e-3, "gev": 1.0, "tev": 1e3, "pev": 1e6, "eev": 1e9,
               "g": 5.60959e23, "kg": 5.60959e26}       # grams appear on ultra-heavy plots (1 g = 5.61e23 GeV/c²)
 UHDM = ("UHDM-A4", "UHDM-A")
@@ -683,6 +695,33 @@ def classify(p, terms):
     return "result" if LIMIT_RE.search(text) else None
 
 
+def classify_paper(p, terms, arxiv_id=""):
+    return "result" if arxiv_id in FORCE_RESULTS else classify(p, terms)
+
+
+def fetch_forced(db, pause=3.5):
+    """Bring in landmark papers (FORCE_RESULTS) that are missing from the database."""
+    added = 0
+    for arxiv_id, experiment in FORCE_RESULTS.items():
+        if db.execute("SELECT 1 FROM papers WHERE arxiv_id=?", (arxiv_id,)).fetchone():
+            continue
+        try:
+            found = parse_feed(http_get(ARXIV_API + "?id_list=" + arxiv_id + "&max_results=1"))
+        except Exception as err:
+            log("  arXiv: %s not fetched (%s)" % (arxiv_id, err))
+            continue
+        time.sleep(pause)
+        if not found:
+            continue
+        p = found[0]
+        db.execute("INSERT INTO papers (arxiv_id,title,abstract,authors,n_authors,published,experiment,journal_ref,doi,status,kind) "
+                   "VALUES (?,?,?,?,?,?,?,?,?,?,?)", (arxiv_id, p["title"], p["abstract"], p["authors"], p["n_authors"],
+                                                      p["published"], experiment, p["journal_ref"], p["doi"], "candidate", "result"))
+        added += 1
+    db.commit()
+    return added
+
+
 def is_candidate(p, terms):
     return classify(p, terms) == "result"
 
@@ -708,7 +747,7 @@ def reclassify(db):
         p = {"title": r["title"], "abstract": r["abstract"], "n_authors": r["n_authors"] or 0, "comment": "",
              "collab_author": "collaboration" in (r["authors"] or "").lower()}
         kind = classify_model(p, *models[r["experiment"]]) if r["experiment"] in models else \
-            classify(p, terms.get(r["experiment"], [r["experiment"]]))
+            classify_paper(p, terms.get(r["experiment"], [r["experiment"]]), r["arxiv_id"])
         status = "candidate" if kind else "skipped"
         if status != r["status"] or (kind and kind != r["kind"]):
             db.execute("UPDATE papers SET status=?, kind=? WHERE arxiv_id=?", (status, kind or r["kind"], r["arxiv_id"]))
@@ -739,7 +778,7 @@ def scrape(db, since, pause=3.5, max_pages=20, model_pages=2):
                     continue
                 if db.execute("SELECT 1 FROM papers WHERE arxiv_id=?", (p["arxiv_id"],)).fetchone():
                     continue
-                kind = judge(p, terms)
+                kind = "result" if p["arxiv_id"] in FORCE_RESULTS else judge(p, terms)
                 db.execute("INSERT INTO papers (arxiv_id,title,abstract,authors,n_authors,published,experiment,"
                            "journal_ref,doi,status,kind) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                            (p["arxiv_id"], p["title"], p["abstract"], p["authors"], p["n_authors"], p["published"],
@@ -1517,6 +1556,9 @@ def main():
     hd.add_argument("arxiv_id")
     hd.add_argument("files", nargs="+", help="table files saved from HEPData with 'JSON' as the download format")
     hd.add_argument("--experiment", default="")
+    cp = sub.add_parser("add-compilation", help="import curves from a clone of github.com/cajohare/DirectDetectionPlots "
+                                                  "(papers whose curves we do not have yet)")
+    cp.add_argument("path", help="folder of the cloned repository")
     ex = sub.add_parser("extract", help="run the extractors on particular papers now, e.g. extract 2410.17036")
     ex.add_argument("ids", nargs="*", metavar="ARXIV_ID")
     ex.add_argument("--pending", action="store_true", help="redo every paper that still has unreviewed curves "
@@ -1554,6 +1596,7 @@ def main():
         if not args.skip_scrape:
             log("Scraping arXiv")
             log("  %d new candidate papers" % scrape(db, args.since))
+            log("  %d landmark papers fetched by number" % fetch_forced(db))
         if args.retry_failed:
             db.execute("UPDATE papers SET extracted='' WHERE log LIKE '%failed%' OR log LIKE '%blocked%'")
             db.commit()
@@ -1680,6 +1723,11 @@ def main():
                 print("  curve %s: %s [%s, %s]%s" % (cid, label, channel, kind, "" if confident else "  (units unclear: review)"))
         report_export(db)
         print("added %d curves" % made)
+    elif args.cmd == "add-compilation":
+        import compilation
+        added, skipped = compilation.import_all(db, args.path, add_curve, log)
+        report_export(db)
+        print("added %d curves, skipped %d" % (added, skipped))
     elif args.cmd == "check":
         check_services()
     elif args.cmd == "waiting":
