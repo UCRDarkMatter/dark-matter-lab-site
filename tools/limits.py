@@ -105,12 +105,85 @@ COLLABS += [
 ]
 # Landmark results the keyword filter must never miss, whatever their wording: always treated as results,
 # and fetched from arXiv by number if the search did not bring them in (e.g. before --since, or LUX's short name).
+# One entry per collaboration paper with a published limit curve: the flagship searches of every major
+# direct-detection experiment (SI, SD, low-mass, DM-electron, dark photon/ALP, ultra-heavy), past and present.
 FORCE_RESULTS = {
-    "1608.07648": "LUX", "1705.03380": "LUX", "1602.03489": "LUX", "1704.02297": "LUX",
-    "1902.03234": "XENON", "1907.12771": "XENON", "2207.11330": "XENON", "2006.09721": "XENON", "2112.12116": "XENON",
-    "1904.00498": "CRESST", "2207.07640": "CRESST", "2004.11378": "SENSEI", "2312.13342": "SENSEI", "2410.18716": "SENSEI",
-    "2503.14617": "DAMIC", "1911.11905": "SuperCDMS", "2108.09405": "DEAP-3600", "2402.08865": "LZ",
-    "1806.06499": "KIMS", "1601.03729": "PICO", "1906.01791": "COSINE",
+    "1802.09016": "CDEX",
+    "2206.04128": "CDEX",
+    "0912.3592": "CDMS",
+    "1906.01791": "COSINE",
+    "2501.13665": "COSINE",
+    "2510.01927": "COSINE",
+    "1204.3094": "COUPP",
+    "1611.02113": "CRESST",
+    "1904.00498": "CRESST",
+    "2207.07640": "CRESST",
+    "2405.06527": "CRESST",
+    "1907.12628": "DAMIC",
+    "2007.15622": "DAMIC",
+    "2302.02372": "DAMIC",
+    "2307.07251": "DAMIC",
+    "2503.14617": "DAMIC",
+    "1707.08042": "DEAP-3600",
+    "1902.04048": "DEAP-3600",
+    "2108.09405": "DEAP-3600",
+    "2603.13965": "DEAP-3600",
+    "1802.06994": "DarkSide",
+    "1802.06998": "DarkSide",
+    "1802.07198": "DarkSide",
+    "2207.11966": "DarkSide",
+    "2207.11967": "DarkSide",
+    "2207.11968": "DarkSide",
+    "1607.03367": "EDELWEISS",
+    "1808.02340": "EDELWEISS",
+    "1901.03588": "EDELWEISS",
+    "2003.01046": "EDELWEISS",
+    "1806.06499": "KIMS",
+    "1602.03489": "LUX",
+    "1608.07648": "LUX",
+    "1704.02297": "LUX",
+    "1705.03380": "LUX",
+    "2207.03764": "LZ",
+    "2307.15753": "LZ",
+    "2402.08865": "LZ",
+    "2410.17036": "LZ",
+    "2511.17350": "LZ",
+    "2512.08065": "LZ",
+    "1706.04934": "NEWS-G",
+    "2407.12769": "NEWS-G",
+    "1202.1240": "PICASSO",
+    "1601.03729": "PICO",
+    "1702.07666": "PICO",
+    "1902.04031": "PICO",
+    "1708.06917": "PandaX",
+    "2007.15469": "PandaX",
+    "2107.13438": "PandaX",
+    "2212.10067": "PandaX",
+    "2408.00664": "PandaX",
+    "2409.00773": "PandaX",
+    "2507.11930": "PandaX",
+    "1804.00088": "SENSEI",
+    "2004.11378": "SENSEI",
+    "2312.13342": "SENSEI",
+    "2410.18716": "SENSEI",
+    "1707.01632": "SuperCDMS",
+    "1804.10697": "SuperCDMS",
+    "1808.09098": "SuperCDMS",
+    "1911.11905": "SuperCDMS",
+    "2509.03608": "SuperCDMS",
+    "2503.03683": "TESSERACT",
+    "1609.06154": "XENON",
+    "1805.12562": "XENON",
+    "1902.03234": "XENON",
+    "1907.11485": "XENON",
+    "1907.12771": "XENON",
+    "2006.09721": "XENON",
+    "2112.12116": "XENON",
+    "2207.11330": "XENON",
+    "2303.14729": "XENON",
+    "2411.15289": "XENON",
+    "2502.18005": "XENON",
+    "1804.02180": "XMASS",
 }
 # Theory models whose predicted regions are worth overlaying: (name shown in the UI, search phrases).
 MODELS = [
@@ -1556,9 +1629,6 @@ def main():
     hd.add_argument("arxiv_id")
     hd.add_argument("files", nargs="+", help="table files saved from HEPData with 'JSON' as the download format")
     hd.add_argument("--experiment", default="")
-    cp = sub.add_parser("add-compilation", help="import curves from a clone of github.com/cajohare/DirectDetectionPlots "
-                                                  "(papers whose curves we do not have yet)")
-    cp.add_argument("path", help="folder of the cloned repository")
     ex = sub.add_parser("extract", help="run the extractors on particular papers now, e.g. extract 2410.17036")
     ex.add_argument("ids", nargs="*", metavar="ARXIV_ID")
     ex.add_argument("--pending", action="store_true", help="redo every paper that still has unreviewed curves "
@@ -1723,11 +1793,6 @@ def main():
                 print("  curve %s: %s [%s, %s]%s" % (cid, label, channel, kind, "" if confident else "  (units unclear: review)"))
         report_export(db)
         print("added %d curves" % made)
-    elif args.cmd == "add-compilation":
-        import compilation
-        added, skipped = compilation.import_all(db, args.path, add_curve, log)
-        report_export(db)
-        print("added %d curves, skipped %d" % (added, skipped))
     elif args.cmd == "check":
         check_services()
     elif args.cmd == "waiting":

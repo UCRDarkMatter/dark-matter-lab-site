@@ -100,14 +100,10 @@ Where curves come from, in order:
    On the review page, "Approve this paper's own (N) and reject the rest" settles a paper in one click.
    After updating the scripts, `python3 tools/limits.py extract --pending` re-sorts papers still awaiting review.
    `python3 tools/limits.py figures 2410.17036` shows what it finds in one paper without saving anything.
-4. **Published compilation**: `python3 tools/limits.py add-compilation <clone of github.com/cajohare/DirectDetectionPlots>`
-   imports C.A.J. O'Hare's curated data files for collaboration results our extractors missed (`tools/compilation.py`
-   maps each file to its paper, channel and label). They are added as approved, marked "O'Hare compilation", and skipped
-   when that paper already has an approved curve in the same plot type. Re-running it adds only what is new.
-5. Optional, off by default: with `update --ai` (and `ANTHROPIC_API_KEY` set), Claude reads the PDF when
+4. Optional, off by default: with `update --ai` (and `ANTHROPIC_API_KEY` set), Claude reads the PDF when
    nothing above found a curve. Approximate.
 
-Anything from steps 3 and 5 stays "unreviewed" (hidden unless a visitor ticks "Include unreviewed curves")
+Anything from steps 3 and 4 stays "unreviewed" (hidden unless a visitor ticks "Include unreviewed curves")
 until approved.
 
 Review page (from `serve`): open problem reports, approve/reject curves, fix labels of published curves,
@@ -121,8 +117,9 @@ Command line: `limits.py list --search SuperCDMS`, `edit 735 --label "SuperCDMS 
 Kinds of entry
 - `limit` (solid), `projection` (dashed), `discovery` (3σ/5σ contours, shorter dashes) and `model`
   (theory predictions, drawn as filled regions or dash-dot target lines). Visitors switch each kind on or off.
-- Landmark results the keyword filter must never miss (LUX, SENSEI, CRESST-III, ...) are listed in `FORCE_RESULTS`
-  near the top of `tools/limits.py`; `update` fetches any that are missing by arXiv number.
+- Landmark results the keyword filter must never miss are listed in `FORCE_RESULTS` near the top of `tools/limits.py`
+  (the flagship searches of every major direct-detection experiment); `update` fetches any that are missing by arXiv
+  number and queues them for extraction. Add a paper there when the search misses it.
 - Projections and discovery contours come from the same collaboration search, plus a list of planned
   experiments (XLZD, DARWIN, DarkSide-20k, ARGO, PandaX-xT, ...). A collaboration paper is treated as a
   projection when its abstract talks about sensitivity/prospects and reports no data.

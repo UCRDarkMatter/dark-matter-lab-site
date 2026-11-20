@@ -43,7 +43,7 @@ jobs:
       - name: Dark matter limits, committed in batches so reviewing can start straight away
         env:
           PAPERS: ${{ inputs.papers }}
-          MAX_PAPERS: ${{ inputs.max_papers || '40' }}
+          MAX_PAPERS: ${{ inputs.max_papers || '100' }}
           BATCH: "10"
         run: |
           git config user.name "github-actions[bot]"
