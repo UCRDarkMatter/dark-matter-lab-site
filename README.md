@@ -80,6 +80,21 @@ Not rebuilt yet: `Experiments.html` and the individual experiment pages (the men
 The arXiv search is `au:Westerdale` (set in `assets/publications.js` and the updater's `--query`).
 The INSPIRE search is `a Westerdale, S` (`--inspire-query`); if the citation counts look wrong, adjust it.
 
+## Internal group wiki (`Internal.html`)
+Password-protected pages for the group (getting started, Mac/WSL setup, tutorials, DAQ and Slack links), linked from
+the footer. Because this repository is public, the pages are stored **encrypted** in `data/internal.enc.json`
+(AES-256-GCM, key from the group password via PBKDF2-SHA256, 600,000 iterations); the browser decrypts them, and
+plain text never enters the repository. Never commit the password or decrypted pages.
+
+- Editing: unlock the page, then **Edit page** / **New page** (Markdown with live preview). **Save** re-encrypts in the
+  browser and commits the file through the GitHub API with the editor's own fine-grained token (Contents: read and
+  write on this repository), merging with any edits saved meanwhile. **Download encrypted file** is the fallback.
+- Command line: `python3 tools/wiki.py export DIR` / `import DIR` (bulk edits in Markdown files kept outside the
+  repository) and `python3 tools/wiki.py password` (change the password; then commit `data/internal.enc.json`).
+- Markdown is rendered with marked and sanitized with DOMPurify (`assets/vendor/`, MIT and Apache-2.0/MPL-2.0).
+- The protection is only as strong as the password: anyone who guesses it can decrypt the file, so keep credentials
+  and personal data out of the wiki.
+
 ## Dark matter limit plotter (`Limits.html`)
 `tools/limits.py` finds collaboration papers with new exclusion limits on arXiv, pulls the curves into
 `tools/limits.db` (SQLite) and publishes them to `data/limits.json`, which the page plots.
