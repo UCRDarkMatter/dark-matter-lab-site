@@ -4,7 +4,7 @@
   var NAV = [
     ['index.html', 'Home'], ['Experiments.html', 'Research'], ['People.html', 'People'],
     ['Publications.html', 'Publications'], ['Tools.html', 'Tools'], ['Limits.html', 'DM limits'],
-    ['Contact.html', 'Contact']
+    ['Contact.html', 'Contact'], ['Internal.html', 'Internal']
   ];
   /* The Research menu's dropdown. Add an experiment page here and it appears on every page. */
   var EXPERIMENTS = [
@@ -74,7 +74,7 @@
     document.body.insertAdjacentHTML('beforeend',
       '<footer class="site-footer"><div class="wrap">' +
       '<div>Shawn Westerdale : Dark Matter and Neutrino Lab @ UC Riverside<br>Department of Physics &amp; Astronomy, 900 University Ave., Riverside, CA 92521</div>' +
-      '<div><a href="mailto:shawn.westerdale@ucr.edu">shawn.westerdale@ucr.edu</a> · 951-827-3272<br>© ' + new Date().getFullYear() + ' · <a href="Internal.html">Group internal</a></div>' +
+      '<div><a href="mailto:shawn.westerdale@ucr.edu">shawn.westerdale@ucr.edu</a> · 951-827-3272<br>© ' + new Date().getFullYear() + '</div>' +
       '</div></footer>');
   });
 })();

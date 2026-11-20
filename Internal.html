@@ -5,79 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Internal · Dark Matter and Neutrino Lab</title>
+<meta name="description" content="Internal pages for members of the UCR Dark Matter and Neutrino Lab.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css?v=20261114">
-<link rel="stylesheet" href="assets/internal.css?v=20261119">
+<link rel="stylesheet" href="assets/internal.css?v=20261120">
 </head>
 <body>
-<script src="assets/site.js?v=20261114"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261120"></script><!-- writes the header, menu and footer -->
 <main id="main" class="wiki">
-  <div class="wrap page-title"><h1>Internal</h1><p class="lede muted">Group wiki: getting started, setup guides and useful links.</p></div>
-
-  <section class="wrap" id="lock">
-    <form id="unlock" class="wiki-unlock" autocomplete="off">
-      <label for="pw">Group password</label>
-      <div class="wiki-row"><input type="password" id="pw" autocomplete="current-password" required>
-        <button class="btn" type="submit">Open</button></div>
-      <p class="muted" id="unlock-msg" aria-live="polite">The pages are stored encrypted and are decrypted in your browser.</p>
-    </form>
-  </section>
-
-  <section class="wrap wiki-body" id="wiki" hidden>
-    <nav class="wiki-side" aria-label="Wiki pages">
-      <ul id="page-list"></ul>
-      <div class="wiki-side-actions">
-        <button class="mini" type="button" id="b-new">New page</button>
-        <button class="mini" type="button" id="b-lock">Lock</button>
-      </div>
-      <p class="muted wiki-pending" id="pending" hidden></p>
-    </nav>
-    <article class="wiki-main">
-      <div class="wiki-toolbar" id="view-bar">
-        <span class="muted" id="page-meta"></span>
-        <button class="mini" type="button" id="b-edit">Edit page</button>
-      </div>
-      <div class="wiki-content" id="view"></div>
-
-      <div id="editor" hidden>
-        <div class="wiki-toolbar">
-          <label class="muted">Page id (used in links as #id) <input type="text" id="e-id" pattern="[a-z0-9-]+" size="18"></label>
-          <span class="wiki-grow"></span>
-          <button class="mini" type="button" id="b-up" title="Move earlier in the list">↑</button>
-          <button class="mini" type="button" id="b-down" title="Move later in the list">↓</button>
-          <button class="mini" type="button" id="b-delete">Delete page</button>
-        </div>
-        <div class="wiki-edit">
-          <textarea id="e-body" spellcheck="true" aria-label="Page text (Markdown)"></textarea>
-          <div class="wiki-content wiki-preview" id="e-preview" aria-label="Preview"></div>
-        </div>
-        <div class="btn-row">
-          <button class="btn" type="button" id="b-done">Done</button>
-          <button class="btn ghost" type="button" id="b-cancel">Cancel</button>
-        </div>
-      </div>
-
-      <div class="wiki-save" id="save-box" hidden>
-        <h2>Save your changes</h2>
-        <p>Your edits are kept in this browser tab until you save them. Saving re-encrypts the wiki here and commits it to the website's GitHub repository; the site updates within about 15 minutes.</p>
-        <label>GitHub token (needs Contents: read and write on UCRDarkMatter/dark-matter-lab-site)
-          <input type="password" id="token" autocomplete="off"></label>
-        <label class="check"><input type="checkbox" id="remember"> Remember the token on this computer</label>
-        <label>Note for the change (optional) <input type="text" id="message" placeholder="e.g. Added cluster login steps"></label>
-        <div class="btn-row">
-          <button class="btn" type="button" id="b-push">Save to GitHub</button>
-          <button class="btn ghost" type="button" id="b-download">Download encrypted file instead</button>
-          <button class="btn ghost" type="button" id="b-save-cancel">Not now</button>
-        </div>
-        <p class="muted" id="save-msg" aria-live="polite"></p>
-      </div>
-    </article>
-  </section>
+  <div class="wrap page-title"><h1>Internal</h1>
+    <p class="lede muted">The group's wiki lives in a private repository of the <a href="https://github.com/UCRDarkMatter">UCRDarkMatter</a> GitHub organization. Sign in to GitHub to read and edit it; only organization members can open these pages.</p></div>
+  <div class="wrap wiki-cards">
+    <a class="wiki-card" href="https://github.com/UCRDarkMatter/group-wiki/tree/main/lab#readme">
+      <h2>Lab</h2><p>Data acquisition and lab safety training.</p></a>
+    <a class="wiki-card" href="https://github.com/UCRDarkMatter/group-wiki/tree/main/getting-started#readme">
+      <h2>Getting started</h2><p>First-week checklist, Slack, Mac and Windows (WSL) setup, Linux, C++, Python, ROOT, Git and other references.</p></a>
+    <a class="wiki-card" href="https://github.com/UCRDarkMatter/group-wiki/blob/main/EDITING.md">
+      <h2>Editing the wiki</h2><p>Click the pencil icon on any page, or add a new Markdown file.</p></a>
+  </div>
+  <div class="wrap"><p class="muted wiki-help">Seeing GitHub's “404 – page not found”? You are either signed out of GitHub or not yet in the organization: ask Shawn to add your GitHub account.</p></div>
 </main>
-<script src="assets/vendor/marked.umd.js"></script>
-<script src="assets/vendor/purify.min.js"></script>
-<script src="assets/internal.js?v=20261119"></script>
 </body>
 </html>
