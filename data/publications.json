@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-19T19:29:42Z",
+ "generated": "2026-11-20T19:06:35Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -1809,7 +1809,7 @@
    "doi": "10.1103/PhysRevLett.130.101001",
    "comment": "7 pages, 3 figures",
    "category": "hep-ex",
-   "citations": 149,
+   "citations": 150,
    "collaboration": "DarkSide"
   },
   {
@@ -1964,7 +1964,7 @@
    "doi": "",
    "comment": "Contribution to Snowmass 2021. v2: includes endorsers and minor changes",
    "category": "hep-ph",
-   "citations": 201
+   "citations": 202
   },
   {
    "id": "2203.08084",
@@ -2067,7 +2067,7 @@
    "doi": "10.1088/1361-6471/ad307f",
    "comment": "Contribution to Snowmass 2021 by the NF02 Topical Group (Understanding Experimental Neutrino Anomalies). Published in J. Phys. G as a Major Report",
    "category": "hep-ex",
-   "citations": 166
+   "citations": 167
   },
   {
    "id": "2203.06508",
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7549
+ "total_citations": 7552
 }
