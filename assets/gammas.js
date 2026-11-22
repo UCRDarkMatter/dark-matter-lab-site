@@ -43,6 +43,7 @@
   var ctx = { det: ['hpge'], env: ['underground'], n: ['ambient'], mat: ['cu', 'pb', 'rock'], fwhm: 1.6 };
   try { var saved = JSON.parse(localStorage.getItem('gx-setup') || 'null'); if (saved && saved.det) ctx = saved; } catch (e) {}
   ctx.mass = ctx.mass || {}; ctx.preset = ctx.preset || 'equal';
+  ctx.wcat = ctx.wcat || {}; ctx.wsrc = ctx.wsrc || {};   // user adjustments to the ranking: log10 factors by category / by source
   function save() { try { localStorage.setItem('gx-setup', JSON.stringify(ctx)); } catch (e) {} }
   function mass(m) { var v = ctx.mass[m]; return v != null && isFinite(v) && v >= 0 ? +v : 1; }   // kg (effective); 1 kg if not set
 
@@ -71,6 +72,7 @@
       });
     });
     $('#preset').addEventListener('change', function () { applyPreset(this.value); });
+    $('#w-reset').addEventListener('click', resetWeights);
     $('#fwhm').value = ctx.fwhm;
     $('#fwhm').addEventListener('change', function () { ctx.fwhm = +this.value || FWHM1MEV[ctx.det[0]]; save(); setupSummary(); rerun(); });
     ctx.flux = ctx.flux || { th: null, fast: null };
@@ -294,6 +296,9 @@
     return r;
   }
   function lineRate(s, l) {           // expected gammas per s for one line (physical model or fallback prior)
+    return baseRate(s, l) * weight(s);
+  }
+  function baseRate(s, l) {
     var r = srcRate(s);
     if (r && r.tot > 0) return r.tot * l[1] / 100;
     if (r) return 1e-12 * massScale() * l[1] / 100;                 // modelled, but nothing in your setup produces it
@@ -303,6 +308,67 @@
   function unmotivated(s) {           // a decay that is not a chain member, cosmogenic, activation product or common man-made/calibration source
     return s.kind === 'decay' && !s.group && s.tier >= 3 && !SEG[s.nuc] && !s.cosmo && !s.act && !s.chain && !s.radon && !(s.when && (s.when.n || s.when.src || s.when.mat));
   }
+  /* ------------------------------------------------------------ user adjustments to the ranking */
+  var CATS = [
+    ['chain', 'Uranium and thorium chains, ⁴⁰K'], ['radon', 'Radon and its progeny'], ['cosmo', 'Cosmogenic activation'],
+    ['act', 'Neutron activation products'], ['anthro', 'Man-made and calibration sources'], ['capture', 'Neutron capture (n,γ)'],
+    ['inel', 'Inelastic neutron scattering'], ['alpha', 'Alpha-induced reactions'], ['rx', 'Other reactions'],
+    ['xray', 'X-rays'], ['art', 'Escape and sum peaks'], ['unmot', 'Isotopes with no expected source']];
+  function category(s) {
+    if (s.group) { var m = BYID[s.group[0].id]; return m ? category(m) : 'chain'; }
+    if (s.kind !== 'decay') return s.kind === 'art' ? 'art' : s.kind;
+    if (s.radon) return 'radon';
+    if (SEG[s.nuc] && SEG[s.nuc] !== 'Co60' && SEG[s.nuc] !== 'Cs137') return 'chain';
+    if (s.cosmo) return 'cosmo';
+    if (s.act) return 'act';
+    if (unmotivated(s)) return 'unmot';
+    return 'anthro';
+  }
+  function weight(s) {                // product of the category and per-source factors the user set (1 = no change)
+    var w = (ctx.wcat[category(s)] || 0) + (ctx.wsrc[s.id] || 0);
+    return w ? Math.pow(10, w) : 1;
+  }
+  function artW() { return ctx.wcat.art ? Math.pow(10, ctx.wcat.art) : 1; }
+  function adjusted() { return Object.keys(ctx.wcat).some(function (k) { return ctx.wcat[k]; }) || Object.keys(ctx.wsrc).length > 0; }
+  function factorText(w) { return w === 0 ? '×1' : (w > 0 ? '×' : '÷') + Math.pow(10, Math.abs(w)).toLocaleString('en-US'); }
+  function buildWeights() {
+    var box = $('#w-list'); if (!box) return;
+    box.innerHTML = '';
+    CATS.forEach(function (c) {
+      var row = el('label', 'gx-wrow'), r = el('input'), out = el('output');
+      r.type = 'range'; r.min = '-4'; r.max = '4'; r.step = '1'; r.value = ctx.wcat[c[0]] || 0;
+      r.setAttribute('aria-label', c[1] + ': ranking factor');
+      out.textContent = factorText(+r.value);
+      r.addEventListener('input', function () { out.textContent = factorText(+this.value); });
+      r.addEventListener('change', function () {
+        var v = +this.value; if (v) ctx.wcat[c[0]] = v; else delete ctx.wcat[c[0]];
+        save(); renderWeightNote(); rerun();
+      });
+      row.appendChild(el('span', null, c[1])); row.appendChild(r); row.appendChild(out);
+      box.appendChild(row);
+    });
+    renderWeightNote();
+  }
+  function renderWeightNote() {
+    var box = $('#w-src'); if (!box) return;
+    box.innerHTML = '';
+    var ids = Object.keys(ctx.wsrc);
+    if (ids.length) {
+      box.appendChild(document.createTextNode('Single sources: '));
+      ids.forEach(function (id, k) {
+        var s = BYID[id]; if (!s) return;
+        if (k) box.appendChild(document.createTextNode(', '));
+        var a = srcLink(id); a.innerHTML = s.name; box.appendChild(a);
+        box.appendChild(document.createTextNode(' ' + factorText(ctx.wsrc[id]) + ' '));
+        var x = el('button', 'mini', 'undo'); x.type = 'button';
+        x.addEventListener('click', function () { delete ctx.wsrc[id]; save(); renderWeightNote(); rerun(); });
+        box.appendChild(x);
+      });
+    }
+    var sum = $('#w-summary'); if (sum) sum.textContent = adjusted() ? ' (adjusted)' : '';
+  }
+  function resetWeights() { ctx.wcat = {}; ctx.wsrc = {}; save(); buildWeights(); rerun(); }
+
   function rel(v, top) { return Math.max(0, Math.min(1, 1 + Math.log10(Math.max(v, 1e-300) / top) / 8)); }   // 8 decades of rate
 
   function strength(s, I) {           // how much a line's intensity matters for ranking
@@ -348,7 +414,20 @@
     if (s.chain) head.appendChild(el('span', 'tag', s.chainName));
     if (s.cosmo) head.appendChild(el('span', 'tag', 'cosmogenic'));
     box.appendChild(head);
+    var adj = el('p', 'gx-small gx-adj'), cur = ctx.wsrc[s.id] || 0;
+    adj.appendChild(document.createTextNode('Ranking: ' + (cur ? factorText(cur) + ' set by you ' : '')));
+    [['Rank higher', 1], ['Rank lower', -1]].forEach(function (b) {
+      var bt = el('button', 'mini', b[0]); bt.type = 'button';
+      bt.addEventListener('click', function () {
+        var v = Math.max(-6, Math.min(6, (ctx.wsrc[s.id] || 0) + b[1]));
+        if (v) ctx.wsrc[s.id] = v; else delete ctx.wsrc[s.id];
+        save(); renderWeightNote(); rerun();
+      });
+      adj.appendChild(bt); adj.appendChild(document.createTextNode(' '));
+    });
+    if (cur) { var ub = el('button', 'mini', 'Undo'); ub.type = 'button'; ub.addEventListener('click', function () { delete ctx.wsrc[s.id]; save(); renderWeightNote(); rerun(); }); adj.appendChild(ub); }
     if (s.how) box.appendChild(el('p', null, s.how));
+    box.appendChild(adj);
     if (s.group) {
       var gm = el('p'); gm.appendChild(el('b', null, 'Members: '));
       s.group.forEach(function (m, k) { if (k) gm.appendChild(document.createTextNode(', ')); var a = srcLink(m.id); a.innerHTML = m.name; gm.appendChild(a); gm.appendChild(document.createTextNode(' (T½ ' + hlText(m.hl) + ')')); });
@@ -482,12 +561,12 @@
         if (l[1] < 1 && s.kind !== 'inel') return;
         [[511, 'single escape'], [1022, 'double escape']].forEach(function (e) {
           var E = l[0] - e[0];
-          if (l[0] > 1022 && E >= lo && E <= hi) out.push({ E: E, s: s, li: i, what: e[1] + ' of ' + fmt(l[0], 1) + ' keV', score: lineRate(s, l) * 0.1 });
+          if (l[0] > 1022 && E >= lo && E <= hi) out.push({ E: E, s: s, li: i, what: e[1] + ' of ' + fmt(l[0], 1) + ' keV', score: lineRate(s, l) * 0.1 * artW() });
         });
         (s.C && s.C[i] || []).forEach(function (c) {
           var E = l[0] + c[0];
           var direct = s.L.some(function (m) { return Math.abs(m[0] - E) < 1.5; });   // same energy as a real line: not a separate peak
-          if (c[0] > l[0] && E >= lo && E <= hi && !direct) out.push({ E: E, s: s, li: i, what: 'sum peak ' + fmt(l[0], 1) + ' + ' + fmt(c[0], 1) + ' keV', score: lineRate(s, l) * c[1] * 0.01 });
+          if (c[0] > l[0] && E >= lo && E <= hi && !direct) out.push({ E: E, s: s, li: i, what: 'sum peak ' + fmt(l[0], 1) + ' + ' + fmt(c[0], 1) + ' keV', score: lineRate(s, l) * c[1] * 0.01 * artW() });
         });
       });
     });
@@ -756,7 +835,7 @@
     if (!list) {
       var q = $('#browse-q').value.trim().toLowerCase().replace(/[-\s]/g, '');
       if (!q) { out.appendChild(browseIntro()); return; }
-      var srt = function (s) { var r = srcRate(s); return r && r.tot > 0 ? r.tot : prior(s) * REF * massScale(); };
+      var srt = function (s) { var r = srcRate(s); return (r && r.tot > 0 ? r.tot : prior(s) * REF * massScale()) * weight(s); };
       list = sources().filter(function (s) { return s.key.indexOf(q) >= 0; }).sort(function (a, b) { return srt(b) - srt(a); }).slice(0, 60);
       if (!list.length) { out.appendChild(el('p', 'muted', 'No source matches. Try a nuclide (e.g. 60Co), an element or a word like "cosmogenic".')); return; }
     }
@@ -810,7 +889,7 @@
     $('#browse-q').addEventListener('input', function () { current = null; needAll().then(function () { renderBrowse(); }); });
     try { var sp = localStorage.getItem('gx-peaks'); if (sp) $('#peaks').value = sp; } catch (e) {}
     load('data/gamma/core.json').then(function (d) {
-      DATA = d; META = d.meta || {}; index(d.S); buildGroups(); fluxPlaceholders(); buildPresets(); setupSummary();
+      DATA = d; META = d.meta || {}; index(d.S); buildGroups(); fluxPlaceholders(); buildPresets(); buildWeights(); setupSummary();
       $('#about-meta').textContent = META.text || '';
       renderBrowse();
       var h = decodeURIComponent(location.hash || '');
