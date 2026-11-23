@@ -1,0 +1,165 @@
+z,n,symbol,idx,energy_shift,energy,unc_e,ripl_shift,jp,jp_order,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hl,decay_1,decay_1_%,unc_1,decay_2,decay_2_%,unc_2,decay_3,decay_3_%,unc_3,isospin,magnetic_dipole,unc_mn,electric_quadrupole,unc_eq,ENSDF_publication_cut-off,ENSDF_authors,Extraction_date
+12,13,Mg,0,,0,,,5/2+,1,STABLE,,,,,,,,,,,,,,,,-0.85533,0.00003,0.199,0.002,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,1,,585.042,0.022,,1/2+,1,3.38,,7,ns,0.00000000338,0.00000000007,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,2,,974.746,0.023,,3/2+,1,11.2,,7,ps,0.0000000000112,0.0000000000007,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,3,,1611.767,0.011,,7/2+,1,17,,3,fs,0.000000000000017,0.000000000000003,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,4,,1964.615,0.024,,5/2+,2,0.69,,6,ps,0.00000000000069,0.00000000000006,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,5,,2563.4,0.04,,1/2+,2,11,,+5-4,fs,0.000000000000011,0.0000000000000045,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,6,,2737.95,0.15,,7/2+,2,0.286,,+24-25,ps,0.000000000000286,0.0000000000000245,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,7,,2801.46,0.04,,3/2+,2,26,,3,fs,0.000000000000026,0.000000000000003,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,8,,3404.59,0.2,,9/2+,1,7.6,,4,fs,0.0000000000000076,4e-16,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,9,,3413.41,0.04,,3/2-,1,7,,4,fs,0.000000000000007,0.000000000000004,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,10,,3908.11,0.19,,5/2+,3,6,,2,fs,0.000000000000006,0.000000000000002,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,11,,3970.59,0.22,,7/2-,1,22,,5,fs,0.000000000000022,0.000000000000005,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,12,,4059.2,0.4,,9/2+,2,50,,4,fs,0.00000000000005,0.000000000000004,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,13,,4276.43,0.05,,1/2-,1,4,LT,,fs,0.000000000000004,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,14,,4359.62,0.15,,3/2+,3,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,15,,4711.7,0.5,,9/2+,3,27,,3,fs,0.000000000000027,0.000000000000003,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,16,,4722.1,1.3,,5/2+ 3/2+,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,17,,5012.4,0.3,,7/2+,3,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,18,,5116.8,0.12,,1/2-,2,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,19,,5251.45,0.25,,11/2+,1,15,,2,fs,0.000000000000015,0.000000000000002,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,20,,5460.6,0.3,,13/2+,1,1.9,,7,ps,0.0000000000019,0.0000000000007,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,21,,5474.38,0.19,,1/2+,3,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,22,,5521.2,0.25,,5/2-,1,46,,6,fs,0.000000000000046,0.000000000000006,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,23,,5533.2,0.7,,11/2+,2,6,,2,fs,0.000000000000006,0.000000000000002,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,24,,5746.4,1.4,,7/2 9/2+,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,25,,5748,2,,3/2+ 5/2+,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,26,,5792.94,0.23,,(7/2-),1,46,,9,fs,0.000000000000046,0.000000000000009,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,27,,5860,2,,5/2+,4,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,28,,5971.3,0.4,,9/2+,4,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,29,,5977.1,0.8,,7/2+,4,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,30,,6041.1,0.4,,7/2+ 11/2+,1,6,LT,,fs,0.000000000000006,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,31,,6082,1,,5/2+,5,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,32,,6168,3,,(3/2),1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,33,,6361,2,,3/2,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,34,,6409,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,35,,6434,2,,9/2+,5,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,36,,6468,2,,3/2-,2,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,37,,6570,1,,1/2+ 3/2,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,38,,6678,1,,5/2,1,10,,+30-3,fs,0.00000000000001,0.0000000000000165,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,39,,6777,3,,1/2+,4,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,40,,6832,2,,(3/2- 5/2),1,28,LT,,fs,0.000000000000028,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,41,,6840,2,,5/2,2,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,42,,6862.2,1.2,,,,9,LT,,fs,0.000000000000009,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,43,,6885,3,,7/2 9/2,1,97,,42,fs,0.000000000000097,0.000000000000042,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,44,,6914,2,,5/2-,2,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,45,,6958,2,,5/2-,3,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,46,,7042.7,0.2,,5/2,3,21,LT,,fs,0.000000000000021,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,47,,7088,4,,(5/2 3/2)+,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,48,,7181,2,,(3/2 7/2),1,18,LT,,fs,0.000000000000018,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,49,,7185,2,,,,14,LT,,fs,0.000000000000014,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,50,,7228,3,,(3/2 5/2)+,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,51,,7265.52,0.04,,1/2+,5,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,52,,7285,2,,(7/2)-,1,7,LT,,fs,0.000000000000007,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,53,,7375.15,0.04,,3/2+,4,1.9,,2,eV,2.401251131954662e-16,2.5276327704785918e-17,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,54,,7411.22,0.04,,3/2-,3,6.1,,12,keV,7.479306804448948e-20,1.4713390434981537e-20,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,55,,7493,2,,11/2(+),1,21,,8,fs,0.000000000000021,0.000000000000008,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,56,,7500.24,0.04,,(1/2-),1,3,,,eV,1.5207923835712857e-16,0,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,57,,7505,3,,5/2,4,10,LT,,fs,0.00000000000001,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,58,,7524,2,,(7/2+ 5/2),1,10,LT,,fs,0.00000000000001,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,59,,7551,1,,(13/2)+,1,21,LT,,fs,0.000000000000021,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,60,,7577.47,0.04,,(5/2+),1,31,,5,eV,1.4717345647464055e-17,2.3737654270103315e-18,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,61,,7587.36,0.04,,1/2-,3,79,AP,,keV,5.7751609502707054e-21,0,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,62,,7633,5,,3/2 5/2 7/2,1,49,LT,,fs,0.000000000000049,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,63,,7652,2,,9/2,1,21,LT,,fs,0.000000000000021,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,64,,7685,3,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,65,,7744.07,0.04,,3/2-,4,31,,5,keV,1.4717345647464057e-20,2.373765427010332e-21,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,66,,7786.85,0.04,,5/2+,6,20.4,,20,eV,2.236459387604832e-17,2.1926072427498357e-18,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,67,,7801,2,,9/2,2,12,LT,,fs,0.000000000000012,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,68,,7808.85,0.04,,3/2-,5,0.56,,1,keV,8.147102054846173e-19,1.4548396526511024e-20,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,69,,7838,2,,7/2,1,28,LT,,fs,0.000000000000028,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,70,,7859.47,0.07,,3/2+,5,13,,4,eV,3.5095208851645054e-17,1.0798525800506172e-17,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,71,,7866,2,,7/2+ 11/2+,2,12,LT,,fs,0.000000000000012,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,72,,7946.8,0.6,,1/2-,4,0.9,,3,keV,5.06930794523762e-19,1.6897693150792065e-19,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,73,,7961,2,,7/2(+),1,14,LT,,fs,0.000000000000014,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,74,,7962.6,0.7,,1/2+,6,21,,4,keV,2.1725605479589797e-20,4.138210567540914e-21,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,75,,8012,3,,(9/2 13/2+),1,37,,4,fs,0.000000000000037,0.000000000000004,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,76,,8076,2,,5/2 7/2 9/2,1,14,LT,,fs,0.000000000000014,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,77,,8119,3,,7/2(+),2,10,LT,,fs,0.00000000000001,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,78,,8140.8,0.8,,3/2+,6,13,,7,keV,3.509520885164506e-20,1.88974201508858e-20,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,79,,8244.3,1,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,80,,8267,2,,(7/2+),1,10,LT,,fs,0.00000000000001,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,81,,8311.2,1,,5/2+,7,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,82,,8316.5,1,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,83,,8324.4,1,,1/2+,7,14,,4,keV,3.25884082193847e-20,9.310973776967056e-21,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,84,,8351.3,1.1,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,85,,8362.5,1.1,,1/2+,8,18,,6,keV,2.5346539726188098e-20,8.448846575396032e-21,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,86,,8400,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,87,,8447,6,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,88,,8532,2,,(7/2 11/2),1,10,LT,,fs,0.00000000000001,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,89,,8548,3,,(5/2 7/2 9/2),1,17,LT,,fs,0.000000000000017,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,90,,8551,,,11/2,1,5,LT,,fs,0.000000000000005,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,91,,8552,3,,(1/2),1,8,,4,keV,5.702971438392322e-20,2.851485719196161e-20,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,92,,8558.7,1.3,,5/2+,8,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,93,,8569.5,1.3,,3/2-,6,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,94,,8579.5,1.3,,3/2+,7,12,,5,keV,3.8019809589282146e-20,1.5841587328867562e-20,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,95,,8596.6,1.3,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,96,,8656,2,,7/2,2,10,LT,,fs,0.00000000000001,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,97,,8720,15,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,98,,8791,7,,1/2+,9,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,99,,8811,2,,9/2 11/2,1,8,LT,,fs,0.000000000000008,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,100,,8834.4,1.3,,1/2+,10,50,,10,keV,9.124754301427715e-21,1.824950860285543e-21,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,101,,8869,1.6,,3/2-,7,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,102,,8888,3,,,,17,LT,,fs,0.000000000000017,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,103,,8893.9,1.6,,1/2-,5,32,,8,keV,1.4257428595980805e-20,3.564357148995201e-21,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,104,,8896,1,,,,17,,8,fs,0.000000000000017,0.000000000000008,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,105,,8970.7,1.7,,5/2+,9,16,,4,keV,2.851485719196161e-20,7.128714297990402e-21,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,106,,8999.5,1.5,,,,9,LT,,fs,0.000000000000009,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,107,,9013.9,1.8,,,,10,LT,,keV,4.5623771507138576e-20,0,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,108,,9014,3,,7/2 9/2 11/2,1,5,LT,,fs,0.000000000000005,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,109,,9071.7,0.7,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,110,,9153,4,,(3/2),2,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,111,,9325.7,0.9,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,112,,9410,3,,,,12,,8,fs,0.000000000000012,0.000000000000008,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,113,,9502,1.5,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,114,,9651,2,,,,5,LT,,fs,0.000000000000005,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,115,,9685,2,,(11/2 7/2),1,5,LT,,fs,0.000000000000005,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,116,,9830,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,117,,9948,2,,(15/2)+,1,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,118,,10038.7,1.5,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,119,,10050,20,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,120,,10137,4,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,121,,10252.5,0.9,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,122,,10270,40,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,123,,10360,30,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,124,,10520,40,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,125,,10618,8,,(3/2 5/2)+,2,,,,,,,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,126,,10653,2,,(15/2+),1,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,127,,10730,40,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,128,,10860,40,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,129,,10996,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,130,,11004,3,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,131,,11045.4,1.8,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,132,,11200,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,133,,11361,3,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,134,,11388.9,1.4,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,135,,11410,3,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,136,,11460,3,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,137,,11486,6,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,138,,11590,30,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,139,,11725,5,,(1/2 3/2)-,1,,,,,,,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,140,,11747,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,141,,11775,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,142,,11998.7,1.8,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,143,,12810,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,144,,12898,10,,(3/2 1/2)-,1,,,,,,,,,,,,,,,,3/2,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,145,,13040,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,146,,13143,4,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,147,,13332,10,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,148,,13440,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,149,,13670,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,150,,13830,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,151,,14490,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,152,,15100,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,153,,15590,,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,154,,18200,230,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,155,,18550,200,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,156,,19270,180,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,157,,19850,180,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,158,,20340,180,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,159,,20690,180,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,160,,21120,150,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,161,,22020,130,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+12,13,Mg,162,,22490,130,,,,,,,,,,,,,,,,,,,,,,,,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-23
+

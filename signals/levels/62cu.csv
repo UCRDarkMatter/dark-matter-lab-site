@@ -1,0 +1,152 @@
+z,n,symbol,idx,energy_shift,energy,unc_e,ripl_shift,jp,jp_order,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hl,decay_1,decay_1_%,unc_1,decay_2,decay_2_%,unc_2,decay_3,decay_3_%,unc_3,isospin,magnetic_dipole,unc_mn,electric_quadrupole,unc_eq,ENSDF_publication_cut-off,ENSDF_authors,Extraction_date
+29,33,Cu,0,,0,,,1+,1,9.672,,8,m,580.32,0.48,EC+B+,100,,,,,,,,,-0.3796,0.0004,-0.022,0.004,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,1,,40.85,0.03,,2+,1,4.57,,18,ns,0.00000000457,0.00000000018,,,,,,,,,,,1.1,0.1,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,2,,243.439,0.025,,2+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,3,,287.88,0.04,,2+,3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,4,,390.17,0.06,,4+,1,11.09,,21,ns,0.00000001109,0.00000000021,,,,,,,,,,,2.67,0.16,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,5,,426.22,0.06,,3+,1,0.16,GT,,ps,0.00000000000016,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,6,,548.38,0.04,,1+,2,0.17,GT,,ps,0.00000000000017,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,7,,637.49,0.03,,1+,3,0.15,,+28-8,ps,0.00000000000015,0.00000000000018,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,8,,644.82,0.06,,(2+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,9,,675.08,0.07,,3+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,10,,698.51,0.09,,(3)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,11,,727.75,0.15,,2+,4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,12,,755.94,0.19,,2(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,13,,915.36,0.07,,2+,5,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,14,,983.1,0.22,,3+,3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,15,,1023.03,0.22,,2+,6,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,16,,1051.7,0.3,,(1:5)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,17,,1077.23,0.18,,2+,7,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,18,,1141.69,0.16,,2+ 3+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,19,,1144.2,0.7,,2+ 3+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,20,,1221.51,0.2,,(0:3)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,21,,1248.73,0.08,,(4)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,22,,1285.25,0.22,,(2 3)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,23,,1346.3,0.3,,(3)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,24,,1354.3,0.5,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,25,,1367,3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,26,,1370.69,0.08,,5+,1,2,LT,,ps,0.000000000002,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,27,,1374,0.7,,(1 2 3),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,28,,1395,8,,(1:5)(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,29,,1403.4,1.8,,(2+ 3 4+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,30,,1410.6,0.4,,(1 2 3)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,31,,1416.2,0.5,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,32,,1427.6,0.3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,33,,1429.62,0.07,,1+,4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,34,,1433.1,0.5,,(1+ 2+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,35,,1485.84,0.14,,3+ 4+ 5+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,36,,1504.9,0.4,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,37,,1511.2,2.2,,(2 3)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,38,,1526.08,0.16,,1+,5,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,39,,1568.09,0.22,,2- 3-,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,40,,1581.7,0.6,,(2 3 4)-,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,41,,1587,5,,(0:3)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,42,,1677.37,0.07,,(5)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,43,,1678.16,0.19,,(1+ 2+ 3+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,44,,1679.2,0.8,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,45,,1682.3,0.7,,(2-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,46,,1710.6,0.3,,1+ 2+ 3+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,47,,1736.4,0.3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,48,,1745.2,0.4,,(1 2 3)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,49,,1759.6,0.7,,(1+ 2+ 3+),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,50,,1775,5,,1+ 2+ 3+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,51,,1820.4,0.3,,(2:5)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,52,,1827.6,0.3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,53,,1843.4,1.1,,(1 2 3)+,3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,54,,1917.22,0.15,,(5)-,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,55,,1921,0.1,,5(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,56,,1981.47,0.22,,(1 2 3)+,4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,57,,1996,6,,(0:5)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,58,,2022,6,,(1 2 3)(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,59,,2067.5,0.3,,(1:5)(+),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,60,,2107,6,,(2:6)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,61,,2139,6,,(2 3 4)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,62,,2147.98,0.09,,6+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,63,,2154.8,0.3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,64,,2160.75,0.22,,3+ 4+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,65,,2176,7,,1+ 2+ 3+,3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,66,,2224,7,,(1:3)(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,67,,2239.5,0.3,,(3:5)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,68,,2295.9,0.1,,6-,1,16.4,,13,ps,0.0000000000164,0.0000000000013,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,69,,2298,10,,0- 1- 2- 3- 4-,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,70,,2315,7,,(1 2 3)+,5,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,71,,2360,7,,3+ 4+ 5+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,72,,2374,7,,(0:3)(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,73,,2422,7,,(3 4 5)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,74,,2444.1,0.3,,(2:5)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,75,,2486,7,,(0:3),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,76,,2506,8,,(1+ 2+ 3+),3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,77,,2518.8,0.19,,(6-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,78,,2547,8,,(1+ 2+ 3+),4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,79,,2565,8,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,80,,2610,8,,(0:3),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,81,,2622.7,0.3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,82,,2638.8,0.3,,(3+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,83,,2660,30,,6-,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,84,,2704,8,,(1:3)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,85,,2725,8,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,86,,2740,3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,87,,2833.75,0.11,,7(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,88,,2835,9,,1+ 2+ 3+,4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,89,,2860,9,,(3)+,3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,90,,2876,9,,(0:5)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,91,,2893.12,0.11,,(7-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,92,,2920,9,,(+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,93,,2944,8,,(2:6)-,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,94,,2993,9,,(1:5)+,2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,95,,3008,9,,(1+ 2+ 3+),5,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,96,,3030.16,0.11,,(7-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,97,,3150,9,,(3+ 4+ 5+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,98,,3191.15,0.1,,(6-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,99,,3310,10,,3+,4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,100,,3401.4,0.13,,(8+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,101,,3420,10,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,102,,3435.27,0.11,,(8-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,103,,3550,10,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,104,,3581,3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,105,,3628.68,0.11,,(8-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,106,,3678.13,0.15,,(8-),3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,107,,3979.97,0.11,,(9-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,108,,4105.34,0.19,,(9-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,109,,4166.08,0.12,,(9-),3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,110,,4447.91,0.11,,(9-),4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,111,,4597.37,0.17,,(10-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,112,,4628,10,,(0)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,113,,4629.05,0.12,,(9-),5,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,114,,4747.68,0.13,,9+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,115,,5001.22,0.14,,(10-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,116,,5048.52,0.13,,(10-),3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,117,,5070,30,,(7+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,118,,5108.56,0.23,,(10-),4,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,119,,5259.12,0.23,,(10-),5,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,120,,5619.24,0.16,,(11-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,121,,5720,,,2+,8,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,122,,5785,10,,(2)+,1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,123,,5841.72,0.15,,(12-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,124,,6009.47,0.17,,(11+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,125,,6176.21,0.23,,(10+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,126,,6217.53,0.17,,(11-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,127,,6390,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,128,,6530.72,0.25,,(13-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,129,,7102.07,0.18,,(12+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,130,,7133.59,0.17,,(13-),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,131,,7243.8,0.4,,(14-),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,132,,7287.57,0.23,,(12+),2,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,133,,7621.28,0.18,,(12+),3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,134,,7710,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,135,,7970,,,(1 2 3)+,6,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,136,,8190,,,(0:3)+,3,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,137,,8602.3,0.6,,(13+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,138,,8960.9,0.6,,(14+),1,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,139,,9045,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,140,,9276,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,141,,9430,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,142,,9478,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,143,,9640,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,144,,9689,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,145,,9916,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,146,,10083,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,147,,10216,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,148,,10405,,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+29,33,Cu,149,,10883.7,1.3,,,,,,,,,,,,,,,,,,,,,,,,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-23
+
