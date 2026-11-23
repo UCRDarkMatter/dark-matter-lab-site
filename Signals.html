@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261123g">
-<link rel="stylesheet" href="assets/signals.css?v=20261123g">
+<link rel="stylesheet" href="assets/style.css?v=20261123i">
+<link rel="stylesheet" href="assets/signals.css?v=20261123i">
 </head>
 <body>
-<script src="assets/site.js?v=20261123g"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261123i"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -161,17 +161,27 @@
             <div class="sx-checks" id="b-corr"></div>
           </fieldset>
           <fieldset><legend>Beyond the Standard Model</legend>
-            <div class="sx-grid2">
-              <label title="Fierz interference term b_F">Fierz b <input type="number" id="b-fierz" step="any" value="0"></label>
-              <label title="Effective electron-antineutrino mass">m<sub>ν</sub> <span class="sx-unit"><input type="number" id="b-mnu" step="any" value="0" min="0"> eV</span></label>
-              <label>Sterile ν mass <span class="sx-unit"><input type="number" id="b-ms" step="any" value="0" min="0"> keV</span></label>
-              <label>Mixing |U<sub>e4</sub>|² <input type="number" id="b-u2" step="any" value="0" min="0" max="1"></label>
+            <label class="sx-field">Fierz interference term b<sub>F</sub>
+              <select id="b-fmode">
+                <option value="none">None (Standard Model)</option>
+                <option value="b">Enter its value</option>
+                <option value="c">Compute from scalar and tensor couplings</option>
+              </select></label>
+            <label class="sx-field" id="b-fb-wrap" hidden>b<sub>F</sub> <input type="number" id="b-fierz" step="any" value="0"></label>
+            <div id="b-fc-wrap" hidden>
+              <label class="sx-field">Scalar: (C<sub>S</sub> + C′<sub>S</sub>) / C<sub>V</sub> <input type="number" id="b-cs" step="any" value="0"></label>
+              <label class="sx-field">Tensor: (C<sub>T</sub> + C′<sub>T</sub>) / C<sub>A</sub> <input type="number" id="b-ct" step="any" value="0"></label>
+              <p class="sx-note" id="b-fc-out"></p>
             </div>
-            <details class="sx-more"><summary>Fierz term from scalar and tensor couplings</summary>
-              <div class="sx-grid2"><label>(C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub> <input type="number" id="b-cs" step="any" value="0"></label>
-                <label>(C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub> <input type="number" id="b-ct" step="any" value="0"></label></div>
-              <button type="button" class="btn sx-small-btn" id="b-fierz-calc">Set Fierz b from these</button>
-              <p class="sx-note">b<sub>F</sub> = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²), upper sign for β⁻ (Jackson, Treiman &amp; Wyld 1957).</p></details>
+            <p class="sx-note">Multiplies the spectrum by 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E, which tilts it towards low energies for b<sub>F</sub> &gt; 0.</p>
+            <label class="sx-field">Effective neutrino mass m<sub>β</sub> <span class="sx-unit"><input type="number" id="b-mnu" step="any" value="0" min="0"> eV</span></label>
+            <label class="sx-check"><input type="checkbox" id="b-st"> Add a heavy (sterile) neutrino</label>
+            <div id="b-st-wrap" hidden>
+              <label class="sx-field">Mass m<sub>4</sub> <span class="sx-unit"><input type="number" id="b-ms" step="any" value="100" min="0"> keV</span></label>
+              <label class="sx-field">Mixing with the electron neutrino |U<sub>e4</sub>|² <input type="number" id="b-u2" step="any" value="0.01" min="0" max="1"></label>
+              <p class="sx-note">A fraction |U<sub>e4</sub>|² of decays emits the heavy state, so the spectrum gains a kink at T₀ − m₄c² (marked on the plot).</p>
+            </div>
+            <p class="sx-note"><a href="#b-gloss" class="sx-gloss-link">What these mean</a></p>
           </fieldset>
           <fieldset><legend>Plot</legend>
             <label class="sx-check"><input type="checkbox" id="b-log"> Log scale</label>
@@ -186,6 +196,40 @@
             <button type="button" class="btn" id="b-py">Python code</button> <button type="button" class="btn" id="b-cpp">C++ code</button></div>
           <div id="b-code-wrap" hidden><pre class="sx-code"><code id="b-code"></code></pre><button type="button" class="btn sx-small-btn" id="b-copy">Copy</button></div>
           <div id="b-out" class="sx-text"></div>
+          <details class="sx-formula sx-gloss" id="b-gloss"><summary>What each term in the beta spectrum means</summary>
+            <dl>
+              <dt>Kinematic variables</dt>
+              <dd>W = 1 + T/m<sub>e</sub>c² is the total electron (positron) energy in units of the electron mass, p = √(W² − 1) its momentum in units of m<sub>e</sub>c, W₀ the value at the endpoint, and q = W₀ − W the (anti)neutrino energy. Z is the charge of the daughter nucleus, R its radius (R = √(5/3) times the rms charge radius), α the fine-structure constant and γ = √(1 − (αZ)²).</dd>
+              <dt>Phase space, p W (W₀ − W)²</dt>
+              <dd>The number of ways to share the decay energy between the electron and the neutrino when the heavy nucleus takes the momentum balance but almost no energy. This alone gives the bell shape of the spectrum.</dd>
+              <dt>Fermi function F₀(Z, W)</dt>
+              <dd>The Coulomb attraction (β⁻) or repulsion (β⁺) between the outgoing lepton and the daughter nucleus changes the electron wave function at the nucleus. It piles β⁻ spectra up at low energy and pushes β⁺ spectra up in energy. It is the largest correction, a factor of up to several at low energy for heavy nuclei.</dd>
+              <dt>Finite nuclear size, L₀ and U</dt>
+              <dd>F₀ is computed for a point charge. L₀ corrects it for a uniformly charged sphere of radius R (a few 0.1% to several %), and U for the real, diffuse charge distribution of the nucleus (about 0.1%).</dd>
+              <dt>Convolution and induced currents, C</dt>
+              <dd>The leptons are created everywhere inside the nucleus, not at a point, so their wave functions must be averaged over the nuclear volume; this gives small terms in W, 1/W and W². For Gamow–Teller decays the same factor carries the <b>induced currents</b>: <b>weak magnetism</b> b/Ac (the weak analogue of the nuclear magnetic moment, fixed by the conserved vector current; about 5 in the impulse approximation; it tilts the spectrum by about ±0.5%/MeV), the <b>induced tensor</b> d/Ac (a "second-class current", zero for mirror decays in the Standard Model), and Λ, the ratio of two nuclear matrix elements (M₁₂₁/M₁₀₁).</dd>
+              <dt>Mixing ratio ρ</dt>
+              <dd>ρ = C<sub>A</sub>M<sub>GT</sub>/(C<sub>V</sub>M<sub>F</sub>) sets how much of an allowed decay goes through the Fermi (vector, ΔJ = 0) and the Gamow–Teller (axial, ΔJ = 0 or 1) operators. ρ = 0 is pure Fermi (0⁺→0⁺), ρ = ∞ pure Gamow–Teller. It weights the vector and axial shape factors and recoil terms.</dd>
+              <dt>Radiative corrections, R</dt>
+              <dd>Virtual photons exchanged between the leptons and the nucleus, and real photons radiated in the decay (inner bremsstrahlung), shift energy around in the spectrum. The order-α part (Sirlin's function g) is universal and a few percent; the O(Zα²) and O(Z²α³) parts depend on the nuclear charge and size. Near the endpoint, soft photons are summed to all orders (Repko–Wu).</dd>
+              <dt>Recoil, R<sub>N</sub> and Q</dt>
+              <dd>The nucleus is not infinitely heavy: it recoils, which changes the three-body phase space (R<sub>N</sub>), and its Coulomb field moves away from the lepton pair (Q). Both are 10⁻⁵ to 10⁻³.</dd>
+              <dt>Atomic screening, S</dt>
+              <dd>The atomic electrons partly shield the nuclear charge, so the outgoing lepton feels a weaker Coulomb field far from the nucleus. It matters below a few tens of keV (about 1% for a medium-Z β⁻ emitter at 10 keV).</dd>
+              <dt>Atomic exchange, X (β⁻ only)</dt>
+              <dd>The β electron can be created directly in an empty bound orbital of the daughter while an atomic electron is kicked into the continuum; the two final states cannot be told apart and interfere. This raises the spectrum by up to tens of percent below a few keV (important for ⁶³Ni, ²⁴¹Pu, tritium).</dd>
+              <dt>Atomic mismatch, r</dt>
+              <dd>The parent's electron cloud does not fit the daughter atom, so the atom is left excited and takes some energy from the leptons. The effect concentrates near the endpoint (about 1% within 15 keV of the endpoint of ⁶³Ni).</dd>
+              <dt>Forbidden decays and the shape factor</dt>
+              <dd>When angular momentum or parity forbid the allowed operators, the leptons must carry orbital angular momentum L = k. For <b>unique</b> k-th forbidden decays (ΔJ = k + 1, parity (−1)ᵏ) only one nuclear matrix element contributes and the shape follows from the lepton momenta: C(W) ∝ Σₙ λₙ p²⁽ⁿ⁻¹⁾ q²⁽ᵏ⁺¹⁻ⁿ⁾ / [(2n−1)! (2(k+1−n)+1)!], where λₙ are Coulomb functions (ratios of generalised Fermi functions, 1 without Coulomb effects). For <b>non-unique</b> decays several nuclear matrix elements interfere; the ξ approximation (allowed shape) is used unless you enter an empirical shape factor 1 + aW + b/W + cW².</dd>
+              <dt>Fierz term b<sub>F</sub> (beyond the Standard Model)</dt>
+              <dd>Scalar or tensor weak interactions, which do not exist in the Standard Model V−A theory, would interfere with the vector and axial currents and add a term b<sub>F</sub> γ/W to the spectrum shape. To first order in the new couplings, b<sub>F</sub> = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²), with the upper sign for β⁻ (Jackson, Treiman &amp; Wyld 1957). Pure Fermi decays probe scalar and pure Gamow–Teller decays tensor couplings. Current limits are |b<sub>F</sub>| ≲ 10⁻³–10⁻².</dd>
+              <dt>Neutrino mass m<sub>β</sub></dt>
+              <dd>A massive neutrino needs at least m<sub>β</sub>c² of the decay energy, so (W₀ − W)² becomes (W₀ − W)√((W₀ − W)² − m<sub>β</sub>²) and the spectrum ends m<sub>β</sub>c² below the endpoint. m<sub>β</sub>² = Σ|U<sub>ei</sub>|² m<sub>i</sub>² is the effective mass measured by tritium experiments (KATRIN: m<sub>β</sub> &lt; 0.45 eV). Visible only in the last few eV of low-endpoint spectra.</dd>
+              <dt>Heavy (sterile) neutrino</dt>
+              <dd>If the electron neutrino has a small admixture |U<sub>e4</sub>|² of a heavy state of mass m₄, a fraction |U<sub>e4</sub>|² of decays emit that state: N = (1 − |U<sub>e4</sub>|²) N(m<sub>β</sub>) + |U<sub>e4</sub>|² N(m₄). The heavy branch stops at T₀ − m₄c², producing a kink. Searches for keV-scale sterile neutrinos (a dark-matter candidate) look for this kink at the 10⁻⁶–10⁻⁸ level.</dd>
+            </dl>
+          </details>
         </div>
       </div>
     </section>
@@ -245,9 +289,9 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261123g"></script>
-<script src="assets/signals-exchange.js?v=20261123g"></script>
-<script src="assets/signals-code.js?v=20261123g"></script>
-<script src="assets/signals.js?v=20261123g"></script>
+<script src="assets/signals-physics.js?v=20261123i"></script>
+<script src="assets/signals-exchange.js?v=20261123i"></script>
+<script src="assets/signals-code.js?v=20261123i"></script>
+<script src="assets/signals.js?v=20261123i"></script>
 </body>
 </html>

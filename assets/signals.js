@@ -80,7 +80,7 @@
     c.save(); c.beginPath(); c.rect(L, T, pw, ph); c.clip();
     (cfg.marks || []).forEach(function (m) {
       var x = X(m.x); c.strokeStyle = muted; c.setLineDash([3, 3]); c.beginPath(); c.moveTo(x, T); c.lineTo(x, T + ph); c.stroke(); c.setLineDash([]);
-      c.fillStyle = muted; c.textAlign = 'left'; c.fillText(m.label, x + 4, T + 14 + (m.row || 0) * 14);
+      c.fillStyle = muted; var right = x > L + pw - c.measureText(m.label).width - 10; c.textAlign = right ? 'right' : 'left'; c.fillText(m.label, right ? x - 4 : x + 4, T + 14 + (m.row || 0) * 14);
     });
     xs.forEach(function (s, k) {
       c.strokeStyle = s.color || color(k); c.lineWidth = s.width || 2; c.setLineDash(s.dash || []); c.lineJoin = 'round';
@@ -151,8 +151,14 @@
   var INIT = {}, RUN = {};
 
   /* ---------------------------------------------------------------- shared data */
-  var NUC = null, DEC = null;
-  function base() { return Promise.all([load('data/signals/nuclides.json'), load('data/signals/decays.json')]).then(function (r) { NUC = r[0]; DEC = r[1]; }); }
+  var NUC = null, IDX = null, DEC = {};   // DEC fills per element as files load (data/signals/decays/<El>.json)
+  function base() { return Promise.all([load('data/signals/nuclides.json'), load('data/signals/decays/index.json')]).then(function (r) { NUC = r[0]; IDX = r[1]; }); }
+  function has(n, kind) { var f = IDX && IDX[n]; return !!f && (!kind || f.split(',').some(function (k) { return kind.split('|').indexOf(k) >= 0; })); }
+  function names(kind) { return Object.keys(IDX).filter(function (n) { return has(n, kind); }).sort(byA); }
+  function withDec(n, fn) {             // load the element file holding nuclide n, then call fn
+    if (!IDX || !IDX[n] || DEC[n]) { fn(); return; }
+    load('data/signals/decays/' + n.replace(/^\d+m?/, '') + '.json').then(function (d) { Object.assign(DEC, d); fn(); }).catch(function () { fn(); });
+  }
   function fillList(id, names) { var dl = $(id); dl.innerHTML = ''; names.forEach(function (n) { var o = el('option'); o.value = n; dl.appendChild(o); }); }
   function nucInfo(n) { var g = NUC[n.replace(/^(\d+)m/, '$1')]; return g ? { Z: g[0], A: g[1], jp: g[2], hl: g[3], modes: g[4], qa: g[5], qbm: g[6], qec: g[7], dm: g[8], r: g[9], ab: g[10] } : null; }
   var SYMS = 'n H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm'.split(' ');
@@ -170,9 +176,9 @@
     Promise.all([base(), load('data/signals/xcom.json')]).then(function (r) {
       G.xcom = r[1]; G.edges = {}; G.Zof = {};
       Object.keys(G.xcom).forEach(function (k) { G.edges[k] = G.xcom[k].K; G.Zof[k] = G.xcom[k].Z; });
-      fillList('#g-nuc-list', Object.keys(DEC).filter(function (n) { return DEC[n].g; }).sort(byA));
+      fillList('#g-nuc-list', names('g'));
       ['#g-nuc', '#g-line', '#g-e', '#g-mat', '#g-fwhm', '#g-esc', '#g-log'].forEach(function (id) { $(id).addEventListener(id === '#g-esc' ? 'input' : 'change', id === '#g-nuc' ? gNuc : RUN.gamma); });
-      $('#g-nuc').addEventListener('input', function () { if (DEC[normName(this.value)]) gNuc(); });
+      $('#g-nuc').addEventListener('input', function () { if (has(normName(this.value), 'g')) gNuc(); });
       document.querySelectorAll('input[name=g-src]').forEach(function (r) { r.addEventListener('change', function () { var nuc = srcVal('g-src') === 'nuc'; $('#g-nuc-wrap').hidden = $('#g-line-wrap').hidden = !nuc; $('#g-e-wrap').hidden = nuc; RUN.gamma(); }); });
       $('#g-csv').addEventListener('click', gCSV);
       gNuc();
@@ -181,7 +187,8 @@
   function byA(a, b) { var x = parseInt(a, 10), y = parseInt(b, 10); return x - y || a.localeCompare(b); }
   function srcVal(name) { var r = document.querySelector('input[name=' + name + ']:checked'); return r ? r.value : null; }
   function fail(sel) { return function (e) { $(sel).innerHTML = ''; $(sel).appendChild(el('p', 'sx-warn', 'Could not load data: ' + (e && e.message || e))); }; }
-  function gNuc() {
+  function gNuc() { var n = normName($('#g-nuc').value); withDec(n, gNuc2); }
+  function gNuc2() {
     var n = normName($('#g-nuc').value), d = DEC[n], sel = $('#g-line'); sel.innerHTML = '';
     if (!d || !d.g) { RUN.gamma(); return; }
     var all = el('option', null, 'All lines, weighted by intensity'); all.value = 'all'; sel.appendChild(all);
@@ -264,7 +271,7 @@
   var A = {};
   INIT.alpha = function () {
     base().then(function () {
-      fillList('#a-nuc-list', Object.keys(DEC).filter(function (n) { return DEC[n].a; }).sort(byA));
+      fillList('#a-nuc-list', names('a'));
       ['#a-nuc', '#a-levels', '#a-tp', '#a-fwhm', '#a-rfwhm', '#a-log'].forEach(function (id) { $(id).addEventListener('change', id === '#a-nuc' ? aNuc : RUN.alpha); });
       $('#a-q').addEventListener('change', RUN.alpha);
       $('#a-nuc').addEventListener('input', function () { if (nucInfo(normName(this.value))) aNuc(); });
@@ -272,7 +279,8 @@
       aNuc();
     }).catch(fail('#a-out'));
   };
-  function aNuc() {
+  function aNuc() { withDec(normName($('#a-nuc').value), aNuc2); }
+  function aNuc2() {
     var n = normName($('#a-nuc').value), i = nucInfo(n);
     if (i && i.qa != null) { $('#a-q').value = +i.qa.toFixed(3); $('#a-q-note').textContent = 'From the ENSDF/AME ground-state data (' + pretty(n) + ', T½ = ' + hlText(i.hl) + '). Edit to explore.'; }
     else $('#a-q-note').textContent = i ? 'No alpha Q value on record for ' + pretty(n) + ': enter one.' : '';
@@ -355,7 +363,7 @@
     Promise.all([base(), load('data/signals/alphan/index.json'), load('data/signals/alpha_stopping.json'), load('data/gamma/chains.json')]).then(function (r) {
       N.index = r[1].targets; N.stop = r[2]; N.chains = r[3].chains.filter(function (c) { return c.members.some(function (m) { return m.alphas && m.alphas.length; }); });
       N.chains.forEach(function (c) { var o = el('option', null, c.title.replace(/<[^>]+>/g, '')); o.value = c.id; $('#n-chain').appendChild(o); });
-      fillList('#a-nuc-list', Object.keys(DEC).filter(function (n) { return DEC[n].a; }).sort(byA));
+      fillList('#a-nuc-list', names('a'));
       ['#n-mat', '#n-custom', '#n-e', '#n-nuc', '#n-chain', '#n-areal', '#n-nparts', '#n-log'].forEach(function (id) { $(id).addEventListener('change', RUN.an); });
       document.querySelectorAll('input[name=n-src],input[name=n-thick]').forEach(function (rr) { rr.addEventListener('change', RUN.an); });
       $('#n-csv').addEventListener('click', nCSV);
@@ -379,6 +387,7 @@
     if (src === 'e') { alphas = [[num('#n-e', 5.3), 1]]; srcLabel = fmt(alphas[0][0], 4) + ' MeV alphas'; }
     else if (src === 'nuc') {
       var n = normName($('#n-nuc').value), d = DEC[n];
+      if (has(n, 'a') && !d) { withDec(n, RUN.an); return; }
       if (d && d.a) { var t = 0; d.a.forEach(function (a) { t += a[1]; }); alphas = d.a.map(function (a) { return [a[0] / 1000, a[1] / 100]; }); srcLabel = pretty(n) + ' alphas (per decay)'; }
     } else {
       var ch = N.chains.filter(function (c) { return c.id === $('#n-chain').value; })[0];
@@ -453,12 +462,12 @@
     var box = $('#b-corr');
     CORR.forEach(function (c) { var l = el('label', 'sx-check'), i = el('input'); i.type = 'checkbox'; i.id = 'bc-' + c[0]; i.checked = c[3]; l.appendChild(i); l.appendChild(document.createTextNode(' ' + c[1])); l.title = c[2]; var s = el('span', 'sx-cite', c[2]); l.appendChild(s); box.appendChild(l); i.addEventListener('change', RUN.beta); });
     base().then(function () {
-      fillList('#b-nuc-list', Object.keys(DEC).filter(function (n) { return DEC[n].bm || DEC[n].bp; }).sort(byA));
-      $('#b-nuc').addEventListener('change', bNuc); $('#b-nuc').addEventListener('input', function () { if (DEC[normName(this.value)]) bNuc(); });
+      fillList('#b-nuc-list', names('bm|bp'));
+      $('#b-nuc').addEventListener('change', bNuc); $('#b-nuc').addEventListener('input', function () { if (has(normName(this.value), 'bm|bp')) bNuc(); });
       $('#b-branch').addEventListener('change', bBranch);
-      ['#b-t0', '#b-sign', '#b-z', '#b-a', '#b-r', '#b-kind', '#b-k', '#b-rho', '#b-bac', '#b-dac', '#b-lam', '#b-sa', '#b-sb', '#b-sc', '#b-fierz', '#b-mnu', '#b-ms', '#b-u2', '#b-log', '#b-ref', '#b-kurie'].forEach(function (id) { $(id).addEventListener('change', RUN.beta); });
-      $('#b-fierz-calc').addEventListener('click', function () { var rho = parseRho(); $('#b-fierz').value = +P.fierzFromCouplings(rho, num('#b-cs', 0), num('#b-ct', 0), +$('#b-sign').value).toPrecision(5); RUN.beta(); });
+      ['#b-t0', '#b-sign', '#b-z', '#b-a', '#b-r', '#b-kind', '#b-k', '#b-rho', '#b-bac', '#b-dac', '#b-lam', '#b-sa', '#b-sb', '#b-sc', '#b-fmode', '#b-fierz', '#b-cs', '#b-ct', '#b-mnu', '#b-st', '#b-ms', '#b-u2', '#b-log', '#b-ref', '#b-kurie'].forEach(function (id) { $(id).addEventListener('change', RUN.beta); });
       $('#b-csv').addEventListener('click', bCSV);
+      document.querySelectorAll('.sx-gloss-link').forEach(function (l) { l.addEventListener('click', function (ev) { ev.preventDefault(); var d = $('#b-gloss'); d.open = true; d.scrollIntoView({ behavior: 'smooth' }); }); });
       $('#b-py').addEventListener('click', function () { bCode('py'); }); $('#b-cpp').addEventListener('click', function () { bCode('cpp'); });
       $('#b-copy').addEventListener('click', function () { navigator.clipboard && navigator.clipboard.writeText($('#b-code').textContent); this.textContent = 'Copied'; var b = this; setTimeout(function () { b.textContent = 'Copy'; }, 1500); });
       bNuc();
@@ -466,7 +475,8 @@
   };
   function parseRho() { var s = String($('#b-rho').value).trim().toLowerCase(); if (s === 'inf' || s === '∞' || s === 'infinity') return Infinity; var v = parseFloat(s); return isFinite(v) ? v : Infinity; }
   function bBranches(n) { var d = DEC[n] || {}, out = []; (d.bm || []).forEach(function (b) { out.push({ sign: -1, b: b }); }); (d.bp || []).forEach(function (b) { out.push({ sign: 1, b: b }); }); return out; }
-  function bNuc() {
+  function bNuc() { withDec(normName($('#b-nuc').value), bNuc2); }
+  function bNuc2() {
     var n = normName($('#b-nuc').value), br = bBranches(n), sel = $('#b-branch'); sel.innerHTML = '';
     if (!br.length) { RUN.beta(); return; }
     if (br.length > 1) { var o = el('option', null, 'All branches, weighted by intensity (' + br.length + ')'); o.value = 'all'; sel.appendChild(o); }
@@ -507,11 +517,20 @@
     var corr = {}; CORR.forEach(function (c) { corr[c[0]] = $('#bc-' + c[0]).checked; });
     var kind = $('#b-kind').value, p = { Z: num('#b-z', 1) | 0, A: num('#b-a', 1) | 0, beta: +$('#b-sign').value, T0: T0, rrms: num('#b-r', 0) || null,
       kind: kind, k: num('#b-k', 1) | 0, rho: parseRho(), bAc: num('#b-bac', 0), dAc: num('#b-dac', 0), Lambda: num('#b-lam', 0),
-      shape: { a: num('#b-sa', 0), b: num('#b-sb', 0), c: num('#b-sc', 0) }, fierz: num('#b-fierz', 0), mnu: num('#b-mnu', 0), msterile: num('#b-ms', 0), Usterile2: num('#b-u2', 0), corr: corr, n: 600 };
+      shape: { a: num('#b-sa', 0), b: num('#b-sb', 0), c: num('#b-sc', 0) }, fierz: fierzValue(), mnu: num('#b-mnu', 0),
+      msterile: $('#b-st').checked ? num('#b-ms', 0) : 0, Usterile2: $('#b-st').checked ? Math.min(1, Math.max(0, num('#b-u2', 0))) : 0, corr: corr, n: 600 };
     return Object.assign(p, over || {});
+  }
+  function fierzValue() {
+    var m = $('#b-fmode').value;
+    if (m === 'b') return num('#b-fierz', 0);
+    if (m === 'c') return P.fierzFromCouplings(parseRho() === Infinity ? 1e6 : parseRho(), num('#b-cs', 0), num('#b-ct', 0), +$('#b-sign').value);
+    return 0;
   }
   RUN.beta = function () {
     var n = normName($('#b-nuc').value), out = $('#b-out'); out.innerHTML = '';
+    var fm = $('#b-fmode').value; $('#b-fb-wrap').hidden = fm !== 'b'; $('#b-fc-wrap').hidden = fm !== 'c'; $('#b-st-wrap').hidden = !$('#b-st').checked;
+    if (fm === 'c') { var rr = parseRho(); $('#b-fc-out').innerHTML = 'b<sub>F</sub> = ' + fmt(fierzValue(), 4) + ' for ρ = ' + (rr === Infinity ? '∞ (pure Gamow–Teller: only the tensor coupling counts)' : fmt(rr, 4) + (rr === 0 ? ' (pure Fermi: only the scalar coupling counts)' : '')) + ', ' + (+$('#b-sign').value < 0 ? 'β⁻' : 'β⁺') + '.'; }
     var kind = $('#b-kind').value; $('#b-k-wrap').hidden = kind === 'A';
     var T0 = num('#b-t0', NaN);
     if (!(T0 > 0)) { plot($('#b-plot'), { series: [], empty: 'Choose a beta emitter or enter an endpoint energy.' }); plot($('#b-plot2'), { series: [] }); return; }
@@ -533,7 +552,9 @@
     var yl = all ? 'Electrons per keV per decay' : 'Probability per keV (normalised)';
     var series = [{ name: 'With selected corrections', x: spec.T, y: kur ? kurie(spec, all) : spec.dNdT, color: color(0) }];
     if (ref) series.push({ name: 'Same shape, no corrections (F₀ only)', x: ref.T, y: kur ? kurie(ref, all) : ref.dNdT, color: css('--muted'), dash: [5, 4], width: 1.4 });
-    plot($('#b-plot'), { series: series, xlab: 'Kinetic energy (keV)', xname: 'T', ylab: kur ? 'Kurie: √(N / pW F₀) (arb.)' : yl, log: lg && !kur, legend: $('#b-legend'), ymin: lg && !kur ? max(spec.dNdT) * 1e-5 : undefined });
+    var bp = bParams(T0), marks = [];
+    if (bp.Usterile2 > 0 && bp.msterile > 0 && bp.msterile < T0) marks.push({ x: T0 - bp.msterile, label: 'kink: T₀ − m₄c²' });
+    plot($('#b-plot'), { series: series, xlab: 'Kinetic energy (keV)', xname: 'T', ylab: kur ? 'Kurie: √(N / pW F₀) (arb.)' : yl, log: lg && !kur, legend: $('#b-legend'), marks: marks, ymin: lg && !kur ? max(spec.dNdT) * 1e-5 : undefined });
     // correction factors panel
     if (spec.factors) {
       var fs = [], k = 0;
@@ -571,7 +592,9 @@
     rows.push(['Fermi function', 'F₀ = 4 (2pR)<sup>2(γ−1)</sup> e<sup>πy</sup> |Γ(γ + iy)|² / Γ(1 + 2γ)²,&nbsp; γ = √(1 − (αZ)²) = ' + fmt(c.g1, 6) + ',&nbsp; y = ' + (p.beta < 0 ? '' : '−') + 'αZW/p,&nbsp; R = √(5/3) r<sub>rms</sub> = ' + fmt(c.R * P.HBARC_FM, 4) + ' fm = ' + fmt(c.R, 4) + ' ħ/m<sub>e</sub>c']);
     if (p.kind === 'U') rows.push(['Unique forbidden shape (k = ' + p.k + ')', 'C(W) ∝ Σ<sub>n=1</sub><sup>k+1</sup> λ<sub>n</sub> p<sup>2(n−1)</sup> q<sup>2(k+1−n)</sup> / [(2n−1)! (2(k+1−n)+1)!],&nbsp; q = W₀ − W,&nbsp; λ<sub>n</sub> = F<sub>n−1</sub>/F₀ · (n + γ<sub>n</sub>)/(n(1 + γ₁)),&nbsp; F<sub>n−1</sub> = [n(2n−1)!!]² 4<sup>n</sup> (2pR)<sup>2(γₙ−n)</sup> e<sup>πy</sup> |Γ(γₙ+iy)|²/Γ(1+2γₙ)²']);
     if (p.corr.rad) rows.push(['Radiative (O(α))', '1 + δ₁ = 1 + (α/2π)[g(W₀,W) − 3 ln(m<sub>p</sub>/2W₀)], with Sirlin’s g; the t(β) ln(W₀−W) term is resummed as (W₀−W)<sup>t(β)</sup> − 1']);
-    if (p.fierz || p.mnu || p.Usterile2) rows.push(['BSM', (p.fierz ? 'Fierz: × (1 + b<sub>F</sub> γ/W), b<sub>F</sub> = ' + p.fierz + '. ' : '') + (p.mnu || p.Usterile2 ? 'Neutrino mass: (W₀−W)² → (W₀−W)√((W₀−W)² − m<sub>ν</sub>²); sterile admixture: (1 − |U|²) N(m<sub>ν</sub>) + |U|² N(m<sub>s</sub>).' : '')]);
+    if (p.fierz) rows.push(['Fierz term', 'N → N · (1 + b<sub>F</sub> γ / W),&nbsp; b<sub>F</sub> = ' + fmt(p.fierz, 4) + ($('#b-fmode').value === 'c' ? ' = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²)' : '')]);
+    if (p.mnu) rows.push(['Neutrino mass', '(W₀ − W)² → (W₀ − W) √((W₀ − W)² − m<sub>β</sub>²),&nbsp; m<sub>β</sub> = ' + fmt(p.mnu, 4) + ' eV/c²']);
+    if (p.Usterile2) rows.push(['Heavy neutrino', 'N = (1 − |U<sub>e4</sub>|²) N(m<sub>β</sub>) + |U<sub>e4</sub>|² N(m₄),&nbsp; m₄ = ' + fmt(p.msterile, 4) + ' keV/c², |U<sub>e4</sub>|² = ' + fmt(p.Usterile2, 3) + '; the heavy branch ends at T₀ − m₄c² = ' + fmt(p.T0 - p.msterile, 5) + ' keV']);
     rows.push(['Reference', 'L. Hayen et al., Rev. Mod. Phys. 90, 015008 (2018), eqs. 4–170; the Python and C++ buttons export this calculation as code.']);
     return formulaBox(rows);
   }

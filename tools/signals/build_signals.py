@@ -6,8 +6,9 @@
 
 Writes
   nuclides.json  {name: [Z, A, Jpi, T1/2 s, modes, Qalpha, Qbeta-, QEC, mass excess keV, rms charge radius fm, abundance %]}
-  decays.json    {name: {a: [[E, I%, Ex]], bm: [[Emax, I%, Ex, logft, type, Jpi_f, Emean]], bp: [...same...], g: [[E, I%]]}}
-                 (name with an "m" for decays of isomers, e.g. 234mPa)
+  decays/index.json  {name: "a,bm,bp,g" (which data exist)}
+  decays/<El>.json   {name: {a: [[E, I%, Ex]], bm: [[Emax, I%, Ex, logft, type, Jpi_f, Emean]], bp: [...same...], g: [[E, I%]]}}
+                 one file per element, loaded on demand (name with an "m" for decays of isomers, e.g. 234mPa)
   xcom.json      {Symbol: {Z, E, coh, incoh, photo, pair_n, pair_e, K}}   (cm^2/g, keV)
   alpha_stopping.json  {symbol: [[E MeV, S MeV cm^2/g]]}   (SRIM tables from NeuCBOT)
 The (alpha,n) files come from tools/signals/alphan.py.
@@ -73,14 +74,19 @@ def decays(lc, sig, nucs):
 
     def key(r):
         return name_of(r["p_z"], r["p_n"], r["p_symbol"], (fnum(r.get("p_energy")) or 0) > 0)
-    for p in glob.glob(os.path.join(lc, "decay_a", "*.csv")):
+    def files(sub):
+        out = glob.glob(os.path.join(lc, sub, "*.csv"))
+        if sig:
+            out += glob.glob(os.path.join(sig, "extra", sub, "*.csv"))
+        return out
+    for p in files("decay_a"):
         for r in rows(p):
             e, i = fnum(r.get("energy")), fnum(r.get("intensity"))
             if e and i:
                 out.setdefault(key(r), {}).setdefault("a", []).append([e, float("%.4g" % i), fnum(r.get("daughter_level_energy")) or 0])
     for sub, kind in (("decay_bm", "bm"), ("decay_bp", "bp")):
         cache = {}
-        for p in glob.glob(os.path.join(lc, sub, "*.csv")):
+        for p in files(sub):
             for r in rows(p):
                 i = fnum(r.get("intensity_beta"))
                 if not i:
@@ -99,11 +105,11 @@ def decays(lc, sig, nucs):
                 out.setdefault(key(r), {}).setdefault(kind, []).append(
                     [round(emax, 2), float("%.4g" % i), ex, fnum(r.get("log_ft")), (r.get("transition_type") or "").strip(),
                      match_jp(cache[dname], ex) if ex else (nucs.get(dname, [0, 0, ""])[2]), fnum(r.get("mean_energy"))])
-    for p in glob.glob(os.path.join(lc, "decay", "*.csv")):
+    for p in files("decay"):
         for r in rows(p):
             e, i = fnum(r.get("energy")), fnum(r.get("intensity"))
             if e and i and i >= 0.01:
-                out.setdefault(key(r), {}).setdefault("g", []).append([e, float("%.4g" % i)])
+                out.setdefault(key(r), {}).setdefault("g", []).append([float("%.6g" % e), float("%.3g" % i)])
     for v in out.values():
         for k in v:
             v[k].sort(key=lambda x: -x[1])
@@ -155,7 +161,20 @@ def main(lc, sig):
     nucs = nuclides(lc)
     json.dump(nucs, open(os.path.join(OUT, "nuclides.json"), "w"), separators=(",", ":"))
     dec = decays(lc, sig, nucs)
-    json.dump(dec, open(os.path.join(OUT, "decays.json"), "w"), separators=(",", ":"))
+    ddir = os.path.join(OUT, "decays")
+    os.makedirs(ddir, exist_ok=True)
+    for f in glob.glob(os.path.join(ddir, "*.json")):
+        os.remove(f)
+    if os.path.exists(os.path.join(OUT, "decays.json")):
+        os.remove(os.path.join(OUT, "decays.json"))
+    by_el, index = {}, {}
+    for nm, v in dec.items():
+        el = re.sub(r"^\d+m?", "", nm)
+        by_el.setdefault(el, {})[nm] = v
+        index[nm] = ",".join(k for k in ("a", "bm", "bp", "g") if k in v)
+    for el, v in by_el.items():
+        json.dump(v, open(os.path.join(ddir, el + ".json"), "w"), separators=(",", ":"))
+    json.dump(index, open(os.path.join(ddir, "index.json"), "w"), separators=(",", ":"))
     xc = xcom(sig) if sig else {}
     if xc:
         json.dump(xc, open(os.path.join(OUT, "xcom.json"), "w"), separators=(",", ":"))
@@ -166,6 +185,7 @@ def main(lc, sig):
         p = os.path.join(OUT, f)
         if os.path.isfile(p):
             print(" ", f, os.path.getsize(p) // 1024, "kB")
+    print("  decays/: %d files, %d kB" % (len(os.listdir(ddir)), sum(os.path.getsize(os.path.join(ddir, f)) for f in os.listdir(ddir)) // 1024))
 
 
 if __name__ == "__main__":
