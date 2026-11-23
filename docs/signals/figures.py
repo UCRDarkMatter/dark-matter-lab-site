@@ -98,6 +98,18 @@ for ax, k, t in [(axs[0], "y90", "$^{90}$Y, 1st unique (2⁻→0⁺)"), (axs[1],
     ax.set_title(t, fontsize=9); ax.set_xlabel("kinetic energy (keV)"); ax.legend(fontsize=6.5)
 axs[0].set_ylabel("per keV")
 save(f, "b_unique")
+# angle-integrated unique-first-forbidden spectra: with and without the q^2 of the nuclear matrix element
+f, ax = plt.subplots(figsize=(W1, 2.6))
+d = D["y90"]; T = np.array(d["T"]); Aw = np.array(d["Aw"]); W0 = 1 + 2278.5 / 511.0
+Wv = 1 + T / 511.0; k = np.sqrt(Wv**2 - 1); nu = W0 - Wv; bt = k / Wv; aa = 2 * k * nu / (k**2 + nu**2)
+g = ((aa**2 - 1) * np.arctanh(np.minimum(aa, 1 - 1e-12)) + aa) / aa**2
+def nrm(y): y = Aw * y; return y / np.trapezoid(y, T) / (Aw / np.trapezoid(Aw, T))
+ax.plot(T, nrm(k**2 + nu**2), color=C[0], label="$q^2$ kept: $k^2+\\nu^2$ (SM and any tensor)")
+ax.plot(T, nrm(2 + bt / 5 * g), color=C[1], ls="--", label="Eq. 17 of [GM17], SM")
+ax.plot(T, nrm(2 + bt / 5 * g * (1 - 0.08)), color=C[2], ls=":", label="Eq. 17, $C_T/C_A=-C_T'/C_A=0.2$")
+ax.axhline(1, color=MUTED, lw=0.6)
+ax.set_xlabel("kinetic energy (keV), $^{90}$Y"); ax.set_ylabel("ratio to allowed shape"); ax.legend(fontsize=6.3)
+save(f, "b_corr")
 f, ax = plt.subplots(figsize=(W1, 2.5))
 d = D["bsm"]; ax.plot(d["T"], d["fierz"], color=C[0], label="$b_F$ = 0.01"); ax.plot(d["T"], d["sterile"], color=C[1], label="$m_4$ = 20 keV, $|U_{e4}|^2$ = 0.01")
 ax.axvline(66.94 - 20, color=MUTED, ls=":"); ax.set_xlabel("kinetic energy (keV), $^{63}$Ni"); ax.set_ylabel("ratio to Standard Model"); ax.legend(fontsize=6.5)

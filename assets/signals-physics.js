@@ -364,7 +364,7 @@
     return 1 + r[0] + r[1] / W + r[2] * W + r[3] / (W * W);
   }
   function Qcorr(c, W) {                 // Coulomb recoil (Hayen eq. 45)
-    var p = Math.sqrt(W * W - 1), s = c.beta < 0 ? 1 : -1, a = (1 - c.rho * c.rho / 3) / (1 + c.rho * c.rho);
+    var p = Math.sqrt(W * W - 1), s = c.beta < 0 ? 1 : -1, a = c.aQ != null ? c.aQ : (1 - c.rho * c.rho / 3) / (1 + c.rho * c.rho);
     return 1 - s * Math.PI * c.aZ / c.M / p * (1 + a * (c.W0 - W) / (3 * W));
   }
   function gSirlin(W0, W, repkoWu) {     // Sirlin's g (Hayen eq. 50), with the Repko–Wu endpoint resummation (eq. 53)
@@ -434,7 +434,15 @@
   function betaSpectrum(p) {
     var corr = p.corr || {}, n = p.n || 400, T0 = p.T0, W0 = T0 / ME + 1;
     var rho = p.rho === Infinity || p.rho === 'inf' ? 1e6 : (p.rho || 0);
+    // Forbidden branches: the Fermi/Gamow-Teller mixing ratio rho has no meaning. The finite-size (C), recoil (R_N)
+    // and Coulomb-recoil (Q) terms are allowed-decay formulas; for forbidden branches we use their axial (GT) form,
+    // and in Q the leading-order beta-nu correlation of a unique transition, a = -1/(2J+1) with J = k+1
+    // (Glick-Magid & Gazit, PRD 107, 075031), or a = 0 for non-unique ones (unknown without matrix elements).
+    // The allowed weak-magnetism slope does not apply to forbidden decays and is switched off for them.
+    var forb = p.kind === 'U' || p.kind === 'NU';
+    if (forb) rho = 1e6;
     var c = betaContext(Object.assign({}, p, { W0: W0, rho: rho }));
+    if (forb) c.aQ = p.kind === 'U' ? -1 / (2 * (p.k + 1) + 1) : 0;
     var T = new Float64Array(n), out = new Float64Array(n), fac = {};
     var names = ['F0', 'L0', 'U', 'C', 'R', 'RN', 'Q', 'S', 'X', 'r', 'shape', 'fierz'];
     names.forEach(function (k) { fac[k] = new Float64Array(n); });
@@ -447,30 +455,32 @@
       f.F0 = F0(c, W);
       f.L0 = corr.L0 ? L0(c, W) : 1;
       f.U = corr.U ? Ucorr(c, W) : 1;
-      f.C = corr.C ? (wF * shapeVector(c, W) + wG * shapeAxial(c, W, !!corr.WM)) : (corr.WM ? (wF + wG * (1 + (c.beta < 0 ? 1 : -1) * 4 / 3 * (p.bAc || 0) / MNUC * W)) : 1);
+      var wm = !!corr.WM && !forb;
+      f.C = corr.C ? (wF * shapeVector(c, W) + wG * shapeAxial(c, W, wm)) : (wm ? (wF + wG * (1 + (c.beta < 0 ? 1 : -1) * 4 / 3 * (p.bAc || 0) / MNUC * W)) : 1);
       f.R = corr.rad ? radiative(c, W, { o2: !!corr.o2, o3: !!corr.o3 }) : 1;
       f.RN = corr.RN ? RN(c, W) : 1;
       f.Q = corr.Q ? Qcorr(c, W) : 1;
       f.S = corr.S ? screening(c, W) : 1;
       f.X = corr.X ? exchange(c, W) : 1;
       f.r = corr.r ? mismatch(c, W) : 1;
-      // forbidden shape factor (lepton momenta); q = neutrino momentum (massless here, mass handled in phase space)
-      var sh = 1;
-      if (p.kind === 'U' && p.k >= 1) {
+      // unique-forbidden shape factor in the electron momentum p and the NEUTRINO MOMENTUM pv (= q0 for a massless
+      // neutrino; sqrt(q0^2 - m^2) for a massive one, so the shape and the phase space use the same momentum)
+      var lam = [];
+      if (p.kind === 'U' && p.k >= 1) for (var m = 1; m <= p.k + 1; m++) lam[m] = corr.lambda === false ? 1 : lambdaK(c, W, m);
+      function ushape(pv) {
+        if (!(p.kind === 'U' && p.k >= 1)) return 1;
         var K = p.k + 1, sum = 0;
-        for (var m = 1; m <= K; m++) {
-          var lam = corr.lambda === false ? 1 : lambdaK(c, W, m);
-          sum += lam * Math.pow(pp, 2 * (m - 1)) * Math.pow(q0, 2 * (K - m)) / (fact(2 * m - 1) * fact(2 * (K - m) + 1));
-        }
-        sh = sum * fact(2 * K - 1);         // arbitrary normalisation
+        for (var m = 1; m <= K; m++) sum += lam[m] * Math.pow(pp, 2 * (m - 1)) * Math.pow(pv, 2 * (K - m)) / (fact(2 * m - 1) * fact(2 * (K - m) + 1));
+        return sum * fact(2 * K - 1);       // arbitrary normalisation
       }
-      if (p.shape) sh *= 1 + (p.shape.a || 0) * W + (p.shape.b || 0) / W + (p.shape.c || 0) * W * W;
-      f.shape = sh;
+      var emp = p.shape ? 1 + (p.shape.a || 0) * W + (p.shape.b || 0) / W + (p.shape.c || 0) * W * W : 1;
       f.fierz = p.fierz ? 1 + p.fierz * c.g1 / W : 1;
-      // phase space with neutrino masses: active (light) and sterile admixture
-      function ps(mv) { return q0 > mv ? pp * W * q0 * Math.sqrt(q0 * q0 - mv * mv) : 0; }
+      // phase space with neutrino masses: active (light) and sterile admixture; each mass state with its own shape
+      function ps(mv) { if (!(q0 > mv)) return 0; var pv = Math.sqrt(q0 * q0 - mv * mv); return pp * W * q0 * pv * ushape(pv); }
       var phase = U2 > 0 ? (1 - U2) * ps(mnu) + U2 * ps(ms) : ps(mnu);
-      var v = phase;
+      var ps0 = pp * W * q0 * q0;
+      f.shape = emp * (ps0 > 0 ? phase / ps0 : ushape(q0));    // shape incl. neutrino-mass effects, relative to massless phase space
+      var v = ps0;
       names.forEach(function (k) { fac[k][i] = f[k]; v *= f[k]; });
       out[i] = Math.max(v, 0);
     }

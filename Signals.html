@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261123j">
-<link rel="stylesheet" href="assets/signals.css?v=20261123j">
+<link rel="stylesheet" href="assets/style.css?v=20261123k">
+<link rel="stylesheet" href="assets/signals.css?v=20261123k">
 </head>
 <body>
-<script src="assets/site.js?v=20261123j"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261123k"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -153,10 +153,11 @@
               <label>Type <select id="b-kind"><option value="A">Allowed</option><option value="U">Unique forbidden</option><option value="NU">Non-unique forbidden</option></select></label>
               <label id="b-k-wrap">Order k <input type="number" id="b-k" min="1" max="6" step="1" value="1"></label>
               <label id="b-rho-wrap" title="ρ = C_A M_GT / (C_V M_F); 0 = pure Fermi, ∞ = pure Gamow–Teller">Mixing ρ <input type="text" id="b-rho" value="inf"></label>
-              <label title="Weak magnetism form factor b/(A c), Holstein; about 5 in the impulse approximation">b/Ac <input type="number" id="b-bac" step="any" value="5"></label>
+              <label id="b-bac-wrap" title="Weak magnetism form factor b/(A c), Holstein; about 5 in the impulse approximation">b/Ac <input type="number" id="b-bac" step="any" value="5"></label>
               <label title="Induced tensor (second-class) d/(A c); zero for mirror decays">d/Ac <input type="number" id="b-dac" step="any" value="0"></label>
               <label title="Λ: ratio of the M121 and M101 matrix elements (Hayen et al. eq. 107)">Λ <input type="number" id="b-lam" step="any" value="0"></label>
             </div>
+            <p class="sx-note" id="b-forb-note" hidden></p>
             <details class="sx-more"><summary>Empirical shape factor C(W) = 1 + aW + b/W + cW²</summary>
               <div class="sx-grid2"><label>a <input type="number" id="b-sa" step="any" value="0"></label><label>b <input type="number" id="b-sb" step="any" value="0"></label><label>c <input type="number" id="b-sc" step="any" value="0"></label></div>
               <p class="sx-note">W in units of mₑc². Use for non-unique forbidden decays with a measured shape (the default is the ξ approximation, C = 1).</p></details>
@@ -169,15 +170,15 @@
               <select id="b-fmode">
                 <option value="none">None (Standard Model)</option>
                 <option value="b">Enter its value</option>
-                <option value="c">Compute from scalar and tensor couplings</option>
+                <option value="c" id="b-fmode-c">Compute from scalar and tensor couplings</option>
               </select></label>
             <label class="sx-field" id="b-fb-wrap" hidden>b<sub>F</sub> <input type="number" id="b-fierz" step="any" value="0"></label>
             <div id="b-fc-wrap" hidden>
-              <label class="sx-field">Scalar: (C<sub>S</sub> + C′<sub>S</sub>) / C<sub>V</sub> <input type="number" id="b-cs" step="any" value="0"></label>
+              <label class="sx-field" id="b-cs-wrap">Scalar: (C<sub>S</sub> + C′<sub>S</sub>) / C<sub>V</sub> <input type="number" id="b-cs" step="any" value="0"></label>
               <label class="sx-field">Tensor: (C<sub>T</sub> + C′<sub>T</sub>) / C<sub>A</sub> <input type="number" id="b-ct" step="any" value="0"></label>
               <p class="sx-note" id="b-fc-out"></p>
             </div>
-            <p class="sx-note">Multiplies the spectrum by 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E, which tilts it towards low energies for b<sub>F</sub> &gt; 0.</p>
+            <p class="sx-note" id="b-fierz-note">Multiplies the spectrum by 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E, which tilts it towards low energies for b<sub>F</sub> &gt; 0.</p>
             <label class="sx-field">Effective neutrino mass m<sub>β</sub> <span class="sx-unit"><input type="number" id="b-mnu" step="any" value="0" min="0"> eV</span></label>
             <label class="sx-check"><input type="checkbox" id="b-st"> Add a heavy (sterile) neutrino</label>
             <div id="b-st-wrap" hidden>
@@ -225,9 +226,11 @@
               <dt>Atomic mismatch, r</dt>
               <dd>The parent's electron cloud does not fit the daughter atom, so the atom is left excited and takes some energy from the leptons. The effect concentrates near the endpoint: on average the spectrum ends ΔE = ½ ∂²B/∂Z² earlier (B: total electron binding energy; ΔE ≈ 30 eV for tritium, 90 eV for ⁶³Ni), which costs about 1% of the spectrum 15 keV below the ⁶³Ni endpoint. The page applies this as the endpoint shift ((W₀ − W − ΔE)/(W₀ − W))², of which Hayen et al.'s r is the first-order expansion.</dd>
               <dt>Forbidden decays and the shape factor</dt>
-              <dd>When angular momentum or parity forbid the allowed operators, the leptons must carry orbital angular momentum L = k. For <b>unique</b> k-th forbidden decays (ΔJ = k + 1, parity (−1)ᵏ) only one nuclear matrix element contributes and the shape follows from the lepton momenta: C(W) ∝ Σₙ λₙ p²⁽ⁿ⁻¹⁾ q²⁽ᵏ⁺¹⁻ⁿ⁾ / [(2n−1)! (2(k+1−n)+1)!], where λₙ are Coulomb functions (ratios of generalised Fermi functions, 1 without Coulomb effects). For <b>non-unique</b> decays several nuclear matrix elements interfere; the ξ approximation (allowed shape) is used unless you enter an empirical shape factor 1 + aW + b/W + cW².</dd>
+              <dd>When angular momentum or parity forbid the allowed operators, the leptons must carry orbital angular momentum L = k. For <b>unique</b> k-th forbidden decays (ΔJ = k + 1, parity (−1)ᵏ) only one nuclear matrix element contributes and the shape follows from the lepton momenta: C(W) ∝ Σₙ λₙ p²⁽ⁿ⁻¹⁾ q²⁽ᵏ⁺¹⁻ⁿ⁾ / [(2n−1)! (2(k+1−n)+1)!], where λₙ are Coulomb functions (ratios of generalised Fermi functions, 1 without Coulomb effects). For <b>non-unique</b> decays several nuclear matrix elements interfere; the ξ approximation (allowed shape) is used unless you enter an empirical shape factor 1 + aW + b/W + cW². For forbidden branches the mixing ratio ρ and the allowed weak-magnetism slope have no meaning and are switched off; the finite-size and recoil terms are allowed-decay formulas applied in their axial form (an approximation at the 10⁻³ level). For low-Q unique decays such as ⁹⁰Sr, Seng, Glick-Magid &amp; Cirigliano (PRL 134, 081805, 2025) find that O(α) radiative corrections open the decay at zero nuclear recoil momentum and may distort the spectrum by several per cent; this effect is not included.</dd>
+              <dt>β–ν angular correlation a (not in the energy spectrum)</dt>
+              <dd>The decay rate also depends on the angle between electron and neutrino, as 1 + a β cos θ<sub>eν</sub> for allowed decays (a = 1 for Fermi, −1/3 for Gamow–Teller transitions in the Standard Model; scalar and tensor couplings change it quadratically, including couplings to right-handed neutrinos that leave b<sub>F</sub> = 0). Integrating over the neutrino direction removes it from the electron energy spectrum; it is measured through the recoiling nucleus. For unique forbidden decays the correlation has an extra term ∝ [β² − (β·ν̂)²]/q² (Glick-Magid et al. 2017; 2023) that has been proposed as a way to see a, and hence right-handed tensor couplings, in the energy spectrum. When the q² dependence of the nuclear matrix element (|⟨L<sub>J</sub>⟩|² ∝ q<sup>2(J−1)</sup>) is kept, that term cancels the β·ν̂ term exactly on integration, for every J, so to leading order the unique spectrum carries only b<sub>F</sub>; the same weighting is what produces the standard unique shapes above. The page therefore does not offer a separate a input for spectra.</dd>
               <dt>Fierz term b<sub>F</sub> (beyond the Standard Model)</dt>
-              <dd>Scalar or tensor weak interactions, which do not exist in the Standard Model V−A theory, would interfere with the vector and axial currents and add a term b<sub>F</sub> γ/W to the spectrum shape. To first order in the new couplings, b<sub>F</sub> = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²), with the upper sign for β⁻ (Jackson, Treiman &amp; Wyld 1957). Pure Fermi decays probe scalar and pure Gamow–Teller decays tensor couplings. Current limits are |b<sub>F</sub>| ≲ 10⁻³–10⁻².</dd>
+              <dd>Scalar or tensor weak interactions, which do not exist in the Standard Model V−A theory, would interfere with the vector and axial currents and add a term b<sub>F</sub> γ/W to the spectrum shape. To first order in the new couplings, b<sub>F</sub> = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²), with the upper sign for β⁻ (Jackson, Treiman &amp; Wyld 1957). Pure Fermi decays probe scalar and pure Gamow–Teller decays tensor couplings. Unique forbidden decays involve only axial operators, so only tensor couplings interfere, with the same γ/W form: b<sub>F</sub> = ±Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>). For non-unique forbidden decays the interference involves several matrix elements, and the page treats b<sub>F</sub> as a phenomenological tilt. Current limits are |b<sub>F</sub>| ≲ 10⁻³–10⁻².</dd>
               <dt>Neutrino mass m<sub>β</sub></dt>
               <dd>A massive neutrino needs at least m<sub>β</sub>c² of the decay energy, so (W₀ − W)² becomes (W₀ − W)√((W₀ − W)² − m<sub>β</sub>²) and the spectrum ends m<sub>β</sub>c² below the endpoint. m<sub>β</sub>² = Σ|U<sub>ei</sub>|² m<sub>i</sub>² is the effective mass measured by tritium experiments (KATRIN: m<sub>β</sub> &lt; 0.45 eV). Visible only in the last few eV of low-endpoint spectra.</dd>
               <dt>Heavy (sterile) neutrino</dt>
@@ -297,9 +300,9 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261123j"></script>
-<script src="assets/signals-exchange.js?v=20261123j"></script>
-<script src="assets/signals-code.js?v=20261123j"></script>
-<script src="assets/signals.js?v=20261123j"></script>
+<script src="assets/signals-physics.js?v=20261123k"></script>
+<script src="assets/signals-exchange.js?v=20261123k"></script>
+<script src="assets/signals-code.js?v=20261123k"></script>
+<script src="assets/signals.js?v=20261123k"></script>
 </body>
 </html>

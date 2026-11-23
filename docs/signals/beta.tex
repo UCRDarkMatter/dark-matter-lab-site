@@ -224,13 +224,20 @@ Without Coulomb effects $\lambda_n = 1$; with them the higher partial waves of t
 \subsection{Non-unique forbidden decays}
 Here several nuclear matrix elements contribute with energy-dependent lepton factors, and they can interfere. When one combination dominates and the Coulomb energy $\alpha Z/2R$ is large compared with $W_0$ (the ``$\xi$ approximation''), the shape is close to allowed, which is the default. Otherwise the shape must come from a nuclear-structure calculation or a measurement; the tab accepts an empirical shape factor $1 + aW + b/W + cW^2$ for this (and for any other case where you want to override the theory).
 
+\subsection{What else changes for forbidden branches}
+The corrections $C$, $R_N$ and $Q$ of \cref{tab:terms} were derived for allowed decays, where the mixing ratio $\rho$ weights their vector and axial forms. For a forbidden branch $\rho$ has no meaning. The page therefore uses the axial form of $C$ and $R_N$ for every forbidden branch (the unique operators are axial; for non-unique ones this is a choice), switches off the allowed weak-magnetism slope (its forbidden analogue involves the ratio of a vector magnetic to an axial multipole, which needs a nuclear model), and in $Q$ replaces the allowed $\beta$--$\nu$ correlation by the leading-order unique value $a = -1/(2J+1)$ with $J = k+1$ (\cref{sec:corr}), or by zero for non-unique branches. All of these are corrections at the $10^{-4}$--$10^{-3}$ level, so the approximation matters only for precision work.
+
+\begin{pitfall}[Radiative corrections at zero recoil momentum]
+For a unique decay the tree-level rate vanishes as $|\bm q|^2 \to 0$ (the nuclear matrix element is $\propto|\bm q|$). Seng, Glick-Magid and Cirigliano \cite{seng} showed that $O(\alpha)$ $\gamma W$-box diagrams do not vanish there, because the photon can supply the missing angular momentum. For low-$Q$ decays such as \nuc{90}{Sr} this changes the spectrum by several per cent in their exploratory estimate (the total rate by about 8\%). The outer radiative correction $R$ used here does not contain this effect.
+\end{pitfall}
+
 \section{Beyond the Standard Model}
 \subsection{Neutrino mass}
 With a neutrino mass $m_\nu$ the neutrino phase space becomes $q\sqrt{q^2 - m_\nu^2}$ instead of $q^2$, and the spectrum ends $m_\nu$ below the massless endpoint. Because the neutrino is a superposition of mass eigenstates, what is measured is
 \begin{equation}
 \frac{\dd N}{\dd W} \propto \sum_i |U_{ei}|^2\,q\sqrt{q^2 - m_i^2}\;\Theta(q - m_i) \;\approx\; q\sqrt{q^2 - m_\beta^2}, \qquad m_\beta^2 = \sum_i |U_{ei}|^2 m_i^2,
 \end{equation}
-when the $m_i$ are not resolved. The effect lives in the last few eV (\cref{fig:tritium}), which is why tritium (\SI{18.6}{keV} endpoint, superallowed, simple atomic structure) is the isotope of choice; KATRIN currently limits $m_\beta < \SI{0.45}{eV}$ (90\% CL) \cite{katrin}.
+when the $m_i$ are not resolved. For a forbidden branch the neutrino momentum also enters the shape factor (\cref{eq:unique}); the page uses $p_\nu = \sqrt{q^2 - m_\nu^2}$ there as well, separately for each mass state. The effect lives in the last few eV (\cref{fig:tritium}), which is why tritium (\SI{18.6}{keV} endpoint, superallowed, simple atomic structure) is the isotope of choice; KATRIN currently limits $m_\beta < \SI{0.45}{eV}$ (90\% CL) \cite{katrin}.
 
 \begin{figure}[htbp]
 \centering\includegraphics[width=0.6\linewidth]{fig/b_tritium.pdf}
@@ -262,6 +269,40 @@ The tab offers one Fierz control with three modes, so that $b_F$ is never specif
 \label{fig:bsm}
 \end{figure}
 
+For a unique forbidden branch only axial operators contribute, so only tensor couplings interfere, and at leading order in $qR$ the Fierz term has exactly the allowed Gamow--Teller form, $b_F = \pm\mathrm{Re}[(C_T + C_T')/C_A]$ \cite{gm17,gm23}. For non-unique branches several matrix elements interfere, and the page treats $b_F$ only as a phenomenological tilt.
+
+\subsection{The $\beta$--$\nu$ correlation, and why it (almost) never reaches the spectrum}
+\label{sec:corr}
+The full distribution in the electron energy and the two lepton directions is, for an allowed decay \cite{jtw},
+\begin{equation}
+\frac{\dd\Gamma}{\dd W\,\dd\Omega_e\,\dd\Omega_\nu} \propto \xi\left[1 + a\,\beta\cos\theta_{e\nu} + b_F\frac{\gamma}{W}\right],
+\qquad a_F = 1,\quad a_\text{GT} = -\tfrac13 \text{ in the Standard Model}.
+\end{equation}
+Exotic couplings change $a$ \emph{quadratically}, e.g.\ for Gamow--Teller decays $a\xi \propto |C_A|^2 + |C_A'|^2 - |C_T|^2 - |C_T'|^2$, so $a$ is sensitive to tensor couplings to right-handed neutrinos ($C_T = -C_T'$), for which $b_F = 0$. But integrating over the neutrino direction at fixed electron energy kills the $\cos\theta_{e\nu}$ term, so $a$ is invisible in the energy spectrum and is measured through the recoiling nucleus instead (traps for \nuc{6}{He}, \nuc{8}{Li}, \nuc{23}{Ne}, \nuc{32}{Ar}).
+
+For unique decays with $J = k+1$ the correlation has a second term \cite{gm17,gm23}:
+\begin{equation}
+\frac{\dd\Gamma}{\dd W\,\dd\Omega_e\,\dd\Omega_\nu} \propto \big|\langle\|\hat L^A_J(q)\|\rangle\big|^2\left\{1 + b_F\frac{\gamma}{W} + \mathcal A\left[-\frac{\beta\cos\theta}{2J+1} + \frac{J-1}{2J+1}\,\frac{k\nu\,\beta\sin^2\theta}{q^2}\right]\right\},
+\label{eq:uniquecorr}
+\end{equation}
+with $k$ and $\nu$ the electron and neutrino momenta, $q^2 = k^2 + \nu^2 + 2k\nu\cos\theta$ the squared momentum transfer, and $\mathcal A = 1 - 2(|C_T|^2+|C_T'|^2)/(|C_A|^2+|C_A'|^2)$. Glick-Magid \emph{et al.}\ \cite{gm17} noticed that the $\sin^2\theta/q^2$ term does not average to zero over angles, and proposed unique decays such as \nuc{90}{Y} as a way to see $a$---and right-handed tensor couplings---in the electron spectrum alone. Their angle-integrated spectrum (their Eq.~17) treats the bracket on its own.
+
+The nuclear matrix element, however, depends on the same angle: at leading order in $qR$, $\hat L^A_J(q) \propto q^{J-1}$, so the bracket must be weighted by $q^{2(J-1)}$ before integrating. Writing $x = \cos\theta$, $s = k^2+\nu^2$, $t = k\nu$, for $J = 2$:
+\begin{equation}
+\Big\langle q^2\Big[-\tfrac15\beta x + \tfrac15\,\beta t\,(1-x^2)/q^2\Big]\Big\rangle_x
+= -\tfrac15\beta\,\langle(s + 2tx)\,x\rangle + \tfrac15\beta t\,\langle 1 - x^2\rangle
+= -\tfrac{2}{15}\beta t + \tfrac{2}{15}\beta t = 0,
+\end{equation}
+and the same cancellation holds for every $J$ (it is the orthogonality of the lepton partial waves: the correlation is interference between the (electron $s$, neutrino $p$) and (electron $p$, neutrino $s$) channels, which cannot survive an integral over both directions). The weight itself gives the standard unique shapes: $\langle q^2\rangle = k^2+\nu^2$ for $J=2$ and $\langle q^4\rangle = k^4 + \tfrac{10}{3}k^2\nu^2 + \nu^4$ for $J=3$, exactly \cref{eq:unique} with $\lambda_n = 1$. Without the weight, the Standard Model limit of Eq.~17 of \cite{gm17} is within a few per cent of the \emph{allowed} shape, whereas the measured \nuc{90}{Y} spectrum follows the unique shape, which differs from the allowed one by up to 80\% (\cref{fig:corr}).
+
+The conclusion is that, at leading order, the energy spectrum of a unique forbidden decay depends on tensor couplings only through $b_F$, as for allowed decays; $\mathcal A$ affects only the normalisation. Sensitivity to $a$ can re-enter through corrections that break the partial-wave argument---next-to-leading order in $qR$ (an extra $q^2R^2 \sim 10^{-3}$), Coulomb distortion beyond $\lambda_n$, recoil, and the radiative effect above---so the effect is suppressed rather than strictly zero. This follows directly from the published distribution \cref{eq:uniquecorr}, but the cited papers state the opposite, so it should be checked (for instance with the authors) before being relied on. The page computes $b_F$ for unique branches but has no separate input for $a$.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=0.6\linewidth]{fig/b_corr.pdf}
+\caption{\nuc{90}{Y}: angle-integrated spectra divided by the allowed shape (all on the same corrected allowed spectrum, without $\lambda_n$). Solid: \cref{eq:uniquecorr} weighted by $q^2$, which is the unique shape and is unchanged by any tensor coupling apart from normalisation. Dashed and dotted: Eq.~17 of \cite{gm17} (no $q^2$ weight) for the Standard Model and for a right-handed tensor coupling of 0.2.}
+\label{fig:corr}
+\end{figure}
+
 \section{What the Beta tab outputs, and checks}
 For an isotope the tab lists every $\beta^\pm$ branch with endpoint, intensity, daughter level and transition type, and computes the intensity-weighted sum; for a custom decay you give $Z$, $A$, $T_0$, the type and $\rho$. Every factor of \cref{eq:master} has its own switch, and the plot can show the factors themselves. The outputs are a CSV, the formula with the numerical values of the constants used, and standalone Python and C++ programs implementing exactly the selected terms (they reproduce the page to a few parts in $10^6$).
 
@@ -283,6 +324,9 @@ Write the allowed spectrum with $F_0$ only, then add $L_0$, $C$, $R$, $S$, $X$ o
 \begin{exercise}[P]
 Fit the tritium endpoint region simulated by the explorer (all corrections, $m_\beta = 0$) with a pure phase-space model $q\sqrt{q^2-m^2}$ times a constant, floating $m^2$ and $T_0$. What bias do you get in $m^2$ if you fit the last 40 eV, and why? (This is why KATRIN's model includes everything in \cref{eq:master} and the final-state distribution.)
 \end{exercise}
+\begin{exercise}[A]
+Verify the cancellation below \cref{eq:uniquecorr} for $J = 3$ and show that the weight $\langle q^4\rangle$ reproduces the second-unique shape of \cref{eq:unique} with $\lambda_n = 1$. Then argue from lepton partial waves why it must hold for all $J$.
+\end{exercise}
 \begin{exercise}[R]
 \nuc{39}{Ar} ($7/2^-\to3/2^+$, $T_0 = \SI{565}{keV}$) is the dominant background in argon dark-matter detectors. Classify the transition, explain which spectral shape you would use, and discuss which of the corrections in \cref{tab:terms} matter for the background in the \SIrange{0}{100}{keV} region.
 \end{exercise}
@@ -294,6 +338,9 @@ Fit the tritium endpoint region simulated by the explorer (all corrections, $m_\
 \bibitem{sirlin} A.~Sirlin, ``General properties of the electromagnetic corrections to the beta decay of a physical nucleon'', Phys.\ Rev.\ \textbf{164}, 1767 (1967); W.~W. Repko and C.-E. Wu, Phys.\ Rev.\ C \textbf{28}, 2433 (1983).
 \bibitem{jtw} J.~D. Jackson, S.~B. Treiman and H.~W. Wyld, ``Possible tests of time reversal invariance in beta decay'', Phys.\ Rev.\ \textbf{106}, 517 (1957).
 \bibitem{gonzalez} M.~Gonz\'alez-Alonso, O.~Naviliat-Cuncic and N.~Severijns, ``New physics searches in nuclear and neutron $\beta$ decay'', Prog.\ Part.\ Nucl.\ Phys.\ \textbf{104}, 165 (2019).
+\bibitem{gm17} A.~Glick-Magid \emph{et al.}, ``Beta spectrum of unique first-forbidden decays as a novel test for fundamental symmetries'', Phys.\ Lett.\ B \textbf{767}, 285 (2017), arXiv:1609.03268.
+\bibitem{gm23} A.~Glick-Magid and D.~Gazit, ``Multipole decomposition of tensor interactions of fermionic probes with composite particles and BSM signatures in nuclear reactions'', Phys.\ Rev.\ D \textbf{107}, 075031 (2023), arXiv:2207.01357.
+\bibitem{seng} C.-Y. Seng, A.~Glick-Magid and V.~Cirigliano, ``Unique forbidden beta decays at zero momentum transfer'', Phys.\ Rev.\ Lett.\ \textbf{134}, 081805 (2025), arXiv:2409.18115.
 \bibitem{katrin} KATRIN Collaboration, ``Direct neutrino-mass measurement based on 259 days of KATRIN data'', Science \textbf{388}, 180 (2025).
 \end{thebibliography}
 \end{document}

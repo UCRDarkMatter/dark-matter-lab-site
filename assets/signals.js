@@ -517,21 +517,38 @@
     var corr = {}; CORR.forEach(function (c) { corr[c[0]] = $('#bc-' + c[0]).checked; });
     var kind = $('#b-kind').value, p = { Z: num('#b-z', 1) | 0, A: num('#b-a', 1) | 0, beta: +$('#b-sign').value, T0: T0, rrms: num('#b-r', 0) || null,
       kind: kind, k: num('#b-k', 1) | 0, rho: parseRho(), bAc: num('#b-bac', 0), dAc: num('#b-dac', 0), Lambda: num('#b-lam', 0),
-      shape: { a: num('#b-sa', 0), b: num('#b-sb', 0), c: num('#b-sc', 0) }, fierz: fierzValue(), mnu: num('#b-mnu', 0),
+      shape: { a: num('#b-sa', 0), b: num('#b-sb', 0), c: num('#b-sc', 0) }, fierz: fierzValue(over && over.kind, over && over.rho, over && over.beta), mnu: num('#b-mnu', 0),
       msterile: $('#b-st').checked ? num('#b-ms', 0) : 0, Usterile2: $('#b-st').checked ? Math.min(1, Math.max(0, num('#b-u2', 0))) : 0, corr: corr, n: 600 };
     return Object.assign(p, over || {});
   }
-  function fierzValue() {
+  function fierzValue(kOver, rOver, sOver) {      // per-branch kind/rho/sign when summing all branches
     var m = $('#b-fmode').value;
     if (m === 'b') return num('#b-fierz', 0);
-    if (m === 'c') return P.fierzFromCouplings(parseRho() === Infinity ? 1e6 : parseRho(), num('#b-cs', 0), num('#b-ct', 0), +$('#b-sign').value);
+    if (m === 'c') {
+      var kd = kOver || $('#b-kind').value, sg = sOver != null ? sOver : +$('#b-sign').value, rr = rOver != null ? rOver : parseRho();
+      if (kd === 'NU') return 0;                       // not defined for non-unique branches
+      if (kd === 'U') return P.fierzFromCouplings(1e6, 0, num('#b-ct', 0), sg);   // unique: axial operators, tensor only
+      return P.fierzFromCouplings(rr === Infinity ? 1e6 : rr, num('#b-cs', 0), num('#b-ct', 0), sg);
+    }
     return 0;
   }
   RUN.beta = function () {
     var n = normName($('#b-nuc').value), out = $('#b-out'); out.innerHTML = '';
+    var kind = $('#b-kind').value, forb = kind !== 'A';
+    // forbidden branches: rho and the allowed weak-magnetism slope do not apply; couplings -> b_F only for unique ones
+    $('#b-rho-wrap').hidden = forb; $('#b-bac-wrap').hidden = forb; $('#b-cs-wrap').hidden = forb;
+    $('#b-fmode-c').disabled = kind === 'NU';
+    if (kind === 'NU' && $('#b-fmode').value === 'c') $('#b-fmode').value = 'b';
+    var fn = $('#b-forb-note'); fn.hidden = !forb;
+    if (kind === 'U') fn.innerHTML = 'Unique forbidden: the Fermi/Gamow–Teller mixing ρ and the allowed weak-magnetism slope do not apply. Finite-size and recoil terms use their axial (Gamow–Teller) form; the Coulomb-recoil term uses the leading-order β–ν correlation a = −1/(2k+3) = ' + fmt(-1 / (2 * (num('#b-k', 1) + 1) + 1), 3) + '. These allowed-decay corrections are approximations at the 10⁻³ level here.';
+    else if (kind === 'NU') fn.innerHTML = 'Non-unique forbidden: the shape depends on several nuclear matrix elements. The ξ approximation (allowed shape) is used unless you enter an empirical shape factor; ρ and weak magnetism do not apply, and the Coulomb-recoil term takes a = 0.';
+    $('#b-fierz-note').innerHTML = kind === 'NU' ? 'For a non-unique forbidden branch, b<sub>F</sub> is a <em>phenomenological</em> 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E tilt: exotic couplings interfere with several matrix elements here, so b<sub>F</sub> cannot be computed from them without nuclear-structure input.'
+      : kind === 'U' ? 'For a unique forbidden branch only tensor couplings interfere (the operators are axial), and the leading-order term has the same form as in allowed Gamow–Teller decays: 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E with b<sub>F</sub> = ±Re[(C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>].'
+      : 'Multiplies the spectrum by 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E, which tilts it towards low energies for b<sub>F</sub> &gt; 0.';
     var fm = $('#b-fmode').value; $('#b-fb-wrap').hidden = fm !== 'b'; $('#b-fc-wrap').hidden = fm !== 'c'; $('#b-st-wrap').hidden = !$('#b-st').checked;
-    if (fm === 'c') { var rr = parseRho(); $('#b-fc-out').innerHTML = 'b<sub>F</sub> = ' + fmt(fierzValue(), 4) + ' for ρ = ' + (rr === Infinity ? '∞ (pure Gamow–Teller: only the tensor coupling counts)' : fmt(rr, 4) + (rr === 0 ? ' (pure Fermi: only the scalar coupling counts)' : '')) + ', ' + (+$('#b-sign').value < 0 ? 'β⁻' : 'β⁺') + '.'; }
-    var kind = $('#b-kind').value; $('#b-k-wrap').hidden = kind === 'A';
+    if (fm === 'c' && kind === 'U') $('#b-fc-out').innerHTML = 'b<sub>F</sub> = ' + fmt(fierzValue(), 4) + ' (unique forbidden: tensor coupling only), ' + (+$('#b-sign').value < 0 ? 'β⁻' : 'β⁺') + '.';
+    else if (fm === 'c') { var rr = parseRho(); $('#b-fc-out').innerHTML = 'b<sub>F</sub> = ' + fmt(fierzValue(), 4) + ' for ρ = ' + (rr === Infinity ? '∞ (pure Gamow–Teller: only the tensor coupling counts)' : fmt(rr, 4) + (rr === 0 ? ' (pure Fermi: only the scalar coupling counts)' : '')) + ', ' + (+$('#b-sign').value < 0 ? 'β⁻' : 'β⁺') + '.'; }
+    $('#b-k-wrap').hidden = kind === 'A';
     var T0 = num('#b-t0', NaN);
     if (!(T0 > 0)) { plot($('#b-plot'), { series: [], empty: 'Choose a beta emitter or enter an endpoint energy.' }); plot($('#b-plot2'), { series: [] }); return; }
     var br = bBranches(n), all = $('#b-branch').value === 'all' && br.length > 1;
@@ -590,9 +607,9 @@
     var c = s.ctx, rows = [];
     rows.push(['Spectrum', 'N(W) dW ∝ p W (W₀ − W)² · F₀(Z,W) · L₀ · U · C(Z,W) · R(W,W₀) · R<sub>N</sub> · Q · S · X · r · [1 + b<sub>F</sub> γ/W]&nbsp; with W = 1 + T/m<sub>e</sub>c², p = √(W² − 1), W₀ = ' + fmt(c.W0, 6) + ' (T₀ = ' + fmt(p.T0, 6) + ' keV)']);
     rows.push(['Fermi function', 'F₀ = 4 (2pR)<sup>2(γ−1)</sup> e<sup>πy</sup> |Γ(γ + iy)|² / Γ(1 + 2γ)²,&nbsp; γ = √(1 − (αZ)²) = ' + fmt(c.g1, 6) + ',&nbsp; y = ' + (p.beta < 0 ? '' : '−') + 'αZW/p,&nbsp; R = √(5/3) r<sub>rms</sub> = ' + fmt(c.R * P.HBARC_FM, 4) + ' fm = ' + fmt(c.R, 4) + ' ħ/m<sub>e</sub>c']);
-    if (p.kind === 'U') rows.push(['Unique forbidden shape (k = ' + p.k + ')', 'C(W) ∝ Σ<sub>n=1</sub><sup>k+1</sup> λ<sub>n</sub> p<sup>2(n−1)</sup> q<sup>2(k+1−n)</sup> / [(2n−1)! (2(k+1−n)+1)!],&nbsp; q = W₀ − W,&nbsp; λ<sub>n</sub> = F<sub>n−1</sub>/F₀ · (n + γ<sub>n</sub>)/(n(1 + γ₁)),&nbsp; F<sub>n−1</sub> = [n(2n−1)!!]² 4<sup>n</sup> (2pR)<sup>2(γₙ−n)</sup> e<sup>πy</sup> |Γ(γₙ+iy)|²/Γ(1+2γₙ)²']);
+    if (p.kind === 'U') rows.push(['Unique forbidden shape (k = ' + p.k + ')', 'C(W) ∝ Σ<sub>n=1</sub><sup>k+1</sup> λ<sub>n</sub> p<sup>2(n−1)</sup> q<sup>2(k+1−n)</sup> / [(2n−1)! (2(k+1−n)+1)!],&nbsp; q = √((W₀ − W)² − m<sub>ν</sub>²) the neutrino momentum,&nbsp; λ<sub>n</sub> = F<sub>n−1</sub>/F₀ · (n + γ<sub>n</sub>)/(n(1 + γ₁)),&nbsp; F<sub>n−1</sub> = [n(2n−1)!!]² 4<sup>n</sup> (2pR)<sup>2(γₙ−n)</sup> e<sup>πy</sup> |Γ(γₙ+iy)|²/Γ(1+2γₙ)²']);
     if (p.corr.rad) rows.push(['Radiative (O(α))', '1 + δ₁ = 1 + (α/2π)[g(W₀,W) − 3 ln(m<sub>p</sub>/2W₀)], with Sirlin’s g; the t(β) ln(W₀−W) term is resummed as (W₀−W)<sup>t(β)</sup> − 1']);
-    if (p.fierz) rows.push(['Fierz term', 'N → N · (1 + b<sub>F</sub> γ / W),&nbsp; b<sub>F</sub> = ' + fmt(p.fierz, 4) + ($('#b-fmode').value === 'c' ? ' = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²)' : '')]);
+    if (p.fierz) rows.push(['Fierz term', 'N → N · (1 + b<sub>F</sub> γ / W),&nbsp; b<sub>F</sub> = ' + fmt(p.fierz, 4) + ($('#b-fmode').value === 'c' ? (p.kind === 'U' ? ' = ±Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>) (unique forbidden)' : ' = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²)') : (p.kind === 'NU' ? ' (phenomenological for this non-unique branch)' : ''))]);
     if (p.mnu) rows.push(['Neutrino mass', '(W₀ − W)² → (W₀ − W) √((W₀ − W)² − m<sub>β</sub>²),&nbsp; m<sub>β</sub> = ' + fmt(p.mnu, 4) + ' eV/c²']);
     if (p.Usterile2) rows.push(['Heavy neutrino', 'N = (1 − |U<sub>e4</sub>|²) N(m<sub>β</sub>) + |U<sub>e4</sub>|² N(m₄),&nbsp; m₄ = ' + fmt(p.msterile, 4) + ' keV/c², |U<sub>e4</sub>|² = ' + fmt(p.Usterile2, 3) + '; the heavy branch ends at T₀ − m₄c² = ' + fmt(p.T0 - p.msterile, 5) + ' keV']);
     rows.push(['Reference', 'L. Hayen et al., Rev. Mod. Phys. 90, 015008 (2018), eqs. 4–170; the Python and C++ buttons export this calculation as code.']);
