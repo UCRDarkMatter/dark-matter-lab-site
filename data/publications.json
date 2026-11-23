@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22T18:30:23Z",
+ "generated": "2026-11-23T22:39:00Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -2782,7 +2782,7 @@
    "doi": "10.1140/epjp/i2018-11973-4",
    "comment": "",
    "category": "physics.ins-det",
-   "citations": 563,
+   "citations": 564,
    "collaboration": "DarkSide-20k"
   },
   {
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7552
+ "total_citations": 7553
 }
