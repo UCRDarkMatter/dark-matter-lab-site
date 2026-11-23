@@ -10,6 +10,11 @@
   function sup(s) { return String(s).split('').map(function (c) { return SUP[c] || c; }).join(''); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function fmt(x, d) { if (x == null || !isFinite(x)) return '–'; if (x === 0) return '0'; var a = Math.abs(x); if (a >= 1e5 || a < 1e-3) return x.toExponential(d == null ? 3 : d).replace('e', '×10^').replace(/\^\+?(-?\d+)/, function (_, e) { return sup(e); }); return (+x.toPrecision(d == null ? 4 : d + 1)).toLocaleString('en-US', { maximumFractionDigits: 6 }); }
+  function erf(x) {                     // Abramowitz & Stegun 7.1.26 is too coarse for narrow bands; use the erfc series of Numerical Recipes
+    var z = Math.abs(x), t = 1 / (1 + 0.5 * z);
+    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 + t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 + t * (0.27886807 + t * (-1.13520398 + t * (1.48851638 + t * (-0.82215223 + t * 0.17087277)))))))));
+    return x >= 0 ? 1 - r : r - 1;
+  }
   function num(id, def) { var v = parseFloat($(id).value); return isFinite(v) ? v : def; }
   var CACHE = {};
   function load(path) {
@@ -260,7 +265,7 @@
   INIT.alpha = function () {
     base().then(function () {
       fillList('#a-nuc-list', Object.keys(DEC).filter(function (n) { return DEC[n].a; }).sort(byA));
-      ['#a-nuc', '#a-levels', '#a-fwhm', '#a-rfwhm', '#a-log'].forEach(function (id) { $(id).addEventListener('change', id === '#a-nuc' ? aNuc : RUN.alpha); });
+      ['#a-nuc', '#a-levels', '#a-tp', '#a-fwhm', '#a-rfwhm', '#a-log'].forEach(function (id) { $(id).addEventListener('change', id === '#a-nuc' ? aNuc : RUN.alpha); });
       $('#a-q').addEventListener('change', RUN.alpha);
       $('#a-nuc').addEventListener('input', function () { if (nucInfo(normName(this.value))) aNuc(); });
       $('#a-csv').addEventListener('click', aCSV);
@@ -281,42 +286,57 @@
     var Md = di && di.dm != null ? P.nucMass(di.A, di.Z, di.dm) : (i.A - 4) * P.AMU;
     var br = (DEC[n] && DEC[n].a && $('#a-levels').checked) ? DEC[n].a.slice() : [[null, 100, 0]];
     var tot = br.reduce(function (s, b) { return s + b[1]; }, 0);
-    var lines = br.map(function (b) { var k = P.alphaKinematics(Q, b[2] || 0, Md); return k ? { I: b[1] / tot, Ex: b[2] || 0, Ta: k.Ta, Tr: k.Tr, Tnr: k.Tnr, ensdf: b[0] } : null; }).filter(Boolean);
+    var Tp = Math.max(0, num('#a-tp', 0)), Mp = Md + P.MALPHA_KEV + Q;
+    var lines = br.map(function (b) {
+      var k = P.alphaKinematics(Q, b[2] || 0, Md); if (!k) return null;
+      var ra = P.boostRange(k.Ta, P.MALPHA_KEV, Mp, Tp), rr = P.boostRange(k.Tr, Md + (b[2] || 0), Mp, Tp);
+      return { I: b[1] / tot, Ex: b[2] || 0, Ta: k.Ta, Tr: k.Tr, Tnr: k.Tnr, ensdf: b[0], TaLo: ra.lo, TaHi: ra.hi, TrLo: rr.lo, TrHi: rr.hi };
+    }).filter(Boolean);
     if (!lines.length) { plot($('#a-plot'), { series: [], empty: 'Q is below every final state.' }); return; }
     var Ta0 = Math.min.apply(null, lines.map(function (l) { return l.Ta; })), Ta1 = Math.max.apply(null, lines.map(function (l) { return l.Ta; }));
     var fw = num('#a-fwhm', 15), rf = num('#a-rfwhm', 2), lg = $('#a-log').checked;
-    function spec(key, fwhm, pad) {
-      var lo = Math.min.apply(null, lines.map(function (l) { return l[key]; })) - pad, hi = Math.max.apply(null, lines.map(function (l) { return l[key]; })) + pad;
-      var nb = 1200, dx = (hi - lo) / nb, x = new Float64Array(nb), y = new Float64Array(nb), s = Math.max(fwhm / 2.3548, dx / 2);
+    function spec(key, fwhm, pad) {     // each line: flat band [lo, hi] from the CM emission angle (a delta if the parent is at rest), times the detector Gaussian
+      var lo = Math.min.apply(null, lines.map(function (l) { return l[key + 'Lo']; })) - pad, hi = Math.max.apply(null, lines.map(function (l) { return l[key + 'Hi']; })) + pad;
+      var nb = 1500, dx = (hi - lo) / nb, x = new Float64Array(nb), y = new Float64Array(nb), s = Math.max(fwhm / 2.3548, dx / 2);
       for (var k = 0; k < nb; k++) x[k] = lo + (k + 0.5) * dx;
-      lines.forEach(function (l) { for (var k = 0; k < nb; k++) { var z = (x[k] - l[key]) / s; if (Math.abs(z) < 8) y[k] += l.I * Math.exp(-0.5 * z * z) / (s * Math.sqrt(2 * Math.PI)); } });
+      lines.forEach(function (l) {
+        var a = l[key + 'Lo'], b = l[key + 'Hi'], w = b - a;
+        for (var k = 0; k < nb; k++) {
+          if (w < 0.05 * s) { var z = (x[k] - (a + b) / 2) / s; if (Math.abs(z) < 8) y[k] += l.I * Math.exp(-0.5 * z * z) / (s * Math.sqrt(2 * Math.PI)); }
+          else y[k] += l.I * (phi((x[k] - a) / s) - phi((x[k] - b) / s)) / w;
+        }
+      });
       return { x: x, y: y };
     }
+    function phi(z) { return 0.5 * (1 + erf(z / Math.SQRT2)); }
     var sa = spec('Ta', fw, Math.max(60, 5 * fw)), sr = spec('Tr', rf, Math.max(5, 5 * rf));
-    var stems = { x: lines.map(function (l) { return l.Ta; }), y: lines.map(function (l) { return l.I / Math.max(fw / 2.3548, 0.5) / Math.sqrt(2 * Math.PI); }) };
     plot($('#a-plot'), { series: [{ name: 'Alpha particles', x: sa.x, y: sa.y, color: color(0) }], xlab: 'Alpha kinetic energy (keV)', xname: 'T', ylab: 'Probability per keV per decay', log: lg, legend: $('#a-legend') });
     plot($('#a-plot2'), { series: [{ name: 'Recoiling ' + pretty(dn || 'daughter'), x: sr.x, y: sr.y, color: color(1) }], xlab: 'Nuclear recoil kinetic energy (keV), ' + pretty(dn || 'daughter'), xname: 'T', ylab: 'Probability per keV per decay', log: lg, height: 240 });
     A.last = { n: n, dn: dn, lines: lines, sa: sa, sr: sr, Q: Q };
     var tab = el('table', 'sx-table'), hd = el('tr');
-    ['Final state E<sub>x</sub> (keV)', 'Branch', 'T<sub>α</sub> (keV)', 'ENSDF T<sub>α</sub>', 'T<sub>recoil</sub> (keV)'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); });
+    ['Final state E<sub>x</sub> (keV)', 'Branch', 'T*<sub>α</sub> (keV)', 'ENSDF T<sub>α</sub>', 'T*<sub>recoil</sub> (keV)'].concat(Tp > 0 ? ['Lab T<sub>α</sub> range', 'Lab T<sub>recoil</sub> range'] : []).forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); });
     tab.appendChild(hd);
-    lines.slice(0, 15).forEach(function (l) { var tr = el('tr'); [fmt(l.Ex, 5), pc(l.I), fmt(l.Ta, 6), l.ensdf ? fmt(l.ensdf, 6) : '–', fmt(l.Tr, 4)].forEach(function (v, k) { tr.appendChild(el('td', k ? 'num' : null, v)); }); tab.appendChild(tr); });
+    lines.slice(0, 15).forEach(function (l) { var tr = el('tr'); [fmt(l.Ex, 5), pc(l.I), fmt(l.Ta, 6), l.ensdf ? fmt(l.ensdf, 6) : '–', fmt(l.Tr, 4)].concat(Tp > 0 ? [fmt(l.TaLo, 5) + ' – ' + fmt(l.TaHi, 5), fmt(l.TrLo, 4) + ' – ' + fmt(l.TrHi, 4)] : []).forEach(function (v, k) { tr.appendChild(el('td', k ? 'num' : null, v)); }); tab.appendChild(tr); });
     out.appendChild(el('h3', null, pretty(n) + ' → ' + pretty(dn || '?') + ' + α'));
     out.appendChild(tab);
-    var mean = lines.reduce(function (s, l) { return s + l.I * l.Ta; }, 0), meanR = lines.reduce(function (s, l) { return s + l.I * l.Tr; }, 0);
-    out.appendChild(el('p', null, 'Mean alpha energy ' + fmt(mean, 5) + ' keV; mean recoil energy ' + fmt(meanR, 4) + ' keV.'));
+    var mean = lines.reduce(function (s, l) { return s + l.I * (l.TaLo + l.TaHi) / 2; }, 0), meanR = lines.reduce(function (s, l) { return s + l.I * (l.TrLo + l.TrHi) / 2; }, 0);
+    out.appendChild(el('p', null, 'Mean alpha energy ' + fmt(mean, 6) + ' keV; mean recoil energy ' + fmt(meanR, 5) + ' keV' + (Tp > 0 ? ' (lab frame; each band is centred on T* + m T<sub>p</sub>/M<sub>p</sub>)' : '') + '.'));
+    out.lastChild.innerHTML = out.lastChild.textContent;
+    var gs = lines.filter(function (l) { return !l.Ex; })[0] || lines[0];
+    var bandA = gs ? P.boostRange(gs.Ta, P.MALPHA_KEV, Mp, Tp) : null;
     out.appendChild(formulaBox([
-      ['Two-body decay (exact)', 'E<sub>α</sub> = (M<sub>p</sub>² + m<sub>α</sub>² − (M<sub>d</sub> + E<sub>x</sub>)²) / 2M<sub>p</sub>,&nbsp; T<sub>α</sub> = E<sub>α</sub> − m<sub>α</sub>,&nbsp; T<sub>R</sub> = Q − E<sub>x</sub> − T<sub>α</sub>&nbsp; (nuclear masses, c = 1)'],
-      ['Non-relativistic', 'T<sub>α</sub> ≈ (Q − E<sub>x</sub>) · M<sub>d</sub> / (M<sub>d</sub> + m<sub>α</sub>),&nbsp; T<sub>R</sub> ≈ (Q − E<sub>x</sub>) · m<sub>α</sub> / (M<sub>d</sub> + m<sub>α</sub>)'],
-      ['This decay', 'Q = ' + fmt(Q, 6) + ' keV; ground-state transition: T<sub>α</sub> = ' + fmt(lines[0] && lines.filter(function (l) { return !l.Ex; })[0] ? lines.filter(function (l) { return !l.Ex; })[0].Ta : NaN, 6) + ' keV']]));
-    out.appendChild(el('p', 'sx-note', 'Intensities from ENSDF alpha lines; energies are recomputed from Q and the final-state energy, so editing Q moves all lines together. A recoil that is followed by gamma emission gets an extra kick of order E<sub>γ</sub>²/(2Mc²) (eV), not shown. In detectors, nuclear recoils are quenched (Lindhard) and alphas show straggling and dead-layer losses; the Gaussian widths stand in for these.'));
+      ['Parent at rest (centre-of-mass frame = parent rest frame)', 'Two-body decay fixes the energies for every emission angle: E*<sub>α</sub> = (M<sub>p</sub>² + m<sub>α</sub>² − (M<sub>d</sub> + E<sub>x</sub>)²) / 2M<sub>p</sub>,&nbsp; T*<sub>α</sub> = E*<sub>α</sub> − m<sub>α</sub>,&nbsp; T*<sub>R</sub> = Q − E<sub>x</sub> − T*<sub>α</sub>&nbsp; (nuclear masses, c = 1). Non-relativistically T*<sub>α</sub> ≈ (Q − E<sub>x</sub>) M<sub>d</sub>/(M<sub>d</sub> + m<sub>α</sub>), T*<sub>R</sub> ≈ (Q − E<sub>x</sub>) m<sub>α</sub>/(M<sub>d</sub> + m<sub>α</sub>).'],
+      ['Line width', 'Each branch is a delta function in the parent rest frame: its natural width Γ = ħ/τ is far below 1 eV. Kinematic broadening appears only if the parent moves in the lab (below). The Gaussian widths set on the left are detector resolution, not physics of the decay.'],
+      ['Parent moving in the lab', 'With parent kinetic energy T<sub>p</sub> (γ = 1 + T<sub>p</sub>/M<sub>p</sub>, β = √(1 − 1/γ²)) and emission angle θ* in the centre-of-mass frame: E<sub>lab</sub> = γ (E* + β p* cos θ*),&nbsp; p* = √(E*² − m²). Isotropic emission (dN/dcos θ* = ½) makes dN/dT<sub>lab</sub> flat between T<sub>min,max</sub> = γ(E* ∓ β p*) − m. Non-relativistically: (√T* ∓ √(m T<sub>p</sub>/M<sub>p</sub>))². The same holds for the recoil with m = M<sub>d</sub> + E<sub>x</sub>.'],
+      ['This decay', 'Q = ' + fmt(Q, 6) + ' keV; ' + (gs && !gs.Ex ? 'ground-state transition' : 'strongest listed transition') + ': T*<sub>α</sub> = ' + fmt(gs ? gs.Ta : NaN, 6) + ' keV, T*<sub>R</sub> = ' + fmt(gs ? gs.Tr : NaN, 5) + ' keV' + (Tp > 0 && bandA ? '; with T<sub>p</sub> = ' + fmt(Tp, 4) + ' keV the lab alpha energy spans ' + fmt(bandA.lo, 6) + ' – ' + fmt(bandA.hi, 6) + ' keV' : '')]]));
+    out.appendChild(el('p', 'sx-note', 'Intensities from ENSDF alpha lines; energies are recomputed from Q and the final-state energy, so editing Q moves all lines together. A recoil that is followed by gamma emission gets an extra kick of order E<sub>γ</sub>²/(2Mc²) (eV), not shown. In detectors, nuclear recoils are quenched (Lindhard) and alphas show straggling and dead-layer losses; the detector Gaussians stand in for these.'));
     out.lastChild.innerHTML = out.lastChild.textContent.replace('E<sub>γ</sub>²', 'E<sub>γ</sub>²');
   };
   function aCSV() {
     var a = A.last; if (!a) return;
     var n = Math.max(a.sa.x.length, a.sr.x.length), cols = [[], [], [], []];
     for (var i = 0; i < n; i++) { cols[0].push(a.sa.x[i] == null ? '' : a.sa.x[i]); cols[1].push(a.sa.y[i] == null ? '' : a.sa.y[i]); cols[2].push(a.sr.x[i] == null ? '' : a.sr.x[i]); cols[3].push(a.sr.y[i] == null ? '' : a.sr.y[i]); }
-    var meta = ['Radioactive Signal Explorer: alpha decay ' + a.n + ' -> ' + a.dn + ' + alpha, Q = ' + a.Q + ' keV', 'Lines (Ex keV, branch, T_alpha keV, T_recoil keV): ' + a.lines.map(function (l) { return [l.Ex, l.I.toPrecision(4), l.Ta.toFixed(2), l.Tr.toFixed(3)].join(' '); }).join('; ')];
+    var meta = ['Radioactive Signal Explorer: alpha decay ' + a.n + ' -> ' + a.dn + ' + alpha, Q = ' + a.Q + ' keV; parent kinetic energy ' + num('#a-tp', 0) + ' keV (flat band from the CM emission angle); detector FWHM ' + num('#a-fwhm', 0) + ' keV (alpha), ' + num('#a-rfwhm', 0) + ' keV (recoil)', 'Lines (Ex keV, branch, T_alpha keV, T_recoil keV): ' + a.lines.map(function (l) { return [l.Ex, l.I.toPrecision(4), l.Ta.toFixed(2), l.Tr.toFixed(3)].join(' '); }).join('; ')];
     download('alpha_' + a.n + '.csv', ['alpha_energy_keV', 'alpha_per_keV', 'recoil_energy_keV', 'recoil_per_keV'], cols, meta);
   }
 

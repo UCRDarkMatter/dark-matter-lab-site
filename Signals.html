@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261123e">
-<link rel="stylesheet" href="assets/signals.css?v=20261123e">
+<link rel="stylesheet" href="assets/style.css?v=20261123f">
+<link rel="stylesheet" href="assets/signals.css?v=20261123f">
 </head>
 <body>
-<script src="assets/site.js?v=20261123e"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261123f"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -73,10 +73,12 @@
             <label class="sx-field">Q value <span class="sx-unit"><input type="number" id="a-q" step="any"> keV</span></label>
             <p class="sx-note" id="a-q-note"></p>
             <label class="sx-check"><input type="checkbox" id="a-levels" checked> Include decays to excited states (ENSDF intensities)</label>
+            <label class="sx-field">Parent kinetic energy in the lab <span class="sx-unit"><input type="number" id="a-tp" value="0" min="0" step="any"> keV</span></label>
+            <p class="sx-note">0 for a parent at rest, where every branch is a sharp line whatever the emission angle. For a parent moving in the lab (decay in flight, or a recoil that decays before it stops), the emission angle in the centre-of-mass frame spreads each line into a flat band.</p>
           </fieldset>
           <fieldset><legend>Plot</legend>
-            <label class="sx-field">Alpha resolution (FWHM) <span class="sx-unit"><input type="number" id="a-fwhm" value="15" min="0" step="any"> keV</span></label>
-            <label class="sx-field">Recoil resolution (FWHM) <span class="sx-unit"><input type="number" id="a-rfwhm" value="2" min="0" step="any"> keV</span></label>
+            <label class="sx-field">Detector resolution for alphas (FWHM) <span class="sx-unit"><input type="number" id="a-fwhm" value="15" min="0" step="any"> keV</span></label>
+            <label class="sx-field">Detector resolution for recoils (FWHM) <span class="sx-unit"><input type="number" id="a-rfwhm" value="2" min="0" step="any"> keV</span></label>
             <label class="sx-check"><input type="checkbox" id="a-log"> Log scale</label>
           </fieldset>
         </form>
@@ -243,9 +245,9 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261123e"></script>
-<script src="assets/signals-exchange.js?v=20261123e"></script>
-<script src="assets/signals-code.js?v=20261123e"></script>
-<script src="assets/signals.js?v=20261123e"></script>
+<script src="assets/signals-physics.js?v=20261123f"></script>
+<script src="assets/signals-exchange.js?v=20261123f"></script>
+<script src="assets/signals-code.js?v=20261123f"></script>
+<script src="assets/signals.js?v=20261123f"></script>
 </body>
 </html>

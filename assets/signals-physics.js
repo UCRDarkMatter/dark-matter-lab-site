@@ -184,6 +184,14 @@
     return { Ta: Ta, Tr: Tr, Tnr: Tnr };
   }
 
+  // a particle of mass m emitted with kinetic energy Tstar in the rest frame of a parent of mass Mp that moves with kinetic
+  // energy Tp in the lab: E_lab = gamma (E* + beta p* cos theta*), so isotropic emission in the CM frame gives a flat
+  // distribution between the two extremes (exact, relativistic)
+  function boostRange(Tstar, m, Mp, Tp) {
+    if (!(Tp > 0)) return { lo: Tstar, hi: Tstar };
+    var g = 1 + Tp / Mp, b = Math.sqrt(1 - 1 / (g * g)), E = Tstar + m, p = Math.sqrt(Math.max(E * E - m * m, 0));
+    return { lo: g * (E - b * p) - m, hi: g * (E + b * p) - m };
+  }
   /* ================================================================ (alpha,n) */
   function jpText(s) {                   // TALYS "1.5+" -> "3/2+"
     var m = /^(-?[\d.]+)\s*([+-]?)$/.exec(String(s || '').trim()); if (!m) return s || '';
@@ -538,7 +546,7 @@
     ME: ME, ALPHA: ALPHA, AMU: AMU, MALPHA_KEV: MALPHA_KEV, HBARC_FM: HBARC_FM, lgammaC: lgammaC, li2: li2,
     interpLogLog: interpLogLog, xcomMaterial: xcomMaterial, knShape: knShape, knTotal: knTotal, comptonEdge: comptonEdge, pairShape: pairShape,
     gammaSpectrum: gammaSpectrum, fluorYieldK: fluorYieldK, kalpha: kalpha,
-    nucMass: nucMass, alphaKinematics: alphaKinematics, anKinematics: anKinematics, stoppingAt: stoppingAt, alphaNSpectrum: alphaNSpectrum,
+    nucMass: nucMass, alphaKinematics: alphaKinematics, boostRange: boostRange, anKinematics: anKinematics, stoppingAt: stoppingAt, alphaNSpectrum: alphaNSpectrum,
     betaContext: betaContext, F0: F0, L0: L0, U: Ucorr, shapeVector: shapeVector, shapeAxial: shapeAxial, RN: RN, Q: Qcorr, gSirlin: gSirlin,
     radiative: radiative, screening: screening, exchange: exchange, mismatch: mismatch, lambdaK: lambdaK, betaSpectrum: betaSpectrum,
     forbiddenness: forbiddenness, parseJP: parseJP, fierzFromCouplings: fierzFromCouplings, setExchange: function (t) { EXCH = t; },
