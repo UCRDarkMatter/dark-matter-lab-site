@@ -1348,7 +1348,7 @@
   function keyGamma(m) {
     if (m.stable || !m.gammas) return null;
     var best = null;
-    m.gammas.forEach(function (g) { var y = g[1] * (m.af || 0); if (g[0] >= 40 && Math.abs(g[0] - 511) > 0.2 && y >= 0.5 && (!best || y > best[1])) best = [g[0], y];   // not the annihilation line });
+    m.gammas.forEach(function (g) { var y = g[1] * (m.af || 0); if (g[0] >= 40 && Math.abs(g[0] - 511) > 0.2 && y >= 0.5 && (!best || y > best[1])) best = [g[0], y]; });   // 511 keV: annihilation, not a line of the nuclide
     return best;
   }
   function chainDiagram(c, onPick) {
