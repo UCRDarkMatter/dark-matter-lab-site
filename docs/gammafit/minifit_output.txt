@@ -1,0 +1,8 @@
+deviance 1026.1 for 1016 degrees of freedom
+Cs137  decays    39593 +-   251   (truth  40000)
+Co60   decays    24956 +-   127   (truth  25000)
+c0      1.2132 +- 0.013   (truth 1.2, prior 2 +- 2)
+c1       1.503 +- 1.9e-05   (truth 1.503, prior 1.5 +- 0.01)
+a       1.1863 +- 0.067   (truth 1.2, prior 1 +- 1)
+b    0.0017827 +- 0.00014   (truth 0.0018, prior 0.002 +- 0.001)
+Cs137 pulls over 200 toys: mean -0.03, standard deviation 0.96

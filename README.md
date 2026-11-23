@@ -180,7 +180,10 @@ shape, HPGe step/escape peaks, or a Klein–Nishina Compton model for scintillat
 response matrix (ROOT `TH2` or a text list of gamma/deposited energies; cached per source, smeared per step, initialized
 by top-down stripping, reports decays). Amplitudes are solved by Poisson
 MLEM, response parameters by Levenberg–Marquardt, sources chosen by backward elimination with a prior-dependent
-threshold. `GammasGuide.html` explains it all for users. Spectra can be ROOT files (a `TH1F`/`TH1D`/`TH1I`, read in the
+threshold. `GammasGuide.html` explains it all for users; `docs/gammafit/gammafit.pdf` is a 27-page explainer (response functions,
+Poisson likelihood, MLEM, Levenberg–Marquardt/variable projection, source selection, uncertainties, validation,
+exercises). Its LaTeX source, figure scripts (`figdata.js` runs the real engine, `figures.py` plots) and the teaching
+implementation `minifit.py` are alongside; `make` in that folder rebuilds everything. Spectra can be ROOT files (a `TH1F`/`TH1D`/`TH1I`, read in the
 browser with JSROOT's I/O modules vendored in `assets/vendor/jsroot/`, MIT licence, loaded only when a `.root` file is
 chosen) or plain-text columns.
 
