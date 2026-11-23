@@ -60,3 +60,6 @@
 }
 .sx-controls label, .sx-controls select, .sx-controls input { max-width: 100%; }
 .sx-gloss dd { font-family: inherit; font-size: .95rem; }
+
+.sx-doclink{margin:0 0 .8rem;font-size:.92rem;color:var(--muted,#555)}
+.sx-doclink a{font-weight:500}

@@ -456,7 +456,7 @@
     ['rad', 'Radiative O(α)', 'Sirlin 1967; Repko–Wu at the endpoint', true], ['o2', 'Radiative O(Zα²) + RG resummation', 'Sirlin 1987; Czarnecki, Marciano & Sirlin 2004', true],
     ['o3', 'Radiative O(Z²α³) and higher', 'Sirlin 1987 heuristic; Wilkinson 1997', true], ['RN', 'Kinematic recoil, R_N', 'Wilkinson 1990', true], ['Q', 'Coulomb recoil, Q', 'Wilkinson 1982', true],
     ['S', 'Atomic screening, S', 'Bühring 1984 (Rose-type potential shift)', true], ['X', 'Atomic exchange, X (β⁻)', 'Hayen et al. eq. 157, Table X', true],
-    ['r', 'Atomic mismatch, r', 'Bahcall; Hayen et al. eq. 166', true], ['lambda', 'Coulomb functions λₖ (unique forbidden)', 'Behrens–Bühring; λₖ = 1 if off', true]];
+    ['r', 'Atomic mismatch, r', 'Bahcall; Hayen et al. eq. 166, as an endpoint shift', true], ['lambda', 'Coulomb functions λₖ (unique forbidden)', 'Behrens–Bühring; λₖ = 1 if off', true]];
   var B = {};
   INIT.beta = function () {
     var box = $('#b-corr');

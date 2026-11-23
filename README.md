@@ -226,5 +226,11 @@ Python or C++). Five tabs:
 
 Data (`data/signals/`) are built by `tools/signals/build_signals.py LIVECHART SIGNALS` from the `gamma-data` branch (ENSDF via
 IAEA LiveChart, fetched by `.github/workflows/gamma-data.yml`) and the `signals-data` branch (NIST XCOM and daughter level
-schemes, fetched by `.github/workflows/signals-data.yml` with `tools/signals/fetch_xcom.py` and `fetch_levels.py`).
-`tools/signals/alphan.py` extracts the (α,n) files from the NeuCBOT TALYS datasets.
+schemes, fetched by `.github/workflows/signals-data.yml` with `tools/signals/fetch_xcom.py`, `fetch_levels.py` and
+`fetch_extra.py`, which adds short-lived beta emitters such as 6He, 8Li and 8B that LiveChart's bulk export omits).
+`tools/signals/alphan.py` extracts the (α,n) files from the NeuCBOT TALYS datasets. Decay data are split into a small
+`decays/index.json` plus one file per element, loaded only when a nuclide is chosen; the server gzips JSON (`.htaccess`).
+
+Physics explainers (one PDF per tab, linked from the page) live in `docs/signals/`: `gamma.tex`, `alpha.tex`, `alphan.tex`,
+`beta.tex`, `cherenkov.tex` with a shared `preamble.tex`. Figures are computed with the page's own code:
+`make figures` (runs `figdata.js` in Node, then `figures.py`), then `make` (latexmk).

@@ -417,10 +417,13 @@
     var Wp = W - 1, base = W - t[5], pw = base >= 0 ? Math.pow(base, t[6]) : -Math.pow(-base, t[6]);
     return 1 + t[0] / Wp + t[1] / (Wp * Wp) + t[2] * Math.exp(-t[3] * Wp) + t[4] * Math.sin(pw + t[7]) / Math.pow(W, t[8]);
   }
-  function mismatch(c, W) {              // atomic mismatch (Hayen eqs. 166–167)
-    var Z = c.Z, d2B = (44.200 * Math.pow(Z, 0.41) + 2.3196e-7 * Math.pow(Z, 4.45)) * 1e-3 / ME;   // eV -> me
-    var r = 1 - d2B / Math.max(c.W0 - W, 1e-12);
-    return Math.max(r, 0);
+  // atomic mismatch (Hayen eqs. 166–167): the atom is left excited by dE = (1/2) d2B/dZ2 on average. Hayen's
+  // r = 1 - d2B/dZ2/(W0 - W) is the first-order expansion of shifting the endpoint by dE in the (W0 - W)^2 phase
+  // space; we use the shift itself, ((W0 - W - dE)/(W0 - W))^2, which agrees away from the endpoint and closes smoothly.
+  function mismatch(c, W) {
+    var Z = c.Z, dE = 0.5 * (44.200 * Math.pow(Z, 0.41) + 2.3196e-7 * Math.pow(Z, 4.45)) * 1e-3 / ME;   // eV -> me
+    var q = c.W0 - W; if (q <= dE) return 0;
+    return Math.pow(1 - dE / q, 2);
   }
   /* Spectrum of one branch.
      p: {Z, A, beta, T0 (keV endpoint), rrms, Zp, kind: 'A' (allowed) | 'U' (unique) | 'NU', k (forbiddenness),

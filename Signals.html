@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261123i">
-<link rel="stylesheet" href="assets/signals.css?v=20261123i">
+<link rel="stylesheet" href="assets/style.css?v=20261123j">
+<link rel="stylesheet" href="assets/signals.css?v=20261123j">
 </head>
 <body>
-<script src="assets/site.js?v=20261123i"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261123j"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -32,6 +32,7 @@
 
     <!-- ============================================================ GAMMA -->
     <section role="tabpanel" id="panel-gamma" aria-labelledby="tab-gamma">
+      <p class="sx-doclink">Physics explainer for graduate students: <a href="docs/signals/gamma.pdf">Gamma rays in a detector: cross sections, Compton continua and escape peaks (PDF)</a></p>
       <div class="sx-layout">
         <form class="sx-controls" id="g-form" onsubmit="return false">
           <fieldset><legend>Source</legend>
@@ -65,6 +66,7 @@
 
     <!-- ============================================================ ALPHA -->
     <section role="tabpanel" id="panel-alpha" aria-labelledby="tab-alpha" hidden>
+      <p class="sx-doclink">Physics explainer for graduate students: <a href="docs/signals/alpha.pdf">Alpha decay: two-body kinematics, recoils and line widths (PDF)</a></p>
       <div class="sx-layout">
         <form class="sx-controls" id="a-form" onsubmit="return false">
           <fieldset><legend>Decay</legend>
@@ -93,6 +95,7 @@
 
     <!-- ============================================================ (alpha,n) -->
     <section role="tabpanel" id="panel-an" aria-labelledby="tab-an" hidden>
+      <p class="sx-doclink">Physics explainer for graduate students: <a href="docs/signals/alphan.pdf">(α,n) neutrons: thick-target yields, kinematics and the NeuCBOT method (PDF)</a></p>
       <div class="sx-layout">
         <form class="sx-controls" id="n-form" onsubmit="return false">
           <fieldset><legend>Medium</legend>
@@ -131,6 +134,7 @@
 
     <!-- ============================================================ BETA -->
     <section role="tabpanel" id="panel-beta" aria-labelledby="tab-beta" hidden>
+      <p class="sx-doclink">Physics explainer for graduate students: <a href="docs/signals/beta.pdf">The beta spectrum, term by term: corrections, forbidden shapes and new physics (PDF)</a></p>
       <div class="sx-layout">
         <form class="sx-controls" id="b-form" onsubmit="return false">
           <fieldset><legend>Decay</legend>
@@ -219,7 +223,7 @@
               <dt>Atomic exchange, X (β⁻ only)</dt>
               <dd>The β electron can be created directly in an empty bound orbital of the daughter while an atomic electron is kicked into the continuum; the two final states cannot be told apart and interfere. This raises the spectrum by up to tens of percent below a few keV (important for ⁶³Ni, ²⁴¹Pu, tritium).</dd>
               <dt>Atomic mismatch, r</dt>
-              <dd>The parent's electron cloud does not fit the daughter atom, so the atom is left excited and takes some energy from the leptons. The effect concentrates near the endpoint (about 1% within 15 keV of the endpoint of ⁶³Ni).</dd>
+              <dd>The parent's electron cloud does not fit the daughter atom, so the atom is left excited and takes some energy from the leptons. The effect concentrates near the endpoint: on average the spectrum ends ΔE = ½ ∂²B/∂Z² earlier (B: total electron binding energy; ΔE ≈ 30 eV for tritium, 90 eV for ⁶³Ni), which costs about 1% of the spectrum 15 keV below the ⁶³Ni endpoint. The page applies this as the endpoint shift ((W₀ − W − ΔE)/(W₀ − W))², of which Hayen et al.'s r is the first-order expansion.</dd>
               <dt>Forbidden decays and the shape factor</dt>
               <dd>When angular momentum or parity forbid the allowed operators, the leptons must carry orbital angular momentum L = k. For <b>unique</b> k-th forbidden decays (ΔJ = k + 1, parity (−1)ᵏ) only one nuclear matrix element contributes and the shape follows from the lepton momenta: C(W) ∝ Σₙ λₙ p²⁽ⁿ⁻¹⁾ q²⁽ᵏ⁺¹⁻ⁿ⁾ / [(2n−1)! (2(k+1−n)+1)!], where λₙ are Coulomb functions (ratios of generalised Fermi functions, 1 without Coulomb effects). For <b>non-unique</b> decays several nuclear matrix elements interfere; the ξ approximation (allowed shape) is used unless you enter an empirical shape factor 1 + aW + b/W + cW².</dd>
               <dt>Fierz term b<sub>F</sub> (beyond the Standard Model)</dt>
@@ -236,6 +240,7 @@
 
     <!-- ============================================================ CHERENKOV -->
     <section role="tabpanel" id="panel-cher" aria-labelledby="tab-cher" hidden>
+      <p class="sx-doclink">Physics explainer for graduate students: <a href="docs/signals/cherenkov.pdf">Cherenkov light: Frank–Tamm, dispersion and slowing down (PDF)</a></p>
       <div class="sx-layout">
         <form class="sx-controls" id="c-form" onsubmit="return false">
           <fieldset><legend>Charged particles</legend>
@@ -285,13 +290,16 @@
         <a href="https://github.com/shawest/neucbot">NeuCBOT</a> method and datasets (TALYS-1.95 cross sections and neutron spectra, SRIM stopping powers;
         Westerdale &amp; Meyers, NIM A 875 (2017) 57). Beta spectra: the corrections reviewed by Hayen <i>et al.</i>, Rev. Mod. Phys. 90 (2018) 015008,
         with unique-forbidden shapes and Coulomb functions after Behrens &amp; Bühring. Each tab lists what it includes and leaves out.
+        Each tab also links a graduate-level explainer of its physics, with exercises: <a href="docs/signals/gamma.pdf">gamma</a>,
+        <a href="docs/signals/alpha.pdf">alpha</a>, <a href="docs/signals/alphan.pdf">(α,n)</a>, <a href="docs/signals/beta.pdf">beta</a> and
+        <a href="docs/signals/cherenkov.pdf">Cherenkov</a> (PDF; LaTeX sources in <a href="https://github.com/UCRDarkMatter/dark-matter-lab-site/tree/main/docs/signals">docs/signals</a>).
         Source code: <a href="https://github.com/UCRDarkMatter/dark-matter-lab-site/blob/main/assets/signals-physics.js">assets/signals-physics.js</a>.</p>
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261123i"></script>
-<script src="assets/signals-exchange.js?v=20261123i"></script>
-<script src="assets/signals-code.js?v=20261123i"></script>
-<script src="assets/signals.js?v=20261123i"></script>
+<script src="assets/signals-physics.js?v=20261123j"></script>
+<script src="assets/signals-exchange.js?v=20261123j"></script>
+<script src="assets/signals-code.js?v=20261123j"></script>
+<script src="assets/signals.js?v=20261123j"></script>
 </body>
 </html>
