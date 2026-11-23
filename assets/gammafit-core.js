@@ -106,9 +106,47 @@
     return out;
   }
 
+  /* ------------------------------------------------------------ simulated response matrix
+     M = { dlo, dw, nd: uniform grid of deposited energy (keV), E: [simulated gamma energies, ascending],
+           dens: [continuum density per keV per emitted gamma, photopeak removed], pf: [full-energy probability],
+           smeared: true if the simulation already includes the detector resolution }
+     Before smearing the matrix is lower triangular (deposits <= gamma energy). A line between two simulated energies
+     is interpolated with each neighbour stretched so that its photopeak and continuum scale with energy. */
+  function matDensity(M, j, x) {        // density of column j at deposited energy x (linear interpolation)
+    var u = (x - M.dlo) / M.dw - 0.5, i = Math.floor(u), f = u - i, d = M.dens[j];
+    if (i < -1 || i >= M.nd) return 0;
+    var a = i >= 0 ? d[i] : 0, b = i + 1 < M.nd ? d[i + 1] : 0;
+    return a + (b - a) * f;
+  }
+  function matLine(M, E) {              // bracketing columns and weight
+    var n = M.E.length;
+    if (E <= M.E[0]) return [0, 0, 0];
+    if (E >= M.E[n - 1]) return [n - 1, n - 1, 0];
+    var j = 0; while (M.E[j + 1] < E) j++;
+    return [j, j + 1, (E - M.E[j]) / (M.E[j + 1] - M.E[j])];
+  }
+  // unsmeared response of one source on the deposited-energy grid (cached on the source: it does not depend on theta)
+  function matSource(src, M) {
+    if (src._mat) return src._mat;
+    var cont = new Float64Array(M.nd), peaks = [];
+    src.lines.forEach(function (l) {
+      var E = l[0], w = l[1] / 100; if (w <= 0 || E <= M.dlo) return;
+      var b = matLine(M, E), j0 = b[0], j1 = b[1], f = b[2], s0 = M.E[j0] / E, s1 = M.E[j1] / E;
+      var pf = (1 - f) * M.pf[j0] + f * M.pf[j1];
+      peaks.push([E, w * pf, l[2] || '']);
+      var top = Math.min(M.nd, Math.ceil((E - M.dlo) / M.dw) + 1);       // triangular: nothing above the line energy
+      for (var i = 0; i < top; i++) {
+        var x = M.dlo + (i + 0.5) * M.dw;
+        cont[i] += w * ((1 - f) * matDensity(M, j0, x * s0) * s0 + f * matDensity(M, j1, x * s1) * s1);
+      }
+    });
+    return (src._mat = { cont: cont, peaks: peaks });
+  }
+
   /* ------------------------------------------------------------ templates */
   // one candidate source: lines [[E keV, I per 100 decays, flags], ...]
-  function template(src, g, p, mode) {
+  function template(src, g, p, mode, M) {
+    if (mode === 'matrix' && M) return matTemplate(src, g, p, M);
     var col = new Float64Array(g.n), cont = mode === 'compton' ? new Float64Array(g.n) : null;
     var Emin = g.E[0] - 5 * fwhm(p, g.E[0]), Emax = g.E[g.n - 1];
     src.lines.forEach(function (l) {
@@ -145,6 +183,31 @@
     if (cont) { var sm = smear(cont, g, p); for (var i = 0; i < g.n; i++) col[i] += sm[i]; }
     return sparse(col);
   }
+  function matTemplate(src, g, p, M) {
+    var ms = matSource(src, M), col = new Float64Array(g.n), raw = new Float64Array(g.n), i;
+    var Emin = g.E[0] - 5 * fwhm(p, g.E[0]);
+    for (i = 0; i < g.n; i++) {                      // continuum: resample onto the channels, with the efficiency correction
+      var E = g.E[i], u = (E - M.dlo) / M.dw - 0.5, k = Math.floor(u), f = u - k;
+      if (k < -1 || k >= M.nd) continue;
+      var a = k >= 0 ? ms.cont[k] : 0, b = k + 1 < M.nd ? ms.cont[k + 1] : 0;
+      raw[i] = (a + (b - a) * f) * g.dE[i];
+    }
+    ms.peaks.forEach(function (pk) {
+      var E = pk[0], e = eff(p, E);
+      if (E < Emin) return;
+      if (M.smeared) { addGauss(raw, g, E, Math.max(g.dE[0], M.dw) / 2.355, pk[1] * e); return; }   // already smeared: keep it narrow
+      var sig = fwhm(p, E) / 2.355, fl = pk[2];
+      if (fl.indexOf('b') >= 0) sig = Math.sqrt(sig * sig + Math.pow(0.004 * E, 2));
+      else if (fl.indexOf('a') >= 0) sig = Math.sqrt(sig * sig + Math.pow(0.001 * E, 2));
+      addGauss(col, g, E, sig, pk[1] * e);
+      if (p.step > 0) addStepTail(col, g, E, sig, pk[1] * e, { step: p.step, tail: 0, tailw: 1 });
+    });
+    if (p.e1 || p.e2) for (i = 0; i < g.n; i++) if (raw[i]) raw[i] *= eff(p, g.E[i] > 50 ? g.E[i] : 50);   // relative-efficiency correction (approximate for the continuum)
+    var sm = M.smeared ? raw : smear(raw, g, p);
+    for (i = 0; i < g.n; i++) col[i] += sm[i];
+    return sparse(col);
+  }
+
   function sparse(col) {                // {idx: channel indices, v: values, sum}; drops entries below 1e-7 of the maximum
     var max = 0, i, n = 0; for (i = 0; i < col.length; i++) if (col[i] > max) max = col[i];
     if (max <= 0) return null;
@@ -231,22 +294,39 @@
   }
   Fit.prototype.build = function (p, srcs) {
     var o = this.o, g = new Grid(o.counts.length, o.lo, o.hi, p);
-    var bk = splines(g, o.knots || 12), tm = srcs.map(function (s) { return template(s, g, p, o.mode); });
+    var bk = splines(g, o.knots || 12), tm = srcs.map(function (s) { return template(s, g, p, o.mode, o.matrix); });
     return { g: g, cols: bk.concat(tm), nb: bk.length };
   };
   Fit.prototype.linear = function (p, srcs, x0, iters) {
     var b = this.build(p, srcs), x;
     if (x0 && x0.length === b.cols.length) x = Float64Array.from(x0);
-    else {                                         // start: background carries half the counts, sources share the rest
-      x = new Float64Array(b.cols.length);
-      var tot = this.data.reduce(function (s, v) { return s + v; }, 0) || 1;
-      for (var k = 0; k < b.cols.length; k++) {
-        var c = b.cols[k]; if (!c) continue;
-        x[k] = (k < b.nb ? 0.5 * tot / b.nb : 0.5 * tot / Math.max(1, srcs.length)) / Math.max(c.sum, 1e-12);
-      }
-    }
+    else x = this.strip(b, srcs);
     var mu = mlem(b.cols, this.data, x, iters || 150);
     return { x: x, mu: mu, b: b, dev: deviance(this.data, mu) };
+  };
+  // Starting values by top-down stripping, using the (near-)triangular response: the highest-energy source is
+  // estimated from its own peak region, its whole template (continuum included) is subtracted, and so on downwards.
+  Fit.prototype.strip = function (b, srcs) {
+    var data = this.data, n = data.length, g = b.g, x = new Float64Array(b.cols.length), r = Float64Array.from(data), k, i, t;
+    var tot = data.reduce(function (s, v) { return s + v; }, 0) || 1;
+    var order = srcs.map(function (s, k) {
+      var c = b.cols[b.nb + k], top = 0, best = 0;
+      if (c) for (t = 0; t < c.v.length; t++) if (c.v[t] > best) { best = c.v[t]; top = c.idx[t]; }
+      return { k: k, top: top };
+    }).sort(function (a, b2) { return b2.top - a.top; });
+    // a smooth floor first: 20% of each region's counts, so stripping does not hand the background to sources
+    order.forEach(function (o) {
+      var c = b.cols[b.nb + o.k]; if (!c) return;
+      var peak = 0; for (t = 0; t < c.v.length; t++) peak = Math.max(peak, c.v[t]);
+      var num = 0, den = 0;
+      for (t = 0; t < c.v.length; t++) if (c.v[t] > 0.3 * peak) { num += Math.max(r[c.idx[t]], 0); den += c.v[t]; }
+      var A = den > 0 ? 0.7 * num / den : 0;
+      x[b.nb + o.k] = Math.max(A, 1e-9 / Math.max(c.sum, 1e-12));
+      for (t = 0; t < c.v.length; t++) r[c.idx[t]] -= A * c.v[t];
+    });
+    var rest = 0; for (i = 0; i < n; i++) rest += Math.max(r[i], 0);
+    for (k = 0; k < b.nb; k++) { var cb = b.cols[k]; if (cb) x[k] = Math.max(rest, 0.05 * tot) / b.nb / Math.max(cb.sum, 1e-12); }
+    return x;
   };
   Fit.prototype.prior = function (p) {
     var o = this.o, c = 0;
@@ -402,7 +482,7 @@
     var cv = fit.covariance(sol, srcs), sig = cv.sigA, nb2 = sol.b.nb;
     var out = srcs.map(function (s, k) {
       var c = sol.b.cols[nb2 + k], A = sol.x[nb2 + k];
-      return { id: s.id, name: s.name, counts: c ? A * c.sum : 0, sigma: c ? sig[nb2 + k] * c.sum : 0,
+      return { id: s.id, name: s.name, counts: c ? A * c.sum : 0, sigma: c ? sig[nb2 + k] * c.sum : 0, decays: A, decaysSigma: sig[nb2 + k],
                dchi2: c && A > 0 ? fit.removalCost(srcs, sol, k) : 0, prior: s.prior };
     }).sort(function (a, b) { return b.counts - a.counts; });
     var g = sol.b.g, comps = {};

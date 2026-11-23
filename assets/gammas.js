@@ -877,7 +877,7 @@
     pt: ['Peak-to-total at 662 keV', '', 'Compton model'], ptk: ['Peak-to-total energy exponent', '', 'P/T ∝ E^−k'],
     shelf: ['Multiple-scatter shelf fraction', '', 'Share of the non-peak counts'], bs: ['Backscatter-peak fraction', '', '']
   };
-  function fitMode() { var v = $('#fit-mode').value; return v === 'auto' ? (ctx.det[0] === 'hpge' ? 'local' : 'compton') : v; }
+  function fitMode() { var v = $('#fit-mode').value; return v === 'auto' ? (ctx.det[0] === 'hpge' ? 'local' : 'compton') : v === 'matrix' && !FIT.matrix ? (ctx.det[0] === 'hpge' ? 'local' : 'compton') : v; }
   function defaultParams() {
     var det = ctx.det[0], f1 = +ctx.fwhm || FWHM1MEV[det] || 2, mode = fitMode(), P = {};
     function set(k, v, s, fixed) { P[k] = { value: v, sigma: s, fixed: !!fixed }; }
@@ -887,7 +887,12 @@
     if (det === 'hpge') { set('a', 0.55 * f1, 0.3 * f1); set('b', 0.7 * f1 * f1 / 1000, 0.35 * f1 * f1 / 1000); set('c', 0, 0, true); }
     else { set('a', 0.05 * f1, 0.1 * f1); set('b', f1 * f1 / 1000, 0.4 * f1 * f1 / 1000); set('c', 0, 0.2 * f1 * f1 / 1e6); }
     set('e1', det === 'hpge' ? -0.8 : -0.6, 0.4); set('e2', -0.1, 0.2);
-    if (mode === 'local') { set('step', 0.003, 0.003); set('tail', 0, 0, true); set('tailw', 1, 0, true); set('se', 0.05, 0.05); set('de', 0.02, 0.02);
+    if (mode === 'matrix') {                         // the simulation supplies efficiency, escape peaks and the continuum
+      set('e1', 0, 0.1); set('e2', 0, 0, true); set('tail', 0, 0, true); set('tailw', 1, 0, true); set('se', 0, 0, true); set('de', 0, 0, true);
+      if (det === 'hpge') set('step', 0.003, 0.003); else set('step', 0, 0, true);
+      ['pt', 'ptk', 'shelf', 'bs'].forEach(function (k) { set(k, 0, 0, true); });
+      if (FIT.matrix && FIT.matrix.smeared) ['a', 'b', 'c'].forEach(function (k) { P[k].fixed = true; });
+    } else if (mode === 'local') { set('step', 0.003, 0.003); set('tail', 0, 0, true); set('tailw', 1, 0, true); set('se', 0.05, 0.05); set('de', 0.02, 0.02);
       ['pt', 'ptk', 'shelf', 'bs'].forEach(function (k) { set(k, 0, 0, true); }); }
     else { ['step', 'tail', 'se', 'de'].forEach(function (k) { set(k, 0, 0, true); }); set('tailw', 1, 0, true);
       set('pt', det === 'lar' || det === 'lxe' ? 0.7 : 0.5, 0.25); set('ptk', 0.6, 0.3); set('shelf', 0.15, 0.1); set('bs', 0.05, 0.05); }
@@ -900,6 +905,7 @@
       var d = PDEF[k], p = P[k];
       if (mode === 'local' && /^(pt|ptk|shelf|bs)$/.test(k)) return;
       if (mode === 'compton' && /^(step|tail|tailw|se|de)$/.test(k)) return;
+      if (mode === 'matrix' && (/^(pt|ptk|shelf|bs|tail|tailw|se|de|e2)$/.test(k) || (k === 'step' && ctx.det[0] !== 'hpge'))) return;
       var tr = el('tr'); tr.dataset.k = k;
       var th = el('th', null, d[0]); if (d[2]) th.title = d[2];
       tr.appendChild(th);
@@ -1005,6 +1011,96 @@
     }).catch(function (err) { $('#fit-file-info').textContent = 'Could not read ' + f.name + ': ' + (err && err.message || err); });
   }
 
+  /* simulated detector response: ROOT TH2 (gamma energy x deposited energy) or a text list of (gamma energy, deposited energy) */
+  function buildMatrix(cols, dlo, dw, nd, N, smeared) {
+    // cols: [{E: nominal gamma energy (keV), c: Float64Array(nd) deposited counts}], N: gammas simulated per energy (null: already per gamma)
+    var E = [], dens = [], pf = [];
+    cols.sort(function (a, b) { return a.E - b.E; }).forEach(function (col) {
+      var c = col.c, norm = N ? 1 / N : 1, d = new Float32Array(nd), lo = Math.max(0, Math.floor((col.E - dlo) / dw) - 3), hi = Math.min(nd - 1, Math.floor((col.E - dlo) / dw) + 3);
+      var pk = lo; for (var i = lo; i <= hi; i++) if (c[i] > c[pk]) pk = i;   // full-energy bin: the largest one near the gamma energy
+      var cpk = dlo + (pk + 0.5) * dw, Ej = smeared || Math.abs(cpk - col.E) <= dw ? col.E : cpk, under = 0, nu = 0;
+      for (i = Math.max(0, pk - 4); i <= pk - 2; i++) { under += c[i]; nu++; }
+      under = nu ? under / nu : 0;
+      for (i = 0; i < nd; i++) d[i] = c[i] * norm / dw;
+      var p = 0;
+      if (!smeared) { p = Math.max(0, c[pk] - under) * norm; d[pk] = under * norm / dw; }
+      E.push(Ej); dens.push(d); pf.push(p);
+    });
+    return { dlo: dlo, dw: dw, nd: nd, E: E, dens: dens, pf: pf, smeared: !!smeared };
+  }
+  function matrixSummary(M) {
+    var at = function (E) { var j = 0; while (j < M.E.length - 2 && M.E[j + 1] < E) j++; var f = Math.max(0, Math.min(1, (E - M.E[j]) / (M.E[j + 1] - M.E[j] || 1))); return (1 - f) * M.pf[j] + f * M.pf[j + 1]; };
+    var tot = function (j) { var s = M.pf[j]; for (var i = 0; i < M.nd; i++) s += M.dens[j][i] * M.dw; return s; };
+    var jj = Math.floor(M.E.length / 2);
+    return M.E.length + ' simulated energies, ' + fmt(M.E[0], 0) + '–' + fmt(M.E[M.E.length - 1], 0) + ' keV, deposits binned in ' + (+M.dw.toPrecision(3)) + ' keV. ' +
+      (M.smeared ? 'Resolution already included.' : 'Full-energy probability per emitted gamma: ' + [662, 1461, 2615].filter(function (e) { return e <= M.E[M.E.length - 1]; }).map(function (e) { return (+at(e).toPrecision(2)) + ' at ' + e + ' keV'; }).join(', ') + '.') +
+      ' Total detection probability at ' + fmt(M.E[jj], 0) + ' keV: ' + (+tot(jj).toPrecision(2)) + '.';
+  }
+  function respFromTH2(h, orient, unit, N, smeared) {
+    var nx = h.fXaxis.fNbins, ny = h.fYaxis.fNbins, sx = h.fXaxis, sy = h.fYaxis;
+    var at = function (ix, iy) { return h.fArray[ix + (nx + 2) * iy]; };
+    var cen = function (ax, i) { return ax.fXbins && ax.fXbins.length ? (ax.fXbins[i - 1] + ax.fXbins[i]) / 2 : ax.fXmin + (i - 0.5) * (ax.fXmax - ax.fXmin) / ax.fNbins; };
+    if (orient === 'auto') {                        // the gamma-energy axis is the one the deposits never exceed (lower triangle)
+      var above = [0, 0];
+      for (var ix = 1; ix <= nx; ix++) for (var iy = 1; iy <= ny; iy++) {
+        var v = at(ix, iy); if (!v) continue;
+        if (cen(sy, iy) > cen(sx, ix) * 1.02 + 2 * (sy.fXmax - sy.fXmin) / ny) above[0] += v;
+        if (cen(sx, ix) > cen(sy, iy) * 1.02 + 2 * (sx.fXmax - sx.fXmin) / nx) above[1] += v;
+      }
+      orient = above[0] <= above[1] ? 'x' : 'y';
+    }
+    var tAx = orient === 'x' ? sx : sy, dAx = orient === 'x' ? sy : sx, nt = tAx.fNbins, nd = dAx.fNbins;
+    var u = unit === 'auto' ? (/mev/i.test(tAx.fTitle + dAx.fTitle) ? 'MeV' : (dAx.fXmax < 30 ? 'MeV' : 'keV')) : unit, sc = u === 'MeV' ? 1000 : 1;
+    var dlo = dAx.fXmin * sc, dw = (dAx.fXmax - dAx.fXmin) * sc / nd, cols = [];
+    for (var it = 1; it <= nt; it++) {
+      var c = new Float64Array(nd), sum = 0;
+      for (var id = 1; id <= nd; id++) { var w = orient === 'x' ? at(it, id) : at(id, it); c[id - 1] = w; sum += w; }
+      if (sum > 0) cols.push({ E: cen(tAx, it) * sc, c: c });
+    }
+    if (cols.length < 2) throw new Error('Need at least two simulated gamma energies (filled bins along the gamma-energy axis).');
+    return buildMatrix(cols, dlo, dw, nd, N, smeared);
+  }
+  function respFromText(text, N, smeared, unit) {
+    var by = {}, maxd = 0;
+    text.split(/\r?\n/).forEach(function (l) {
+      var v = l.trim().split(/[\s,;]+/).map(Number);
+      if (v.length < 2 || v.some(isNaN)) return;
+      var sc = unit === 'MeV' ? 1000 : 1, E = v[0] * sc, d = v[1] * sc;
+      (by[E] = by[E] || []).push(d); if (d > maxd) maxd = d;
+    });
+    var Es = Object.keys(by).map(Number);
+    if (Es.length < 2) throw new Error('Need events at two or more gamma energies: two columns, gamma energy and deposited energy.');
+    var dw = Math.max(0.5, Math.pow(10, Math.round(Math.log10(maxd / 3000) * 2) / 2)), nd = Math.ceil(maxd * 1.02 / dw) + 1;
+    var cols = Es.map(function (E) { var c = new Float64Array(nd); by[E].forEach(function (d) { if (d > 0) c[Math.min(nd - 1, Math.floor(d / dw))] += 1; }); return { E: E, c: c }; });
+    return buildMatrix(cols, 0, dw, nd, N, smeared);
+  }
+  function respOptions() {
+    var N = parseFloat($('#resp-n').value);
+    return { N: $('#resp-norm').checked ? null : (N > 0 ? N : NaN), smeared: $('#resp-smeared').checked, orient: $('#resp-orient').value, unit: $('#resp-unit').value };
+  }
+  function loadResponse() {
+    var f = FIT.respFileObj; if (!f) return;
+    var o = respOptions(), info = $('#resp-info');
+    if (o.N !== null && !(o.N > 0)) { info.textContent = 'Enter how many gammas were simulated at each energy, or tick “already per emitted gamma”.'; return; }
+    var done = function (M) {
+      FIT.matrix = M; info.textContent = f.name + ': ' + matrixSummary(M);
+      var opt = $('#fit-mode option[value=matrix]'); opt.disabled = false; $('#fit-mode').value = 'matrix';
+      if (FIT.counts) renderParams(defaultParams());
+    };
+    var fail = function (err) { info.textContent = 'Could not use ' + f.name + ': ' + (err && err.message || err); };
+    if (/\.root$/i.test(f.name)) {
+      jsroot().then(function (io) { return io.openFile(f); }).then(function (file) {
+        var hs = [];
+        (file.fKeys || []).forEach(function (k) { if (/^TH2[FDIS]?$/.test(k.fClassName)) hs.push(k.fName + ';' + k.fCycle); });
+        if (!hs.length) throw new Error('No TH2 histogram in this file.');
+        var sel = $('#resp-hist');
+        if (!sel.options.length || FIT.respFileName !== f.name) { sel.innerHTML = ''; hs.forEach(function (n) { var op = el('option', null, n.replace(/;\d+$/, '')); op.value = n; sel.appendChild(op); }); FIT.respFileName = f.name; }
+        $('#resp-hist-wrap').hidden = hs.length < 2;
+        return file.readObject(sel.value || hs[0]).then(function (h) { done(respFromTH2(h, o.orient, o.unit, o.N, o.smeared)); });
+      }).catch(fail);
+    } else f.text().then(function (t) { try { done(respFromText(t, o.N, o.smeared, o.unit === 'MeV' ? 'MeV' : 'keV')); } catch (e) { fail(e); } });
+  }
+
   function loadSpectrum(sp, name) {
     $('#fit-out').innerHTML = ''; $('#fit-status').textContent = ''; FIT.result = null;
     FIT.counts = sp.counts; FIT.xIsEnergy = false; FIT.cal = sp.cal; FIT.name = name;
@@ -1070,11 +1166,12 @@
       if (d.progress) { $('#fit-status').textContent = d.progress; return; }
       $('#fit-run').disabled = false;
       if (d.error) { $('#fit-status').textContent = 'The fit failed: ' + d.error.split('\n')[0]; return; }
-      FIT.result = d.result; FIT.cands = cands;
+      FIT.result = d.result; FIT.cands = cands; d.result.mode = fitMode();
       $('#fit-status').textContent = 'Done in ' + (d.result.ms / 1000).toFixed(1) + ' s.';
       renderFit(d.result, P);
     };
-    FIT.worker.postMessage({ counts: FIT.counts, lo: lo, hi: hi, mode: fitMode(), params: P, sources: cands,
+    if ($('#fit-mode').value === 'matrix' && !FIT.matrix) { $('#fit-status').textContent = 'Upload a simulated response first (below), or choose another response model.'; $('#fit-run').disabled = false; return; }
+    FIT.worker.postMessage({ counts: FIT.counts, lo: lo, hi: hi, mode: fitMode(), params: P, sources: cands, matrix: fitMode() === 'matrix' ? FIT.matrix : null,
                              knots: +$('#fit-knots').value || (fitMode() === 'compton' ? 6 : 14), threshold: +$('#fit-thr').value || 9 });
   }
   var FITCOL = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'];
@@ -1095,7 +1192,8 @@
     // sources table
     out.appendChild(el('h3', null, 'Sources in the fit'));
     var t = el('table', 'gx-table'), th = el('tr');
-    ['Source', 'Counts in range', '±', 'Significance', 'Prior from ranking'].forEach(function (h) { th.appendChild(el('th', null, h)); });
+    var mat = r.mode === 'matrix';
+    ['Source', 'Counts in range', '±'].concat(mat ? ['Decays in the measurement', '±'] : []).concat(['Significance', 'Prior from ranking']).forEach(function (h) { th.appendChild(el('th', null, h)); });
     t.appendChild(th);
     r.sources.forEach(function (s, i) {
       var tr = el('tr'), td = el('td');
@@ -1104,12 +1202,14 @@
       tr.appendChild(td);
       tr.appendChild(el('td', 'num', Math.round(s.counts).toLocaleString('en-US')));
       tr.appendChild(el('td', 'num', Math.round(s.sigma).toLocaleString('en-US')));
+      if (mat) { tr.appendChild(el('td', 'num', (+s.decays.toPrecision(4)).toLocaleString('en-US'))); tr.appendChild(el('td', 'num', (+s.decaysSigma.toPrecision(2)).toLocaleString('en-US'))); }
       tr.appendChild(el('td', 'num', s.dchi2 > 0 ? Math.sqrt(s.dchi2).toFixed(1) + 'σ' : '—'));
       tr.appendChild(el('td', 'num', s.prior >= 0.1 ? 'high' : s.prior >= 1e-2 ? 'medium' : 'low'));
       t.appendChild(tr);
     });
     out.appendChild(t);
-    out.appendChild(el('p', 'gx-note', 'Counts: from that source inside the fit range (photopeaks, plus the Compton continuum in Compton mode). ± includes correlations with the response parameters. Significance: √Δχ², where Δχ² is how much worse the fit gets without the source. A source with a low prior had to clear a higher bar to be kept.'));
+    if (mat) out.appendChild(el('p', 'gx-note', 'Decays: number of decays of that source during the measurement, using the absolute efficiency of your simulated response (for a chain segment, decays of its parent). Divide by the live time for the activity; this assumes the simulation\'s source geometry matches the measurement.'));
+    out.appendChild(el('p', 'gx-note', 'Counts: from that source inside the fit range (photopeaks, plus the continuum in the Compton and simulated-response modes). ± includes correlations with the response parameters. Significance: √Δχ², where Δχ² is how much worse the fit gets without the source. A source with a low prior had to clear a higher bar to be kept.'));
     // parameters table
     out.appendChild(el('h3', null, 'Response parameters'));
     var t2 = el('table', 'gx-table'), h2 = el('tr');
@@ -1129,7 +1229,7 @@
     out.appendChild(el('p', 'gx-note', 'A pull beyond ±3 means the data disagree with your prior: worth checking the calibration or detector settings.'));
     var dl = el('button', 'mini', 'Download results (CSV)'); dl.type = 'button';
     dl.addEventListener('click', function () {
-      var rows = [['source', 'id', 'counts', 'sigma', 'significance_sigma']].concat(r.sources.map(function (s) { return [s.name, s.id, s.counts.toFixed(1), s.sigma.toFixed(1), s.dchi2 > 0 ? Math.sqrt(s.dchi2).toFixed(2) : '']; }));
+      var rows = [['source', 'id', 'counts', 'sigma', 'significance_sigma'].concat(mat ? ['decays', 'decays_sigma'] : [])].concat(r.sources.map(function (s) { return [s.name, s.id, s.counts.toFixed(1), s.sigma.toFixed(1), s.dchi2 > 0 ? Math.sqrt(s.dchi2).toFixed(2) : ''].concat(mat ? [s.decays.toPrecision(5), s.decaysSigma.toPrecision(3)] : []); }));
       rows.push([]); rows.push(['parameter', 'fitted', 'sigma', 'prior', 'prior_sigma']);
       Object.keys(r.theta).forEach(function (k) { rows.push([k, r.theta[k].value, r.theta[k].sigma, P[k].value, P[k].sigma]); });
       var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(function (x) { return x.join(','); }).join('\n')], { type: 'text/csv' }));
@@ -1190,6 +1290,8 @@
     $('#fit-ex-hpge').addEventListener('click', function () { ctx.det = ['hpge']; ctx.fwhm = FWHM1MEV.hpge; refreshChips(); save(); setupSummary(); $('#fit-mode').value = 'auto'; loadSpectrum(exampleSpectrum('hpge'), 'Simulated HPGe spectrum (⁴⁰K, ²²²Rn progeny, ²²⁸Th and ²²⁸Ra segments)'); });
     $('#fit-ex-nai').addEventListener('click', function () { ctx.det = ['nai']; ctx.fwhm = FWHM1MEV.nai; refreshChips(); save(); setupSummary(); $('#fit-mode').value = 'auto'; loadSpectrum(exampleSpectrum('nai'), 'Simulated NaI(Tl) spectrum (⁴⁰K, ²²²Rn progeny, ²²⁸Th and ²²⁸Ra segments)'); });
     $('#fit-mode').addEventListener('change', function () { if (FIT.counts) renderParams(defaultParams()); });
+    $('#resp-file').addEventListener('change', function () { FIT.respFileObj = this.files[0] || null; $('#resp-hist').innerHTML = ''; loadResponse(); });
+    ['resp-n', 'resp-norm', 'resp-smeared', 'resp-orient', 'resp-unit', 'resp-hist'].forEach(function (id) { $('#' + id).addEventListener('change', loadResponse); });
     $('#fit-root-hist').addEventListener('change', function () { if (FIT.rootFile) readRootHist(FIT.rootFile, this.value); });
     $('#fit-root-unit').addEventListener('change', function () { if (FIT.rootFile) readRootHist(FIT.rootFile, $('#fit-root-hist').value); });
     $('#fit-reset').addEventListener('click', function () { renderParams(defaultParams()); });

@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261123a">
-<link rel="stylesheet" href="assets/gammas.css?v=20261123a">
+<link rel="stylesheet" href="assets/style.css?v=20261123b">
+<link rel="stylesheet" href="assets/gammas.css?v=20261123b">
 </head>
 <body>
-<script src="assets/site.js?v=20261123a"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261123b"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Gamma Line Explorer <span class="beta">beta</span></h1>
@@ -97,8 +97,23 @@
         <label>Response model <select id="fit-mode">
           <option value="auto">Automatic (from the detector)</option>
           <option value="local">Peaks + smooth background (HPGe)</option>
-          <option value="compton">Peaks + Compton continuum (scintillators, liquid nobles)</option></select></label>
+          <option value="compton">Peaks + Compton continuum model (scintillators, liquid nobles)</option>
+          <option value="matrix" disabled>Simulated detector response (upload below)</option></select></label>
       </div>
+      <details class="gx-fitopts" id="fit-resp"><summary>Simulated detector response (optional)</summary>
+        <p class="gx-note">If you have simulated your detector, for example with Geant4, the fit can use that response instead of a model: the photopeak, Compton continuum, escape and backscatter peaks and the absolute efficiency then all come from your simulation, and the results include the number of decays. Upload a ROOT <code>TH2</code> of deposited energy against gamma energy (either orientation; contents = counts), or a text file with one simulated interaction per line: <code>gamma_energy deposited_energy</code>. Gammas that left no energy can be omitted, but say how many were simulated per energy.
+          Simulated energies every 10–25 keV are plenty. <a href="GammasGuide.html#matrix">How it is used</a>.</p>
+        <div class="gx-form">
+          <label>Response file <input type="file" id="resp-file" accept=".root,.txt,.csv,.dat"></label>
+          <label id="resp-hist-wrap" hidden>Histogram <select id="resp-hist"></select></label>
+          <label>Gammas simulated per energy <input type="number" id="resp-n" min="1" step="any" placeholder="e.g. 1000000"></label>
+          <label class="gx-inline"><input type="checkbox" id="resp-norm"> contents are already per emitted gamma</label>
+          <label class="gx-inline"><input type="checkbox" id="resp-smeared"> includes the detector resolution</label>
+          <label>Gamma-energy axis <select id="resp-orient"><option value="auto">auto</option><option value="x">x</option><option value="y">y</option></select></label>
+          <label>Units <select id="resp-unit"><option value="auto">auto</option><option value="keV">keV</option><option value="MeV">MeV</option></select></label>
+        </div>
+        <p class="gx-small" id="resp-info" aria-live="polite"></p>
+      </details>
       <details class="gx-fitopts"><summary>Response function and fit settings</summary>
         <p class="gx-note">Each parameter has a starting value and an uncertainty: the fit may move it, but pays a penalty of ((fitted − value)/uncertainty)². Tick “fixed” to hold it. Defaults come from your detector and resolution settings.</p>
         <table class="gx-table gx-ptable"><thead><tr><th>Parameter</th><th>Value</th><th>±</th><th>Fixed</th><th></th></tr></thead><tbody id="fit-params"></tbody></table>
@@ -167,7 +182,7 @@
     </aside>
   </div>
 </main>
-<script src="assets/gammafit-core.js?v=20261123a"></script>
-<script src="assets/gammas.js?v=20261123a"></script>
+<script src="assets/gammafit-core.js?v=20261123b"></script>
+<script src="assets/gammas.js?v=20261123b"></script>
 </body>
 </html>

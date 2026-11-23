@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css?v=20261114">
-<link rel="stylesheet" href="assets/gammas.css?v=20261123a">
+<link rel="stylesheet" href="assets/gammas.css?v=20261123b">
 <style>
   .guide { max-width: 50rem; line-height: 1.65; }
   .guide h2 { font-size: 1.6rem; margin: 2.4rem 0 .6rem; }
@@ -101,7 +101,23 @@ relative efficiency: ln ε = e₁·x + e₂·x²,  x = ln(E / 1 MeV)</div>
       </div>
       <figcaption>Response to one gamma line, computed with the same code the fit uses (per 1 keV bin, log scale). Try a narrow resolution to see the sharp Compton edge, then a scintillator-like one to see why the edge blurs into the photopeak.</figcaption>
     </figure>
-    <p>This semi-empirical shape needs no simulation and works reasonably for moderate-size scintillators once P/T, shelf and backscatter are calibrated, for example with ¹³⁷Cs, ⁶⁰Co and ²²⁸Th spectra. For the best accuracy, a simulated response matrix of the actual detector and shielding (for example from Geant4) would replace it; that is planned as an option.</p>
+    <p>This semi-empirical shape needs no simulation and works reasonably for moderate-size scintillators once P/T, shelf and backscatter are calibrated, for example with ¹³⁷Cs, ⁶⁰Co and ²²⁸Th spectra. For the best accuracy, use a simulated response of your actual detector instead (next section).</p>
+
+    <h3 id="matrix">A simulated response matrix</h3>
+    <p>If you have simulated your detector, for example with Geant4, choose <b>Simulated detector response</b> and upload the simulation. The fit then takes the photopeak efficiency, Compton continuum, escape and backscatter peaks, and absolute efficiency from it, instead of from the parameterized shapes above. So you get the number of <em>decays</em> of each source during the measurement, not just counts. The three response models are alternatives; pick whichever matches what you know about your detector.</p>
+    <p><b>What to upload.</b> Simulate mono-energetic gammas from where the source sits (for example uniformly in the shielding, or at the position of a check source), at energies every 10–25 keV across the fit range, and record the energy deposited per gamma. Either:</p>
+    <ul>
+      <li>a ROOT <code>TH2</code> of deposited energy against gamma energy, one filled gamma-energy bin per simulated energy (either axis; the page detects which one is the gamma energy because deposits never exceed it); or</li>
+      <li>a text file with one line per simulated gamma that deposited energy: <code>gamma_energy deposited_energy</code>.</li>
+    </ul>
+    <p>Then give the number of gammas simulated per energy, including those that deposited nothing, or tick “already per emitted gamma” if the contents are probabilities. Tick “includes the detector resolution” only if your simulation already smears the deposits; normally it should not, so that the resolution stays a fitted parameter.</p>
+    <p><b>How it is used.</b> Each simulated energy E<sub>j</sub> gives a column R(E<sub>dep</sub> | E<sub>j</sub>): the full-energy probability (the excess in the bin at E<sub>j</sub>) and the continuum density. Before resolution smearing this matrix is lower triangular, because a gamma can never deposit more than its own energy. Three things follow from that:</p>
+    <ol>
+      <li><b>Interpolation.</b> A line at energy E between two simulated energies takes a weighted mix of the two neighbouring columns, each stretched by E/E<sub>j</sub> so that its Compton edge and backscatter peak move with the line, and the photopeak probability is interpolated. Nothing is spread above E.</li>
+      <li><b>Caching.</b> Each source's unsmeared deposited spectrum (its lines × the response) does not depend on the calibration, resolution or efficiency parameters, so it is built once. Each step of the fit then only maps it onto the channels and applies the resolution, which is why matrix fits run about as fast as the model fits.</li>
+      <li><b>Stripping start.</b> Because each line only adds counts at or below its own energy, the fit gets its starting amplitudes top-down: the source with the highest-energy line is estimated from its own peak region, its whole template (continuum included) is subtracted, then the next one down. MLEM and Levenberg–Marquardt then refine all amplitudes together, exactly as with the other response models.</li>
+    </ol>
+    <p>A relative-efficiency slope e₁ (prior 0 ± 0.1) is still fitted, to absorb small differences between simulation and reality. Fit results with this response include “Decays in the measurement”; divide by the live time for the activity. That number is only as good as the simulation's geometry, materials and source distribution. Coincidence summing is not included unless the simulation emitted whole decays rather than single gammas.</p>
 
     <h3 id="algorithm">The algorithm</h3>
     <p>The fit maximizes the Poisson likelihood of the counts, equivalently minimizes the deviance (the likelihood-ratio χ² of Baker &amp; Cousins), plus the prior penalty Σ((θ − θ₀)/σ)² for the response parameters. Three facts make it fast enough for a browser:</p>
@@ -150,7 +166,7 @@ relative efficiency: ln ε = e₁·x + e₂·x²,  x = ln(E / 1 MeV)</div>
     </ol>
   </article>
 </main>
-<script src="assets/gammafit-core.js?v=20261123a"></script>
+<script src="assets/gammafit-core.js?v=20261123b"></script>
 <script>
 (function () {
   var cv = document.getElementById('rf-plot'); if (!cv || !window.GammaFit) return;
