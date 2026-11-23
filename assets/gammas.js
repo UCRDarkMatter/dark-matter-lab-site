@@ -926,23 +926,12 @@
   }
   function parseSpectrum(text, name) {
     var lines = text.split(/\r?\n/), counts = [], xs = [], cal = null, i;
-    if (/\$DATA:/.test(text)) {                          // ORTEC / Maestro .Spe (ASCII)
-      for (i = 0; i < lines.length; i++) {
-        if (/^\$DATA:/.test(lines[i])) {
-          var rg = lines[i + 1].trim().split(/\s+/).map(Number), n = rg[1] - rg[0] + 1;
-          for (var j = 0; j < n; j++) counts.push(+lines[i + 2 + j] || 0);
-        }
-        if (/^\$ENER_FIT:/.test(lines[i])) { var e = lines[i + 1].trim().split(/\s+/).map(Number); cal = { c0: e[0], c1: e[1], c2: 0 }; }
-        if (/^\$MCA_CAL:/.test(lines[i])) { var m = lines[i + 2].trim().split(/\s+/).map(Number); cal = { c0: m[0], c1: m[1], c2: m[2] || 0 }; }
-      }
-      return { counts: counts, xIsEnergy: false, cal: cal };
-    }
     lines.forEach(function (l) {
       var v = l.trim().split(/[\s,;]+/).map(Number);
       if (!l.trim() || v.some(isNaN)) return;          // header or comment
       if (v.length === 1) counts.push(v[0]); else { xs.push(v[0]); counts.push(v[1]); }
     });
-    if (!counts.length) throw new Error('No numbers found. Use one column of counts, two columns (channel or energy, counts), or an ORTEC .Spe file.');
+    if (!counts.length) throw new Error('No numbers found. Use one column of counts, two columns (channel or energy, counts), or a ROOT file with a TH1.');
     var xIsEnergy = false;
     if (xs.length === counts.length) {
       var integer = xs.every(function (x, k) { return Math.abs(x - Math.round(x)) < 1e-9 && (k === 0 || x - xs[k - 1] === 1); });
@@ -954,7 +943,70 @@
     }
     return { counts: counts.map(function (c) { return Math.max(0, Math.round(c)); }), xIsEnergy: xIsEnergy, cal: cal };
   }
+  /* ROOT files: read a TH1 (F, D, I, S or C) with JSROOT's I/O (assets/vendor/jsroot, MIT licence), loaded only when needed */
+  var JSROOT_IO = null;
+  function jsroot() {
+    if (!JSROOT_IO) JSROOT_IO = import(new URL('assets/vendor/jsroot/io.mjs', document.baseURI).href);
+    return JSROOT_IO;
+  }
+  function listHists(dir, prefix, out) {          // TH1s at the top level and in sub-directories
+    var tasks = [];
+    (dir.fKeys || []).forEach(function (k) {
+      var nm = prefix + k.fName + ';' + k.fCycle;
+      if (/^TH1[FDISCL]?$/.test(k.fClassName)) out.push({ name: nm, cls: k.fClassName, title: k.fTitle });
+      else if (/^TDirectory/.test(k.fClassName)) tasks.push(dir.readDirectory(k.fName, k.fCycle).then(function (d) { return listHists(d, prefix + k.fName + '/', out); }));
+    });
+    return Promise.all(tasks).then(function () { return out; });
+  }
+  function axisUnit(title, xmax) {
+    var t = (title || '').toLowerCase();
+    if (/mev/.test(t)) return 'MeV';
+    if (/kev/.test(t)) return 'keV';
+    if (/chan|adc|bin|ch\b/.test(t)) return 'ch';
+    return xmax > 30 ? 'keV' : 'MeV';
+  }
+  function readRootHist(file, name) {
+    $('#fit-file-info').textContent = 'Reading ' + name + '…';
+    return file.readObject(name).then(function (h) {
+      var ax = h.fXaxis, n = ax.fNbins, arr = Array.from(h.fArray).slice(1, n + 1);
+      var edges = ax.fXbins && ax.fXbins.length === n + 1 ? Array.from(ax.fXbins) : null;
+      var lo = ax.fXmin, w = (ax.fXmax - ax.fXmin) / n;
+      var unit = $('#fit-root-unit').value === 'auto' ? axisUnit(ax.fTitle, ax.fXmax) : $('#fit-root-unit').value;
+      var scale = unit === 'MeV' ? 1000 : 1;
+      var weighted = h.fSumw2 && h.fSumw2.length && h.fSumw2.some(function (v, i) { return i > 0 && i <= n && Math.abs(v - h.fArray[i]) > 1e-6 * Math.max(1, v); });
+      var cal = unit === 'ch' ? null : { c0: (lo + w / 2) * scale, c1: w * scale, c2: 0 };
+      if (edges && unit !== 'ch') {                 // variable bins: a quadratic through the bin centres approximates the axis
+        var cen = edges.slice(0, n).map(function (e, i) { return (e + edges[i + 1]) / 2 * scale; }), m = Math.floor(n / 2);
+        var a0 = cen[0], a1 = cen[m], a2 = cen[n - 1], x1 = m, x2 = n - 1;
+        var c2 = ((a2 - a0) / x2 - (a1 - a0) / x1) / (x2 - x1);
+        cal = { c0: a0, c1: (a1 - a0) / x1 - c2 * x1, c2: c2 };
+      }
+      var sp = { counts: arr.map(function (c) { return Math.max(0, Math.round(c)); }), xIsEnergy: false, cal: cal };
+      loadSpectrum(sp, (FIT.rootName || 'ROOT file') + ': ' + name.replace(/;\d+$/, '') + ' (' + h._typename + ', x axis in ' + (unit === 'ch' ? 'channels' : unit) + ')');
+      var notes = [];
+      if (weighted) notes.push('This histogram has weighted entries; the fit assumes plain counts (Poisson), so its uncertainties will be off.');
+      if (arr.some(function (c) { return Math.abs(c - Math.round(c)) > 1e-6; })) notes.push('Bin contents are not whole numbers; they were rounded.');
+      if (notes.length) $('#fit-file-info').textContent += ' ' + notes.join(' ');
+    });
+  }
+  function openRoot(f) {
+    FIT.rootName = f.name; $('#fit-file-info').textContent = 'Opening ' + f.name + '…';
+    jsroot().then(function (io) { return io.openFile(f); }).then(function (file) {
+      FIT.rootFile = file;
+      return listHists(file, '', []).then(function (hs) {
+        var sel = $('#fit-root-hist'); sel.innerHTML = '';
+        if (!hs.length) throw new Error('No TH1 histograms in this file.');
+        hs.forEach(function (h) { var o = el('option', null, h.name.replace(/;\d+$/, '') + ' (' + h.cls + (h.title ? ', ' + h.title : '') + ')'); o.value = h.name; sel.appendChild(o); });
+        $('#fit-root').hidden = false;
+        // default to the histogram with the most bins (the spectrum, rather than a small auxiliary histogram)
+        return Promise.all(hs.map(function (h) { return file.readObject(h.name).then(function (o) { return o.fXaxis.fNbins; }, function () { return 0; }); }))
+          .then(function (nb) { var best = nb.indexOf(Math.max.apply(null, nb)); sel.value = hs[best].name; return readRootHist(file, hs[best].name); });
+      });
+    }).catch(function (err) { $('#fit-file-info').textContent = 'Could not read ' + f.name + ': ' + (err && err.message || err); });
+  }
+
   function loadSpectrum(sp, name) {
+    $('#fit-out').innerHTML = ''; $('#fit-status').textContent = ''; FIT.result = null;
     FIT.counts = sp.counts; FIT.xIsEnergy = false; FIT.cal = sp.cal; FIT.name = name;
     if (sp.xIsEnergy) { FIT.xIsEnergy = false; FIT.cal = sp.cal; }   // energies become a linear calibration with small corrections
     var n = sp.counts.length, cal = FIT.cal || { c0: 0, c1: 1, c2: 0 };
@@ -1131,11 +1183,15 @@
   function buildFit() {
     $('#fit-file').addEventListener('change', function () {
       var f = this.files[0]; if (!f) return;
+      $('#fit-root').hidden = true; FIT.rootFile = null;
+      if (/\.root$/i.test(f.name)) { openRoot(f); return; }
       f.text().then(function (t) { try { loadSpectrum(parseSpectrum(t, f.name), f.name); } catch (err) { $('#fit-file-info').textContent = err.message; } });
     });
     $('#fit-ex-hpge').addEventListener('click', function () { ctx.det = ['hpge']; ctx.fwhm = FWHM1MEV.hpge; refreshChips(); save(); setupSummary(); $('#fit-mode').value = 'auto'; loadSpectrum(exampleSpectrum('hpge'), 'Simulated HPGe spectrum (⁴⁰K, ²²²Rn progeny, ²²⁸Th and ²²⁸Ra segments)'); });
     $('#fit-ex-nai').addEventListener('click', function () { ctx.det = ['nai']; ctx.fwhm = FWHM1MEV.nai; refreshChips(); save(); setupSummary(); $('#fit-mode').value = 'auto'; loadSpectrum(exampleSpectrum('nai'), 'Simulated NaI(Tl) spectrum (⁴⁰K, ²²²Rn progeny, ²²⁸Th and ²²⁸Ra segments)'); });
     $('#fit-mode').addEventListener('change', function () { if (FIT.counts) renderParams(defaultParams()); });
+    $('#fit-root-hist').addEventListener('change', function () { if (FIT.rootFile) readRootHist(FIT.rootFile, this.value); });
+    $('#fit-root-unit').addEventListener('change', function () { if (FIT.rootFile) readRootHist(FIT.rootFile, $('#fit-root-hist').value); });
     $('#fit-reset').addEventListener('click', function () { renderParams(defaultParams()); });
     $('#fit-run').addEventListener('click', runFit);
     window.addEventListener('resize', function () { var cv = document.querySelector('.gx-fitplot canvas'); if (cv && FIT.result) drawFit(cv, FIT.result, FIT.result.sources.filter(function (s) { return FIT.result.components[s.id]; }).slice(0, 8)); });

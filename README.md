@@ -176,7 +176,9 @@ for tests). It fits every channel with smooth B-spline background + one template
 efficiency × detector response), with Gaussian priors on the response parameters (calibration, resolution, efficiency
 shape, HPGe step/escape peaks, or a Klein–Nishina Compton model for scintillators). Amplitudes are solved by Poisson
 MLEM, response parameters by Levenberg–Marquardt, sources chosen by backward elimination with a prior-dependent
-threshold. `GammasGuide.html` explains it all for users.
+threshold. `GammasGuide.html` explains it all for users. Spectra can be ROOT files (a `TH1F`/`TH1D`/`TH1I`, read in the
+browser with JSROOT's I/O modules vendored in `assets/vendor/jsroot/`, MIT licence, loaded only when a `.root` file is
+chosen) or plain-text columns.
 
 Ranking uses expected rates per kilogram (see "How candidates are ranked" on the page). Material compositions and typical activities are in
 `tools/gamma/materials.py`; the activities come from `tools/gamma/radiopurity_summary.json`, medians of the radiopurity.org assay records

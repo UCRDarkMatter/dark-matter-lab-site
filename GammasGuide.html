@@ -57,7 +57,7 @@ alpha-induced:     R = Σ_materials  mass × Σ_segments alpha activity × thick
     <p>Given peak energies, each candidate line gets a match score exp(−½ (ΔE/σ)²), where σ is the detector resolution at that energy (widened for Doppler-broadened lines). Decay-chain segments in secular equilibrium, such as ²²²Rn with ²¹⁴Pb and ²¹⁴Bi, are treated as one hypothesis, because their lines must appear together with fixed ratios. Hypotheses are then chosen greedily: the one that explains the most peaks, weighted by its expected rate, is accepted first, and its other strong lines are checked. A source whose strong lines are missing loses credit, and candidates more than about six decades weaker than the strongest are kept only as alternatives.</p>
 
     <h2 id="fit">Fitting a whole spectrum</h2>
-    <p>The <a href="Gammas.html">Fit a spectrum</a> tab goes further: it fits every channel of a measured spectrum at once. The model for the expected counts μ<sub>i</sub> in channel i is</p>
+    <p>The <a href="Gammas.html">Fit a spectrum</a> tab goes further: it fits every channel of a measured spectrum at once. The spectrum can be a ROOT histogram (<code>TH1F</code>, <code>TH1D</code> or <code>TH1I</code>; its x axis, in keV or MeV, gives the starting energy calibration) or a text file of counts; it is read in your browser and never uploaded. The model for the expected counts μ<sub>i</sub> in channel i is</p>
     <div class="eq">μ_i = Σ_j β_j B_j(E_i)  +  Σ_k A_k T_k(E_i; θ)
 
 T_k(E; θ) = Σ_lines  I_line · ε(E_line) · R(E; E_line, θ)</div>

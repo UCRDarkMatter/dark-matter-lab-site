@@ -81,12 +81,16 @@
         function you describe, and a smooth background, then keeps only the sources the data need. Everything runs in your browser; the file is not uploaded anywhere.
         <a href="GammasGuide.html#fit">How the fit works</a>.</p>
       <div class="gx-form gx-fitload">
-        <label>Spectrum file <input type="file" id="fit-file" accept=".csv,.txt,.dat,.tsv,.spe,.Spe,.SPE,.tka"></label>
+        <label>Spectrum file <input type="file" id="fit-file" accept=".root,.csv,.txt,.dat,.tsv"></label>
         <span class="muted">or try a simulated example:</span>
         <button class="mini" type="button" id="fit-ex-hpge">HPGe</button>
         <button class="mini" type="button" id="fit-ex-nai">NaI(Tl)</button>
       </div>
-      <p class="gx-note">Formats: one column of counts per channel; two columns (channel or energy in keV, counts) separated by spaces, tabs or commas; or an ORTEC/Maestro ASCII <code>.Spe</code> file (its energy calibration is read). Detector type and resolution come from “Your setup” above.</p>
+      <p class="gx-note">Formats: a ROOT file with a <code>TH1F</code> (or <code>TH1D</code>, <code>TH1I</code>), read in your browser with <a href="https://root.cern/js/">JSROOT</a>; the x axis gives the energy scale. Or a text file: one column of counts per channel, or two columns (channel or energy in keV, counts) separated by spaces, tabs or commas. Detector type and resolution come from “Your setup” above.</p>
+      <div class="gx-form" id="fit-root" hidden>
+        <label>Histogram <select id="fit-root-hist"></select></label>
+        <label>x axis in <select id="fit-root-unit"><option value="auto">auto (from the axis title)</option><option value="keV">keV</option><option value="MeV">MeV</option><option value="ch">channels (enter a calibration below)</option></select></label>
+      </div>
       <p class="gx-small" id="fit-file-info" aria-live="polite"></p>
       <div class="gx-form">
         <label>Fit from <input type="number" id="fit-emin" step="any" min="0"> to <input type="number" id="fit-emax" step="any" min="0"> keV</label>
