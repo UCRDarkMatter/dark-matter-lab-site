@@ -478,7 +478,7 @@
   // ENSDF transition type -> {kind, k}; or derive from spins/parities
   function forbiddenness(type, Ji, Pi, Jf, Pf) {
     var t = (type || '').toUpperCase().trim(), m = /^(\d)(U|NU)$/.exec(t);
-    if (t === 'A' || t === 'SA') return { kind: 'A', k: 0, from: 'ENSDF' };
+    if (t === 'A' || t === 'SA' || t === 'S') return { kind: 'A', k: 0, from: 'ENSDF', superallowed: t !== 'A' };
     if (m) return { kind: m[2] === 'U' ? 'U' : 'NU', k: +m[1], from: 'ENSDF' };
     if (Ji == null || Jf == null || !Pi || !Pf) return null;
     var dJ = Math.abs(Ji - Jf), dP = Pi === Pf ? 0 : 1;      // parity change

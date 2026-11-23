@@ -498,7 +498,7 @@
       else parts.push('Non-unique ' + ord(Math.max(1, f.k)) + ' forbidden: the shape depends on nuclear matrix elements; the ξ approximation (allowed shape) is used unless you enter a shape factor.');
       if (Ji.tentative || Jf.tentative) parts.push('Spin assignments are tentative.');
     } else parts.push('Spins or parities unknown for this branch' + (b[5] === '' ? ' (final level not in the level scheme)' : '') + '.');
-    if (b[4]) parts.push('ENSDF classifies it as ' + ({ A: 'allowed', '1U': 'first unique forbidden', '1NU': 'first non-unique forbidden', '2U': 'second unique forbidden', '2NU': 'second non-unique forbidden', '3U': 'third unique forbidden', '3NU': 'third non-unique forbidden' }[b[4]] || b[4]) + (b[3] ? ' (log ft = ' + b[3] + ')' : '') + '.');
+    if (b[4]) parts.push('ENSDF classifies it as ' + ({ A: 'allowed', '1U': 'first unique forbidden', '1NU': 'first non-unique forbidden', '2U': 'second unique forbidden', '2NU': 'second non-unique forbidden', '3U': 'third unique forbidden', '3NU': 'third non-unique forbidden', S: 'superallowed', SA: 'superallowed' }[b[4]] || b[4]) + (b[3] ? ' (log ft = ' + b[3] + ')' : '') + '.');
     else if (b[3]) parts.push('log ft = ' + b[3] + '.');
     return { kind: f.kind, k: f.k, pure: pure, text: parts.join(' ') };
   }
