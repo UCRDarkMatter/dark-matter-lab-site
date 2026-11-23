@@ -1,0 +1,32 @@
+# Downloads photon cross sections (NIST XCOM) for the Radioactive Signal Explorer onto the branch "signals-data".
+# Runs when the fetch script changes, or by hand (Actions tab → Fetch signal data → Run workflow).
+name: Fetch signal data
+
+on:
+  push:
+    branches: [main]
+    paths: [tools/signals/fetch_xcom.py, .github/workflows/signals-data.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download XCOM cross sections
+        run: python3 tools/signals/fetch_xcom.py /tmp/signals/xcom
+      - name: Commit to the signals-data branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan signals-data
+          git rm -rq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/signals signals
+          git add signals
+          git commit -q -m "NIST XCOM photon cross sections for the signal explorer ($(date -u +%F))"
+          git push -q -f origin signals-data
