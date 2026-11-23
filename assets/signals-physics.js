@@ -486,7 +486,7 @@
     }
     var s = 0; for (i = 0; i < n; i++) s += out[i] * T0 / n;
     for (i = 0; i < n; i++) out[i] = s > 0 ? out[i] / s : 0;
-    return { T: T, dNdT: out, factors: fac, ctx: c, mean: (function () { var m = 0; for (var k = 0; k < n; k++) m += T[k] * out[k] * T0 / n; return m; })() };
+    return { T: T, dNdT: out, factors: fac, ctx: c, norm: s, mean: (function () { var m = 0; for (var k = 0; k < n; k++) m += T[k] * out[k] * T0 / n; return m; })() };
   }
   // ENSDF transition type -> {kind, k}; or derive from spins/parities
   function forbiddenness(type, Ji, Pi, Jf, Pf) {
@@ -525,12 +525,14 @@
       b: s * 2 * ((xS + xSp) + r2 * (xT + xTp)) / xi, xi: xi, J: 1 };
   }
   // Recoil-nucleus kinetic-energy spectrum. For each electron energy the lepton opening angle x = cos(theta) follows
-  //   w(x) = q^(2(J-1)) [1 + a beta x - (J-1) a k nu beta (1 - x^2) / q^2],  q^2 = k^2 + nu^2 + 2 k nu x,
+  //   w(x) = q^(2(J-1)) [1 + a b_e b_v x - (J-1) a k nu b_e b_v (1 - x^2) / q^2],  q^2 = k^2 + nu^2 + 2 k nu x,
   // (J = 1 allowed, J = k + 1 unique; Glick-Magid & Gazit eq. 30 with a = -A/(2J+1)), normalised over x and weighted
-  // by the electron spectrum spec (any corrections). T_R = q^2 / 2M. Massless neutrino; no recoil-order or Coulomb
-  // corrections to the correlation.
+  // by the electron spectrum spec (any corrections). T_R = q^2 / 2M. For a neutrino of mass o.mnu (keV) nu is its
+  // momentum sqrt(E_v^2 - m^2) and the correlation carries its velocity b_v = nu/E_v (Jackson-Treiman-Wyld
+  // p_e.p_v/(E_e E_v)); the m_v/E_v interference term is absent for V-A with left-handed couplings and is omitted.
+  // No recoil-order or Coulomb corrections to the correlation.
   function betaRecoil(spec, o) {
-    var c = spec.ctx, M = c.M, W0 = c.W0, J = o.kind === 'U' ? (o.k || 1) + 1 : 1, a = o.a || 0;
+    var c = spec.ctx, M = c.M, W0 = c.W0, J = o.kind === 'U' ? (o.k || 1) + 1 : 1, a = o.a || 0, mv = (o.mnu || 0) / ME;
     var T = spec.T, y = spec.dNdT, n = T.length, dT = T[1] - T[0], nb = o.nbins || 240, nx = o.nx || 240;
     var kmax = Math.sqrt(Math.pow(W0, 2) - 1), Rmax = 0;
     for (var i = 0; i < n; i++) { var W = T[i] / ME + 1, k = Math.sqrt(W * W - 1); Rmax = Math.max(Rmax, Math.pow(k + W0 - W, 2) / (2 * M)); }
@@ -538,8 +540,9 @@
     for (var j = 0; j < nb; j++) TR[j] = (j + 0.5) / nb * Rmax * ME;
     for (i = 0; i < n; i++) {
       if (!(y[i] > 0)) continue;
-      var W = T[i] / ME + 1, k = Math.sqrt(W * W - 1), nu = W0 - W, be = k / W, sw = 0;
-      if (nu <= 0) continue;
+      var W = T[i] / ME + 1, k = Math.sqrt(W * W - 1), Ev = W0 - W, sw = 0;
+      if (Ev <= mv) continue;
+      var nu = Math.sqrt(Ev * Ev - mv * mv), be = k / W * (nu / Ev);   // electron times neutrino velocity
       for (var m = 0; m < nx; m++) {
         var x = -1 + 2 * (m + 0.5) / nx, q2 = k * k + nu * nu + 2 * k * nu * x;
         var v = Math.pow(q2, J - 1) * (1 + a * be * x - (J - 1) * a * k * nu * be * (1 - x * x) / q2);

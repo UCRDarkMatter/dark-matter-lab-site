@@ -533,6 +533,20 @@
     }
     return { b: 0, a: sm.a, aSM: sm.a, mode: 'none' };
   }
+  // recoil spectrum for one branch with its mass states: light (m_beta) and, if switched on, the heavy neutrino;
+  // each state's electron spectrum is computed separately and weighted by (1-U^2) or U^2 times its phase-space integral
+  function recoilFor(pr, a) {
+    var ml = (pr.mnu || 0) / 1000, U2 = pr.Usterile2 || 0, states = [{ m: ml, w: 1 - U2 }];
+    if (U2 > 0 && pr.msterile > 0) states.push({ m: pr.msterile, w: U2 });
+    var parts = states.map(function (st) {
+      var sp = P.betaSpectrum(Object.assign({}, pr, { mnu: st.m * 1000, Usterile2: 0, msterile: 0 }));
+      return { r: P.betaRecoil(sp, { a: a, kind: pr.kind, k: pr.k, mnu: st.m }), w: st.w * (sp.norm || 0) };
+    });
+    if (parts.length === 1) return parts[0].r;
+    var tw = parts[0].w + parts[1].w, R = parts[0].r, out = { T: R.T, dNdT: new Float64Array(R.T.length), max: R.max, a: a, mean: 0 };
+    parts.forEach(function (o) { var f = tw > 0 ? o.w / tw : 0; out.mean += f * o.r.mean; for (var j = 0; j < R.T.length; j++) out.dNdT[j] += f * interp(o.r.T, o.r.dNdT, R.T[j]); });
+    return out;
+  }
   function fierzValue(kOver, rOver, sOver, kkOver) { return corrs(kOver, rOver, sOver, kkOver).b; }
   RUN.beta = function () {
     var n = normName($('#b-nuc').value), out = $('#b-out'); out.innerHTML = '';
@@ -562,14 +576,14 @@
         var c = classify(n, x), info = nucInfo(n);
         var pr = bParams(x.b[0], { beta: x.sign, Z: info.Z + (x.sign < 0 ? 1 : -1), kind: c.kind, k: Math.max(1, c.k || 1), rho: c.pure === 'F' ? 0 : Infinity, bAc: c.pure === 'F' ? 0 : 5, shape: null });
         var s = P.betaSpectrum(pr);
-        RC.push({ r: P.betaRecoil(s, { a: corrs(pr.kind, pr.rho, pr.beta, pr.k).a, kind: pr.kind, k: pr.k }), w: x.b[1] / 100, kind: pr.kind });
+        RC.push({ r: recoilFor(pr, corrs(pr.kind, pr.rho, pr.beta, pr.k).a), w: x.b[1] / 100, kind: pr.kind });
         var s0 = $('#b-ref').checked ? P.betaSpectrum(Object.assign({}, pr, { corr: {} })) : null, w = x.b[1] / 100; tot += w;
         for (var j = 0; j < nb; j++) { Y[j] += w * interp(s.T, s.dNdT, T[j]); if (s0) Yr[j] += w * interp(s0.T, s0.dNdT, T[j]); }
       });
       spec = { T: T, dNdT: Y, mean: meanOf(T, Y) / (tot || 1), factors: null }; ref = $('#b-ref').checked ? { T: T, dNdT: Yr } : null;
     } else {
       spec = P.betaSpectrum(bParams(T0)); ref = $('#b-ref').checked ? P.betaSpectrum(bParams(T0, { corr: {} })) : null;
-      var RC = [{ r: P.betaRecoil(spec, { a: corrs().a, kind: kind, k: num('#b-k', 1) | 0 }), w: 1, kind: kind }];
+      var RC = [{ r: recoilFor(bParams(T0), corrs().a), w: 1, kind: kind }];
     }
     // recoil-nucleus spectrum (sum over branches on a common grid)
     var rmax = Math.max.apply(null, RC.map(function (o) { return o.r.max; })), nr = 240, RT = new Float64Array(nr), RY = new Float64Array(nr), rw = 0, rmean = 0;
@@ -583,7 +597,8 @@
       'The recoil spectrum depends on a, which the electron spectrum does not; this is how a is measured (ion traps). ' +
       (kind === 'U' && !all ? 'For this unique transition the angular distribution includes the q<sup>2(J−1)</sup> weight and the extra [β² − (β·ν̂)²]/q² term. ' : '') +
       (anyNU ? 'For non-unique forbidden branches a is not known without nuclear matrix elements; a = 0 (isotropic) is used unless you enter it. ' : '') +
-      'Massless neutrino; no Coulomb or recoil-order corrections to the correlation; recoil energies of a few eV can be modified by atomic and molecular binding.';
+      (bParams(T0).mnu || bParams(T0).Usterile2 ? 'Neutrino masses included: each mass state recoils with its own momentum √(E<sub>ν</sub>² − m²) and the correlation carries the neutrino velocity, a β<sub>e</sub>β<sub>ν</sub> cos θ; the heavy state is weighted by |U<sub>e4</sub>|² and its phase space. ' : '') +
+      'No Coulomb or recoil-order corrections to the correlation; recoil energies of a few eV can be modified by atomic and molecular binding.';
     B.recoil = { T: RTu, y: RYu, unit: eV ? 'eV' : 'keV' };
     var yl = all ? 'Electrons per keV per decay' : 'Probability per keV (normalised)';
     var series = [{ name: 'With selected corrections', x: spec.T, y: kur ? kurie(spec, all) : spec.dNdT, color: color(0) }];
@@ -629,7 +644,7 @@
     if (p.kind === 'U') rows.push(['Unique forbidden shape (k = ' + p.k + ')', 'C(W) ∝ Σ<sub>n=1</sub><sup>k+1</sup> λ<sub>n</sub> p<sup>2(n−1)</sup> q<sup>2(k+1−n)</sup> / [(2n−1)! (2(k+1−n)+1)!],&nbsp; q = √((W₀ − W)² − m<sub>ν</sub>²) the neutrino momentum,&nbsp; λ<sub>n</sub> = F<sub>n−1</sub>/F₀ · (n + γ<sub>n</sub>)/(n(1 + γ₁)),&nbsp; F<sub>n−1</sub> = [n(2n−1)!!]² 4<sup>n</sup> (2pR)<sup>2(γₙ−n)</sup> e<sup>πy</sup> |Γ(γₙ+iy)|²/Γ(1+2γₙ)²']);
     if (p.corr.rad) rows.push(['Radiative (O(α))', '1 + δ₁ = 1 + (α/2π)[g(W₀,W) − 3 ln(m<sub>p</sub>/2W₀)], with Sirlin’s g; the t(β) ln(W₀−W) term is resummed as (W₀−W)<sup>t(β)</sup> − 1']);
     if (p.fierz) rows.push(['Fierz term', 'N → N · (1 + b<sub>F</sub> γ / W),&nbsp; b<sub>F</sub> = ' + fmt(p.fierz, 4) + ($('#b-fmode').value === 'c' ? (p.kind === 'U' ? ' = ±2(x<sub>T</sub> + x′<sub>T</sub>)/(2 + x<sub>T</sub>² + x′<sub>T</sub>²), x = C/C<sub>A</sub> (unique forbidden: tensor only)' : ' = ±2[(x<sub>S</sub> + x′<sub>S</sub>) + ρ²(x<sub>T</sub> + x′<sub>T</sub>)]/ξ,&nbsp; ξ = (2 + x<sub>S</sub>² + x′<sub>S</sub>²) + ρ²(2 + x<sub>T</sub>² + x′<sub>T</sub>²),&nbsp; x<sub>S</sub> = C<sub>S</sub>/C<sub>V</sub>, x<sub>T</sub> = C<sub>T</sub>/C<sub>A</sub> (Jackson–Treiman–Wyld)') : (p.kind === 'NU' ? ' (phenomenological for this non-unique branch)' : ''))]);
-    var ca = corrs(); rows.push(['Recoil spectrum', 'T<sub>R</sub> = q²/2M with q² = k² + ν² + 2kν cos θ; cos θ distributed as q<sup>2(J−1)</sup>[1 + a β cos θ − (J−1) a kν β sin²θ / q²] (J = 1 allowed, J = k + 1 unique), weighted by the electron spectrum;&nbsp; a = ' + fmt(ca.a, 5) + (p.kind === 'U' ? ' = −(2 − x<sub>T</sub>² − x′<sub>T</sub>²)/[(2J+1)(2 + x<sub>T</sub>² + x′<sub>T</sub>²)]' : p.kind === 'A' ? ' = [(2 − x<sub>S</sub>² − x′<sub>S</sub>²) − ρ²(2 − x<sub>T</sub>² − x′<sub>T</sub>²)/3]/ξ' : '')]);
+    var ca = corrs(); rows.push(['Recoil spectrum', 'T<sub>R</sub> = q²/2M with q² = k² + ν² + 2kν cos θ (ν the neutrino momentum); cos θ distributed as q<sup>2(J−1)</sup>[1 + a β<sub>e</sub>β<sub>ν</sub> cos θ − (J−1) a kν β<sub>e</sub>β<sub>ν</sub> sin²θ / q²], β<sub>ν</sub> = ν/E<sub>ν</sub> (J = 1 allowed, J = k + 1 unique), weighted by the electron spectrum;&nbsp; a = ' + fmt(ca.a, 5) + (p.kind === 'U' ? ' = −(2 − x<sub>T</sub>² − x′<sub>T</sub>²)/[(2J+1)(2 + x<sub>T</sub>² + x′<sub>T</sub>²)]' : p.kind === 'A' ? ' = [(2 − x<sub>S</sub>² − x′<sub>S</sub>²) − ρ²(2 − x<sub>T</sub>² − x′<sub>T</sub>²)/3]/ξ' : '')]);
     if (p.mnu) rows.push(['Neutrino mass', '(W₀ − W)² → (W₀ − W) √((W₀ − W)² − m<sub>β</sub>²),&nbsp; m<sub>β</sub> = ' + fmt(p.mnu, 4) + ' eV/c²']);
     if (p.Usterile2) rows.push(['Heavy neutrino', 'N = (1 − |U<sub>e4</sub>|²) N(m<sub>β</sub>) + |U<sub>e4</sub>|² N(m₄),&nbsp; m₄ = ' + fmt(p.msterile, 4) + ' keV/c², |U<sub>e4</sub>|² = ' + fmt(p.Usterile2, 3) + '; the heavy branch ends at T₀ − m₄c² = ' + fmt(p.T0 - p.msterile, 5) + ' keV']);
     rows.push(['Reference', 'L. Hayen et al., Rev. Mod. Phys. 90, 015008 (2018), eqs. 4–170; the Python and C++ buttons export this calculation as code.']);
