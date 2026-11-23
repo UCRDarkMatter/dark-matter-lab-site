@@ -79,9 +79,9 @@ def betas(lc, nuc, isomer, sub):
     for r in rows(lc, sub, re.sub(r"m(?=[A-Z])", "", nuc)):
         if (parent_level(r) > 0) != isomer:
             continue
-        emax = fnum(r.get("endpoint_energy") or r.get("end_point_energy") or r.get("energy_endpoint"))
+        emax = fnum(r.get("max_energy") or r.get("endpoint_energy") or r.get("end_point_energy"))
         emean = fnum(r.get("mean_energy") or r.get("energy"))
-        i = fnum(r.get("intensity"))
+        i = fnum(r.get("intensity_beta") or r.get("intensity"))
         if i and i > 0 and (emax or emean):
             out.append([round(emax, 1) if emax else None, round(emean, 1) if emean else None, round(i, 4)])
     return sorted(out, key=lambda b: -b[2])
@@ -188,12 +188,23 @@ def walk(lc, gs, top, stop=()):
         for d, p in edges(nuc, gs):
             if d not in seen and (gs.get(d) or d in [v[0] for v in ISOMERS.values()]):
                 queue.append(d)
-    # decays lower A, or keep A and raise Z (beta-minus) or go from an isomer to its ground state: sort accordingly
-    def key(n):
-        m = re.match(r"(\d+)(m?)([A-Z][a-z]?)", n)
-        z = B.pt.elements.symbol(m.group(3)).number
-        return (-int(m.group(1)), z, 0 if m.group(2) else 1)
-    order = sorted(seen, key=key)
+    # propagate activities in topological order of the decay graph (works for alpha, beta-minus, EC and isomers alike)
+    def dec(n):
+        g = gs.get(re.sub(r"^(\d+)m", r"\1", n))
+        return not (n != top and (n in stop or not g or g["hl"] == float("inf") or (g["hl"] or 0) > LONG) and n not in [v[0] for v in ISOMERS.values()])
+    kids = {n: [d for d, p in edges(n, gs) if d in seen] if dec(n) else [] for n in seen}
+    indeg = {n: 0 for n in seen}
+    for n in seen:
+        for d in kids[n]:
+            indeg[d] += 1
+    order, ready = [], [n for n in seen if indeg[n] == 0]
+    while ready:
+        n = ready.pop(0); order.append(n)
+        for d in kids[n]:
+            indeg[d] -= 1
+            if indeg[d] == 0:
+                ready.append(d)
+    order += [n for n in seen if n not in order]
     af = {n: 0.0 for n in order}; af[top] = 1.0
     for n in order:
         g = gs.get(re.sub(r"^(\d+)m", r"\1", n))
@@ -204,6 +215,42 @@ def walk(lc, gs, top, stop=()):
                 af[d] += af[n] * p / 100
     order = [n for n in seen if af.get(n, 0) >= 1e-7 or n == top]     # display in decay order from the parent
     return order, af
+
+
+def za(n):
+    m = re.match(r"(\d+)(m?)([A-Z][a-z]?)", n)
+    return int(m.group(1)), B.pt.elements.symbol(m.group(3)).number
+
+
+def edge_mode(parent, daughter, member_modes):
+    """Decay mode of one edge: from the parent's ENSDF modes when its daughter matches, else from the change in A and Z."""
+    base = re.sub(r"^(\d+)m", r"\1", daughter)
+    for m in member_modes:
+        if m[3] and m[3] == base and m[0] != "IT":
+            return m[0]
+    (a0, z0), (a1, z1) = za(parent), za(daughter)
+    if a0 == a1 and z0 == z1:
+        return "IT"
+    if a1 == a0 - 4 and z1 == z0 - 2:
+        return "A"
+    if a1 == a0 and z1 == z0 + 1:
+        return "B-"
+    if a1 == a0 and z1 == z0 - 1:
+        return "EC"
+    return "?"
+
+
+def chain_edges(gs, members, stop):
+    """Every decay between members of the chain: [parent, daughter, mode, branching %]."""
+    names = {m["nuc"] for m in members}
+    out = []
+    for m in members:
+        if m.get("stable") or m["nuc"] in stop:
+            continue
+        for d, p in edges(m["nuc"], gs):
+            if d in names:
+                out.append([m["nuc"], d, edge_mode(m["nuc"], d, m.get("modes", [])), round(p, 6)])
+    return out
 
 
 def build(lc):
@@ -228,7 +275,11 @@ def build(lc):
                                 "hl": None if hl in (None, float("inf")) else hl})
                 continue
             members.append(member(lc, gs, nuc, af.get(nuc, 0), refs))
-        out.append({"id": cid, "title": title, "top": top, "members": members, "refs": sorted(r for r in refs if r)})
+        # a chain needs at least two radioactive members; single decays (40K, 60Co ...) are in the source browser instead
+        if sum(1 for m in members if not m.get("stable")) < 2:
+            continue
+        out.append({"id": cid, "title": title, "top": top, "members": members, "edges": chain_edges(gs, members, STOP.get(cid, ())),
+                    "refs": sorted(r for r in refs if r)})
     has_ab = os.path.isdir(os.path.join(lc, "decay_a"))
     meta = {"about": "Decay chains followed through ENSDF decay modes (IAEA LiveChart of Nuclides); branches below %g%% omitted. "
                      "af = activity relative to the chain parent in secular equilibrium. Coincidences: probability that another gamma of the "
@@ -243,5 +294,6 @@ def build(lc):
 if __name__ == "__main__":
     p, out = build(sys.argv[1])
     for c in out:
+        print("  edges:", c["edges"][:6])
         print(c["id"], len(c["members"]), [m["nuc"] for m in c["members"]][:40])
     print(os.path.getsize(p), "bytes")

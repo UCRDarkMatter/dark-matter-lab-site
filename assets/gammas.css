@@ -134,3 +134,26 @@
 .gx-cdetails summary { cursor: pointer; color: var(--link); font-size: .92rem; margin-top: .2rem; }
 .gx-cdetails h4 { margin: .8rem 0 .2rem; font-size: 1rem; }
 .gx-gtable td:last-child { font-size: .85rem; }
+
+/* decay-chain diagram */
+.gx-cdiag-wrap { overflow-x: auto; margin: .75rem 0 .25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: .5rem; }
+.gx-cdiag { display: block; max-width: 100%; height: auto; margin: 0 auto; font-family: var(--font); --gx-alpha: #c2410c; --gx-beta: var(--link); --gx-ec: #7c3aed; }
+@media (max-width: 700px) { .gx-cdiag { max-width: none; } }
+:root[data-theme="dark"] .gx-cdiag { --gx-alpha: #fb923c; --gx-ec: #b794f6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .gx-cdiag { --gx-alpha: #fb923c; --gx-ec: #b794f6; } }
+.gx-daxis { font-size: 11px; fill: var(--muted); }
+.gx-dnode { cursor: pointer; }
+.gx-dnode rect { fill: var(--tile); stroke: var(--blue); stroke-width: 1.5; }
+.gx-dnode.stable rect { fill: var(--surface); stroke: var(--grey); stroke-dasharray: 4 3; }
+.gx-dnode:hover rect, .gx-dnode:focus rect { stroke-width: 3; }
+.gx-dnode:focus { outline: none; }
+.gx-dname { font-size: 15px; font-weight: 600; fill: var(--ink); }
+.gx-dhl { font-size: 11px; fill: var(--muted); }
+.gx-edge { stroke-width: 2; fill: none; }
+.gx-edge.minor { stroke-width: 1.4; stroke-dasharray: 5 4; }
+.gx-e-alpha { stroke: var(--gx-alpha); } .gx-ahead.gx-e-alpha { fill: var(--gx-alpha); stroke: none; }
+.gx-e-beta { stroke: var(--gx-beta); } .gx-ahead.gx-e-beta { fill: var(--gx-beta); stroke: none; }
+.gx-e-ec { stroke: var(--gx-ec); } .gx-ahead.gx-e-ec { fill: var(--gx-ec); stroke: none; }
+.gx-e-it { stroke: var(--muted); } .gx-ahead.gx-e-it { fill: var(--muted); stroke: none; }
+.gx-elabel { font-size: 12px; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.gx-cmember.flash { outline: 2px solid var(--blue); outline-offset: 2px; transition: outline-color 1s; }

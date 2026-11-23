@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css?v=20261114">
-<link rel="stylesheet" href="assets/gammas.css?v=20261123b">
+<link rel="stylesheet" href="assets/gammas.css?v=20261123c">
 <style>
   .guide { max-width: 50rem; line-height: 1.65; }
   .guide h2 { font-size: 1.6rem; margin: 2.4rem 0 .6rem; }
@@ -148,7 +148,7 @@ relative efficiency: ln ε = e₁·x + e₂·x²,  x = ln(E / 1 MeV)</div>
     <p>The examples on the fit tab are simulated with this same model, so they show how the tool behaves, not how well the model describes a real detector.</p>
 
     <h2 id="chains">Decay chains</h2>
-    <p>The <a href="Gammas.html#chain=U238">Decay chains</a> tab follows each chain from its parent through the ENSDF decay modes, keeping branches of at least 10⁻⁵ %. For every member it lists the half-life, spin-parity, decay modes with branching ratios and Q-values, alpha and beta spectra, every gamma line with its initial and final level, multipolarity and internal-conversion coefficient, and the X-rays.</p>
+    <p>The <a href="Gammas.html#chain=U238">Decay chains</a> tab follows each chain from its parent through the ENSDF decay modes, keeping branches of at least 10⁻⁵ %. A tab is offered only for real chains, with at least two radioactive members (²³⁸U, ²³²Th, ²³⁵U, ⁴²Ar/⁴²K, ⁹⁰Sr/⁹⁰Y and so on); single decays such as ⁴⁰K or ⁶⁰Co are in the source browser. Each chain is drawn as a diagram: one row per mass number, so α decays point straight down, β⁻ decays one step right and EC/β⁺ one step left, and every arrow is labelled with its decay mode and, at branch points, the share of decays that take it (dashed below 1%). For every member, the list below the diagram gives the half-life, spin-parity, decay modes with branching ratios and Q-values, alpha and beta spectra, every gamma line with its initial and final level, multipolarity and internal-conversion coefficient, and the X-rays.</p>
     <p><b>Relative activity</b> is the member's activity in secular equilibrium, relative to the parent: 1 for the main line, the product of branching ratios on side branches (for example 0.359 for ²⁰⁸Tl). Real samples can be out of equilibrium, through radon escape, chemical separation of radium or lead, or ²¹⁰Pb accumulation; the full time dependence follows Bateman's equations.</p>
     <p><b>Emitted together with</b> gives, for each gamma, the probability that another gamma of the same decay accompanies it. It is computed by cascading through the daughter's levels: the populations of the levels come from the gamma intensities, and from each level the branching follows the gammas leaving it. These pairs are what coincidence measurements see, and what produces sum peaks when the source is close to the detector.</p>
 
@@ -166,7 +166,7 @@ relative efficiency: ln ε = e₁·x + e₂·x²,  x = ln(E / 1 MeV)</div>
     </ol>
   </article>
 </main>
-<script src="assets/gammafit-core.js?v=20261123b"></script>
+<script src="assets/gammafit-core.js?v=20261123c"></script>
 <script>
 (function () {
   var cv = document.getElementById('rf-plot'); if (!cv || !window.GammaFit) return;

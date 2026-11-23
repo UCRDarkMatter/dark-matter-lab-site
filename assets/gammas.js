@@ -1330,15 +1330,102 @@
     });
     return t;
   }
+  /* decay-chain diagram: rows are mass numbers A (down) and columns are (Z - N)/2, so every alpha decay points straight down,
+     beta-minus one column right, EC/beta-plus one column left; edges carry the mode and any branching below 100% */
+  var EDGE = { 'A': ['α', 'alpha'], 'B-': ['β⁻', 'beta'], 'B+': ['β⁺', 'ec'], 'EC': ['EC', 'ec'], 'EC+B+': ['EC/β⁺', 'ec'], 'IT': ['IT', 'it'], 'B-N': ['β⁻n', 'beta'], 'B-A': ['β⁻α', 'beta'] };
+  function hlShort(s) {
+    if (s == null) return 'stable';
+    var u = [[3.156e7, 'y'], [86400, 'd'], [3600, 'h'], [60, 'min'], [1, 's'], [1e-3, 'ms'], [1e-6, 'µs'], [1e-9, 'ns']];
+    for (var i = 0; i < u.length; i++) if (s >= u[i][0] || i === u.length - 1) {
+      var v = s / u[i][0];
+      return (v >= 1e5 ? v.toExponential(2).replace(/e\+?(\d+)/, function (_, e) { return '×10' + e.split('').map(function (c) { return SUP[c]; }).join(''); }) : +v.toPrecision(3)) + ' ' + u[i][1];
+    }
+  }
+  var ELEMENTS = ('H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba ' +
+    'La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm').split(' ');
+  function chainDiagram(c, onPick) {
+    var NS = 'http://www.w3.org/2000/svg', mk = function (t, a, txt) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+    var za = function (n) { var m = /^(\d+)(m?)([A-Z][a-z]?)$/.exec(n); return { A: +m[1], iso: !!m[2], sym: m[3] }; };
+    var Zof = {}, nodes = {};
+    c.members.forEach(function (m) { var p = za(m.nuc); nodes[m.nuc] = { m: m, A: p.A, iso: p.iso, sym: p.sym }; });
+    Object.keys(nodes).forEach(function (n) { Zof[n] = ELEMENTS.indexOf(nodes[n].sym) + 1; });
+    var Zp = Zof[c.top];
+    var As = [], Zs = [];
+    Object.keys(nodes).forEach(function (n) { var d = nodes[n]; d.Z = Zof[n] != null ? Zof[n] : Zp; if (As.indexOf(d.A) < 0) As.push(d.A); if (Zs.indexOf(d.Z) < 0) Zs.push(d.Z); });
+    As.sort(function (a, b) { return b - a; });
+    Zs = []; Object.keys(nodes).forEach(function (n) { var d = nodes[n]; d.col = d.Z - d.A / 2; if (Zs.indexOf(d.col) < 0) Zs.push(d.col); });
+    var zmin = Math.min.apply(null, Zs), zmax = Math.max.apply(null, Zs);
+    var W = 100, H = 44, CW = 172, PADL = 50, PADT = 12, GAP = 40;
+    // a cell holding an isomer and its ground state stacks them; such rows get extra height
+    var cells = {};
+    Object.keys(nodes).forEach(function (n) { var d = nodes[n], k = d.A + ':' + d.col; (cells[k] = cells[k] || []).push(n); });
+    var rowY = {}, y = PADT;
+    As.forEach(function (A) {
+      var tall = Object.keys(cells).some(function (k) { return +k.split(':')[0] === A && cells[k].length > 1; });
+      rowY[A] = y + (tall ? H + 13 : H / 2); y += (tall ? 2 * H + 26 : H) + GAP;
+    });
+    Object.keys(cells).forEach(function (k) {
+      var list = cells[k].sort(function (a, b) { return nodes[b].iso - nodes[a].iso; });
+      list.forEach(function (n, i) { var d = nodes[n]; d.x = PADL + (d.col - zmin) * CW + CW / 2; d.y = rowY[d.A] + (list.length > 1 ? (i - (list.length - 1) / 2) * (H + 26) : 0); });
+    });
+    var width = PADL + (zmax - zmin + 1) * CW + 8, height = y - GAP + 10;
+    var svg = mk('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height, role: 'img', 'class': 'gx-cdiag',
+      'aria-label': 'Decay diagram of the ' + c.title + ': alpha decays point down, beta-minus decays to the right, arrows labelled with the decay mode and branching' });
+    var defs = mk('defs');
+    ['alpha', 'beta', 'ec', 'it'].forEach(function (k) {
+      var mkr = mk('marker', { id: 'gx-ar-' + k, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' });
+      mkr.appendChild(mk('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'gx-e-' + k + ' gx-ahead' })); defs.appendChild(mkr);
+    });
+    svg.appendChild(defs);
+    As.forEach(function (A) { svg.appendChild(mk('text', { x: 4, y: rowY[A] + 4, 'class': 'gx-daxis' }, 'A=' + A)); });
+    var clip = function (from, to) {                   // where the segment leaves the source box and meets the target box
+      var dx = to.x - from.x, dy = to.y - from.y, f = function (d) { var tx = Math.abs(dx) > 1e-9 ? (W / 2 + 3) / Math.abs(dx) : 1e9, ty = Math.abs(dy) > 1e-9 ? (H / 2 + 3) / Math.abs(dy) : 1e9; return Math.min(tx, ty); };
+      var t0 = f(), t1 = 1 - f();
+      return [from.x + dx * t0, from.y + dy * t0, from.x + dx * t1, from.y + dy * t1];
+    };
+    var gE = mk('g'), gL = mk('g'), gN = mk('g');
+    c.edges.forEach(function (e) {
+      var a = nodes[e[0]], b = nodes[e[1]]; if (!a || !b) return;
+      var info = EDGE[e[2]] || [e[2], 'it'], p = clip(a, b), minor = e[3] < 1;
+      gE.appendChild(mk('line', { x1: p[0], y1: p[1], x2: p[2], y2: p[3], 'class': 'gx-edge gx-e-' + info[1] + (minor ? ' minor' : ''), 'marker-end': 'url(#gx-ar-' + info[1] + ')' }));
+      var lab = info[0] + (e[3] < 99.995 ? ' ' + pct(e[3]).replace(/×10\^(-?\d+)/, function (_, x) { return '×10' + x.replace('-', '⁻').split('').map(function (ch) { return SUP[ch] || ch; }).join(''); }) : '');
+      var mx = (p[0] + p[2]) / 2, my = (p[1] + p[3]) / 2, vert = Math.abs(p[2] - p[0]) < Math.abs(p[3] - p[1]) * 0.6;
+      var t = mk('text', vert ? { x: mx + 7, y: my + 4, 'text-anchor': 'start', 'class': 'gx-elabel' } : { x: mx, y: my - 7, 'text-anchor': 'middle', 'class': 'gx-elabel' }, lab);
+      var ttl = mk('title', {}, pretty(e[0]) + ' → ' + pretty(e[1]) + ': ' + modeName(e[2]) + ', ' + pct(e[3]) + ' of ' + pretty(e[0]) + ' decays'); t.appendChild(ttl);
+      gL.appendChild(t);
+    });
+    Object.keys(nodes).forEach(function (n) {
+      var d = nodes[n], m = d.m, g = mk('g', { 'class': 'gx-dnode' + (m.stable ? ' stable' : ''), tabindex: 0, role: 'button',
+        'aria-label': m.name + (m.stable ? ', stable' : ', half-life ' + hlText(m.hl) + ', relative activity ' + afText(m.af)) });
+      g.appendChild(mk('rect', { x: d.x - W / 2, y: d.y - H / 2, width: W, height: H, rx: 6 }));
+      g.appendChild(mk('text', { x: d.x, y: d.y - 3, 'text-anchor': 'middle', 'class': 'gx-dname' }, m.name));
+      g.appendChild(mk('text', { x: d.x, y: d.y + 13, 'text-anchor': 'middle', 'class': 'gx-dhl' }, m.stable ? (m.hl ? hlShort(m.hl) + ' (stable)' : 'stable') : hlShort(m.hl)));
+      g.appendChild(mk('title', {}, m.name + (m.stable ? ' (stable)' : ' · T½ ' + hlText(m.hl).replace(/<[^>]+>/g, '') + ' · relative activity ' + afText(m.af))));
+      var pick = function () { onPick(n); };
+      g.addEventListener('click', pick); g.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); } });
+      gN.appendChild(g);
+    });
+    svg.appendChild(gE); svg.appendChild(gN); svg.appendChild(gL);
+    var wrap = el('div', 'gx-cdiag-wrap'); wrap.appendChild(svg);
+    return wrap;
+  }
   function renderChain(id) {
     var c = CHAINS.chains.filter(function (x) { return x.id === id; })[0], out = $('#chain-out');
     out.innerHTML = ''; if (!c) return;
     $('#chain-select').value = id;
     out.appendChild(el('p', 'gx-note', 'Activities are relative to the chain parent in secular equilibrium (all members decaying at the parent\'s rate, scaled by branching). ' +
       'Gamma intensities are per 100 decays of that nuclide; “per parent decay” multiplies by its relative activity. Click a member for every radiation it emits and the gammas emitted together with each line.'));
+    if (c.edges && c.edges.length) {
+      out.appendChild(chainDiagram(c, function (n) {
+        var li = document.getElementById('cm-' + n); if (!li) return;
+        var d = li.querySelector('details'); if (d) d.open = true;
+        li.scrollIntoView({ behavior: 'smooth', block: 'start' }); li.classList.add('flash'); setTimeout(function () { li.classList.remove('flash'); }, 1600);
+      }));
+      out.appendChild(el('p', 'gx-small', 'Each row is one mass number A. α decays point straight down (A − 4), β⁻ decays one step to the right and EC/β⁺ one step to the left (same A), so a nuclide with two arrows leaving it is a branch point. Arrows give the decay mode and, where a nuclide branches, the percentage of its decays that take that path; dashed arrows are branches below 1%. Select a nuclide for its details below.'));
+    }
     var list = el('ol', 'gx-chain');
     c.members.forEach(function (m, idx) {
-      var li = el('li', 'gx-cmember' + (m.stable ? ' stable' : ''));
+      var li = el('li', 'gx-cmember' + (m.stable ? ' stable' : '')); li.id = 'cm-' + m.nuc;
       var head = el('div', 'gx-chead');
       var nm = el('span', 'gx-cnuc'); nm.innerHTML = m.name;
       if (!m.stable && (BYID[m.id])) { var a = srcLink(m.id); a.innerHTML = m.name; nm.innerHTML = ''; nm.appendChild(a); }

@@ -169,7 +169,9 @@ Notes
 3. Commit `data/gamma/`. Curated context (where sources appear, tests, cosmogenics by material, reactions) lives in `tools/gamma/curation.py`.
    The build also writes `data/gamma/chains.json` for the **Decay chains** tab (`tools/gamma/chains.py`: chains followed
    through ENSDF decay modes, with alpha/beta spectra, gamma levels, multipolarities, conversion coefficients and
-   coincidences).
+   coincidences). Each chain carries an explicit `edges` list `[parent, daughter, mode, branching %]`, drawn on the page as a
+diagram (rows = A, columns = (Z−N)/2, so α points down and β⁻ right); single decays with fewer than two radioactive members
+are not listed as chains.
 
 **Spectrum fit.** The **Fit a spectrum** tab uses `assets/gammafit-core.js`, which runs in a Web Worker (and in Node,
 for tests). It fits every channel with smooth B-spline background + one template per candidate source (lines × relative
