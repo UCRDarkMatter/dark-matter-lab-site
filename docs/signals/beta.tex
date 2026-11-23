@@ -295,12 +295,35 @@ The nuclear matrix element, however, depends on the same angle: at leading order
 \end{equation}
 and the same cancellation holds for every $J$ (it is the orthogonality of the lepton partial waves: the correlation is interference between the (electron $s$, neutrino $p$) and (electron $p$, neutrino $s$) channels, which cannot survive an integral over both directions). The weight itself gives the standard unique shapes: $\langle q^2\rangle = k^2+\nu^2$ for $J=2$ and $\langle q^4\rangle = k^4 + \tfrac{10}{3}k^2\nu^2 + \nu^4$ for $J=3$, exactly \cref{eq:unique} with $\lambda_n = 1$. Without the weight, the Standard Model limit of Eq.~17 of \cite{gm17} is within a few per cent of the \emph{allowed} shape, whereas the measured \nuc{90}{Y} spectrum follows the unique shape, which differs from the allowed one by up to 80\% (\cref{fig:corr}).
 
-The conclusion is that, at leading order, the energy spectrum of a unique forbidden decay depends on tensor couplings only through $b_F$, as for allowed decays; $\mathcal A$ affects only the normalisation. Sensitivity to $a$ can re-enter through corrections that break the partial-wave argument---next-to-leading order in $qR$ (an extra $q^2R^2 \sim 10^{-3}$), Coulomb distortion beyond $\lambda_n$, recoil, and the radiative effect above---so the effect is suppressed rather than strictly zero. This follows directly from the published distribution \cref{eq:uniquecorr}, but the cited papers state the opposite, so it should be checked (for instance with the authors) before being relied on. The page computes $b_F$ for unique branches but has no separate input for $a$.
+The conclusion is that, at leading order, the energy spectrum of a unique forbidden decay depends on tensor couplings only through $b_F$, as for allowed decays; $\mathcal A$ affects only the normalisation. Sensitivity to $a$ can re-enter through corrections that break the partial-wave argument---next-to-leading order in $qR$ (an extra $q^2R^2 \sim 10^{-3}$), Coulomb distortion beyond $\lambda_n$, recoil, and the radiative effect above---so the effect is suppressed rather than strictly zero. This follows directly from the published distribution \cref{eq:uniquecorr}, but the cited papers state the opposite, so it should be checked (for instance with the authors) before being relied on. The page therefore uses $a$ only where it is measurable, in the recoil spectrum (\cref{sec:recoil}).
 
 \begin{figure}[htbp]
 \centering\includegraphics[width=0.6\linewidth]{fig/b_corr.pdf}
 \caption{\nuc{90}{Y}: angle-integrated spectra divided by the allowed shape (all on the same corrected allowed spectrum, without $\lambda_n$). Solid: \cref{eq:uniquecorr} weighted by $q^2$, which is the unique shape and is unchanged by any tensor coupling apart from normalisation. Dashed and dotted: Eq.~17 of \cite{gm17} (no $q^2$ weight) for the Standard Model and for a right-handed tensor coupling of 0.2.}
 \label{fig:corr}
+\end{figure}
+
+\subsection{The recoil-nucleus spectrum}
+\label{sec:recoil}
+The daughter recoils with momentum $\bm P = -(\bm k + \bm\nu)$, so $P^2 = q^2 = k^2 + \nu^2 + 2k\nu\cos\theta$ and (non-relativistically, which is excellent here) $T_R = q^2/2M$. At fixed electron energy $T_R$ is linear in $\cos\theta$, ranging from $(k-\nu)^2/2M$ to $(k+\nu)^2/2M$, so the shape of the recoil spectrum is the angular distribution itself, smeared over the electron spectrum:
+\begin{equation}
+\frac{\dd N}{\dd T_R} = \int \dd W\,\frac{\dd N}{\dd W}\;\frac{w(x)}{\int_{-1}^{1} w\,\dd x'}\;\frac{M}{k\nu},
+\qquad x = \frac{2MT_R - k^2 - \nu^2}{2k\nu},
+\label{eq:recoil}
+\end{equation}
+with $w(x) = q^{2(J-1)}\left[1 + a\beta x - (J-1)\,a\,k\nu\beta(1-x^2)/q^2\right]$ from \cref{eq:uniquecorr} ($J = 1$ for allowed decays). A positive $a$ (Fermi-like) makes electron and neutrino go the same way and hardens the recoil; a negative $a$ softens it (\cref{fig:recoil}). For allowed decays the mean is $\langle T_R\rangle = \langle k^2 + \nu^2 + \tfrac23 a\beta k\nu\rangle/2M$, which the code reproduces exactly.
+
+The page evaluates \cref{eq:recoil} on the corrected electron spectrum, spreading each angular cell over the recoil bins it covers, and takes $a$ either from the Standard Model ($a = (1-\rho^2/3)/(1+\rho^2)$ allowed, $-1/(2J+1)$ unique, 0 non-unique, where it is unknown without matrix elements), from a direct input, or from the four couplings:
+\begin{equation}
+a = \frac{(2 - x_S^2 - x_S'^2) - \frac{\rho^2}{3}(2 - x_T^2 - x_T'^2)}{(2 + x_S^2 + x_S'^2) + \rho^2(2 + x_T^2 + x_T'^2)}\ \ \text{(allowed)},\qquad
+a = -\frac{1}{2J+1}\,\frac{2 - x_T^2 - x_T'^2}{2 + x_T^2 + x_T'^2}\ \ \text{(unique)},
+\end{equation}
+with $x_S = C_S/C_V$, $x_S' = C_S'/C_V$, $x_T = C_T/C_A$, $x_T' = C_T'/C_A$ \cite{jtw,gm23}. Not included: Coulomb distortion of the angular distribution beyond the Jackson--Treiman--Wyld form, recoil-order terms (weak magnetism changes the recoil spectrum at the $10^{-3}$ level), neutrino masses, and the atomic and molecular binding that matters for recoils of a few eV.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{fig/b_recoil.pdf}
+\caption{Recoil spectra for \nuc{6}{He} (maximum \SI{1.41}{keV}) and \nuc{90}{Y} (maximum \SI{44.5}{eV}) for several values of $a$. The Standard Model values are $-1/3$ and $-1/5$.}
+\label{fig:recoil}
 \end{figure}
 
 \section{What the Beta tab outputs, and checks}
@@ -326,6 +349,9 @@ Fit the tritium endpoint region simulated by the explorer (all corrections, $m_\
 \end{exercise}
 \begin{exercise}[A]
 Verify the cancellation below \cref{eq:uniquecorr} for $J = 3$ and show that the weight $\langle q^4\rangle$ reproduces the second-unique shape of \cref{eq:unique} with $\lambda_n = 1$. Then argue from lepton partial waves why it must hold for all $J$.
+\end{exercise}
+\begin{exercise}[A]
+Show that for an allowed decay $\langle q^2\rangle_x = k^2 + \nu^2 + \tfrac23 a\beta k\nu$, and estimate how precisely the mean recoil energy of \nuc{6}{He} must be measured to detect a right-handed tensor coupling $C_T/C_A = -C_T'/C_A = 0.05$.
 \end{exercise}
 \begin{exercise}[R]
 \nuc{39}{Ar} ($7/2^-\to3/2^+$, $T_0 = \SI{565}{keV}$) is the dominant background in argon dark-matter detectors. Classify the transition, explain which spectral shape you would use, and discuss which of the corrections in \cref{tab:terms} matter for the background in the \SIrange{0}{100}{keV} region.

@@ -138,3 +138,11 @@ f, ax = plt.subplots(figsize=(W1, 2.4))
 ax.plot(D["cher_tot"]["T"], D["cher_tot"]["N"], color=C[6]); ax.set_xlabel("electron kinetic energy (keV)"); ax.set_ylabel("photons, 200–800 nm, water")
 save(f, "c_tot")
 print("figures in", OUT)
+
+f, axs = plt.subplots(1, 2, figsize=(W2, 2.5))
+for ax, key, lab, sc in [(axs[0], "he", "$^6$He (allowed GT)", 1.0), (axs[1], "y90", "$^{90}$Y (1st unique)", 1000.0)]:
+    for i, d in enumerate(D["recoil"][key]):
+        ax.plot(np.array(d["T"]) * sc, np.array(d["y"]) / sc, color=C[i], ls=["-", "--", ":"][i], label="a = %.3g (mean %.3g %s)" % (d["a"], d["mean"] * sc, "keV" if sc == 1 else "eV"))
+    ax.set_title(lab, fontsize=9); ax.set_xlabel("recoil kinetic energy (%s)" % ("keV" if sc == 1 else "eV")); ax.legend(fontsize=6.3)
+axs[0].set_ylabel("probability per unit energy")
+save(f, "b_recoil")

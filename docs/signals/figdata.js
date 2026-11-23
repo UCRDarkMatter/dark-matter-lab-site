@@ -84,4 +84,12 @@ const edges = {}, Zof = {}; Object.keys(XC).forEach(k => { edges[k] = XC[k].K; Z
   out.cher_tot = { T: Ts, N: Nt };
   out.stopE = { T: Ts, S: Ts.map(T => P.electronStopping(T, 0.5551, 75, 7.4)) };
 }
+{ // recoil spectra
+  const he = P.betaSpectrum({ Z: 3, A: 6, beta: -1, T0: 3505.2, rrms: 2.44, kind: 'A', rho: Infinity, corr: {}, n: 600 });
+  const r = a => P.betaRecoil(he, { a: a, kind: 'A' });
+  const y = P.betaSpectrum({ Z: 40, A: 90, beta: -1, T0: 2278.5, rrms: 4.27, kind: 'U', k: 1, rho: Infinity, corr: { lambda: true }, n: 600 });
+  const ru = a => P.betaRecoil(y, { a: a, kind: 'U', k: 1 });
+  out.recoil = { he: [-1/3, 1, 0].map(a => { const q = r(a); return { a: a, T: A(q.T), y: A(q.dNdT), mean: q.mean }; }),
+    y90: [-0.2, 0, 0.2].map(a => { const q = ru(a); return { a: a, T: A(q.T), y: A(q.dNdT), mean: q.mean }; }) };
+}
 process.stdout.write(JSON.stringify(out));

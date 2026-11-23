@@ -507,6 +507,60 @@
     if (!m) return null;
     return { J: m[2] ? +m[1] / +m[2] : +m[1], P: m[3], tentative: /[()]/.test(s) };
   }
+  // Jackson-Treiman-Wyld correlation coefficients from real couplings, normalised as x_S = C_S/C_V, x'_S = C'_S/C_V,
+  // x_T = C_T/C_A, x'_T = C'_T/C_A (Standard Model: C' = C, so x = x' = 0; left-handed new physics x' = x,
+  // right-handed x' = -x). Allowed: rho = C_A M_GT / (C_V M_F) weights Fermi and GT parts. Unique (J = k + 1): only
+  // axial operators, so only tensor couplings enter (Glick-Magid & Gazit, PRD 107, 075031, eqs. 30-33).
+  // Returns { a, b, xi } with b the Fierz coefficient (multiplies gamma/W) and a the coefficient of beta cos(theta_e-nu).
+  function correlations(o) {
+    var s = o.beta < 0 ? 1 : -1, xS = o.CS || 0, xSp = o.CSp || 0, xT = o.CT || 0, xTp = o.CTp || 0;
+    if (o.kind === 'U' || o.kind === 'NU') {
+      if (o.kind === 'NU') return { a: 0, b: 0, xi: 1, undefinedForNU: true };
+      var J = (o.k || 1) + 1, xiu = 2 + xT * xT + xTp * xTp;
+      return { a: -(2 - xT * xT - xTp * xTp) / xiu / (2 * J + 1), b: s * 2 * (xT + xTp) / xiu, xi: xiu, J: J };
+    }
+    var r2 = o.rho === Infinity ? 1e12 : (o.rho || 0) * (o.rho || 0);
+    var xi = (2 + xS * xS + xSp * xSp) + r2 * (2 + xT * xT + xTp * xTp);
+    return { a: ((2 - xS * xS - xSp * xSp) - r2 / 3 * (2 - xT * xT - xTp * xTp)) / xi,
+      b: s * 2 * ((xS + xSp) + r2 * (xT + xTp)) / xi, xi: xi, J: 1 };
+  }
+  // Recoil-nucleus kinetic-energy spectrum. For each electron energy the lepton opening angle x = cos(theta) follows
+  //   w(x) = q^(2(J-1)) [1 + a beta x - (J-1) a k nu beta (1 - x^2) / q^2],  q^2 = k^2 + nu^2 + 2 k nu x,
+  // (J = 1 allowed, J = k + 1 unique; Glick-Magid & Gazit eq. 30 with a = -A/(2J+1)), normalised over x and weighted
+  // by the electron spectrum spec (any corrections). T_R = q^2 / 2M. Massless neutrino; no recoil-order or Coulomb
+  // corrections to the correlation.
+  function betaRecoil(spec, o) {
+    var c = spec.ctx, M = c.M, W0 = c.W0, J = o.kind === 'U' ? (o.k || 1) + 1 : 1, a = o.a || 0;
+    var T = spec.T, y = spec.dNdT, n = T.length, dT = T[1] - T[0], nb = o.nbins || 240, nx = o.nx || 240;
+    var kmax = Math.sqrt(Math.pow(W0, 2) - 1), Rmax = 0;
+    for (var i = 0; i < n; i++) { var W = T[i] / ME + 1, k = Math.sqrt(W * W - 1); Rmax = Math.max(Rmax, Math.pow(k + W0 - W, 2) / (2 * M)); }
+    var h = new Float64Array(nb), TR = new Float64Array(nb), w = new Float64Array(nx), mean = 0;
+    for (var j = 0; j < nb; j++) TR[j] = (j + 0.5) / nb * Rmax * ME;
+    for (i = 0; i < n; i++) {
+      if (!(y[i] > 0)) continue;
+      var W = T[i] / ME + 1, k = Math.sqrt(W * W - 1), nu = W0 - W, be = k / W, sw = 0;
+      if (nu <= 0) continue;
+      for (var m = 0; m < nx; m++) {
+        var x = -1 + 2 * (m + 0.5) / nx, q2 = k * k + nu * nu + 2 * k * nu * x;
+        var v = Math.pow(q2, J - 1) * (1 + a * be * x - (J - 1) * a * k * nu * be * (1 - x * x) / q2);
+        w[m] = Math.max(v, 0); sw += w[m];
+      }
+      if (!(sw > 0)) continue;
+      for (m = 0; m < nx; m++) {        // T_R is linear in x: spread each x-cell over the bins it covers
+        var x1 = -1 + 2 * m / nx, x2 = x1 + 2 / nx, g = y[i] * dT * w[m] / sw;
+        var t1 = (k * k + nu * nu + 2 * k * nu * x1) / (2 * M) / Rmax * nb, t2 = (k * k + nu * nu + 2 * k * nu * x2) / (2 * M) / Rmax * nb;
+        mean += g * 0.5 * (t1 + t2) / nb * Rmax * ME;
+        if (t2 - t1 < 1e-12) { h[Math.min(nb - 1, Math.floor(t1))] += g; continue; }
+        for (var bb = Math.max(0, Math.floor(t1)); bb <= Math.min(nb - 1, Math.floor(t2)); bb++) {
+          var ov = Math.min(t2, bb + 1) - Math.max(t1, bb); if (ov > 0) h[bb] += g * ov / (t2 - t1);
+        }
+      }
+    }
+    var tot = 0; for (j = 0; j < nb; j++) tot += h[j];
+    var width = Rmax * ME / nb;
+    for (j = 0; j < nb; j++) h[j] = tot > 0 ? h[j] / tot / width : 0;
+    return { T: TR, dNdT: h, max: Rmax * ME, mean: tot > 0 ? mean / tot : 0, a: a, J: J };
+  }
   function fierzFromCouplings(rho, CS, CT, beta) {    // Hayen eq. 1 (couplings relative to C_V, C_A)
     return (beta < 0 ? 1 : -1) / (1 + rho * rho) * ((CS || 0) + rho * rho * (CT || 0));
   }
@@ -562,7 +616,7 @@
     nucMass: nucMass, alphaKinematics: alphaKinematics, boostRange: boostRange, anKinematics: anKinematics, stoppingAt: stoppingAt, alphaNSpectrum: alphaNSpectrum,
     betaContext: betaContext, F0: F0, L0: L0, U: Ucorr, shapeVector: shapeVector, shapeAxial: shapeAxial, RN: RN, Q: Qcorr, gSirlin: gSirlin,
     radiative: radiative, screening: screening, exchange: exchange, mismatch: mismatch, lambdaK: lambdaK, betaSpectrum: betaSpectrum,
-    forbiddenness: forbiddenness, parseJP: parseJP, fierzFromCouplings: fierzFromCouplings, setExchange: function (t) { EXCH = t; },
+    forbiddenness: forbiddenness, parseJP: parseJP, fierzFromCouplings: fierzFromCouplings, correlations: correlations, betaRecoil: betaRecoil, setExchange: function (t) { EXCH = t; },
     L0E: L0E, L0P: L0P, sellmeier: sellmeier, electronStopping: electronStopping, cherenkovTable: cherenkovTable, cherenkovFromSpectrum: cherenkovFromSpectrum
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.SignalPhysics = api;
