@@ -207,3 +207,24 @@ for el in B C N O F Na Mg Al Si P K Ca Ti Cr Mn Fe Ni Cu; do
 done
 python3 tools/gamma/alpha.py extract /tmp/talys tools/gamma/alpha_xs.json
 ```
+
+## Radioactive Signal Explorer (beta)
+
+`Signals.html` with `assets/signals.js` (interface), `assets/signals-physics.js` (all physics; loads in Node for tests),
+`assets/signals-exchange.js` (atomic-exchange fit table) and `assets/signals-code.js` (exports a beta spectrum as stand-alone
+Python or C++). Five tabs:
+
+- **Gamma rays**: energy deposited by one interaction: Klein–Nishina continuum, full-energy and K X-ray escape peaks,
+  pair-production escape peaks and the Bethe–Heitler positron spectrum, weighted by NIST XCOM partial cross sections.
+- **Alpha decay**: exact two-body kinematics for every ENSDF alpha branch, alpha and recoil spectra.
+- **(α,n) neutrons**: the NeuCBOT method (TALYS-1.95 data, SRIM stopping powers, thick-target integration) with level-resolved
+  partial spectra from two-body kinematics; the TALYS neutron spectra NeuCBOT integrates are shown for comparison.
+- **Beta decay**: allowed and unique/non-unique forbidden shapes with the corrections of Hayen et al., Rev. Mod. Phys. 90
+  (2018) 015008 (F0, L0, U, C with weak magnetism, radiative to O(Z²α³), recoil, screening, exchange, mismatch), Coulomb
+  functions λk, Fierz term, neutrino mass and sterile admixture; selection rules from ENSDF transition types and level spins.
+- **Cherenkov light**: Frank–Tamm yield along the slowing-down electron for the beta or gamma-electron spectra.
+
+Data (`data/signals/`) are built by `tools/signals/build_signals.py LIVECHART SIGNALS` from the `gamma-data` branch (ENSDF via
+IAEA LiveChart, fetched by `.github/workflows/gamma-data.yml`) and the `signals-data` branch (NIST XCOM and daughter level
+schemes, fetched by `.github/workflows/signals-data.yml` with `tools/signals/fetch_xcom.py` and `fetch_levels.py`).
+`tools/signals/alphan.py` extracts the (α,n) files from the NeuCBOT TALYS datasets.

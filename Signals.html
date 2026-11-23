@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radioactive Signal Explorer (beta) · Dark Matter and Neutrino Lab</title>
+<meta name="description" content="Spectra of radioactive signals: gamma interactions in a detector, alpha decay and nuclear recoils, (alpha,n) neutrons by final state, precise beta spectra with radiative, atomic and BSM corrections, and the Cherenkov light they produce.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261123e">
+<link rel="stylesheet" href="assets/signals.css?v=20261123e">
+</head>
+<body>
+<script src="assets/site.js?v=20261123e"></script><!-- writes the header, menu and footer -->
+<main id="main">
+  <div class="wrap page-title">
+    <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
+    <p class="lede">What does a radioactive decay actually put into a detector? Pick a nuclide or enter the physics directly, and get
+      the spectrum, the formula behind it, and the numbers as a CSV file: gamma interactions, alpha particles and nuclear recoils,
+      (α,n) neutrons by final state, precise beta spectra, and the Cherenkov light they make.</p>
+  </div>
+
+  <div class="wrap sx">
+    <div class="sx-tabs" role="tablist">
+      <button role="tab" id="tab-gamma" aria-controls="panel-gamma" aria-selected="true">Gamma rays</button>
+      <button role="tab" id="tab-alpha" aria-controls="panel-alpha" aria-selected="false">Alpha decay</button>
+      <button role="tab" id="tab-an" aria-controls="panel-an" aria-selected="false">(α,n) neutrons</button>
+      <button role="tab" id="tab-beta" aria-controls="panel-beta" aria-selected="false">Beta decay</button>
+      <button role="tab" id="tab-cher" aria-controls="panel-cher" aria-selected="false">Cherenkov light</button>
+    </div>
+
+    <!-- ============================================================ GAMMA -->
+    <section role="tabpanel" id="panel-gamma" aria-labelledby="tab-gamma">
+      <div class="sx-layout">
+        <form class="sx-controls" id="g-form" onsubmit="return false">
+          <fieldset><legend>Source</legend>
+            <div class="sx-seg" role="radiogroup" aria-label="Source">
+              <label><input type="radio" name="g-src" value="nuc" checked> Nuclide</label>
+              <label><input type="radio" name="g-src" value="e"> Gamma energy</label>
+            </div>
+            <label class="sx-field" id="g-nuc-wrap">Nuclide <input type="search" id="g-nuc" list="g-nuc-list" value="137Cs" autocomplete="off" placeholder="e.g. 60Co, 40K, 208Tl"></label>
+            <datalist id="g-nuc-list"></datalist>
+            <label class="sx-field" id="g-line-wrap">Line <select id="g-line"></select></label>
+            <label class="sx-field" id="g-e-wrap" hidden>Energy <span class="sx-unit"><input type="number" id="g-e" value="1460.8" min="1" max="20000" step="any"> keV</span></label>
+          </fieldset>
+          <fieldset><legend>Detector</legend>
+            <label class="sx-field">Material <select id="g-mat"></select></label>
+            <label class="sx-field">Resolution (FWHM at 662 keV) <span class="sx-unit"><input type="number" id="g-fwhm" value="0" min="0" step="any"> keV</span></label>
+            <label class="sx-field">Secondary photons escape
+              <span class="sx-range"><input type="range" id="g-esc" min="0" max="1" step="0.01" value="1"><output id="g-esc-o">100%</output></span></label>
+            <p class="sx-note">100% describes a single interaction in a thin detector (scattered photons, X-rays and annihilation photons all leave); 0% a detector large enough to absorb them all.</p>
+          </fieldset>
+          <fieldset><legend>Plot</legend>
+            <label class="sx-check"><input type="checkbox" id="g-log" checked> Log scale</label>
+          </fieldset>
+        </form>
+        <div class="sx-output">
+          <div class="sx-plot"><canvas id="g-plot" role="img" aria-label="Energy deposited by one gamma interaction"></canvas><div class="sx-legend" id="g-legend"></div></div>
+          <div class="sx-actions"><button type="button" class="btn" id="g-csv">Download CSV</button></div>
+          <div id="g-out" class="sx-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ ALPHA -->
+    <section role="tabpanel" id="panel-alpha" aria-labelledby="tab-alpha" hidden>
+      <div class="sx-layout">
+        <form class="sx-controls" id="a-form" onsubmit="return false">
+          <fieldset><legend>Decay</legend>
+            <label class="sx-field">Parent nuclide <input type="search" id="a-nuc" list="a-nuc-list" value="241Am" autocomplete="off"></label>
+            <datalist id="a-nuc-list"></datalist>
+            <label class="sx-field">Q value <span class="sx-unit"><input type="number" id="a-q" step="any"> keV</span></label>
+            <p class="sx-note" id="a-q-note"></p>
+            <label class="sx-check"><input type="checkbox" id="a-levels" checked> Include decays to excited states (ENSDF intensities)</label>
+          </fieldset>
+          <fieldset><legend>Plot</legend>
+            <label class="sx-field">Alpha resolution (FWHM) <span class="sx-unit"><input type="number" id="a-fwhm" value="15" min="0" step="any"> keV</span></label>
+            <label class="sx-field">Recoil resolution (FWHM) <span class="sx-unit"><input type="number" id="a-rfwhm" value="2" min="0" step="any"> keV</span></label>
+            <label class="sx-check"><input type="checkbox" id="a-log"> Log scale</label>
+          </fieldset>
+        </form>
+        <div class="sx-output">
+          <div class="sx-plot"><canvas id="a-plot" role="img" aria-label="Alpha particle energy spectrum"></canvas><div class="sx-legend" id="a-legend"></div></div>
+          <div class="sx-plot"><canvas id="a-plot2" role="img" aria-label="Nuclear recoil energy spectrum"></canvas></div>
+          <div class="sx-actions"><button type="button" class="btn" id="a-csv">Download CSV</button></div>
+          <div id="a-out" class="sx-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ (alpha,n) -->
+    <section role="tabpanel" id="panel-an" aria-labelledby="tab-an" hidden>
+      <div class="sx-layout">
+        <form class="sx-controls" id="n-form" onsubmit="return false">
+          <fieldset><legend>Medium</legend>
+            <label class="sx-field">Material <select id="n-mat"></select></label>
+            <label class="sx-field" id="n-custom-wrap" hidden>Composition (mass fractions)
+              <input type="text" id="n-custom" value="C 0.5, O 0.3, F 0.2" spellcheck="false"></label>
+            <p class="sx-note" id="n-mat-note"></p>
+          </fieldset>
+          <fieldset><legend>Alphas</legend>
+            <div class="sx-seg" role="radiogroup" aria-label="Alpha source">
+              <label><input type="radio" name="n-src" value="e" checked> Energy</label>
+              <label><input type="radio" name="n-src" value="nuc"> Emitter</label>
+              <label><input type="radio" name="n-src" value="chain"> Chain</label>
+            </div>
+            <label class="sx-field" id="n-e-wrap">Alpha energy <span class="sx-unit"><input type="number" id="n-e" value="5.304" min="0.1" max="10" step="any"> MeV</span></label>
+            <label class="sx-field" id="n-nuc-wrap" hidden>Alpha emitter <input type="search" id="n-nuc" list="a-nuc-list" value="210Po" autocomplete="off"></label>
+            <label class="sx-field" id="n-chain-wrap" hidden>Chain in secular equilibrium <select id="n-chain"></select></label>
+            <div class="sx-seg" role="radiogroup" aria-label="Target thickness">
+              <label><input type="radio" name="n-thick" value="thick" checked> Thick target (alpha stops)</label>
+              <label><input type="radio" name="n-thick" value="thin"> Thin target</label>
+            </div>
+            <label class="sx-field" id="n-areal-wrap" hidden>Areal density <span class="sx-unit"><input type="number" id="n-areal" value="1e-3" min="0" step="any"> g/cm²</span></label>
+          </fieldset>
+          <fieldset><legend>Plot</legend>
+            <label class="sx-field">Final states shown <input type="number" id="n-nparts" value="8" min="1" max="30"></label>
+            <label class="sx-check"><input type="checkbox" id="n-log"> Log scale</label>
+          </fieldset>
+        </form>
+        <div class="sx-output">
+          <div class="sx-plot"><canvas id="n-plot" role="img" aria-label="Neutron energy spectrum by final state"></canvas><div class="sx-legend" id="n-legend"></div></div>
+          <div class="sx-actions"><button type="button" class="btn" id="n-csv">Download CSV</button> <span class="sx-status" id="n-status" aria-live="polite"></span></div>
+          <div id="n-out" class="sx-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ BETA -->
+    <section role="tabpanel" id="panel-beta" aria-labelledby="tab-beta" hidden>
+      <div class="sx-layout">
+        <form class="sx-controls" id="b-form" onsubmit="return false">
+          <fieldset><legend>Decay</legend>
+            <label class="sx-field">Parent nuclide <input type="search" id="b-nuc" list="b-nuc-list" value="90Y" autocomplete="off"></label>
+            <datalist id="b-nuc-list"></datalist>
+            <label class="sx-field">Branch <select id="b-branch"></select></label>
+            <p class="sx-note" id="b-rule"></p>
+          </fieldset>
+          <fieldset id="b-params"><legend>Transition</legend>
+            <div class="sx-grid2">
+              <label>Endpoint <span class="sx-unit"><input type="number" id="b-t0" step="any"> keV</span></label>
+              <label>Decay <select id="b-sign"><option value="-1">β⁻</option><option value="1">β⁺</option></select></label>
+              <label>Daughter Z <input type="number" id="b-z" min="1" max="110" step="1"></label>
+              <label>A <input type="number" id="b-a" min="1" max="300" step="1"></label>
+              <label>Charge radius (rms) <span class="sx-unit"><input type="number" id="b-r" step="any"> fm</span></label>
+              <label>Type <select id="b-kind"><option value="A">Allowed</option><option value="U">Unique forbidden</option><option value="NU">Non-unique forbidden</option></select></label>
+              <label id="b-k-wrap">Order k <input type="number" id="b-k" min="1" max="6" step="1" value="1"></label>
+              <label id="b-rho-wrap" title="ρ = C_A M_GT / (C_V M_F); 0 = pure Fermi, ∞ = pure Gamow–Teller">Mixing ρ <input type="text" id="b-rho" value="inf"></label>
+              <label title="Weak magnetism form factor b/(A c), Holstein; about 5 in the impulse approximation">b/Ac <input type="number" id="b-bac" step="any" value="5"></label>
+              <label title="Induced tensor (second-class) d/(A c); zero for mirror decays">d/Ac <input type="number" id="b-dac" step="any" value="0"></label>
+              <label title="Λ: ratio of the M121 and M101 matrix elements (Hayen et al. eq. 107)">Λ <input type="number" id="b-lam" step="any" value="0"></label>
+            </div>
+            <details class="sx-more"><summary>Empirical shape factor C(W) = 1 + aW + b/W + cW²</summary>
+              <div class="sx-grid2"><label>a <input type="number" id="b-sa" step="any" value="0"></label><label>b <input type="number" id="b-sb" step="any" value="0"></label><label>c <input type="number" id="b-sc" step="any" value="0"></label></div>
+              <p class="sx-note">W in units of mₑc². Use for non-unique forbidden decays with a measured shape (the default is the ξ approximation, C = 1).</p></details>
+          </fieldset>
+          <fieldset><legend>Corrections</legend>
+            <div class="sx-checks" id="b-corr"></div>
+          </fieldset>
+          <fieldset><legend>Beyond the Standard Model</legend>
+            <div class="sx-grid2">
+              <label title="Fierz interference term b_F">Fierz b <input type="number" id="b-fierz" step="any" value="0"></label>
+              <label title="Effective electron-antineutrino mass">m<sub>ν</sub> <span class="sx-unit"><input type="number" id="b-mnu" step="any" value="0" min="0"> eV</span></label>
+              <label>Sterile ν mass <span class="sx-unit"><input type="number" id="b-ms" step="any" value="0" min="0"> keV</span></label>
+              <label>Mixing |U<sub>e4</sub>|² <input type="number" id="b-u2" step="any" value="0" min="0" max="1"></label>
+            </div>
+            <details class="sx-more"><summary>Fierz term from scalar and tensor couplings</summary>
+              <div class="sx-grid2"><label>(C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub> <input type="number" id="b-cs" step="any" value="0"></label>
+                <label>(C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub> <input type="number" id="b-ct" step="any" value="0"></label></div>
+              <button type="button" class="btn sx-small-btn" id="b-fierz-calc">Set Fierz b from these</button>
+              <p class="sx-note">b<sub>F</sub> = ±[Re((C<sub>S</sub>+C′<sub>S</sub>)/C<sub>V</sub>) + ρ² Re((C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>)]/(1+ρ²), upper sign for β⁻ (Jackson, Treiman &amp; Wyld 1957).</p></details>
+          </fieldset>
+          <fieldset><legend>Plot</legend>
+            <label class="sx-check"><input type="checkbox" id="b-log"> Log scale</label>
+            <label class="sx-check"><input type="checkbox" id="b-ref" checked> Compare with no corrections (F₀ only)</label>
+            <label class="sx-check"><input type="checkbox" id="b-kurie"> Kurie plot</label>
+          </fieldset>
+        </form>
+        <div class="sx-output">
+          <div class="sx-plot"><canvas id="b-plot" role="img" aria-label="Beta energy spectrum"></canvas><div class="sx-legend" id="b-legend"></div></div>
+          <div class="sx-plot"><canvas id="b-plot2" role="img" aria-label="Correction factors versus energy"></canvas><div class="sx-legend" id="b-legend2"></div></div>
+          <div class="sx-actions"><button type="button" class="btn" id="b-csv">Download CSV</button>
+            <button type="button" class="btn" id="b-py">Python code</button> <button type="button" class="btn" id="b-cpp">C++ code</button></div>
+          <div id="b-code-wrap" hidden><pre class="sx-code"><code id="b-code"></code></pre><button type="button" class="btn sx-small-btn" id="b-copy">Copy</button></div>
+          <div id="b-out" class="sx-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ CHERENKOV -->
+    <section role="tabpanel" id="panel-cher" aria-labelledby="tab-cher" hidden>
+      <div class="sx-layout">
+        <form class="sx-controls" id="c-form" onsubmit="return false">
+          <fieldset><legend>Charged particles</legend>
+            <div class="sx-seg sx-seg-col" role="radiogroup" aria-label="Electron source">
+              <label><input type="radio" name="c-src" value="beta" checked> Beta spectrum from the Beta tab</label>
+              <label><input type="radio" name="c-src" value="gamma"> Electrons from the Gamma tab</label>
+              <label><input type="radio" name="c-src" value="mono"> Single electron energy</label>
+            </div>
+            <label class="sx-field" id="c-e-wrap" hidden>Electron energy <span class="sx-unit"><input type="number" id="c-e" value="1000" min="1" step="any"> keV</span></label>
+            <p class="sx-note" id="c-src-note"></p>
+          </fieldset>
+          <fieldset><legend>Medium</legend>
+            <div class="sx-seg sx-seg-col" role="radiogroup" aria-label="Refractive index">
+              <label><input type="radio" name="c-n" value="mat" checked> Known material</label>
+              <label><input type="radio" name="c-n" value="const"> Constant index</label>
+              <label><input type="radio" name="c-n" value="sell"> Sellmeier coefficients</label>
+            </div>
+            <label class="sx-field" id="c-mat-wrap">Material <select id="c-mat"></select></label>
+            <label class="sx-field" id="c-const-wrap" hidden>n <input type="number" id="c-const" value="1.33" min="1" step="any"></label>
+            <div id="c-sell-wrap" hidden>
+              <p class="sx-note">n² = 1 + Σ Bᵢ λ² / (λ² − Cᵢ), λ in µm, Cᵢ in µm².</p>
+              <div class="sx-grid3">
+                <label>B₁ <input type="number" id="c-b1" step="any" value="0.6961663"></label><label>B₂ <input type="number" id="c-b2" step="any" value="0.4079426"></label><label>B₃ <input type="number" id="c-b3" step="any" value="0.8974794"></label>
+                <label>C₁ <input type="number" id="c-c1" step="any" value="0.00467914826"></label><label>C₂ <input type="number" id="c-c2" step="any" value="0.0135120631"></label><label>C₃ <input type="number" id="c-c3" step="any" value="97.9340025"></label>
+              </div>
+            </div>
+            <details class="sx-more" id="c-stop"><summary>Stopping power of the medium</summary>
+              <div class="sx-grid3"><label>ρ (g/cm³) <input type="number" id="c-rho" step="any" value="1"></label><label>Z/A <input type="number" id="c-za" step="any" value="0.5551"></label><label>I (eV) <input type="number" id="c-i" step="any" value="75"></label></div>
+              <p class="sx-note">Used to follow the electron as it slows down. Filled in for known materials.</p></details>
+          </fieldset>
+          <fieldset><legend>Wavelengths</legend>
+            <div class="sx-grid2"><label>From <span class="sx-unit"><input type="number" id="c-l0" value="200" min="100" step="any"> nm</span></label><label>to <span class="sx-unit"><input type="number" id="c-l1" value="700" min="110" step="any"> nm</span></label></div>
+          </fieldset>
+        </form>
+        <div class="sx-output">
+          <div class="sx-plot"><canvas id="c-plot" role="img" aria-label="Cherenkov photon wavelength spectrum"></canvas><div class="sx-legend" id="c-legend"></div></div>
+          <div class="sx-plot"><canvas id="c-plot2" role="img" aria-label="Refractive index versus wavelength"></canvas></div>
+          <div class="sx-actions"><button type="button" class="btn" id="c-csv">Download CSV</button></div>
+          <div id="c-out" class="sx-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sx-about">
+      <h2>About the data and methods</h2>
+      <p>Decay data: ENSDF via the IAEA LiveChart of Nuclides. Photon cross sections: NIST XCOM (Berger et al., SRD 8). (α,n): the
+        <a href="https://github.com/shawest/neucbot">NeuCBOT</a> method and datasets (TALYS-1.95 cross sections and neutron spectra, SRIM stopping powers;
+        Westerdale &amp; Meyers, NIM A 875 (2017) 57). Beta spectra: the corrections reviewed by Hayen <i>et al.</i>, Rev. Mod. Phys. 90 (2018) 015008,
+        with unique-forbidden shapes and Coulomb functions after Behrens &amp; Bühring. Each tab lists what it includes and leaves out.
+        Source code: <a href="https://github.com/UCRDarkMatter/dark-matter-lab-site/blob/main/assets/signals-physics.js">assets/signals-physics.js</a>.</p>
+    </aside>
+  </div>
+</main>
+<script src="assets/signals-physics.js?v=20261123e"></script>
+<script src="assets/signals-exchange.js?v=20261123e"></script>
+<script src="assets/signals-code.js?v=20261123e"></script>
+<script src="assets/signals.js?v=20261123e"></script>
+</body>
+</html>

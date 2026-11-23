@@ -9,6 +9,13 @@
    "siteLabel": "Open the explorer"
   },
   {
+   "name": "Radioactive Signal Explorer",
+   "beta": true,
+   "site": "Signals.html",
+   "text": "Spectra of radioactive signals: gamma interactions in a detector, alpha decay and nuclear recoils, (α,n) neutrons by final state (NeuCBOT method), precise beta spectra with radiative, atomic and BSM corrections, and Cherenkov light.",
+   "siteLabel": "Open the explorer"
+  },
+  {
    "name": "NeuCBOT",
    "repo": "shawest/neucbot",
    "url": "https://github.com/shawest/neucbot",
