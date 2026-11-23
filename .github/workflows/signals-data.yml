@@ -5,7 +5,7 @@ name: Fetch signal data
 on:
   push:
     branches: [main]
-    paths: [tools/signals/fetch_xcom.py, tools/signals/fetch_levels.py, .github/workflows/signals-data.yml]
+    paths: [tools/signals/fetch_xcom.py, tools/signals/fetch_levels.py, tools/signals/fetch_extra.py, .github/workflows/signals-data.yml]
   workflow_dispatch:
 
 permissions:
@@ -21,6 +21,8 @@ jobs:
         run: python3 tools/signals/fetch_xcom.py /tmp/signals/xcom
       - name: Download level schemes of beta-decay daughters (IAEA LiveChart)
         run: python3 tools/signals/fetch_levels.py /tmp/signals
+      - name: Download short-lived beta emitters (6He, 8Li, 8B ...)
+        run: python3 tools/signals/fetch_extra.py /tmp/signals
       - name: Commit to the signals-data branch
         run: |
           git config user.name "github-actions[bot]"
