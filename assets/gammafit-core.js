@@ -380,6 +380,8 @@
       if (!improved || Math.abs(cur.objPrev - cur.obj) < 0.05) break;
       cur.objPrev = cur.obj;
     }
+    // only a^2 enters the resolution: a and -a fit equally well, and |a| is never further from a non-negative prior
+    if (p.a < 0 && !(o.params.a && o.params.a.value < 0)) p.a = -p.a;
     cur = this.objective(p, srcs, cur.x, 400);
     cur.p = p;
     this.p = p;

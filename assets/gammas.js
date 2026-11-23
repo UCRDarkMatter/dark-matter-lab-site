@@ -1343,6 +1343,14 @@
   }
   var ELEMENTS = ('H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba ' +
     'La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm').split(' ');
+  // members whose gammas are strong enough to show up in a detector or an assay: some line above 40 keV with at
+  // least 0.5 gammas per 100 decays of the chain parent (intensity x relative activity); annihilation radiation does not count
+  function keyGamma(m) {
+    if (m.stable || !m.gammas) return null;
+    var best = null;
+    m.gammas.forEach(function (g) { var y = g[1] * (m.af || 0); if (g[0] >= 40 && Math.abs(g[0] - 511) > 0.2 && y >= 0.5 && (!best || y > best[1])) best = [g[0], y];   // not the annihilation line });
+    return best;
+  }
   function chainDiagram(c, onPick) {
     var NS = 'http://www.w3.org/2000/svg', mk = function (t, a, txt) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
     var za = function (n) { var m = /^(\d+)(m?)([A-Z][a-z]?)$/.exec(n); return { A: +m[1], iso: !!m[2], sym: m[3] }; };
@@ -1395,12 +1403,12 @@
       gL.appendChild(t);
     });
     Object.keys(nodes).forEach(function (n) {
-      var d = nodes[n], m = d.m, g = mk('g', { 'class': 'gx-dnode' + (m.stable ? ' stable' : ''), tabindex: 0, role: 'button',
-        'aria-label': m.name + (m.stable ? ', stable' : ', half-life ' + hlText(m.hl) + ', relative activity ' + afText(m.af)) });
+      var d = nodes[n], m = d.m, kg = keyGamma(m), g = mk('g', { 'class': 'gx-dnode' + (m.stable ? ' stable' : '') + (kg ? ' key' : ''), tabindex: 0, role: 'button',
+        'aria-label': m.name + (m.stable ? ', stable' : ', half-life ' + hlText(m.hl) + ', relative activity ' + afText(m.af)) + (kg ? ', strong gamma at ' + fmt(kg[0], 1) + ' keV' : '') });
       g.appendChild(mk('rect', { x: d.x - W / 2, y: d.y - H / 2, width: W, height: H, rx: 6 }));
       g.appendChild(mk('text', { x: d.x, y: d.y - 3, 'text-anchor': 'middle', 'class': 'gx-dname' }, m.name));
       g.appendChild(mk('text', { x: d.x, y: d.y + 13, 'text-anchor': 'middle', 'class': 'gx-dhl' }, m.stable ? (m.hl ? hlShort(m.hl) + ' (stable)' : 'stable') : hlShort(m.hl)));
-      g.appendChild(mk('title', {}, m.name + (m.stable ? ' (stable)' : ' · T½ ' + hlText(m.hl).replace(/<[^>]+>/g, '') + ' · relative activity ' + afText(m.af))));
+      g.appendChild(mk('title', {}, m.name + (m.stable ? ' (stable)' : ' · T½ ' + hlText(m.hl).replace(/<[^>]+>/g, '') + ' · relative activity ' + afText(m.af)) + (kg ? ' · strongest gamma ' + fmt(kg[0], 1) + ' keV, ' + (+kg[1].toPrecision(3)) + ' per 100 parent decays' : '')));
       var pick = function () { onPick(n); };
       g.addEventListener('click', pick); g.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); } });
       gN.appendChild(g);
@@ -1421,11 +1429,11 @@
         var d = li.querySelector('details'); if (d) d.open = true;
         li.scrollIntoView({ behavior: 'smooth', block: 'start' }); li.classList.add('flash'); setTimeout(function () { li.classList.remove('flash'); }, 1600);
       }));
-      out.appendChild(el('p', 'gx-small', 'Each row is one mass number A. α decays point straight down (A − 4), β⁻ decays one step to the right and EC/β⁺ one step to the left (same A), so a nuclide with two arrows leaving it is a branch point. Arrows give the decay mode and, where a nuclide branches, the percentage of its decays that take that path; dashed arrows are branches below 1%. Select a nuclide for its details below.'));
+      out.appendChild(el('p', 'gx-small', 'Each row is one mass number A. α decays point straight down (A − 4), β⁻ decays one step to the right and EC/β⁺ one step to the left (same A), so a nuclide with two arrows leaving it is a branch point. Arrows give the decay mode and, where a nuclide branches, the percentage of its decays that take that path; dashed arrows are branches below 1%. Nuclides in bold emit a gamma line above 40 keV with at least 0.5 gammas per 100 decays of the chain parent: these are the ones likely to show up in a detector spectrum or in HPGe assay data. Select a nuclide for its details below.'));
     }
     var list = el('ol', 'gx-chain');
     c.members.forEach(function (m, idx) {
-      var li = el('li', 'gx-cmember' + (m.stable ? ' stable' : '')); li.id = 'cm-' + m.nuc;
+      var li = el('li', 'gx-cmember' + (m.stable ? ' stable' : '') + (keyGamma(m) ? ' key' : '')); li.id = 'cm-' + m.nuc;
       var head = el('div', 'gx-chead');
       var nm = el('span', 'gx-cnuc'); nm.innerHTML = m.name;
       if (!m.stable && (BYID[m.id])) { var a = srcLink(m.id); a.innerHTML = m.name; nm.innerHTML = ''; nm.appendChild(a); }

@@ -147,7 +147,9 @@
 .gx-dnode.stable rect { fill: var(--surface); stroke: var(--grey); stroke-dasharray: 4 3; }
 .gx-dnode:hover rect, .gx-dnode:focus rect { stroke-width: 3; }
 .gx-dnode:focus { outline: none; }
-.gx-dname { font-size: 15px; font-weight: 600; fill: var(--ink); }
+.gx-dname { font-size: 15px; font-weight: 400; fill: var(--ink); }
+.gx-dnode.key .gx-dname { font-weight: 800; }
+.gx-dnode.key rect { stroke-width: 2.6; }
 .gx-dhl { font-size: 11px; fill: var(--muted); }
 .gx-edge { stroke-width: 2; fill: none; }
 .gx-edge.minor { stroke-width: 1.4; stroke-dasharray: 5 4; }
@@ -157,3 +159,6 @@
 .gx-e-it { stroke: var(--muted); } .gx-ahead.gx-e-it { fill: var(--muted); stroke: none; }
 .gx-elabel { font-size: 12px; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .gx-cmember.flash { outline: 2px solid var(--blue); outline-offset: 2px; transition: outline-color 1s; }
+
+.gx-cmember .gx-cnuc { font-weight: 400; }
+.gx-cmember.key .gx-cnuc { font-weight: 800; }
