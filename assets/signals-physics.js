@@ -242,7 +242,7 @@
           var sp = pair[0], f = pair[1]; if (!sp || sp.length < 2 || f <= 0) return;
           var sum = 0; for (var q = 1; q < sp.length; q++) sum += sp[q] * de;
           if (sum <= 0) return;
-          var sig = xsAt(d.total, E), scale = weight * f * sig / sum;   // renormalise the shape to sigma_total(E)
+          var sig = xsAt(d.total, E), scale = o.rawTalys ? weight * f : weight * f * sig / sum;   // renormalise the shape to sigma_total(E) (rawTalys: as NeuCBOT, unrenormalised)
           for (q = 1; q < sp.length; q++) {   // spread each TALYS bin over the output bins it overlaps
             var Ec = e0 + (sp[0] + q - 1) * de, lo = Ec - de / 2, hi = Ec + de / 2;
             for (var b = Math.max(0, Math.floor(lo / dEn)); b <= Math.min(nb - 1, Math.floor(hi / dEn)); b++) {

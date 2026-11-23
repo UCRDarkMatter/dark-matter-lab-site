@@ -61,7 +61,7 @@ def extract(root, dest):
             tdir = os.path.join(base, iso, "TalysOut")
             Q = MT = None; lev = {}; tab = {}; totals = []
             for i, E in enumerate(GRID):
-                p = os.path.join(tdir, "outputE%g" % E)
+                p = os.path.join(tdir, "outputE" + str(round(E, 2)))
                 if not os.path.exists(p):
                     totals.append(0.0); continue
                 q, mt, tot, trans, levels = parse(p, res)

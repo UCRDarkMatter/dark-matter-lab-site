@@ -62,7 +62,7 @@ def extract(root, dest, min_mb=2e-3):
                 continue
             table = {}
             for i, E in enumerate(GRID):
-                p = os.path.join(tdir, "outputE%g" % E)
+                p = os.path.join(tdir, "outputE" + str(round(E, 2)))
                 if not os.path.exists(p):
                     continue
                 for k, xs in parse_output(p).items():
