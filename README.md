@@ -167,6 +167,16 @@ Notes
    python3 tools/gamma/build_gamma_data.py /tmp/lc/livechart /tmp/CASCADE/Supplemental/LevelStructureTXTs
    ```
 3. Commit `data/gamma/`. Curated context (where sources appear, tests, cosmogenics by material, reactions) lives in `tools/gamma/curation.py`.
+   The build also writes `data/gamma/chains.json` for the **Decay chains** tab (`tools/gamma/chains.py`: chains followed
+   through ENSDF decay modes, with alpha/beta spectra, gamma levels, multipolarities, conversion coefficients and
+   coincidences).
+
+**Spectrum fit.** The **Fit a spectrum** tab uses `assets/gammafit-core.js`, which runs in a Web Worker (and in Node,
+for tests). It fits every channel with smooth B-spline background + one template per candidate source (lines × relative
+efficiency × detector response), with Gaussian priors on the response parameters (calibration, resolution, efficiency
+shape, HPGe step/escape peaks, or a Klein–Nishina Compton model for scintillators). Amplitudes are solved by Poisson
+MLEM, response parameters by Levenberg–Marquardt, sources chosen by backward elimination with a prior-dependent
+threshold. `GammasGuide.html` explains it all for users.
 
 Ranking uses expected rates per kilogram (see "How candidates are ranked" on the page). Material compositions and typical activities are in
 `tools/gamma/materials.py`; the activities come from `tools/gamma/radiopurity_summary.json`, medians of the radiopurity.org assay records

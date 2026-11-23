@@ -140,7 +140,7 @@ def decay_sources(lc, gs):
             d = by_parent.setdefault(name, {"lines": [], "hl": fnum(r.get("p_half_life_sec") or r.get("half_life_sec")), "lev": {}})
             if sub == "decay" and "ref" not in d:
                 d["ref"] = ensdf_ref(r, "Decay data")
-            is_x = sub == "xray"
+            is_x = sub == "xray" or (fnum(r.get("start_level_energy")) is None and e < 120)   # unplaced low-energy lines: L X-rays
             d["lines"].append([round(e, 3), i, "x" if is_x else "", fnum(r.get("start_level_energy")), fnum(r.get("end_level_energy")), (r.get("decay") or "").strip()])
         for name, d in by_parent.items():
             if name in src:
@@ -613,3 +613,6 @@ def main(lc, levels_dir):
 
 if __name__ == "__main__":
     main(sys.argv[1], sys.argv[2])
+    import chains                                        # data/gamma/chains.json for the Decay chains tab
+    path, built = chains.build(sys.argv[1])
+    print("chains.json: %d chains, %d bytes" % (len(built), os.path.getsize(path)))

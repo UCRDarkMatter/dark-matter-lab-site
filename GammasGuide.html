@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the Gamma Line Explorer works · Dark Matter and Neutrino Lab</title>
+<meta name="description" content="How the Gamma Line Explorer ranks candidate gamma sources, fits measured spectra with a detector response and Compton model, and shows decay chains.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261114">
+<link rel="stylesheet" href="assets/gammas.css?v=20261123a">
+<style>
+  .guide { max-width: 50rem; line-height: 1.65; }
+  .guide h2 { font-size: 1.6rem; margin: 2.4rem 0 .6rem; }
+  .guide h3 { font-size: 1.15rem; margin: 1.6rem 0 .4rem; }
+  .guide .eq { font-family: "Roboto Mono", monospace; font-size: .95rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: .7rem 1rem; overflow-x: auto; margin: .6rem 0 1rem; white-space: pre; }
+  .guide .toc { border-left: 3px solid var(--blue); padding: .2rem 0 .2rem 1rem; margin: 1rem 0 1.5rem; }
+  .guide .toc li { margin: .15rem 0; }
+  .guide figure { margin: 1.2rem 0 1.6rem; }
+  .guide figcaption { font-size: .9rem; color: var(--muted); margin-top: .4rem; }
+  .rf-controls { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: .4rem 1.5rem; font-size: .9rem; margin: .6rem 0; }
+  .rf-controls label { display: grid; grid-template-columns: 9.5rem minmax(6rem, 1fr) 4.5rem; align-items: center; gap: .5rem; white-space: nowrap; }
+  .rf-controls output { font-variant-numeric: tabular-nums; color: var(--muted); text-align: right; }
+  .guide .callout { border: 1px solid var(--line); border-left: 4px solid #eda100; border-radius: var(--radius); padding: .6rem 1rem; margin: 1rem 0; background: var(--surface); }
+  .guide ol.refs li { margin: .3rem 0; font-size: .95rem; }
+</style>
+</head>
+<body>
+<script src="assets/site.js?v=20261120"></script><!-- writes the header, menu and footer -->
+<main id="main">
+  <div class="wrap page-title"><h1>How the Gamma Line Explorer works</h1>
+    <p class="lede muted">What the numbers mean, how spectra are fitted, and where the limits are. <a href="Gammas.html">Back to the explorer</a>.</p></div>
+  <article class="wrap guide">
+    <ul class="toc">
+      <li><a href="#overview">The idea in one paragraph</a></li>
+      <li><a href="#ranking">Ranking candidate sources</a></li>
+      <li><a href="#peaks">Identifying a list of peaks</a></li>
+      <li><a href="#fit">Fitting a whole spectrum</a>: <a href="#response">the response function</a>, <a href="#compton">the Compton continuum</a>, <a href="#algorithm">the algorithm</a>, <a href="#results">reading the results</a>, <a href="#limits">limits</a></li>
+      <li><a href="#chains">Decay chains</a></li>
+      <li><a href="#refs">References</a></li>
+    </ul>
+
+    <h2 id="overview">The idea in one paragraph</h2>
+    <p>A gamma line at a given energy could come from many places: a decay in the uranium or thorium chain, a cosmogenic isotope, a neutron capture, an alpha-induced reaction, or a detector effect such as an escape peak. The explorer keeps a database of all of these, estimates <em>how many gammas per second</em> each would produce in your setup (detector, location, materials and their masses), and uses that expected rate as a prior. Every tool on the page then combines two things: how well a source matches what you see, and how plausible it is that the source is there at all.</p>
+
+    <h2 id="ranking">Ranking candidate sources</h2>
+    <p>For each source the explorer computes an expected emission rate R (gammas per second) from a physical model where one exists:</p>
+    <div class="eq">decays:            R = Σ_materials  mass × activity of the chain segment (Bq/kg) × branching × line intensity
+neutron capture:   R = Σ_materials  mass × Φ_thermal × (target atoms per kg) × σ_thermal × gammas per capture
+inelastic (n,n′γ): R = Σ_materials  mass × Φ_fast × (target atoms per kg) × σ (assumed 1 b, shared over levels)
+alpha-induced:     R = Σ_materials  mass × Σ_segments alpha activity × thick-target gamma yield per alpha</div>
+    <p>Activities are medians of radiopurity.org assay records; compositions, fluxes and cross sections are cited on the explorer page and in each source's “Sources” list. Sources without a rate model (cosmogenic, man-made, radon in air, X-ray fluorescence) get a coarse prior on a fixed reference scale. Isotopes with no reason to be near your detector are ranked below all neutron- and alpha-induced lines.</p>
+    <p>Rates span many orders of magnitude, so the ranking compresses them: a line's relevance is 1 for the strongest candidate and falls by 1/8 per factor of ten below it, reaching 0 eight decades down. Under <b>Adjust the ranking</b> you can multiply whole categories, or single sources, by factors of ten. That changes the ranking and the priors used by the fit, but not the physical rates shown.</p>
+
+    <h2 id="peaks">Identifying a list of peaks</h2>
+    <p>Given peak energies, each candidate line gets a match score exp(−½ (ΔE/σ)²), where σ is the detector resolution at that energy (widened for Doppler-broadened lines). Decay-chain segments in secular equilibrium, such as ²²²Rn with ²¹⁴Pb and ²¹⁴Bi, are treated as one hypothesis, because their lines must appear together with fixed ratios. Hypotheses are then chosen greedily: the one that explains the most peaks, weighted by its expected rate, is accepted first, and its other strong lines are checked. A source whose strong lines are missing loses credit, and candidates more than about six decades weaker than the strongest are kept only as alternatives.</p>
+
+    <h2 id="fit">Fitting a whole spectrum</h2>
+    <p>The <a href="Gammas.html">Fit a spectrum</a> tab goes further: it fits every channel of a measured spectrum at once. The model for the expected counts μ<sub>i</sub> in channel i is</p>
+    <div class="eq">μ_i = Σ_j β_j B_j(E_i)  +  Σ_k A_k T_k(E_i; θ)
+
+T_k(E; θ) = Σ_lines  I_line · ε(E_line) · R(E; E_line, θ)</div>
+    <ul>
+      <li><b>B<sub>j</sub></b> are smooth cubic B-splines with non-negative weights β<sub>j</sub>: the background. It absorbs anything smooth that the templates don't describe, such as gammas scattered in shielding or the sample.</li>
+      <li><b>T<sub>k</sub></b> is the template of candidate source k: all of its lines with their database intensities I and the relative efficiency ε, each turned into a detector response R. One amplitude A<sub>k</sub> per source means its lines are fitted together, with ratios fixed by nuclear data.</li>
+      <li><b>θ</b> are the response parameters: calibration, resolution, efficiency shape and peak or Compton shape. Each has a value and an uncertainty that you set, i.e. a Gaussian prior.</li>
+    </ul>
+
+    <h3 id="response">The response function</h3>
+    <div class="eq">energy calibration:  E = c₀ + c₁·channel + c₂·channel²
+resolution:          FWHM(E)² = a² + b·E + c·E²     (electronic noise, counting statistics, other)
+relative efficiency: ln ε = e₁·x + e₂·x²,  x = ln(E / 1 MeV)</div>
+    <p>The resolution form covers both germanium and scintillators: for HPGe the noise term a and the statistical (Fano) term b dominate; for scintillators the b·E term, i.e. FWHM ∝ √E, does. The efficiency is relative, because the overall scale goes into each source's amplitude; only its energy dependence matters for line ratios.</p>
+    <p>Two response models are available:</p>
+    <ul>
+      <li><b>Peaks + smooth background (HPGe).</b> Each line is a Gaussian photopeak plus a small low-energy step, from incomplete charge collection and small-angle scattering, with height set as a fraction of the peak height (as in the Hypermet peak model of Phillips &amp; Marlow). An optional exponential low-energy tail is available too. Above 1022 keV, single- and double-escape peaks are added, growing linearly with energy and reaching the escape parameters at 2614 keV. The Compton continuum is left to the smooth background, which is what standard HPGe peak fitting does and works well at germanium resolution.</li>
+      <li><b>Peaks + Compton continuum (scintillators, liquid nobles).</b> At poor resolution the continuum carries much of the information, so each line gets the full shape described next.</li>
+    </ul>
+
+    <h3 id="compton">The Compton continuum</h3>
+    <p>A gamma of energy E that Compton-scatters once and escapes leaves an electron with kinetic energy T between 0 and the Compton edge,</p>
+    <div class="eq">T_max = E · 2ε / (1 + 2ε),   ε = E / mₑc²</div>
+    <p>distributed according to the Klein–Nishina cross section (Klein &amp; Nishina 1929; see Knoll, ch. 10):</p>
+    <div class="eq">dσ/dT ∝ 2 + s² / [ε² (1 − s)²] + [s / (1 − s)] · (s − 2/ε),   s = T / E</div>
+    <p>A real detector adds three things, each controlled by a parameter:</p>
+    <ul>
+      <li><b>Peak-to-total ratio P/T(E)</b>: the share of interacting gammas that deposit their full energy, modelled as P/T(662 keV) × (E / 662 keV)<sup>−k</sup>. Larger detectors have higher P/T.</li>
+      <li><b>Multiple-scatter shelf</b>: gammas that scatter more than once can deposit energies between the edge and the photopeak; a flat shelf carries this share of the non-photopeak counts.</li>
+      <li><b>Backscatter peak</b>: gammas scattered by about 180° in nearby material and then absorbed, at E / (1 + 2ε), roughly 200–250 keV; a broad Gaussian carries this share.</li>
+    </ul>
+    <p>The single-scatter continuum takes the remaining share. The continuum is built per channel, normalized over its whole range from 0 to T<sub>max</sub> (not just the fitted channels), and smeared with the energy-dependent resolution; the photopeak is smeared analytically.</p>
+    <figure>
+      <canvas id="rf-plot" role="img" aria-label="Detector response to a single gamma line: photopeak, Klein–Nishina continuum, multiple-scatter shelf and backscatter peak, on a log scale"></canvas>
+      <div class="rf-controls">
+        <label>Gamma energy <input type="range" id="rf-E" min="200" max="2700" step="10" value="1461"><output id="rf-E-o"></output></label>
+        <label>FWHM at 662 keV <input type="range" id="rf-res" min="1" max="120" step="1" value="46"><output id="rf-res-o"></output></label>
+        <label>Peak-to-total (662) <input type="range" id="rf-pt" min="0.05" max="0.95" step="0.01" value="0.5"><output id="rf-pt-o"></output></label>
+        <label>Shelf fraction <input type="range" id="rf-sh" min="0" max="0.6" step="0.01" value="0.15"><output id="rf-sh-o"></output></label>
+        <label>Backscatter fraction <input type="range" id="rf-bs" min="0" max="0.3" step="0.01" value="0.05"><output id="rf-bs-o"></output></label>
+      </div>
+      <figcaption>Response to one gamma line, computed with the same code the fit uses (per 1 keV bin, log scale). Try a narrow resolution to see the sharp Compton edge, then a scintillator-like one to see why the edge blurs into the photopeak.</figcaption>
+    </figure>
+    <p>This semi-empirical shape needs no simulation and works reasonably for moderate-size scintillators once P/T, shelf and backscatter are calibrated, for example with ¹³⁷Cs, ⁶⁰Co and ²²⁸Th spectra. For the best accuracy, a simulated response matrix of the actual detector and shielding (for example from Geant4) would replace it; that is planned as an option.</p>
+
+    <h3 id="algorithm">The algorithm</h3>
+    <p>The fit maximizes the Poisson likelihood of the counts, equivalently minimizes the deviance (the likelihood-ratio χ² of Baker &amp; Cousins), plus the prior penalty Σ((θ − θ₀)/σ)² for the response parameters. Three facts make it fast enough for a browser:</p>
+    <ol>
+      <li><b>Linear in the amplitudes.</b> For fixed θ, μ is linear in the background weights β and source amplitudes A, all of which must be non-negative. The multiplicative expectation-maximization update of Shepp &amp; Vardi (MLEM),
+        <div class="eq">x_k ← x_k · Σ_i T_k(i) n_i / μ_i  /  Σ_i T_k(i)</div>
+        keeps every amplitude non-negative and increases the likelihood at every step. A little over-relaxation speeds it up, and templates are stored sparsely, so each step costs only the channels a source actually touches.</li>
+      <li><b>Few nonlinear parameters.</b> θ (at most about 15) is fitted by Levenberg–Marquardt on the signed deviance residuals plus prior pulls, re-solving the amplitudes after each accepted step (variable projection, Golub &amp; Pereyra). Derivatives are taken with the amplitudes held fixed (Kaufman's simplification), which keeps them cheap and noise-free.</li>
+      <li><b>Source selection by backward elimination.</b> The fit starts with the top candidates from the ranking (60 by default). A source is kept only if removing it worsens the deviance by more than a threshold: Δχ² ≥ 9 by default, about 3σ, plus 2·ln(1/prior) for sources the ranking considers unlikely. So an implausible isotope needs much stronger evidence than ⁴⁰K. Sources the fit gives nothing to are dropped together, then the weakest remaining one at a time; each removal test refits locally, only the channels that source affects. Selection runs once with the starting response and again after θ is fitted.</li>
+    </ol>
+    <p>Uncertainties come from the Fisher information of the final fit over all active amplitudes <em>and</em> response parameters together, including the prior, so a source's uncertainty includes its correlation with, say, the resolution or the peak-to-total ratio. The fit runs in a background thread (a Web Worker); a typical HPGe spectrum takes a few seconds.</p>
+
+    <h3 id="results">Reading the results</h3>
+    <ul>
+      <li><b>Counts in range</b>: counts from that source inside the fit range: its photopeaks in HPGe mode, photopeaks plus continuum in Compton mode. Divide by live time and efficiency to get activities.</li>
+      <li><b>Significance</b>: √Δχ² when the source is removed and the rest refitted locally: a measure of how much the data need it.</li>
+      <li><b>Pulls</b> of the response parameters: (fitted − your value)/your uncertainty. Beyond ±3 the data disagree with what you told it; check the calibration or detector settings.</li>
+      <li><b>Goodness of fit</b>: deviance per degree of freedom near 1 is good. Much larger means something is missing; the residual panel under the plot shows where.</li>
+    </ul>
+
+    <h3 id="limits">Limits to keep in mind</h3>
+    <div class="callout">
+      <p><b>Calibration must start close.</b> The fit refines the calibration but cannot find it from scratch: start within a few FWHM, for example by identifying two strong peaks first.</p>
+      <p><b>Compton mode carries model systematics.</b> The smooth background and the continuum shape partly trade off. In tests on simulated NaI spectra the amplitudes came out within about 5–10% of the truth, a few times the quoted statistical uncertainty. Calibrating P/T and the shelf with known sources reduces this.</p>
+      <p><b>Not yet modelled:</b> true-coincidence summing (cascades such as ⁶⁰Co and ²¹⁴Bi in close geometry), pile-up and dead time, X-ray escape peaks, and a full efficiency curve below about 100 keV. Overlapping lines closer than the resolution cannot be separated; the priors then decide which source gets the credit.</p>
+      <p><b>Candidates come from the database and your setup.</b> A source that is not in the database, or is ranked below the candidate cut, cannot be found: raise “Candidate sources” or adjust the ranking if you suspect one.</p>
+    </div>
+    <p>The examples on the fit tab are simulated with this same model, so they show how the tool behaves, not how well the model describes a real detector.</p>
+
+    <h2 id="chains">Decay chains</h2>
+    <p>The <a href="Gammas.html#chain=U238">Decay chains</a> tab follows each chain from its parent through the ENSDF decay modes, keeping branches of at least 10⁻⁵ %. For every member it lists the half-life, spin-parity, decay modes with branching ratios and Q-values, alpha and beta spectra, every gamma line with its initial and final level, multipolarity and internal-conversion coefficient, and the X-rays.</p>
+    <p><b>Relative activity</b> is the member's activity in secular equilibrium, relative to the parent: 1 for the main line, the product of branching ratios on side branches (for example 0.359 for ²⁰⁸Tl). Real samples can be out of equilibrium, through radon escape, chemical separation of radium or lead, or ²¹⁰Pb accumulation; the full time dependence follows Bateman's equations.</p>
+    <p><b>Emitted together with</b> gives, for each gamma, the probability that another gamma of the same decay accompanies it. It is computed by cascading through the daughter's levels: the populations of the levels come from the gamma intensities, and from each level the branching follows the gammas leaving it. These pairs are what coincidence measurements see, and what produces sum peaks when the source is close to the detector.</p>
+
+    <h2 id="refs">References</h2>
+    <ol class="refs">
+      <li>O. Klein and Y. Nishina, “Über die Streuung von Strahlung durch freie Elektronen nach der neuen relativistischen Quantendynamik von Dirac”, Z. Phys. 52 (1929) 853.</li>
+      <li>G.F. Knoll, <i>Radiation Detection and Measurement</i>, 4th ed., Wiley (2010): gamma-ray interactions, detector response functions, peak-to-total ratios.</li>
+      <li>G.W. Phillips and K.W. Marlow, “Automatic analysis of gamma-ray spectra from germanium detectors”, Nucl. Instrum. Meth. 137 (1976) 525: Gaussian peak with step and tail.</li>
+      <li>S. Baker and R.D. Cousins, “Clarification of the use of chi-square and likelihood functions in fits to histograms”, Nucl. Instrum. Meth. 221 (1984) 437.</li>
+      <li>L.A. Shepp and Y. Vardi, “Maximum likelihood reconstruction for emission tomography”, IEEE Trans. Med. Imaging 1 (1982) 113: the MLEM update.</li>
+      <li>K. Levenberg, Quart. Appl. Math. 2 (1944) 164; D.W. Marquardt, J. Soc. Ind. Appl. Math. 11 (1963) 431.</li>
+      <li>G.H. Golub and V. Pereyra, “The differentiation of pseudo-inverses and nonlinear least squares problems whose variables separate”, SIAM J. Numer. Anal. 10 (1973) 413; L. Kaufman, BIT 15 (1975) 49.</li>
+      <li>H. Bateman, “Solution of a system of differential equations occurring in the theory of radioactive transformations”, Proc. Cambridge Phil. Soc. 15 (1910) 423.</li>
+      <li>Nuclear data: ENSDF evaluations via the <a href="https://www-nds.iaea.org/relnsd/vcharthtml/VChartHTML.html">IAEA LiveChart of Nuclides</a>; the other data sets are listed on the <a href="Gammas.html">explorer page</a>.</li>
+    </ol>
+  </article>
+</main>
+<script src="assets/gammafit-core.js?v=20261123a"></script>
+<script>
+(function () {
+  var cv = document.getElementById('rf-plot'); if (!cv || !window.GammaFit) return;
+  var ids = ['E', 'res', 'pt', 'sh', 'bs'];
+  function val(k) { return +document.getElementById('rf-' + k).value; }
+  function draw() {
+    var E = val('E'), f662 = val('res');
+    document.getElementById('rf-E-o').textContent = E + ' keV';
+    document.getElementById('rf-res-o').textContent = f662 + ' keV';
+    document.getElementById('rf-pt-o').textContent = val('pt').toFixed(2);
+    document.getElementById('rf-sh-o').textContent = val('sh').toFixed(2);
+    document.getElementById('rf-bs-o').textContent = val('bs').toFixed(2);
+    var p = { c0: 0.5, c1: 1, c2: 0, a: 0, b: f662 * f662 / 662, c: 0, e1: 0, e2: 0, step: 0, tail: 0, tailw: 1, se: 0, de: 0,
+              pt: val('pt'), ptk: 0, shelf: val('sh'), bs: val('bs') };
+    var n = 3000, g = new GammaFit.Grid(n, 0, n, p), col = new Float64Array(n);
+    var t = GammaFit.template({ lines: [[E, 100, '']] }, g, p, 'compton');
+    if (t) for (var i = 0; i < t.v.length; i++) col[t.idx[i]] = t.v[i];
+    var W = cv.parentNode.clientWidth || 700, H = 300, dpr = window.devicePixelRatio || 1;
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    var c = cv.getContext('2d'); c.scale(dpr, dpr);
+    var css = getComputedStyle(document.documentElement), ink = css.getPropertyValue('--ink').trim() || '#111',
+        muted = css.getPropertyValue('--muted').trim() || '#666', line = css.getPropertyValue('--line').trim() || '#ddd';
+    var L = 52, R = 10, T = 10, B = 34, x1 = Math.max(800, E * 1.15), ymax = 1, ymin = 1e-6;
+    for (i = 0; i < n; i++) if (col[i] > ymax) ymax = col[i];
+    ymax = Math.pow(10, Math.ceil(Math.log10(Math.max(...col)))); ymin = ymax * 1e-5;
+    var X = function (e) { return L + e / x1 * (W - L - R); };
+    var Y = function (v) { return T + (H - T - B) * (1 - (Math.log10(Math.max(v, ymin)) - Math.log10(ymin)) / (Math.log10(ymax) - Math.log10(ymin))); };
+    c.font = '12px Roboto, sans-serif'; c.fillStyle = muted; c.strokeStyle = line;
+    for (var d = Math.log10(ymin); d <= Math.log10(ymax) + 1e-9; d++) { var yy = Y(Math.pow(10, d)); c.beginPath(); c.moveTo(L, yy); c.lineTo(W - R, yy); c.stroke(); c.fillText('10' + (d < 0 ? '⁻' : '') + '⁰¹²³⁴⁵⁶⁷⁸⁹'[Math.abs(Math.round(d))], 14, yy + 4); }
+    for (var e = 0; e <= x1; e += 500) c.fillText(e, X(e) - 10, H - 16);
+    c.fillText('Deposited energy (keV)', L + (W - L - R) / 2 - 60, H - 2);
+    var me = 510.99895, eps = E / me, tmax = E * 2 * eps / (1 + 2 * eps), ebs = E / (1 + 2 * eps);
+    [[tmax, 'Compton edge'], [ebs, 'backscatter'], [E, 'photopeak']].forEach(function (m) {
+      c.strokeStyle = muted; c.setLineDash([3, 3]); c.beginPath(); c.moveTo(X(m[0]), T); c.lineTo(X(m[0]), H - B); c.stroke(); c.setLineDash([]);
+      c.fillStyle = muted; c.fillText(m[1], Math.min(X(m[0]) + 3, W - R - 70), T + 12);
+    });
+    c.strokeStyle = '#2a78d6'; c.lineWidth = 2; c.beginPath(); var pen = false;
+    for (i = 0; i < n; i++) { var en = g.E[i]; if (en > x1) break; if (!(col[i] > ymin)) { pen = false; continue; }
+      if (pen) c.lineTo(X(en), Y(col[i])); else c.moveTo(X(en), Y(col[i])); pen = true; }
+    c.stroke(); c.lineWidth = 1;
+  }
+  ids.forEach(function (k) { document.getElementById('rf-' + k).addEventListener('input', draw); });
+  window.addEventListener('resize', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

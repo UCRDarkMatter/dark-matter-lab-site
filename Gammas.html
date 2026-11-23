@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261122a">
-<link rel="stylesheet" href="assets/gammas.css?v=20261122a">
+<link rel="stylesheet" href="assets/style.css?v=20261123a">
+<link rel="stylesheet" href="assets/gammas.css?v=20261123a">
 </head>
 <body>
-<script src="assets/site.js?v=20261122a"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261123a"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Gamma Line Explorer <span class="beta">beta</span></h1>
@@ -49,6 +49,8 @@
     <div class="gx-tabs" role="tablist">
       <button role="tab" id="tab-range" aria-controls="panel-range" aria-selected="true">Search an energy range</button>
       <button role="tab" id="tab-peaks" aria-controls="panel-peaks" aria-selected="false">Identify my peaks</button>
+      <button role="tab" id="tab-fit" aria-controls="panel-fit" aria-selected="false">Fit a spectrum</button>
+      <button role="tab" id="tab-chains" aria-controls="panel-chains" aria-selected="false">Decay chains</button>
       <button role="tab" id="tab-browse" aria-controls="panel-browse" aria-selected="false">Browse sources</button>
     </div>
 
@@ -74,6 +76,46 @@
       <div id="peaks-out" aria-live="polite"></div>
     </section>
 
+    <section id="panel-fit" role="tabpanel" aria-labelledby="tab-fit" hidden>
+      <p class="gx-intro">Upload a measured spectrum and the explorer fits it with the candidate sources for your setup, a detector response
+        function you describe, and a smooth background, then keeps only the sources the data need. Everything runs in your browser; the file is not uploaded anywhere.
+        <a href="GammasGuide.html#fit">How the fit works</a>.</p>
+      <div class="gx-form gx-fitload">
+        <label>Spectrum file <input type="file" id="fit-file" accept=".csv,.txt,.dat,.tsv,.spe,.Spe,.SPE,.tka"></label>
+        <span class="muted">or try a simulated example:</span>
+        <button class="mini" type="button" id="fit-ex-hpge">HPGe</button>
+        <button class="mini" type="button" id="fit-ex-nai">NaI(Tl)</button>
+      </div>
+      <p class="gx-note">Formats: one column of counts per channel; two columns (channel or energy in keV, counts) separated by spaces, tabs or commas; or an ORTEC/Maestro ASCII <code>.Spe</code> file (its energy calibration is read). Detector type and resolution come from “Your setup” above.</p>
+      <p class="gx-small" id="fit-file-info" aria-live="polite"></p>
+      <div class="gx-form">
+        <label>Fit from <input type="number" id="fit-emin" step="any" min="0"> to <input type="number" id="fit-emax" step="any" min="0"> keV</label>
+        <label>Response model <select id="fit-mode">
+          <option value="auto">Automatic (from the detector)</option>
+          <option value="local">Peaks + smooth background (HPGe)</option>
+          <option value="compton">Peaks + Compton continuum (scintillators, liquid nobles)</option></select></label>
+      </div>
+      <details class="gx-fitopts"><summary>Response function and fit settings</summary>
+        <p class="gx-note">Each parameter has a starting value and an uncertainty: the fit may move it, but pays a penalty of ((fitted − value)/uncertainty)². Tick “fixed” to hold it. Defaults come from your detector and resolution settings.</p>
+        <table class="gx-table gx-ptable"><thead><tr><th>Parameter</th><th>Value</th><th>±</th><th>Fixed</th><th></th></tr></thead><tbody id="fit-params"></tbody></table>
+        <button class="mini" type="button" id="fit-reset">Reset to defaults</button>
+        <div class="gx-form">
+          <label>Candidate sources <input type="number" id="fit-ncand" value="60" min="5" max="300"></label>
+          <label>Keep a source if Δχ² ≥ <input type="number" id="fit-thr" value="9" min="1" step="any"> <span class="muted">(+ a penalty for low-prior sources)</span></label>
+          <label>Background spline knots <input type="number" id="fit-knots" placeholder="auto" min="3" max="60"></label>
+        </div>
+      </details>
+      <div class="btn-row"><button class="btn" type="button" id="fit-run" disabled>Fit the spectrum</button> <span class="muted" id="fit-status" aria-live="polite"></span></div>
+      <div id="fit-out"></div>
+    </section>
+
+    <section id="panel-chains" role="tabpanel" aria-labelledby="tab-chains" hidden>
+      <form class="gx-form" onsubmit="return false">
+        <label>Decay chain <select id="chain-select"></select></label>
+      </form>
+      <div id="chain-out"></div>
+    </section>
+
     <section id="panel-browse" role="tabpanel" aria-labelledby="tab-browse" hidden>
       <form class="gx-form" id="browse-form" onsubmit="return false">
         <label class="gx-grow">Find a source <input type="search" id="browse-q" placeholder="e.g. 214Bi, Co-60, copper, Ge, thorium chain, cosmogenic"></label>
@@ -82,6 +124,7 @@
     </section>
 
     <aside class="gx-about">
+      <p><b>New:</b> <a href="GammasGuide.html">a guide to how the explorer works</a>, including the spectrum fit, the Compton model and the decay chains.</p>
       <h2>How candidates are ranked</h2>
       <p>Each line gets an expected emission rate, in gammas per second, summed over the materials you select and your detector's own material. Each material's per-kilogram rate is multiplied by its mass: 1 kg each by default, ballpark masses from a typical setup, or your own numbers:</p>
       <ul>
@@ -120,6 +163,7 @@
     </aside>
   </div>
 </main>
-<script src="assets/gammas.js?v=20261122a"></script>
+<script src="assets/gammafit-core.js?v=20261123a"></script>
+<script src="assets/gammas.js?v=20261123a"></script>
 </body>
 </html>

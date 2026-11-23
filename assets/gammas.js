@@ -866,9 +866,397 @@
     return box;
   }
 
+  /* ------------------------------------------------------------ spectrum fit (engine: assets/gammafit-core.js) */
+  var FIT = { counts: null, xIsEnergy: false, cal: null, name: '', result: null, worker: null };
+  var PDEF = {          // label, unit, help
+    c0: ['Calibration offset c₀', 'keV', 'E = c₀ + c₁·ch + c₂·ch²'], c1: ['Calibration gain c₁', 'keV/ch', ''], c2: ['Calibration nonlinearity c₂', 'keV/ch²', ''],
+    a: ['Resolution: noise term a', 'keV', 'FWHM² = a² + b·E + c·E²'], b: ['Resolution: statistical term b', 'keV', ''], c: ['Resolution: quadratic term c', '', ''],
+    e1: ['Efficiency slope e₁', '', 'ln ε = e₁·x + e₂·x², x = ln(E/1 MeV)'], e2: ['Efficiency curvature e₂', '', ''],
+    step: ['Step height (× peak height)', '', 'HPGe low-energy step'], tail: ['Tail fraction', '', 'Exponential low-energy tail'], tailw: ['Tail slope', 'σ', ''],
+    se: ['Single-escape fraction at 2614 keV', '', 'Pair production'], de: ['Double-escape fraction at 2614 keV', '', ''],
+    pt: ['Peak-to-total at 662 keV', '', 'Compton model'], ptk: ['Peak-to-total energy exponent', '', 'P/T ∝ E^−k'],
+    shelf: ['Multiple-scatter shelf fraction', '', 'Share of the non-peak counts'], bs: ['Backscatter-peak fraction', '', '']
+  };
+  function fitMode() { var v = $('#fit-mode').value; return v === 'auto' ? (ctx.det[0] === 'hpge' ? 'local' : 'compton') : v; }
+  function defaultParams() {
+    var det = ctx.det[0], f1 = +ctx.fwhm || FWHM1MEV[det] || 2, mode = fitMode(), P = {};
+    function set(k, v, s, fixed) { P[k] = { value: v, sigma: s, fixed: !!fixed }; }
+    var cal = FIT.cal || { c0: 0, c1: 1, c2: 0 };
+    if (FIT.xIsEnergy) { set('c0', 0, Math.max(0.3, 0.5 * f1)); set('c1', 1, 0.002); set('c2', 0, 0, true); }
+    else { set('c0', cal.c0, Math.max(0.5, f1)); set('c1', cal.c1, Math.abs(cal.c1) * 0.003 || 0.001); set('c2', cal.c2 || 0, 0, true); }
+    if (det === 'hpge') { set('a', 0.55 * f1, 0.3 * f1); set('b', 0.7 * f1 * f1 / 1000, 0.35 * f1 * f1 / 1000); set('c', 0, 0, true); }
+    else { set('a', 0.05 * f1, 0.1 * f1); set('b', f1 * f1 / 1000, 0.4 * f1 * f1 / 1000); set('c', 0, 0.2 * f1 * f1 / 1e6); }
+    set('e1', det === 'hpge' ? -0.8 : -0.6, 0.4); set('e2', -0.1, 0.2);
+    if (mode === 'local') { set('step', 0.003, 0.003); set('tail', 0, 0, true); set('tailw', 1, 0, true); set('se', 0.05, 0.05); set('de', 0.02, 0.02);
+      ['pt', 'ptk', 'shelf', 'bs'].forEach(function (k) { set(k, 0, 0, true); }); }
+    else { ['step', 'tail', 'se', 'de'].forEach(function (k) { set(k, 0, 0, true); }); set('tailw', 1, 0, true);
+      set('pt', det === 'lar' || det === 'lxe' ? 0.7 : 0.5, 0.25); set('ptk', 0.6, 0.3); set('shelf', 0.15, 0.1); set('bs', 0.05, 0.05); }
+    return P;
+  }
+  function renderParams(P) {
+    var tb = $('#fit-params'); tb.innerHTML = '';
+    var mode = fitMode();
+    GammaFit.PNAMES.forEach(function (k) {
+      var d = PDEF[k], p = P[k];
+      if (mode === 'local' && /^(pt|ptk|shelf|bs)$/.test(k)) return;
+      if (mode === 'compton' && /^(step|tail|tailw|se|de)$/.test(k)) return;
+      var tr = el('tr'); tr.dataset.k = k;
+      var th = el('th', null, d[0]); if (d[2]) th.title = d[2];
+      tr.appendChild(th);
+      [['value', p.value], ['sigma', p.sigma]].forEach(function (f) {
+        var td = el('td'), inp = el('input'); inp.type = 'number'; inp.step = 'any'; inp.value = +(+f[1]).toPrecision(6); inp.dataset.f = f[0];
+        inp.setAttribute('aria-label', d[0] + (f[0] === 'value' ? ' value' : ' uncertainty'));
+        td.appendChild(inp); tr.appendChild(td);
+      });
+      var tdf = el('td'), cb = el('input'); cb.type = 'checkbox'; cb.checked = p.fixed; cb.dataset.f = 'fixed'; cb.setAttribute('aria-label', d[0] + ' fixed');
+      tdf.appendChild(cb); tr.appendChild(tdf); tr.appendChild(el('td', 'muted', d[1]));
+      tb.appendChild(tr);
+    });
+  }
+  function readParams() {
+    var P = defaultParams();
+    document.querySelectorAll('#fit-params tr').forEach(function (tr) {
+      var k = tr.dataset.k, q = P[k];
+      tr.querySelectorAll('input').forEach(function (inp) {
+        if (inp.dataset.f === 'fixed') q.fixed = inp.checked; else q[inp.dataset.f] = parseFloat(inp.value) || 0;
+      });
+      if (q.sigma <= 0) q.fixed = true;
+    });
+    return P;
+  }
+  function parseSpectrum(text, name) {
+    var lines = text.split(/\r?\n/), counts = [], xs = [], cal = null, i;
+    if (/\$DATA:/.test(text)) {                          // ORTEC / Maestro .Spe (ASCII)
+      for (i = 0; i < lines.length; i++) {
+        if (/^\$DATA:/.test(lines[i])) {
+          var rg = lines[i + 1].trim().split(/\s+/).map(Number), n = rg[1] - rg[0] + 1;
+          for (var j = 0; j < n; j++) counts.push(+lines[i + 2 + j] || 0);
+        }
+        if (/^\$ENER_FIT:/.test(lines[i])) { var e = lines[i + 1].trim().split(/\s+/).map(Number); cal = { c0: e[0], c1: e[1], c2: 0 }; }
+        if (/^\$MCA_CAL:/.test(lines[i])) { var m = lines[i + 2].trim().split(/\s+/).map(Number); cal = { c0: m[0], c1: m[1], c2: m[2] || 0 }; }
+      }
+      return { counts: counts, xIsEnergy: false, cal: cal };
+    }
+    lines.forEach(function (l) {
+      var v = l.trim().split(/[\s,;]+/).map(Number);
+      if (!l.trim() || v.some(isNaN)) return;          // header or comment
+      if (v.length === 1) counts.push(v[0]); else { xs.push(v[0]); counts.push(v[1]); }
+    });
+    if (!counts.length) throw new Error('No numbers found. Use one column of counts, two columns (channel or energy, counts), or an ORTEC .Spe file.');
+    var xIsEnergy = false;
+    if (xs.length === counts.length) {
+      var integer = xs.every(function (x, k) { return Math.abs(x - Math.round(x)) < 1e-9 && (k === 0 || x - xs[k - 1] === 1); });
+      xIsEnergy = !integer;
+      if (xIsEnergy) {                                   // energies given: keep them as the calibration (fitted as offset and gain corrections)
+        var n2 = xs.length; cal = { c0: xs[0], c1: (xs[n2 - 1] - xs[0]) / (n2 - 1), c2: 0 };
+        FIT.xEnergies = xs;
+      }
+    }
+    return { counts: counts.map(function (c) { return Math.max(0, Math.round(c)); }), xIsEnergy: xIsEnergy, cal: cal };
+  }
+  function loadSpectrum(sp, name) {
+    FIT.counts = sp.counts; FIT.xIsEnergy = false; FIT.cal = sp.cal; FIT.name = name;
+    if (sp.xIsEnergy) { FIT.xIsEnergy = false; FIT.cal = sp.cal; }   // energies become a linear calibration with small corrections
+    var n = sp.counts.length, cal = FIT.cal || { c0: 0, c1: 1, c2: 0 };
+    $('#fit-file-info').textContent = name + ': ' + n + ' channels, ' + sp.counts.reduce(function (a, b) { return a + b; }, 0).toLocaleString('en-US') + ' counts' +
+      (FIT.cal ? '' : '. No energy calibration found: enter c₀ and c₁ below.');
+    var Emax = cal.c0 + cal.c1 * (n - 1);
+    $('#fit-emin').value = Math.round(Math.max(cal.c0, ctx.det[0] === 'hpge' ? 150 : 200));
+    $('#fit-emax').value = Math.round(Math.min(Emax, 3000));
+    renderParams(defaultParams());
+    $('#fit-run').disabled = false;
+  }
+  function exampleSpectrum(kind) {     // simulated with the fit model itself (clearly labelled), for trying the tool
+    var R = (function () { var s = 12345; return function () { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; }; })();
+    function pois(l) { if (l > 40) { var u = R(), v = R(); return Math.max(0, Math.round(l + Math.sqrt(l) * Math.sqrt(-2 * Math.log(u + 1e-12)) * Math.cos(2 * Math.PI * v))); }
+      var L = Math.exp(-l), k = 0, p = 1; do { k++; p *= R(); } while (p > L); return k - 1; }
+    var hp = kind === 'hpge', n = hp ? 8192 : 1024;
+    var p = hp ? { c0: 0.6, c1: 0.3752, c2: 0, a: 0.9, b: 0.0018, c: 0, e1: -0.8, e2: -0.1, step: 0.004, tail: 0, tailw: 1, se: 0.06, de: 0.03, pt: 0, ptk: 0, shelf: 0, bs: 0 }
+               : { c0: 4, c1: 3.02, c2: 0, a: 4, b: 3.0, c: 0.0001, e1: -0.6, e2: -0.1, step: 0, tail: 0, tailw: 1, se: 0, de: 0, pt: 0.45, ptk: 0.65, shelf: 0.2, bs: 0.06 };
+    var g = new GammaFit.Grid(n, 0, n, p), mu = new Float64Array(n);
+    var pick = function (re) { return GROUPS.filter(function (s) { return re.test(s.id); })[0]; };
+    var comps = [[BYID['d:40K'], hp ? 3e4 : 2e5], [pick(/U238\|²²²Rn/), hp ? 2e4 : 1.5e5], [pick(/Th232\|²²⁸Th/), hp ? 1e4 : 1e5], [pick(/Th232\|²²⁸Ra/), hp ? 8e3 : 6e4]];
+    comps.forEach(function (c) {
+      if (!c[0]) return;
+      var t = GammaFit.template({ lines: c[0].L }, g, p, hp ? 'local' : 'compton'); if (!t) return;
+      for (var i = 0; i < t.v.length; i++) mu[t.idx[i]] += c[1] * t.v[i];
+    });
+    for (var i = 0; i < n; i++) mu[i] += (hp ? 30 * Math.exp(-g.E[i] / 600) + 2 : 20 * Math.exp(-g.E[i] / 900) + 1) * g.dE[i];
+    return { counts: Array.from(mu, pois), xIsEnergy: false, cal: { c0: hp ? 0.3 : 0, c1: hp ? 0.375 : 3.0, c2: 0 } };
+  }
+  function candidates(Elo, Ehi) {
+    var members = {}, list = [];
+    GROUPS.forEach(function (g) { g.group.forEach(function (m) { members[m.id] = 1; }); });
+    sources().concat(GROUPS).forEach(function (s) {
+      if (members[s.id] || !s.L || !s.L.length || s.kind === 'xray') return;
+      var best = 0;
+      s.L.forEach(function (l) { if (l[0] >= Elo && l[0] <= Ehi) best = Math.max(best, lineRate(s, l)); });
+      if (best > 0) list.push({ s: s, score: best });
+    });
+    list.sort(function (a, b) { return b.score - a.score; });
+    var N = Math.max(5, Math.min(300, +$('#fit-ncand').value || 60)), top = list.length ? list[0].score : 1;
+    return list.slice(0, N).map(function (c) {
+      var r = rel(c.score, top);
+      return { id: c.s.id, name: c.s.name.replace(/<[^>]+>/g, ''), prior: Math.pow(10, -4 * (1 - r)),
+               lines: c.s.L.filter(function (l) { return l[1] > 0; }).map(function (l) { return [l[0], l[1], l[2] || '']; }) };
+    });
+  }
+  function runFit() {
+    if (!FIT.counts) return;
+    var P = readParams(), cal = { c0: P.c0.value, c1: P.c1.value, c2: P.c2.value };
+    var Elo = +$('#fit-emin').value, Ehi = +$('#fit-emax').value, n = FIT.counts.length;
+    var ch = function (E) { return cal.c2 ? (-cal.c1 + Math.sqrt(cal.c1 * cal.c1 + 4 * cal.c2 * (E - cal.c0))) / (2 * cal.c2) : (E - cal.c0) / cal.c1; };
+    var lo = Math.max(0, Math.floor(ch(Elo))), hi = Math.min(n, Math.ceil(ch(Ehi)) + 1);
+    if (!(hi - lo > 20)) { $('#fit-status').textContent = 'The fit range covers too few channels: check the calibration and range.'; return; }
+    var cands = candidates(Elo, Ehi), out = $('#fit-out');
+    out.innerHTML = '';
+    $('#fit-status').textContent = 'Starting…'; $('#fit-run').disabled = true;
+    if (FIT.worker) FIT.worker.terminate();
+    FIT.worker = new Worker('assets/gammafit-core.js?v=20261123a');
+    FIT.worker.onmessage = function (e) {
+      var d = e.data;
+      if (d.progress) { $('#fit-status').textContent = d.progress; return; }
+      $('#fit-run').disabled = false;
+      if (d.error) { $('#fit-status').textContent = 'The fit failed: ' + d.error.split('\n')[0]; return; }
+      FIT.result = d.result; FIT.cands = cands;
+      $('#fit-status').textContent = 'Done in ' + (d.result.ms / 1000).toFixed(1) + ' s.';
+      renderFit(d.result, P);
+    };
+    FIT.worker.postMessage({ counts: FIT.counts, lo: lo, hi: hi, mode: fitMode(), params: P, sources: cands,
+                             knots: +$('#fit-knots').value || (fitMode() === 'compton' ? 6 : 14), threshold: +$('#fit-thr').value || 9 });
+  }
+  var FITCOL = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'];
+  function renderFit(r, P) {
+    var out = $('#fit-out'); out.innerHTML = '';
+    var red = r.ndf > 0 ? r.deviance / r.ndf : null;
+    out.appendChild(el('p', 'gx-small', 'Goodness of fit: deviance ' + r.deviance.toFixed(0) + ' for ' + r.ndf + ' degrees of freedom' +
+      (red ? ' (ratio ' + red.toFixed(2) + (red > 1.5 ? ': the model misses something; check the residuals below' : '') + ')' : '') + '.'));
+    // plot
+    var wrap = el('div', 'gx-fitplot'), cv = document.createElement('canvas'), shown = r.sources.filter(function (s) { return r.components[s.id]; }).slice(0, 8);
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', 'Spectrum, fitted model, background and the largest source components (log scale), with residuals below');
+    wrap.appendChild(cv); out.appendChild(wrap);
+    var leg = el('div', 'gx-legend');
+    [['Data', 'dot', '#8a8a8a'], ['Total model', 'line', null], ['Smooth background', 'dash', null]].concat(shown.map(function (s, i) { return [s.name, 'line', FITCOL[i]]; }))
+      .forEach(function (l) { var it = el('span', 'gx-leg ' + l[1]); var sw = el('i'); if (l[2]) sw.style.background = l[2]; it.appendChild(sw); it.appendChild(document.createTextNode(l[0])); leg.appendChild(it); });
+    out.appendChild(leg);
+    drawFit(cv, r, shown);
+    // sources table
+    out.appendChild(el('h3', null, 'Sources in the fit'));
+    var t = el('table', 'gx-table'), th = el('tr');
+    ['Source', 'Counts in range', '±', 'Significance', 'Prior from ranking'].forEach(function (h) { th.appendChild(el('th', null, h)); });
+    t.appendChild(th);
+    r.sources.forEach(function (s, i) {
+      var tr = el('tr'), td = el('td');
+      var a = srcLink(s.id); a.textContent = s.name; td.appendChild(a);
+      if (i < 8 && r.components[s.id]) { var sw = el('i', 'gx-sw'); sw.style.background = FITCOL[i]; td.insertBefore(sw, a); }
+      tr.appendChild(td);
+      tr.appendChild(el('td', 'num', Math.round(s.counts).toLocaleString('en-US')));
+      tr.appendChild(el('td', 'num', Math.round(s.sigma).toLocaleString('en-US')));
+      tr.appendChild(el('td', 'num', s.dchi2 > 0 ? Math.sqrt(s.dchi2).toFixed(1) + 'σ' : '—'));
+      tr.appendChild(el('td', 'num', s.prior >= 0.1 ? 'high' : s.prior >= 1e-2 ? 'medium' : 'low'));
+      t.appendChild(tr);
+    });
+    out.appendChild(t);
+    out.appendChild(el('p', 'gx-note', 'Counts: from that source inside the fit range (photopeaks, plus the Compton continuum in Compton mode). ± includes correlations with the response parameters. Significance: √Δχ², where Δχ² is how much worse the fit gets without the source. A source with a low prior had to clear a higher bar to be kept.'));
+    // parameters table
+    out.appendChild(el('h3', null, 'Response parameters'));
+    var t2 = el('table', 'gx-table'), h2 = el('tr');
+    ['Parameter', 'Fitted', '±', 'Your prior', 'Pull'].forEach(function (h) { h2.appendChild(el('th', null, h)); });
+    t2.appendChild(h2);
+    Object.keys(r.theta).forEach(function (k) {
+      var v = r.theta[k], pr = P[k], tr = el('tr');
+      var pull = pr.sigma ? (v.value - pr.value) / pr.sigma : 0;
+      tr.appendChild(el('td', null, PDEF[k][0]));
+      tr.appendChild(el('td', 'num', (+v.value).toPrecision(4)));
+      tr.appendChild(el('td', 'num', v.sigma != null ? (+v.sigma).toPrecision(2) : '—'));
+      tr.appendChild(el('td', 'num', (+pr.value).toPrecision(4) + ' ± ' + (+pr.sigma).toPrecision(2)));
+      var pc = el('td', 'num', pull.toFixed(1)); if (Math.abs(pull) > 3) pc.className += ' gx-warn';
+      tr.appendChild(pc); t2.appendChild(tr);
+    });
+    out.appendChild(t2);
+    out.appendChild(el('p', 'gx-note', 'A pull beyond ±3 means the data disagree with your prior: worth checking the calibration or detector settings.'));
+    var dl = el('button', 'mini', 'Download results (CSV)'); dl.type = 'button';
+    dl.addEventListener('click', function () {
+      var rows = [['source', 'id', 'counts', 'sigma', 'significance_sigma']].concat(r.sources.map(function (s) { return [s.name, s.id, s.counts.toFixed(1), s.sigma.toFixed(1), s.dchi2 > 0 ? Math.sqrt(s.dchi2).toFixed(2) : '']; }));
+      rows.push([]); rows.push(['parameter', 'fitted', 'sigma', 'prior', 'prior_sigma']);
+      Object.keys(r.theta).forEach(function (k) { rows.push([k, r.theta[k].value, r.theta[k].sigma, P[k].value, P[k].sigma]); });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(function (x) { return x.join(','); }).join('\n')], { type: 'text/csv' }));
+      a.download = 'gamma-fit-results.csv'; document.body.appendChild(a); a.click(); a.remove();
+    });
+    out.appendChild(dl);
+  }
+  function drawFit(cv, r, shown) {
+    var W = cv.parentNode.clientWidth || 800, H = 420, dpr = window.devicePixelRatio || 1;
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    var c = cv.getContext('2d'); c.scale(dpr, dpr);
+    var css = getComputedStyle(document.documentElement), ink = css.getPropertyValue('--ink').trim() || '#111', muted = css.getPropertyValue('--muted').trim() || '#666', line = css.getPropertyValue('--line').trim() || '#ddd';
+    var L = 70, Rm = 12, T = 10, mainH = 300, gap = 22, resH = H - T - mainH - gap - 44;
+    var E = r.E, x0 = E[0], x1 = E[E.length - 1];
+    var ymax = Math.max.apply(null, r.data.concat(r.model)) * 2, ymin = 0.5;
+    var X = function (e) { return L + (e - x0) / (x1 - x0) * (W - L - Rm); };
+    var Y = function (v) { return T + mainH - (Math.log10(Math.max(v, ymin)) - Math.log10(ymin)) / (Math.log10(ymax) - Math.log10(ymin)) * mainH; };
+    c.font = '12px Roboto, sans-serif'; c.fillStyle = muted; c.strokeStyle = line; c.lineWidth = 1;
+    for (var d = 0; d <= Math.ceil(Math.log10(ymax)); d++) { var yy = Y(Math.pow(10, d)); if (yy < T) continue; c.beginPath(); c.moveTo(L, yy); c.lineTo(W - Rm, yy); c.stroke(); c.fillText('10' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[d], 34, yy + 4); }
+    var step = Math.pow(10, Math.floor(Math.log10((x1 - x0) / 5))); if ((x1 - x0) / step > 10) step *= 2; if ((x1 - x0) / step > 10) step *= 2.5;
+    for (var e = Math.ceil(x0 / step) * step; e <= x1; e += step) { c.fillText(Math.round(e), X(e) - 12, H - 22); }
+    c.fillText('Energy (keV)', L + (W - L - Rm) / 2 - 36, H - 4);
+    c.save(); c.translate(14, T + mainH / 2 + 20); c.rotate(-Math.PI / 2); c.fillText('counts per channel', 0, 0); c.restore();
+    // data
+    c.fillStyle = '#8a8a8a';
+    var every = Math.max(1, Math.floor(E.length / (W - L - Rm) / 1.5));
+    for (var i = 0; i < E.length; i += every) { if (r.data[i] > 0) c.fillRect(X(E[i]) - 1, Y(r.data[i]) - 1, 2, 2); }
+    function curve(arr, color, dash, width) {        // breaks where the curve drops below the plotted range
+      c.beginPath(); c.strokeStyle = color; c.lineWidth = width || 1.5; c.setLineDash(dash || []);
+      var pen = false;
+      for (var i = 0; i < E.length; i++) {
+        if (!(arr[i] > ymin)) { pen = false; continue; }
+        var px = X(E[i]), py = Y(arr[i]); if (pen) c.lineTo(px, py); else c.moveTo(px, py); pen = true;
+      }
+      c.stroke(); c.setLineDash([]);
+    }
+    shown.forEach(function (s, k) { curve(r.components[s.id], FITCOL[k], null, 1.2); });
+    curve(r.background, muted, [5, 4], 1.5);
+    curve(r.model, ink, null, 1.5);
+    // residuals (deviance residuals)
+    var yr0 = T + mainH + gap, mid = yr0 + resH / 2, rs = resH / 2 / 5;
+    c.strokeStyle = line; c.beginPath(); c.moveTo(L, mid); c.lineTo(W - Rm, mid); c.stroke();
+    [-3, 3].forEach(function (z) { c.setLineDash([2, 3]); c.beginPath(); c.moveTo(L, mid - z * rs); c.lineTo(W - Rm, mid - z * rs); c.stroke(); c.setLineDash([]); });
+    c.fillStyle = muted; c.fillText('±3', 22, mid - 3 * rs + 4); c.fillText('resid.', 8, mid + 4);
+    c.fillStyle = ink;
+    for (i = 0; i < E.length; i += every) {
+      var m = Math.max(r.model[i], 1e-9), y = r.data[i], dv = 2 * (m - y + (y > 0 ? y * Math.log(y / m) : 0)), z = (y >= m ? 1 : -1) * Math.sqrt(Math.max(dv, 0));
+      z = Math.max(-5, Math.min(5, z)); c.fillRect(X(E[i]) - 0.5, mid - z * rs - 0.5, 1.5, 1.5);
+    }
+  }
+  function buildFit() {
+    $('#fit-file').addEventListener('change', function () {
+      var f = this.files[0]; if (!f) return;
+      f.text().then(function (t) { try { loadSpectrum(parseSpectrum(t, f.name), f.name); } catch (err) { $('#fit-file-info').textContent = err.message; } });
+    });
+    $('#fit-ex-hpge').addEventListener('click', function () { ctx.det = ['hpge']; ctx.fwhm = FWHM1MEV.hpge; refreshChips(); save(); setupSummary(); $('#fit-mode').value = 'auto'; loadSpectrum(exampleSpectrum('hpge'), 'Simulated HPGe spectrum (⁴⁰K, ²²²Rn progeny, ²²⁸Th and ²²⁸Ra segments)'); });
+    $('#fit-ex-nai').addEventListener('click', function () { ctx.det = ['nai']; ctx.fwhm = FWHM1MEV.nai; refreshChips(); save(); setupSummary(); $('#fit-mode').value = 'auto'; loadSpectrum(exampleSpectrum('nai'), 'Simulated NaI(Tl) spectrum (⁴⁰K, ²²²Rn progeny, ²²⁸Th and ²²⁸Ra segments)'); });
+    $('#fit-mode').addEventListener('change', function () { if (FIT.counts) renderParams(defaultParams()); });
+    $('#fit-reset').addEventListener('click', function () { renderParams(defaultParams()); });
+    $('#fit-run').addEventListener('click', runFit);
+    window.addEventListener('resize', function () { var cv = document.querySelector('.gx-fitplot canvas'); if (cv && FIT.result) drawFit(cv, FIT.result, FIT.result.sources.filter(function (s) { return FIT.result.components[s.id]; }).slice(0, 8)); });
+  }
+
+  /* ------------------------------------------------------------ decay chains (data/gamma/chains.json) */
+  var CHAINS = null;
+  var MODE = { 'A': 'α', 'B-': 'β⁻', 'B+': 'β⁺', 'EC': 'EC', 'EC+B+': 'EC + β⁺', 'IT': 'IT (isomeric transition)', 'SF': 'spontaneous fission', 'B-N': 'β⁻n (delayed neutron)', 'B-A': 'β⁻α', '2B-': 'ββ' };
+  function modeName(m) {
+    if (MODE[m]) return MODE[m];
+    var c = m.replace(/[{}+]/g, '').match(/^(\d+)([A-Za-z]+)$/);
+    return c ? 'cluster (' + pretty(c[1] + c[2].charAt(0).toUpperCase() + c[2].slice(1).toLowerCase()) + ')' : m;
+  }
+  function pct(p) { return p == null ? '' : p >= 1 ? (+p.toPrecision(4)) + '%' : p >= 1e-3 ? (+p.toPrecision(3)) + '%' : p.toExponential(1).replace('e', '×10^') + '%'; }
+  function afText(a) { return a >= 0.999 ? '1' : a >= 1e-3 ? (+a.toPrecision(3)).toString() : a > 0 ? a.toExponential(1).replace('e', '×10^') : '< 10⁻⁶'; }
+  function loadChains() {
+    if (CHAINS) return Promise.resolve(CHAINS);
+    return load('data/gamma/chains.json').then(function (d) {
+      CHAINS = d;
+      var sel = $('#chain-select');
+      d.chains.forEach(function (c) { var o = el('option', null, c.title); o.value = c.id; sel.appendChild(o); });
+      sel.addEventListener('change', function () { renderChain(this.value); history.replaceState(null, '', '#chain=' + this.value); });
+      return d;
+    });
+  }
+  function table(headers, rows, cls) {
+    var t = el('table', 'gx-table ' + (cls || '')), tr = el('tr');
+    headers.forEach(function (h) { var th = el('th'); th.innerHTML = h; tr.appendChild(th); });
+    t.appendChild(tr);
+    rows.forEach(function (r) {
+      var row = el('tr');
+      r.forEach(function (v, i) { var td = el('td', typeof v === 'number' || /^[\d.,×^⁻ <>-]+%?$/.test(String(v)) ? 'num' : null); if (v && v.nodeType) td.appendChild(v); else td.innerHTML = v == null ? '' : v; row.appendChild(td); });
+      t.appendChild(row);
+    });
+    return t;
+  }
+  function renderChain(id) {
+    var c = CHAINS.chains.filter(function (x) { return x.id === id; })[0], out = $('#chain-out');
+    out.innerHTML = ''; if (!c) return;
+    $('#chain-select').value = id;
+    out.appendChild(el('p', 'gx-note', 'Activities are relative to the chain parent in secular equilibrium (all members decaying at the parent\'s rate, scaled by branching). ' +
+      'Gamma intensities are per 100 decays of that nuclide; “per parent decay” multiplies by its relative activity. Click a member for every radiation it emits and the gammas emitted together with each line.'));
+    var list = el('ol', 'gx-chain');
+    c.members.forEach(function (m, idx) {
+      var li = el('li', 'gx-cmember' + (m.stable ? ' stable' : ''));
+      var head = el('div', 'gx-chead');
+      var nm = el('span', 'gx-cnuc'); nm.innerHTML = m.name;
+      if (!m.stable && (BYID[m.id])) { var a = srcLink(m.id); a.innerHTML = m.name; nm.innerHTML = ''; nm.appendChild(a); }
+      head.appendChild(nm);
+      var facts = [];
+      if (m.stable) facts.push(m.hl ? 'T½ ' + hlText(m.hl) + ' (effectively stable)' : 'stable');
+      else {
+        if (m.hl) facts.push('T½ ' + hlText(m.hl));
+        if (m.jp) facts.push('J<sup>π</sup> ' + m.jp);
+        facts.push('relative activity ' + afText(m.af));
+      }
+      var f = el('span', 'gx-cfacts'); f.innerHTML = facts.join(' · '); head.appendChild(f);
+      li.appendChild(head);
+      if (!m.stable) {
+        var modes = el('div', 'gx-cmodes');
+        modes.innerHTML = (m.modes || []).filter(function (x) { return x[1] == null || x[1] >= 1e-4; }).map(function (x) {
+          return '<span class="gx-mode">' + modeName(x[0]) + ' ' + pct(x[1]) + (x[2] != null ? ', Q = ' + (+x[2]).toFixed(1) + ' keV' : '') + (x[3] ? ' → ' + pretty(x[3]) : '') + '</span>';
+        }).join('');
+        li.appendChild(modes);
+        var g = (m.gammas || []).slice().sort(function (a, b) { return b[1] - a[1]; });
+        if (g.length) li.appendChild(el('div', 'gx-csum', 'Strongest gammas: ' + g.slice(0, 4).map(function (l) { return fmt(l[0], 1) + ' keV (' + (+l[1].toPrecision(3)) + '%)'; }).join(', ')));
+        var d = el('details', 'gx-cdetails'); d.appendChild(el('summary', null, 'All radiation and coincidences'));
+        d.addEventListener('toggle', function () { if (d.open && !d.dataset.done) { d.dataset.done = 1; fillMember(d, m); } });
+        li.appendChild(d);
+      }
+      list.appendChild(li);
+    });
+    out.appendChild(list);
+    var refs = el('details', 'gx-refs'); refs.appendChild(el('summary', null, 'Sources'));
+    var ul = el('ul');
+    c.refs.concat([CHAINS.meta.about, 'Alpha and beta spectra: ' + CHAINS.meta.alpha_beta_source + '.']).forEach(function (r) { ul.appendChild(el('li', null, r)); });
+    refs.appendChild(ul); out.appendChild(refs);
+  }
+  function fillMember(box, m) {
+    var modes = (m.modes || []).map(function (x) { return [modeName(x[0]), pct(x[1]), x[2] != null ? (+x[2]).toFixed(1) : '', x[3] ? pretty(x[3]) : '']; });
+    if (modes.length) { box.appendChild(el('h4', null, 'Decay modes')); box.appendChild(table(['Mode', 'Branching', 'Q (keV)', 'Daughter'], modes)); }
+    if (m.alphas && m.alphas.length) {
+      box.appendChild(el('h4', null, 'Alphas'));
+      box.appendChild(table(['Energy (keV)', 'Intensity (%)'], m.alphas.slice(0, 15).map(function (a) { return [fmt(a[0], 1), +a[1].toPrecision(4)]; })));
+    }
+    [['betas', 'Beta⁻ spectrum'], ['positrons', 'Beta⁺ spectrum']].forEach(function (k) {
+      if (m[k[0]] && m[k[0]].length) {
+        box.appendChild(el('h4', null, k[1]));
+        box.appendChild(table(['End-point (keV)', 'Mean energy (keV)', 'Intensity (%)'], m[k[0]].slice(0, 15).map(function (b) { return [b[0] != null ? fmt(b[0], 1) : '', b[1] != null ? fmt(b[1], 1) : '', +b[2].toPrecision(4)]; })));
+      }
+    });
+    if (m.gammas && m.gammas.length) {
+      box.appendChild(el('h4', null, 'Gammas'));
+      var order = m.gammas.map(function (l, i) { return i; }).sort(function (a, b) { return m.gammas[b][1] - m.gammas[a][1]; });
+      var rows = function (n) {
+        return order.slice(0, n).map(function (i) {
+          var l = m.gammas[i], co = (m.coinc || {})[i];
+          return [fmt(l[0], 2), +l[1].toPrecision(4), +(l[1] * m.af).toPrecision(3), (l[2] != null ? fmt(l[2], 1) : '?') + ' → ' + (l[3] != null ? fmt(l[3], 1) : '?'),
+                  l[4] || '', l[5] != null ? (+l[5].toPrecision(3)) : '',
+                  co ? co.map(function (p) { return fmt(p[0], 1) + ' (' + Math.round(p[1] * 100) + '%)'; }).join(', ') : ''];
+        });
+      };
+      var hdr = ['Energy (keV)', 'Per 100 decays', 'Per 100 parent decays', 'Levels (keV)', 'Multipolarity', 'Conv. coeff. α', 'Emitted together with (probability)'];
+      var holder = el('div'); holder.appendChild(table(hdr, rows(25), 'gx-gtable'));
+      box.appendChild(holder);
+      if (order.length > 25) {
+        var more = el('button', 'mini', 'Show all ' + order.length + ' gammas'); more.type = 'button';
+        more.addEventListener('click', function () { holder.innerHTML = ''; holder.appendChild(table(hdr, rows(order.length), 'gx-gtable')); more.remove(); });
+        box.appendChild(more);
+      }
+      box.appendChild(el('p', 'gx-note', '“Emitted together with”: probability that the listed gamma accompanies this one in the same decay, from the level scheme (cascades through the daughter\'s levels). These show up as coincidences in segmented or multi-detector setups, and as sum peaks in close geometries.'));
+    }
+    if (m.xrays && m.xrays.length) {
+      box.appendChild(el('h4', null, 'X-rays (K, and L where ENSDF lists them)'));
+      box.appendChild(table(['Energy (keV)', 'Per 100 decays', 'Line'], m.xrays.map(function (x) { return [fmt(x[0], 2), +x[1].toPrecision(3), x[2]]; })));
+    }
+  }
+
   /* ------------------------------------------------------------ tabs, wiring */
   function selectTab(name) {
-    ['range', 'peaks', 'browse'].forEach(function (n) {
+    ['range', 'peaks', 'fit', 'chains', 'browse'].forEach(function (n) {
       $('#tab-' + n).setAttribute('aria-selected', n === name ? 'true' : 'false');
       $('#panel-' + n).hidden = n !== name;
     });
@@ -879,7 +1267,9 @@
   function init() {
     buildSetup();
     try { if (localStorage.getItem('gx-setup') || window.innerWidth < 700) $('#setup').open = false; } catch (e) {}   // returning visitors: keep it folded
-    ['range', 'peaks', 'browse'].forEach(function (n) { $('#tab-' + n).addEventListener('click', function () { selectTab(n); }); });
+    ['range', 'peaks', 'fit', 'chains', 'browse'].forEach(function (n) { $('#tab-' + n).addEventListener('click', function () { selectTab(n); }); });
+    $('#tab-chains').addEventListener('click', function () { loadChains().then(function () { if (!$('#chain-out').children.length) renderChain($('#chain-select').value || 'U238'); }); });
+    buildFit();
     $('#range-form').addEventListener('submit', function (e) { e.preventDefault(); current = renderRange; renderRange(); });
     $('#peaks-form').addEventListener('submit', function (e) { e.preventDefault(); current = renderPeaks; renderPeaks(); });
     $('#peaks-example').addEventListener('click', function () {
@@ -893,7 +1283,8 @@
       $('#about-meta').textContent = META.text || '';
       renderBrowse();
       var h = decodeURIComponent(location.hash || '');
-      var m = h.match(/^#range=([\d.]+)-([\d.]+)/), s = h.match(/^#src=(.+)$/);
+      var m = h.match(/^#range=([\d.]+)-([\d.]+)/), s = h.match(/^#src=(.+)$/), ch = h.match(/^#chain=(\w+)/);
+      if (ch) { selectTab('chains'); loadChains().then(function () { renderChain(ch[1]); }); }
       if (m) { $('#emin').value = m[1]; $('#emax').value = m[2]; current = renderRange; renderRange(); }
       else if (s) openSource(s[1]);
       else { $('#emin').value = 1455; $('#emax').value = 1466; }
