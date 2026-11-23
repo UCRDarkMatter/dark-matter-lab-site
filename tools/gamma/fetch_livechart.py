@@ -7,6 +7,7 @@ Run by .github/workflows/gamma-data.yml (the IAEA site is not reachable from eve
 API's CSV files unchanged into OUTDIR:
   ground_states.csv           half-lives, decay modes and abundances of every ground state
   decay/<nuclide>.csv         gamma lines emitted in the decay of <nuclide> (all its decaying states)
+  decay_a|bm|bp/<nuclide>.csv alpha, beta- and beta+ spectra for the decay-chain members (CHAIN_NUCLIDES)
   xray/<nuclide>.csv          X-rays emitted in the decay of <nuclide>
   gammas/<nuclide>.csv        gammas between excited levels of stable <nuclide>, for (n,n'γ) lines
 Only standard-library Python is used.
@@ -22,6 +23,14 @@ API = "https://nds.iaea.org/relnsd/v1/data?"
 UA = "Mozilla/5.0 (UCR Dark Matter Lab gamma-line explorer; https://github.com/UCRDarkMatter/dark-matter-lab-site)"
 MIN_HALF_LIFE_S = 1.0          # decays of anything living at least this long are fetched
 # stable isotopes of materials common in and around detectors: their excited levels give (n,n'γ) lines
+# Members of the decay chains shown in the explorer's "Decay chains" tab: their alpha and beta spectra are
+# fetched too (decay_a/, decay_bm/, decay_bp/), for the per-decay details.
+CHAIN_NUCLIDES = """238u 234th 234pa 234u 230th 226ra 222rn 218po 218at 218rn 214pb 214bi 214po 210tl 210pb 210bi 210po 206hg 206tl
+232th 228ra 228ac 228th 224ra 220rn 216po 212pb 212bi 212po 208tl
+235u 231th 231pa 227ac 227th 223fr 223ra 219at 219rn 215po 215at 211pb 211bi 211po 207tl
+40k 39ar 42ar 42k 85kr 60co 137cs 68ge 68ga 44ti 44sc 90sr 90y 106ru 106rh 144ce 144pr 22na 26al 32si 32p 3h 14c 7be
+54mn 56co 57co 58co 65zn 46sc 48v 51cr 59fe 124sb 125sb 110ag 133ba 152eu 154eu 241am""".split()
+
 INELASTIC = """1h 2h 6li 7li 9be 10b 11b 12c 13c 14n 15n 16o 17o 18o 19f 23na 24mg 25mg 26mg 27al 28si 29si 30si 31p 32s 34s
 35cl 37cl 36ar 38ar 40ar 39k 41k 40ca 42ca 44ca 46ti 47ti 48ti 49ti 50ti 50cr 52cr 53cr 54cr 55mn 54fe 56fe 57fe 58fe 59co
 58ni 60ni 61ni 62ni 64ni 63cu 65cu 64zn 66zn 67zn 68zn 70zn 69ga 71ga 70ge 72ge 73ge 74ge 76ge 75as 79br 81br 93nb 92mo 94mo
@@ -72,6 +81,17 @@ def main(out):
                 time.sleep(0.12)
         if i % 200 == 0:
             print(" decay", i, nm, flush=True)
+    for nm in CHAIN_NUCLIDES:
+        for rt in ("a", "bm", "bp"):
+            d = os.path.join(out, "decay_" + rt)
+            os.makedirs(d, exist_ok=True)
+            p = os.path.join(d, nm + ".csv")
+            if not os.path.exists(p):
+                txt = get("fields=decay_rads&nuclides=%s&rad_types=%s" % (nm, rt))
+                if len(txt.strip()) > 5:
+                    open(p, "w").write(txt)
+                time.sleep(0.12)
+    print("chain alpha/beta spectra done", flush=True)
     for nm in INELASTIC:
         p = os.path.join(out, "gammas", nm + ".csv")
         if not os.path.exists(p):
