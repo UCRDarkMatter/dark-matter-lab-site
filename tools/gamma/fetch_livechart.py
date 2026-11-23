@@ -12,7 +12,7 @@ API's CSV files unchanged into OUTDIR:
   gammas/<nuclide>.csv        gammas between excited levels of stable <nuclide>, for (n,n'γ) lines
 Only standard-library Python is used.
 """
-import csv
+import csv, re
 import io
 import os
 import sys
@@ -92,6 +92,29 @@ def main(out):
                     open(p, "w").write(txt)
                 time.sleep(0.12)
     print("chain alpha/beta spectra done", flush=True)
+    # Radioactive Signal Explorer: alpha lines of every alpha emitter, beta branches (endpoints, log ft, transition
+    # type) of every beta-minus / beta-plus/EC emitter
+    for r in rows:
+        try:
+            hl = float(r.get("half_life_sec") or "nan")
+        except ValueError:
+            continue
+        if not (hl == hl and hl >= MIN_HALF_LIFE_S):
+            continue
+        nm = "%d%s" % (int(r["z"]) + int(r["n"]), r["symbol"].lower())
+        modes = " ".join((r.get("decay_%d" % k) or "") for k in (1, 2, 3))
+        want = (["a"] if re.search(r"\bA\b", modes) else []) + (["bm"] if "B-" in modes else []) + \
+               (["bp"] if re.search(r"EC|B\+", modes) else [])
+        for rt in want:
+            d = os.path.join(out, "decay_" + rt)
+            os.makedirs(d, exist_ok=True)
+            p = os.path.join(d, nm + ".csv")
+            if not os.path.exists(p):
+                txt = get("fields=decay_rads&nuclides=%s&rad_types=%s" % (nm, rt))
+                if len(txt.strip()) > 5:
+                    open(p, "w").write(txt)
+                time.sleep(0.12)
+    print("all alpha/beta spectra done", flush=True)
     for nm in INELASTIC:
         p = os.path.join(out, "gammas", nm + ".csv")
         if not os.path.exists(p):
