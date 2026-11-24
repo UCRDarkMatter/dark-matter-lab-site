@@ -441,7 +441,7 @@
     // The allowed weak-magnetism slope does not apply to forbidden decays and is switched off for them.
     var forb = p.kind === 'U' || p.kind === 'NU';
     if (forb) rho = 1e6;
-    var c = betaContext(Object.assign({}, p, { W0: W0, rho: rho }));
+    var c = betaContext(Object.assign({}, p, { W0: W0, rho: rho }, forb ? { Lambda: 0, dAc: 0, bAc: 0 } : {}));
     if (forb) c.aQ = p.kind === 'U' ? -1 / (2 * (p.k + 1) + 1) : 0;
     var T = new Float64Array(n), out = new Float64Array(n), fac = {};
     var names = ['F0', 'L0', 'U', 'C', 'R', 'RN', 'Q', 'S', 'X', 'r', 'shape', 'fierz'];

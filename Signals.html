@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261123m">
-<link rel="stylesheet" href="assets/signals.css?v=20261123m">
+<link rel="stylesheet" href="assets/style.css?v=20261124a">
+<link rel="stylesheet" href="assets/signals.css?v=20261124a">
 </head>
 <body>
-<script src="assets/site.js?v=20261123m"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261124a"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -154,8 +154,8 @@
               <label id="b-k-wrap">Order k <input type="number" id="b-k" min="1" max="6" step="1" value="1"></label>
               <label id="b-rho-wrap" title="ρ = C_A M_GT / (C_V M_F); 0 = pure Fermi, ∞ = pure Gamow–Teller">Mixing ρ <input type="text" id="b-rho" value="inf"></label>
               <label id="b-bac-wrap" title="Weak magnetism form factor b/(A c), Holstein; about 5 in the impulse approximation">b/Ac <input type="number" id="b-bac" step="any" value="5"></label>
-              <label title="Induced tensor (second-class) d/(A c); zero for mirror decays">d/Ac <input type="number" id="b-dac" step="any" value="0"></label>
-              <label title="Λ: ratio of the M121 and M101 matrix elements (Hayen et al. eq. 107)">Λ <input type="number" id="b-lam" step="any" value="0"></label>
+              <label id="b-dac-wrap" title="Induced tensor d/(A c): zero for mirror decays (second-class current); a nuclear-structure term otherwise. Allowed Gamow–Teller branches only; needs the weak-magnetism switch.">d/Ac <input type="number" id="b-dac" step="any" value="0"></label>
+              <label id="b-lam-wrap" title="Λ: ratio of the M121 and M101 matrix elements (Hayen et al. eq. 107); allowed Gamow–Teller branches only">Λ <input type="number" id="b-lam" step="any" value="0"></label>
             </div>
             <p class="sx-note" id="b-forb-note" hidden></p>
             <details class="sx-more"><summary>Empirical shape factor C(W) = 1 + aW + b/W + cW²</summary>
@@ -312,9 +312,9 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261123m"></script>
-<script src="assets/signals-exchange.js?v=20261123m"></script>
-<script src="assets/signals-code.js?v=20261123m"></script>
-<script src="assets/signals.js?v=20261123m"></script>
+<script src="assets/signals-physics.js?v=20261124a"></script>
+<script src="assets/signals-exchange.js?v=20261124a"></script>
+<script src="assets/signals-code.js?v=20261124a"></script>
+<script src="assets/signals.js?v=20261124a"></script>
 </body>
 </html>

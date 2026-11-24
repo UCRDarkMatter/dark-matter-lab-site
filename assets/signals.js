@@ -452,7 +452,7 @@
   /* ================================================================ BETA */
   var CORR = [
     ['L0', 'Finite nuclear size, L₀', 'Wilkinson 1990, uniformly charged sphere', true], ['U', 'Diffuse nuclear surface, U', 'Wilkinson 1993, Fermi distribution', true],
-    ['C', 'Finite-size convolution, C', 'Hayen et al. eqs. 100–106; with b/Ac, d/Ac, Λ', true], ['WM', 'Weak magnetism and induced tensor', 'b/Ac, d/Ac in the GT shape factor', true],
+    ['C', 'Finite-size convolution, C', 'Hayen et al. eqs. 100–106; with b/Ac, d/Ac, Λ', true], ['WM', 'Weak magnetism and induced tensor', 'b/Ac, d/Ac in the GT shape factor (allowed branches only)', true],
     ['rad', 'Radiative O(α)', 'Sirlin 1967; Repko–Wu at the endpoint', true], ['o2', 'Radiative O(Zα²) + RG resummation', 'Sirlin 1987; Czarnecki, Marciano & Sirlin 2004', true],
     ['o3', 'Radiative O(Z²α³) and higher', 'Sirlin 1987 heuristic; Wilkinson 1997', true], ['RN', 'Kinematic recoil, R_N', 'Wilkinson 1990', true], ['Q', 'Coulomb recoil, Q', 'Wilkinson 1982', true],
     ['S', 'Atomic screening, S', 'Bühring 1984 (Rose-type potential shift)', true], ['X', 'Atomic exchange, X (β⁻)', 'Hayen et al. eq. 157, Table X', true],
@@ -552,12 +552,12 @@
     var n = normName($('#b-nuc').value), out = $('#b-out'); out.innerHTML = '';
     var kind = $('#b-kind').value, forb = kind !== 'A';
     // forbidden branches: rho and the allowed weak-magnetism slope do not apply; couplings -> b_F only for unique ones
-    $('#b-rho-wrap').hidden = forb; $('#b-bac-wrap').hidden = forb; $('#b-cs-wrap').hidden = forb;
+    $('#b-rho-wrap').hidden = forb; $('#b-bac-wrap').hidden = forb; $('#b-dac-wrap').hidden = forb; $('#b-lam-wrap').hidden = forb; $('#b-cs-wrap').hidden = forb;
     $('#b-fmode-c').disabled = kind === 'NU';
     if (kind === 'NU' && $('#b-fmode').value === 'c') $('#b-fmode').value = 'b';
     var fn = $('#b-forb-note'); fn.hidden = !forb;
-    if (kind === 'U') fn.innerHTML = 'Unique forbidden: the Fermi/Gamow–Teller mixing ρ and the allowed weak-magnetism slope do not apply. Finite-size and recoil terms use their axial (Gamow–Teller) form; the Coulomb-recoil term uses the leading-order β–ν correlation a = −1/(2k+3) = ' + fmt(-1 / (2 * (num('#b-k', 1) + 1) + 1), 3) + '. These allowed-decay corrections are approximations at the 10⁻³ level here.';
-    else if (kind === 'NU') fn.innerHTML = 'Non-unique forbidden: the shape depends on several nuclear matrix elements. The ξ approximation (allowed shape) is used unless you enter an empirical shape factor; ρ and weak magnetism do not apply, and the Coulomb-recoil term takes a = 0.';
+    if (kind === 'U') fn.innerHTML = 'Unique forbidden: the Fermi/Gamow–Teller mixing ρ, the allowed weak-magnetism and induced-tensor terms (b/Ac, d/Ac) and Λ do not apply. Finite-size and recoil terms use their axial (Gamow–Teller) form; the Coulomb-recoil term uses the leading-order β–ν correlation a = −1/(2k+3) = ' + fmt(-1 / (2 * (num('#b-k', 1) + 1) + 1), 3) + '. These allowed-decay corrections are approximations at the 10⁻³ level here.';
+    else if (kind === 'NU') fn.innerHTML = 'Non-unique forbidden: the shape depends on several nuclear matrix elements. The ξ approximation (allowed shape) is used unless you enter an empirical shape factor; ρ, the weak-magnetism and induced-tensor terms (b/Ac, d/Ac) and Λ do not apply, and the Coulomb-recoil term takes a = 0.';
     $('#b-fierz-note').innerHTML = kind === 'NU' ? 'For a non-unique forbidden branch, b<sub>F</sub> is a <em>phenomenological</em> 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E tilt: exotic couplings interfere with several matrix elements here, so b<sub>F</sub> cannot be computed from them without nuclear-structure input.'
       : kind === 'U' ? 'For a unique forbidden branch only tensor couplings interfere (the operators are axial), and the leading-order term has the same form as in allowed Gamow–Teller decays: 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E with b<sub>F</sub> = ±Re[(C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>].'
       : 'Multiplies the spectrum by 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E, which tilts it towards low energies for b<sub>F</sub> &gt; 0.';

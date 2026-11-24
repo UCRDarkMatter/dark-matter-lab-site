@@ -12,7 +12,7 @@
   function norm(p) {
     var forb = p.kind === 'U' || p.kind === 'NU';
     var q = Object.assign({}, p, { corr: Object.assign({}, p.corr) });
-    if (forb) { q.rho = Infinity; q.corr.WM = false; q.aQ = p.kind === 'U' ? -1 / (2 * ((p.k || 1) + 1) + 1) : 0; }
+    if (forb) { q.rho = Infinity; q.corr.WM = false; q.Lambda = 0; q.dAc = 0; q.bAc = 0; q.aQ = p.kind === 'U' ? -1 / (2 * ((p.k || 1) + 1) + 1) : 0; }
     return q;
   }
   function exch(p) { var t = root.SignalExchange && root.SignalExchange[p.Z]; return t && p.beta < 0 ? t : null; }
