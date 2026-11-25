@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T21:11:28Z",
+ "generated": "2026-11-25T20:28:43Z",
  "query": "au:Westerdale",
  "papers": [
   {
@@ -1141,7 +1141,7 @@
    "doi": "10.1088/1748-0221/19/12/P12005",
    "comment": "",
    "category": "physics.ins-det",
-   "citations": 77,
+   "citations": 78,
    "collaboration": "DUNE"
   },
   {
@@ -1990,7 +1990,7 @@
    "doi": "",
    "comment": "contribution to Snowmass 2021",
    "category": "hep-ex",
-   "citations": 139
+   "citations": 140
   },
   {
    "id": "2203.07700",
@@ -2782,7 +2782,7 @@
    "doi": "10.1140/epjp/i2018-11973-4",
    "comment": "",
    "category": "physics.ins-det",
-   "citations": 565,
+   "citations": 566,
    "collaboration": "DarkSide-20k"
   },
   {
@@ -3290,5 +3290,5 @@
    "citations": 23
   }
  ],
- "total_citations": 7575
+ "total_citations": 7578
 }
