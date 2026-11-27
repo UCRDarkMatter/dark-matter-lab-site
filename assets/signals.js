@@ -465,7 +465,7 @@
       fillList('#b-nuc-list', names('bm|bp'));
       $('#b-nuc').addEventListener('change', bNuc); $('#b-nuc').addEventListener('input', function () { if (has(normName(this.value), 'bm|bp')) bNuc(); });
       $('#b-branch').addEventListener('change', bBranch);
-      ['#b-t0', '#b-sign', '#b-z', '#b-a', '#b-r', '#b-kind', '#b-k', '#b-rho', '#b-bac', '#b-dac', '#b-lam', '#b-sa', '#b-sb', '#b-sc', '#b-fmode', '#b-fierz', '#b-acorr', '#b-cs', '#b-csp', '#b-ct', '#b-ctp', '#b-mnu', '#b-st', '#b-ms', '#b-u2', '#b-log', '#b-ref', '#b-kurie'].forEach(function (id) { $(id).addEventListener('change', RUN.beta); });
+      ['#b-t0', '#b-sign', '#b-z', '#b-a', '#b-r', '#b-kind', '#b-k', '#b-rho', '#b-bac', '#b-dac', '#b-lam', '#b-um', '#b-uc', '#b-sa', '#b-sb', '#b-sc', '#b-fmode', '#b-fierz', '#b-acorr', '#b-cs', '#b-csp', '#b-ct', '#b-ctp', '#b-mnu', '#b-st', '#b-ms', '#b-u2', '#b-log', '#b-ref', '#b-kurie'].forEach(function (id) { $(id).addEventListener('change', RUN.beta); });
       $('#b-csv').addEventListener('click', bCSV); $('#b-rcsv').addEventListener('click', bRCSV);
       document.querySelectorAll('.sx-gloss-link').forEach(function (l) { l.addEventListener('click', function (ev) { ev.preventDefault(); var d = $('#b-gloss'); d.open = true; d.scrollIntoView({ behavior: 'smooth' }); }); });
       $('#b-py').addEventListener('click', function () { bCode('py'); }); $('#b-cpp').addEventListener('click', function () { bCode('cpp'); });
@@ -516,7 +516,7 @@
   function bParams(T0, over) {
     var corr = {}; CORR.forEach(function (c) { corr[c[0]] = $('#bc-' + c[0]).checked; });
     var kind = $('#b-kind').value, p = { Z: num('#b-z', 1) | 0, A: num('#b-a', 1) | 0, beta: +$('#b-sign').value, T0: T0, rrms: num('#b-r', 0) || null,
-      kind: kind, k: num('#b-k', 1) | 0, rho: parseRho(), bAc: num('#b-bac', 0), dAc: num('#b-dac', 0), Lambda: num('#b-lam', 0),
+      kind: kind, k: num('#b-k', 1) | 0, rho: parseRho(), bAc: num('#b-bac', 0), dAc: num('#b-dac', 0), Lambda: num('#b-lam', 0), uM: num('#b-um', 0), uC: num('#b-uc', 0),
       shape: { a: num('#b-sa', 0), b: num('#b-sb', 0), c: num('#b-sc', 0) }, fierz: fierzValue(over && over.kind, over && over.rho, over && over.beta, over && over.k), mnu: num('#b-mnu', 0),
       msterile: $('#b-st').checked ? num('#b-ms', 0) : 0, Usterile2: $('#b-st').checked ? Math.min(1, Math.max(0, num('#b-u2', 0))) : 0, corr: corr, n: 600 };
     return Object.assign(p, over || {});
@@ -540,7 +540,7 @@
     if (U2 > 0 && pr.msterile > 0) states.push({ m: pr.msterile, w: U2 });
     var parts = states.map(function (st) {
       var sp = P.betaSpectrum(Object.assign({}, pr, { mnu: st.m * 1000, Usterile2: 0, msterile: 0 }));
-      return { r: P.betaRecoil(sp, { a: a, kind: pr.kind, k: pr.k, mnu: st.m }), w: st.w * (sp.norm || 0) };
+      return { r: P.betaRecoil(sp, { a: a, kind: pr.kind, k: pr.k, mnu: st.m, uM: pr.uM, uC: pr.uC }), w: st.w * (sp.norm || 0) };
     });
     if (parts.length === 1) return parts[0].r;
     var tw = parts[0].w + parts[1].w, R = parts[0].r, out = { T: R.T, dNdT: new Float64Array(R.T.length), max: R.max, a: a, mean: 0 };
@@ -552,7 +552,7 @@
     var n = normName($('#b-nuc').value), out = $('#b-out'); out.innerHTML = '';
     var kind = $('#b-kind').value, forb = kind !== 'A';
     // forbidden branches: rho and the allowed weak-magnetism slope do not apply; couplings -> b_F only for unique ones
-    $('#b-rho-wrap').hidden = forb; $('#b-bac-wrap').hidden = forb; $('#b-dac-wrap').hidden = forb; $('#b-lam-wrap').hidden = forb; $('#b-cs-wrap').hidden = forb;
+    $('#b-rho-wrap').hidden = forb; $('#b-bac-wrap').hidden = forb; $('#b-dac-wrap').hidden = forb; $('#b-lam-wrap').hidden = forb; $('#b-nlo-wrap').hidden = !(kind === 'U' && (num('#b-k', 1) | 0) === 1); $('#b-cs-wrap').hidden = forb;
     $('#b-fmode-c').disabled = kind === 'NU';
     if (kind === 'NU' && $('#b-fmode').value === 'c') $('#b-fmode').value = 'b';
     var fn = $('#b-forb-note'); fn.hidden = !forb;
@@ -609,7 +609,7 @@
     // correction factors panel
     if (spec.factors) {
       var fs = [], k = 0;
-      [['L0', 'Finite size L₀ · U'], ['C', 'Convolution C (incl. weak magnetism)'], ['R', 'Radiative'], ['S', 'Screening'], ['X', 'Exchange'], ['r', 'Mismatch'], ['RN', 'Recoil R_N · Q'], ['fierz', 'Fierz']].forEach(function (f) {
+      [['L0', 'Finite size L₀ · U'], ['C', 'Convolution C (incl. weak magnetism)'], ['R', 'Radiative'], ['S', 'Screening'], ['X', 'Exchange'], ['r', 'Mismatch'], ['RN', 'Recoil R_N · Q'], ['nlo', 'Next order in qR (unique)'], ['fierz', 'Fierz']].forEach(function (f) {
         var y = spec.factors[f[0]]; if (!y) return;
         if (f[0] === 'RN') y = y.map(function (v, i) { return v * spec.factors.Q[i]; });
         if (f[0] === 'L0') y = y.map(function (v, i) { return v * spec.factors.U[i]; });
@@ -644,6 +644,7 @@
     if (p.kind === 'U') rows.push(['Unique forbidden shape (k = ' + p.k + ')', 'C(W) ∝ Σ<sub>n=1</sub><sup>k+1</sup> λ<sub>n</sub> p<sup>2(n−1)</sup> q<sup>2(k+1−n)</sup> / [(2n−1)! (2(k+1−n)+1)!],&nbsp; q = √((W₀ − W)² − m<sub>ν</sub>²) the neutrino momentum,&nbsp; λ<sub>n</sub> = F<sub>n−1</sub>/F₀ · (n + γ<sub>n</sub>)/(n(1 + γ₁)),&nbsp; F<sub>n−1</sub> = [n(2n−1)!!]² 4<sup>n</sup> (2pR)<sup>2(γₙ−n)</sup> e<sup>πy</sup> |Γ(γₙ+iy)|²/Γ(1+2γₙ)²']);
     if (p.corr.rad) rows.push(['Radiative (O(α))', '1 + δ₁ = 1 + (α/2π)[g(W₀,W) − 3 ln(m<sub>p</sub>/2W₀)], with Sirlin’s g; the t(β) ln(W₀−W) term is resummed as (W₀−W)<sup>t(β)</sup> − 1']);
     if (p.fierz) rows.push(['Fierz term', 'N → N · (1 + b<sub>F</sub> γ / W),&nbsp; b<sub>F</sub> = ' + fmt(p.fierz, 4) + ($('#b-fmode').value === 'c' ? (p.kind === 'U' ? ' = ±2(x<sub>T</sub> + x′<sub>T</sub>)/(2 + x<sub>T</sub>² + x′<sub>T</sub>²), x = C/C<sub>A</sub> (unique forbidden: tensor only)' : ' = ±2[(x<sub>S</sub> + x′<sub>S</sub>) + ρ²(x<sub>T</sub> + x′<sub>T</sub>)]/ξ,&nbsp; ξ = (2 + x<sub>S</sub>² + x′<sub>S</sub>²) + ρ²(2 + x<sub>T</sub>² + x′<sub>T</sub>²),&nbsp; x<sub>S</sub> = C<sub>S</sub>/C<sub>V</sub>, x<sub>T</sub> = C<sub>T</sub>/C<sub>A</sub> (Jackson–Treiman–Wyld)') : (p.kind === 'NU' ? ' (phenomenological for this non-unique branch)' : ''))]);
+    if (p.kind === 'U' && p.k === 1 && (p.uM || p.uC)) rows.push(['Next order in qR (unique 1st forbidden)', 'C → C × [1 + δ₁ − (4/15) δ<sub>c</sub> β kν/(k² + ν²)],&nbsp; δ₁ = (4/5)[±√(3/2)(ν − k²/W) R u<sub>M</sub> − (ν + k²/W) R u<sub>C</sub>],&nbsp; δ<sub>c</sub> = 2[±√(3/2)(W − ν) R u<sub>M</sub> − (ν + W) R u<sub>C</sub>],&nbsp; u<sub>M</sub> = ' + fmt(p.uM, 4) + ', u<sub>C</sub> = ' + fmt(p.uC, 4) + ' (Glick-Magid et al. 2017, eqs. 12–14, integrated with the q² weight)']);
     var ca = corrs(); rows.push(['Recoil spectrum', 'T<sub>R</sub> = q²/2M with q² = k² + ν² + 2kν cos θ (ν the neutrino momentum); cos θ distributed as q<sup>2(J−1)</sup>[1 + a β<sub>e</sub>β<sub>ν</sub> cos θ − (J−1) a kν β<sub>e</sub>β<sub>ν</sub> sin²θ / q²], β<sub>ν</sub> = ν/E<sub>ν</sub> (J = 1 allowed, J = k + 1 unique), weighted by the electron spectrum;&nbsp; a = ' + fmt(ca.a, 5) + (p.kind === 'U' ? ' = −(2 − x<sub>T</sub>² − x′<sub>T</sub>²)/[(2J+1)(2 + x<sub>T</sub>² + x′<sub>T</sub>²)]' : p.kind === 'A' ? ' = [(2 − x<sub>S</sub>² − x′<sub>S</sub>²) − ρ²(2 − x<sub>T</sub>² − x′<sub>T</sub>²)/3]/ξ' : '')]);
     if (p.mnu) rows.push(['Neutrino mass', '(W₀ − W)² → (W₀ − W) √((W₀ − W)² − m<sub>β</sub>²),&nbsp; m<sub>β</sub> = ' + fmt(p.mnu, 4) + ' eV/c²']);
     if (p.Usterile2) rows.push(['Heavy neutrino', 'N = (1 − |U<sub>e4</sub>|²) N(m<sub>β</sub>) + |U<sub>e4</sub>|² N(m₄),&nbsp; m₄ = ' + fmt(p.msterile, 4) + ' keV/c², |U<sub>e4</sub>|² = ' + fmt(p.Usterile2, 3) + '; the heavy branch ends at T₀ − m₄c² = ' + fmt(p.T0 - p.msterile, 5) + ' keV']);

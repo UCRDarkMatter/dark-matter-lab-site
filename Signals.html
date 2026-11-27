@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261124a">
-<link rel="stylesheet" href="assets/signals.css?v=20261124a">
+<link rel="stylesheet" href="assets/style.css?v=20261127a">
+<link rel="stylesheet" href="assets/signals.css?v=20261127a">
 </head>
 <body>
-<script src="assets/site.js?v=20261124a"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261127a"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -158,6 +158,13 @@
               <label id="b-lam-wrap" title="Λ: ratio of the M121 and M101 matrix elements (Hayen et al. eq. 107); allowed Gamow–Teller branches only">Λ <input type="number" id="b-lam" step="any" value="0"></label>
             </div>
             <p class="sx-note" id="b-forb-note" hidden></p>
+            <div id="b-nlo-wrap" hidden>
+              <div class="sx-grid2">
+                <label title="Vector magnetic quadrupole over the leading axial multipole, divided by qR: the forbidden analogue of weak magnetism. By CVC it follows from the M2 gamma width of the isobaric analogue state.">⟨M<sub>2</sub><sup>V</sup>⟩ / (qR ⟨L<sub>2</sub><sup>A</sup>⟩) <input type="number" id="b-um" step="any" value="0"></label>
+                <label title="Axial charge (time-like axial current) multipole over the leading axial multipole, divided by qR; enhanced by meson-exchange currents in real nuclei.">⟨C<sub>2</sub><sup>A</sup>⟩ / (qR ⟨L<sub>2</sub><sup>A</sup>⟩) <input type="number" id="b-uc" step="any" value="0"></label>
+              </div>
+              <p class="sx-note">Next order in qR for unique first-forbidden decays (Glick-Magid et al., PLB 767, 285, eqs. 12–14): the induced-current analogues of weak magnetism (vector magnetic, M<sub>2</sub><sup>V</sup>) and of the axial charge (C<sub>2</sub><sup>A</sup>). Both ratios scale with qR, so they are entered divided by it; O(0.1–1) values give per-mille to per-cent shape changes. They need a nuclear-structure calculation or a measurement.</p>
+            </div>
             <details class="sx-more"><summary>Empirical shape factor C(W) = 1 + aW + b/W + cW²</summary>
               <div class="sx-grid2"><label>a <input type="number" id="b-sa" step="any" value="0"></label><label>b <input type="number" id="b-sb" step="any" value="0"></label><label>c <input type="number" id="b-sc" step="any" value="0"></label></div>
               <p class="sx-note">W in units of mₑc². Use for non-unique forbidden decays with a measured shape (the default is the ξ approximation, C = 1).</p></details>
@@ -239,6 +246,8 @@
               <dd>The parent's electron cloud does not fit the daughter atom, so the atom is left excited and takes some energy from the leptons. The effect concentrates near the endpoint: on average the spectrum ends ΔE = ½ ∂²B/∂Z² earlier (B: total electron binding energy; ΔE ≈ 30 eV for tritium, 90 eV for ⁶³Ni), which costs about 1% of the spectrum 15 keV below the ⁶³Ni endpoint. The page applies this as the endpoint shift ((W₀ − W − ΔE)/(W₀ − W))², of which Hayen et al.'s r is the first-order expansion.</dd>
               <dt>Forbidden decays and the shape factor</dt>
               <dd>When angular momentum or parity forbid the allowed operators, the leptons must carry orbital angular momentum L = k. For <b>unique</b> k-th forbidden decays (ΔJ = k + 1, parity (−1)ᵏ) only one nuclear matrix element contributes and the shape follows from the lepton momenta: C(W) ∝ Σₙ λₙ p²⁽ⁿ⁻¹⁾ q²⁽ᵏ⁺¹⁻ⁿ⁾ / [(2n−1)! (2(k+1−n)+1)!], where λₙ are Coulomb functions (ratios of generalised Fermi functions, 1 without Coulomb effects). For <b>non-unique</b> decays several nuclear matrix elements interfere; the ξ approximation (allowed shape) is used unless you enter an empirical shape factor 1 + aW + b/W + cW². For forbidden branches the mixing ratio ρ and the allowed weak-magnetism slope have no meaning and are switched off; the finite-size and recoil terms are allowed-decay formulas applied in their axial form (an approximation at the 10⁻³ level). For low-Q unique decays such as ⁹⁰Sr, Seng, Glick-Magid &amp; Cirigliano (PRL 134, 081805, 2025) find that O(α) radiative corrections open the decay at zero nuclear recoil momentum and may distort the spectrum by several per cent; this effect is not included.</dd>
+              <dt>Next order for unique first-forbidden decays</dt>
+              <dd>For ΔJ = 2, parity-changing decays (⁹⁰Y, ³⁹Ar, ⁸⁵Kr, ...) the allowed induced currents (b/Ac, d/Ac) do not apply; their analogues are the vector magnetic quadrupole M<sub>2</sub><sup>V</sup> (weak magnetism; fixed by CVC from the M2 γ width of the isobaric analogue) and the axial charge C<sub>2</sub><sup>A</sup>, each suppressed by another factor of qR. Enter their ratios to the leading axial multipole, divided by qR. The shape becomes (k² + ν²)(1 + δ₁) − (4/15) δ<sub>c</sub> β kν, following Glick-Magid et al. (2017) eqs. 12–14 integrated with the q² weight; the δ<sub>c</sub> term is where the β–ν correlation does leave a trace in the spectrum.</dd>
               <dt>β–ν angular correlation a (not in the energy spectrum)</dt>
               <dd>The decay rate also depends on the angle between electron and neutrino, as 1 + a β cos θ<sub>eν</sub> for allowed decays (a = 1 for Fermi, −1/3 for Gamow–Teller transitions in the Standard Model; scalar and tensor couplings change it quadratically, including couplings to right-handed neutrinos that leave b<sub>F</sub> = 0). Integrating over the neutrino direction removes it from the electron energy spectrum; it is measured through the recoiling nucleus. For unique forbidden decays the correlation has an extra term ∝ [β² − (β·ν̂)²]/q² (Glick-Magid et al. 2017; 2023) that has been proposed as a way to see a, and hence right-handed tensor couplings, in the energy spectrum. When the q² dependence of the nuclear matrix element (|⟨L<sub>J</sub>⟩|² ∝ q<sup>2(J−1)</sup>) is kept, that term cancels the β·ν̂ term exactly on integration, for every J, so to leading order the unique spectrum carries only b<sub>F</sub>; the same weighting is what produces the standard unique shapes above. The page therefore uses a only for the <b>recoil-nucleus spectrum</b> (third plot), where it does matter: you can enter a directly or derive it from the four couplings, and the plot shows T<sub>R</sub> = q²/2M with the angular distribution above. With a neutrino mass or a heavy neutrino switched on, each mass state recoils with its own momentum √(E<sub>ν</sub>² − m²), the correlation term becomes a β<sub>e</sub>β<sub>ν</sub> cos θ, and the heavy state is weighted by |U<sub>e4</sub>|² and its phase space; recoil-ion spectra are one of the ways keV-scale sterile neutrinos are searched for.</dd>
               <dt>Fierz term b<sub>F</sub> (beyond the Standard Model)</dt>
@@ -312,9 +321,9 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261124a"></script>
-<script src="assets/signals-exchange.js?v=20261124a"></script>
-<script src="assets/signals-code.js?v=20261124a"></script>
-<script src="assets/signals.js?v=20261124a"></script>
+<script src="assets/signals-physics.js?v=20261127a"></script>
+<script src="assets/signals-exchange.js?v=20261127a"></script>
+<script src="assets/signals-code.js?v=20261127a"></script>
+<script src="assets/signals.js?v=20261127a"></script>
 </body>
 </html>

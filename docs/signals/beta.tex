@@ -227,6 +227,19 @@ Here several nuclear matrix elements contribute with energy-dependent lepton fac
 \subsection{What else changes for forbidden branches}
 The corrections $C$, $R_N$ and $Q$ of \cref{tab:terms} were derived for allowed decays, where the mixing ratio $\rho$ weights their vector and axial forms. For a forbidden branch $\rho$ has no meaning. The page therefore uses the axial form of $C$ and $R_N$ for every forbidden branch (the unique operators are axial; for non-unique ones this is a choice), switches off the allowed weak-magnetism slope (its forbidden analogue involves the ratio of a vector magnetic to an axial multipole, which needs a nuclear model), and in $Q$ replaces the allowed $\beta$--$\nu$ correlation by the leading-order unique value $a = -1/(2J+1)$ with $J = k+1$ (\cref{sec:corr}), or by zero for non-unique branches. All of these are corrections at the $10^{-4}$--$10^{-3}$ level, so the approximation matters only for precision work.
 
+\subsection{Next order in $qR$ for unique first-forbidden decays}
+For a unique first-forbidden decay the leading multipole is the axial longitudinal $\hat L^A_2 = O(qR)$. At the next order two further multipoles enter, each suppressed by another power of $qR$ and by the nucleon mass: the vector magnetic quadrupole $\hat M^V_2$, the forbidden analogue of weak magnetism (by CVC it is fixed by the M2 $\gamma$ width of the isobaric analogue state), and the axial charge $\hat C^A_2$ (the time-like axial current, known to be enhanced by meson-exchange currents). Glick-Magid \emph{et al.}\ \cite{gm17} give
+\begin{gather}
+\frac{\dd\Gamma}{\dd W\,\dd\Omega_e\,\dd\Omega_\nu} \propto q^2\left[1 + \delta_1 - \tfrac25(1 + \delta_c)\beta\cos\theta + \tfrac15(\hat\nu\cdot\hat q)(\bm\beta\cdot\hat q)\right],\\
+\delta_1 = \tfrac45\left[\pm\sqrt{\tfrac32}\,(\nu - k^2/W)R\,u_M - (\nu + k^2/W)R\,u_C\right],\quad
+\delta_c = 2\left[\pm\sqrt{\tfrac32}\,(W - \nu)R\,u_M - (\nu + W)R\,u_C\right],\nonumber
+\end{gather}
+written here with $u_M = \mathrm{Re}\langle\hat M^V_2\rangle/(qR\langle\hat L^A_2\rangle)$ and $u_C = \mathrm{Re}\langle\hat C^A_2\rangle/(qR\langle\hat L^A_2\rangle)$, which are independent of $q$ because both ratios are themselves $O(qR)$ (upper sign $\beta^-$). Integrating with the $q^2$ weight as in \cref{sec:corr} gives the shape factor
+\begin{equation}
+(k^2 + \nu^2)(1 + \delta_1) - \tfrac{4}{15}\,\delta_c\,\beta k\nu .
+\end{equation}
+Unlike the leading-order correlation, the $\delta_c$ term does survive the angular integral, so this is where the spectrum becomes (weakly) sensitive to the correlation structure. For \nuc{39}{Ar} ($R \approx 0.012$ in $\me$ units) $u_M = 1$ changes the spectrum shape by $-1.7\%$ to $+1.4\%$ and $u_C = 1$ by $-0.5\%$ to $+0.1\%$; the estimate of \cite{gm17} that these corrections are 0.2--0.4\% corresponds to $|u| \sim 0.2$--$0.3$. The page applies the factor on top of the Coulomb-corrected shape, and in the recoil spectrum adds $\delta_1$ and the extra $\delta_c$ correlation term.
+
 \begin{pitfall}[Radiative corrections at zero recoil momentum]
 For a unique decay the tree-level rate vanishes as $|\bm q|^2 \to 0$ (the nuclear matrix element is $\propto|\bm q|$). Seng, Glick-Magid and Cirigliano \cite{seng} showed that $O(\alpha)$ $\gamma W$-box diagrams do not vanish there, because the photon can supply the missing angular momentum. For low-$Q$ decays such as \nuc{90}{Sr} this changes the spectrum by several per cent in their exploratory estimate (the total rate by about 8\%). The outer radiative correction $R$ used here does not contain this effect.
 \end{pitfall}

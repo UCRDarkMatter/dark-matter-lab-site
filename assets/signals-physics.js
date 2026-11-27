@@ -444,7 +444,7 @@
     var c = betaContext(Object.assign({}, p, { W0: W0, rho: rho }, forb ? { Lambda: 0, dAc: 0, bAc: 0 } : {}));
     if (forb) c.aQ = p.kind === 'U' ? -1 / (2 * (p.k + 1) + 1) : 0;
     var T = new Float64Array(n), out = new Float64Array(n), fac = {};
-    var names = ['F0', 'L0', 'U', 'C', 'R', 'RN', 'Q', 'S', 'X', 'r', 'shape', 'fierz'];
+    var names = ['F0', 'L0', 'U', 'C', 'R', 'RN', 'Q', 'S', 'X', 'r', 'shape', 'fierz', 'nlo'];
     names.forEach(function (k) { fac[k] = new Float64Array(n); });
     var mnu = (p.mnu || 0) / 1000 / ME, ms = (p.msterile || 0) / ME, U2 = p.Usterile2 || 0;
     var wF = 1 / (1 + rho * rho), wG = 1 - wF;
@@ -475,6 +475,7 @@
       }
       var emp = p.shape ? 1 + (p.shape.a || 0) * W + (p.shape.b || 0) / W + (p.shape.c || 0) * W * W : 1;
       f.fierz = p.fierz ? 1 + p.fierz * c.g1 / W : 1;
+      f.nlo = uniqueNLO(c, W, q0, p);
       // phase space with neutrino masses: active (light) and sterile admixture; each mass state with its own shape
       function ps(mv) { if (!(q0 > mv)) return 0; var pv = Math.sqrt(q0 * q0 - mv * mv); return pp * W * q0 * pv * ushape(pv); }
       var phase = U2 > 0 ? (1 - U2) * ps(mnu) + U2 * ps(ms) : ps(mnu);
@@ -543,9 +544,11 @@
       var W = T[i] / ME + 1, k = Math.sqrt(W * W - 1), Ev = W0 - W, sw = 0;
       if (Ev <= mv) continue;
       var nu = Math.sqrt(Ev * Ev - mv * mv), be = k / W * (nu / Ev);   // electron times neutrino velocity
+      // unique first-forbidden next-order terms: angle-independent d1 and an extra -(2/5) dc beta x, i.e. 2 a dc
+      var nl = (J === 2 && (o.uM || o.uC)) ? nloDeltas(c, W, nu, o) : { d1: 0, dc: 0 };
       for (var m = 0; m < nx; m++) {
         var x = -1 + 2 * (m + 0.5) / nx, q2 = k * k + nu * nu + 2 * k * nu * x;
-        var v = Math.pow(q2, J - 1) * (1 + a * be * x - (J - 1) * a * k * nu * be * (1 - x * x) / q2);
+        var v = Math.pow(q2, J - 1) * (1 + nl.d1 + a * be * x * (1 + 2 * nl.dc) - (J - 1) * a * k * nu * be * (1 - x * x) / q2);
         w[m] = Math.max(v, 0); sw += w[m];
       }
       if (!(sw > 0)) continue;
@@ -563,6 +566,21 @@
     var width = Rmax * ME / nb;
     for (j = 0; j < nb; j++) h[j] = tot > 0 ? h[j] / tot / width : 0;
     return { T: TR, dNdT: h, max: Rmax * ME, mean: tot > 0 ? mean / tot : 0, a: a, J: J };
+  }
+  // Next-to-leading order in qR for unique first-forbidden decays (Glick-Magid et al., PLB 767, 285, eqs. 12-14):
+  //   rate ∝ q^2 [1 + d1 - (2/5)(1 + dc) beta x + (1/5)(nû.q̂)(beta.q̂)],
+  //   d1 = (4/5)[±√(3/2) (nu - k^2/W) R uM - (nu + k^2/W) R uC],  dc = 2[±√(3/2) (W - nu) R uM - (nu + W) R uC],
+  // with uM = Re<M2V>/(qR <L2A>) and uC = Re<C2A>/(qR <L2A>) (both matrix-element ratios are O(qR), so these are
+  // q-independent; upper sign beta-). Integrated over angles with the q^2 weight this gives the shape factor
+  //   (k^2 + nu^2)(1 + d1) - (4/15) dc beta k nu, returned here relative to k^2 + nu^2.
+  function nloDeltas(c, W, nu, o) {
+    var s = c.beta < 0 ? 1 : -1, k2 = W * W - 1, R = c.R, r32 = Math.sqrt(1.5), uM = o.uM || 0, uC = o.uC || 0;
+    return { d1: 0.8 * (s * r32 * (nu - k2 / W) * R * uM - (nu + k2 / W) * R * uC), dc: 2 * (s * r32 * (W - nu) * R * uM - (nu + W) * R * uC) };
+  }
+  function uniqueNLO(c, W, nu, o) {
+    if (!(o.kind === 'U' && (o.k || 1) === 1) || !(o.uM || o.uC)) return 1;
+    var d = nloDeltas(c, W, nu, o), k = Math.sqrt(W * W - 1), be = k / W;
+    return 1 + d.d1 - 4 / 15 * d.dc * be * k * nu / (k * k + nu * nu);
   }
   function fierzFromCouplings(rho, CS, CT, beta) {    // Hayen eq. 1 (couplings relative to C_V, C_A)
     return (beta < 0 ? 1 : -1) / (1 + rho * rho) * ((CS || 0) + rho * rho * (CT || 0));
@@ -619,7 +637,7 @@
     nucMass: nucMass, alphaKinematics: alphaKinematics, boostRange: boostRange, anKinematics: anKinematics, stoppingAt: stoppingAt, alphaNSpectrum: alphaNSpectrum,
     betaContext: betaContext, F0: F0, L0: L0, U: Ucorr, shapeVector: shapeVector, shapeAxial: shapeAxial, RN: RN, Q: Qcorr, gSirlin: gSirlin,
     radiative: radiative, screening: screening, exchange: exchange, mismatch: mismatch, lambdaK: lambdaK, betaSpectrum: betaSpectrum,
-    forbiddenness: forbiddenness, parseJP: parseJP, fierzFromCouplings: fierzFromCouplings, correlations: correlations, betaRecoil: betaRecoil, setExchange: function (t) { EXCH = t; },
+    forbiddenness: forbiddenness, parseJP: parseJP, fierzFromCouplings: fierzFromCouplings, correlations: correlations, betaRecoil: betaRecoil, uniqueNLO: uniqueNLO, setExchange: function (t) { EXCH = t; },
     L0E: L0E, L0P: L0P, sellmeier: sellmeier, electronStopping: electronStopping, cherenkovTable: cherenkovTable, cherenkovFromSpectrum: cherenkovFromSpectrum
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.SignalPhysics = api;
