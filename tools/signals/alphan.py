@@ -1,6 +1,6 @@
 """Level-resolved (alpha,n) cross sections from the NeuCBOT TALYS-1.95 datasets.
 
-    python3 tools/signals/alphan.py /tmp/talys data/signals/alphan
+    python3 tools/signals/alphan.py /tmp/talys data/signals/alphan [CASCADE/Supplemental/LevelStructureTXTs] [livechart/gammas]
 
 For every target isotope and alpha energy (0.1-10 MeV in 0.1 MeV steps) this reads the TALYS output:
   * Q(a,n) and the projectile/target masses (header),
@@ -15,6 +15,9 @@ attributed to the discrete level they end in; for light targets below 10 MeV thi
 Data: S. Westerdale & P. D. Meyers, NIM A 875 (2017) 57 (NeuCBOT), TALYS-1.95 (A. Koning et al.).
 """
 import json, os, re, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cascade as CAS
 
 GRID = [round(0.1 * i, 1) for i in range(1, 101)]
 SYM = "n H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As".split()
@@ -94,7 +97,7 @@ def rebin(pts, de=0.1, emax=20.0):
     return [nz[0]] + [float("%.2g" % out[i]) for i in range(nz[0], nz[-1] + 1)]
 
 
-def extract(root, dest):
+def extract(root, dest, cascade_dir=None, ensdf_dir=None):
     out = {}
     for el in sorted(os.listdir(root)):
         base = os.path.join(root, el, "x", el)
@@ -106,6 +109,7 @@ def extract(root, dest):
             tdir = os.path.join(base, iso, "TalysOut")
             Q = MT = None; lev = {}; tab = {}; totals = []; gam = {}
             pres = "%d%s" % (A + 3, SYM[Z + 1]); gres = "%d%s" % (A + 4, SYM[Z + 2])
+            tname = "%d%s" % (A, el); atab = {}
             Qx = {}; plev = {}; ptab = {}; ptot = []; prod = {}; part = {"neutron": [], "proton": [], "gamma": []}; gspec = []; pspec = []
             other = {"(a,p)": (pres, [0.0] * len(GRID)), "(a,g)": (gres, [0.0] * len(GRID))}
             for i, E in enumerate(GRID):
@@ -134,6 +138,9 @@ def extract(root, dest):
                 pt = o["prod"].get(pres, 0.0); ptot.append(pt)
                 for L, v in feeding(o["trans"].get(pres, []), pt).items():
                     ptab.setdefault(L, [0.0] * len(GRID))[i] = v
+                for L, v in feeding(o["trans"].get(tname, []), 0.0).items():   # inelastic (a,a') feeding of the target's levels
+                    if L:
+                        atab.setdefault(L, [0.0] * len(GRID))[i] = v
                 gspec.append(rebin(o["spec"].get("gamma", [])))
                 pspec.append(rebin(o["spec"].get("proton", [])))
                 totals.append(tot)
@@ -150,6 +157,17 @@ def extract(root, dest):
                 return out_
             levels = levlist(tab, totals, res)
             plevels = levlist(ptab, ptot, pres) if max(ptot) > 1e-4 else []
+            alevels = levlist(atab, [max(v) for v in atab.values()] or [0], tname) if atab else []
+            # de-excitation through evaluated level schemes (G4RiversideCASCADE, else ENSDF adopted gammas)
+            casc = {}
+            for nucl, lv, chan in ((res, levels, "(a,n)"), (pres, plevels, "(a,p)"), (tname, alevels, "(a,a')")):
+                sch = CAS.load(nucl, cascade_dir, ensdf_dir) if lv else []
+                if not sch:
+                    continue
+                ln, unm, used = CAS.lines_from_feeding(sch, lv, len(GRID))
+                exc = [sum(L["xs"][k] for L in lv if L["Ex"] > 0) for k in range(len(GRID))]
+                fr = max([unm[k] / exc[k] for k in range(len(GRID)) if exc[k] > 1e-3 * (max(exc) or 1)] or [0])
+                casc[nucl] = {"channel": chan, "src": " + ".join(sorted(used)), "lines": ln[:40], "unmatched": round(fr, 4)}
             spec = []
             for E in GRID:                                   # TALYS neutron spectra, sparse: [first bin index, values...]
                 p = os.path.join(base, iso, "NSpectra", "nspec%07.3f.tot" % E)
@@ -195,7 +213,7 @@ def extract(root, dest):
             oth = {ch: {"residual": rn, "xs": [float("%.4g" % v) for v in arr]} for ch, (rn, arr) in other.items() if max(arr) > 1e-6}
             out["%d%s" % (A, el)] = {"Z": Z, "A": A, "mass_u": MT, "Q_MeV": Q, "residual": res,
                                      "total": [float("%.4g" % v) for v in totals], "levels": levels, "gammas": gl, "other": oth,
-                                     "Q": Qx, "prod": prod_, "part": {k: [float("%.4g" % v) for v in arr] for k, arr in part.items()},
+                                     "Q": Qx, "prod": prod_, "cascade": casc, "part": {k: [float("%.4g" % v) for v in arr] for k, arr in part.items()},
                                      "p": {"residual": pres, "Q_MeV": Qx.get("p"), "total": [float("%.4g" % v) for v in ptot], "levels": plevels,
                                            "spec": {"E0": 0.05, "dE": 0.1, "units": "mb/MeV", "spectra": pspec}},
                                      "g": {"residual": gres, "Q_MeV": Qx.get("g"), "spec": {"E0": 0.05, "dE": 0.1, "units": "mb/MeV", "spectra": gspec}},
@@ -212,4 +230,5 @@ def extract(root, dest):
 
 
 if __name__ == "__main__":
-    extract(sys.argv[1], sys.argv[2])
+    # optional: G4RiversideCASCADE Supplemental/LevelStructureTXTs and LiveChart gammas/ (ENSDF adopted gammas)
+    extract(sys.argv[1], sys.argv[2], *(sys.argv[3:5]))

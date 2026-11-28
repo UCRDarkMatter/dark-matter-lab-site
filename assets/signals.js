@@ -746,9 +746,9 @@
     var rows = [], other = {};
     function run(tgs, list, stop, tag) {
       tgs.forEach(function (t) {
-        (t.data.gammas || []).forEach(function (g) {
+        gammaList(t.data).forEach(function (g) {
           var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
-          rows.push({ t: t.key + tag, nuc: g.nuc || t.data.residual, ch: chanLabel(t.data, g.nuc || t.data.residual), Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && (g.nuc || '16O') === '16O' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
+          rows.push({ t: t.key + tag, src: g.src, nuc: g.nuc || t.data.residual, ch: chanLabel(t.data, g.nuc || t.data.residual), Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && (g.nuc || '16O') === '16O' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
         });
         Object.keys(t.data.other || {}).forEach(function (ch) {
           var o = t.data.other[ch], y = chanYield(o.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
@@ -765,11 +765,21 @@
       out.appendChild(el('h3', null, 'Strongest prompt gamma lines'));
       var tab = el('table', 'sx-table'), hd = el('tr');
       ['Target → nucleus', 'E<sub>γ</sub> (keV)', 'Level (keV) → (keV)', 'Gammas ' + u, 'Per (α,n) neutron'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); }); tab.appendChild(hd);
-      rows.slice(0, 16).forEach(function (q) { var tr = el('tr'); [pretty(q.t) + ' → ' + pretty(q.nuc) + ' ' + q.ch, fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
+      rows.slice(0, 16).forEach(function (q) { var tr = el('tr'); [pretty(q.t) + ' → ' + pretty(q.nuc) + ' ' + q.ch + (q.src ? ' ' + q.src : ''), fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
       out.appendChild(tab);
-      out.appendChild(el('p', 'sx-note', 'TALYS-1.95 gamma-ray production cross sections of every residual nucleus ((α,n), (α,p), inelastic (α,α′) and capture), integrated like the neutron yield. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
+      out.appendChild(el('p', 'sx-note', 'Lines marked [E] come from following each level that TALYS-1.95 populates through the ENSDF adopted level scheme ([C]: the G4RiversideCASCADE level scheme; [E+C]: both), with evaluated branching ratios and conversion coefficients, exactly as the Gamma Line Explorer propagates capture cascades. Unmarked lines are TALYS\u2019s own cascade (RIPL branching), used when more than 5% of a nucleus\u2019s populated levels are missing from the evaluated schemes. All are integrated like the neutron yield. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
     }
     // other channels are listed in the yields table (anOther)
+  }
+  // gamma lines of a target: for each residual whose populated levels are covered by an evaluated level scheme
+  // (ENSDF adopted gammas, else G4RiversideCASCADE), the exact cascade from the TALYS level feeding; otherwise TALYS's own lines
+  function gammaList(d) {
+    var c = d.cascade || {}, useC = {}, out = [];
+    Object.keys(c).forEach(function (n) { if (c[n].lines.length && c[n].unmatched <= 0.05) useC[n] = c[n]; });
+    (d.gammas || []).forEach(function (g) { var n = g.nuc || d.residual; if (!useC[n]) out.push(Object.assign({ src: '' }, g, { nuc: n })); });
+    Object.keys(useC).forEach(function (n) { var tag = /CASCADE/.test(useC[n].src) && !/ENSDF/.test(useC[n].src) ? '[C]' : /CASCADE/.test(useC[n].src) ? '[E+C]' : '[E]';
+      useC[n].lines.forEach(function (g) { out.push({ nuc: n, Eg: g.Eg, from: g.from, to: g.to, xs: g.xs, src: tag }); }); });
+    return out;
   }
   // name a channel from the residual: emitted nucleons = compound (Z+2, A+4) minus residual
   function chanLabel(d, res) {
@@ -814,7 +824,7 @@
     runSpec.raw = false;
     var gb = 0.02, gn = Math.round(16 / gb), gx = new Float64Array(gn), gl = new Float64Array(gn), gLines = 0, gCont = 0;
     for (var i = 0; i < gn; i++) gx[i] = (i + 0.5) * gb;
-    function lines(tgs, list, stop) { tgs.forEach(function (t) { (t.data.gammas || []).forEach(function (g) { var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop), k = Math.floor(g.Eg / 1000 / gb); if (y > 0 && k < gn) { gl[k] += y / gb; gLines += y; } }); }); }
+    function lines(tgs, list, stop) { tgs.forEach(function (t) { gammaList(t.data).forEach(function (g) { var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop), k = Math.floor(g.Eg / 1000 / gb); if (y > 0 && k < gn) { gl[k] += y / gb; gLines += y; } }); }); }
     lines(targets, listA, stopA); if (lists && B_) lines(btargets, lists.B, B_.stopping);
     for (i = 0; i < rg.total.length; i++) gCont += rg.total[i] * gb;
     var wrap4 = $('#n-plot4-wrap'); wrap4.hidden = !(gLines > 0 || gCont > 0);
