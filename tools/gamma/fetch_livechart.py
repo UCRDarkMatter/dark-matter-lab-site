@@ -9,6 +9,7 @@ API's CSV files unchanged into OUTDIR:
   decay/<nuclide>.csv         gamma lines emitted in the decay of <nuclide> (all its decaying states)
   decay_a|bm|bp/<nuclide>.csv alpha, beta- and beta+ spectra for the decay-chain members (CHAIN_NUCLIDES)
   xray/<nuclide>.csv          X-rays emitted in the decay of <nuclide>
+  decay_e/<nuclide>.csv       conversion and Auger electrons emitted in the decay of <nuclide>
   gammas/<nuclide>.csv        gammas between excited levels of stable <nuclide>, for (n,n'γ) lines
 Only standard-library Python is used.
 """
@@ -55,6 +56,7 @@ def get(params, tries=5):
 def main(out):
     os.makedirs(os.path.join(out, "decay"), exist_ok=True)
     os.makedirs(os.path.join(out, "xray"), exist_ok=True)
+    os.makedirs(os.path.join(out, "decay_e"), exist_ok=True)
     os.makedirs(os.path.join(out, "gammas"), exist_ok=True)
     gs = get("fields=ground_states&nuclides=all")
     open(os.path.join(out, "ground_states.csv"), "w").write(gs)
@@ -72,7 +74,7 @@ def main(out):
             names.append("%d%s" % (a, r["symbol"].lower()))
     print(len(names), "radionuclides with T1/2 >= %g s" % MIN_HALF_LIFE_S)
     for i, nm in enumerate(names):
-        for rt, sub in (("g", "decay"), ("x", "xray")):        # the API takes one radiation type per request
+        for rt, sub in (("g", "decay"), ("x", "xray"), ("e", "decay_e")):   # the API takes one radiation type per request
             p = os.path.join(out, sub, nm + ".csv")
             if not os.path.exists(p):
                 txt = get("fields=decay_rads&nuclides=%s&rad_types=%s" % (nm, rt))
