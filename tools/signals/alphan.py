@@ -22,7 +22,7 @@ ROW = re.compile(r"^\s*(\d+)\s+(\S+)\s+([\d.]+)\s+--->\s+(\d+)\s+(\S+)\s+([\d.]+
 
 
 def parse(path, res):
-    q = mt = None; tot = 0.0; trans = []; levels = {}
+    q = mt = None; tot = 0.0; trans = []; levels = {}; prod = {}
     sec = None; nuc = None
     with open(path, errors="replace") as f:
         for line in f:
@@ -35,6 +35,8 @@ def parse(path, res):
                 sec = m.group(1)
             if sec == "4":
                 mm = re.match(r"^\s+\d+\s+\d+\s+\(\s*(\w+)\s*\)\s+([\d.Ee+-]+)", line)
+                if mm:
+                    prod[mm.group(1)] = float(mm.group(2))
                 if mm and mm.group(1) == res:
                     tot = float(mm.group(2))
             elif sec == "10":
@@ -44,9 +46,9 @@ def parse(path, res):
                 mm = ROW.match(line)
                 if mm and nuc == res:
                     li, ji, ei, lf, jf, ef, eg, xs = mm.groups()
-                    trans.append((int(li), int(lf), float(xs)))
+                    trans.append((int(li), int(lf), float(xs), float(eg)))
                     levels[int(li)] = (float(ei), ji); levels.setdefault(int(lf), (float(ef), jf))
-    return q, mt, tot, trans, levels
+    return q, mt, tot, trans, levels, prod
 
 
 def extract(root, dest):
@@ -59,16 +61,21 @@ def extract(root, dest):
             A = int(re.sub(r"\D", "", iso)); Z = SYM.index(el)
             res = "%d%s" % (A + 3, SYM[Z + 2])
             tdir = os.path.join(base, iso, "TalysOut")
-            Q = MT = None; lev = {}; tab = {}; totals = []
+            Q = MT = None; lev = {}; tab = {}; totals = []; gam = {}
+            other = {"(a,p)": ("%d%s" % (A + 3, SYM[Z + 1]), [0.0] * len(GRID)), "(a,g)": ("%d%s" % (A + 4, SYM[Z + 2]), [0.0] * len(GRID))}
             for i, E in enumerate(GRID):
                 p = os.path.join(tdir, "outputE" + str(round(E, 2)))
                 if not os.path.exists(p):
                     totals.append(0.0); continue
-                q, mt, tot, trans, levels = parse(p, res)
+                q, mt, tot, trans, levels, prod = parse(p, res)
+                for ch, (rn, arr) in other.items():
+                    arr[i] = prod.get(rn, 0.0)
+                for li, lf, xs, eg in trans:                 # gamma-ray production cross sections of the (a,n) residual
+                    gam.setdefault((li, lf, eg), [0.0] * len(GRID))[i] += xs
                 Q = q if q is not None else Q; MT = mt or MT
                 lev.update(levels)
                 outg, ing = {}, {}
-                for li, lf, xs in trans:
+                for li, lf, xs, eg in trans:
                     outg[li] = outg.get(li, 0) + xs; ing[lf] = ing.get(lf, 0) + xs
                 direct = {L: max(0.0, outg[L] - ing.get(L, 0.0)) for L in outg}
                 exc = sum(direct.values())
@@ -113,8 +120,15 @@ def extract(root, dest):
                         pass
                 if len(es) > 1:
                     e0, de = es[0], es[1] - es[0]
+            gl = []
+            for (li, lf, eg), arr in sorted(gam.items(), key=lambda kv: -max(kv[1])):
+                if max(arr) < 1e-3 * max(totals) or len(gl) >= 25:
+                    continue
+                gl.append({"Eg": round(eg * 1000, 1), "from": round(lev.get(li, (0, ""))[0] * 1000, 1), "to": round(lev.get(lf, (0, ""))[0] * 1000, 1),
+                           "xs": [float("%.4g" % v) for v in arr]})
+            oth = {ch: {"residual": rn, "xs": [float("%.4g" % v) for v in arr]} for ch, (rn, arr) in other.items() if max(arr) > 1e-6}
             out["%d%s" % (A, el)] = {"Z": Z, "A": A, "mass_u": MT, "Q_MeV": Q, "residual": res,
-                                     "total": [float("%.4g" % v) for v in totals], "levels": levels,
+                                     "total": [float("%.4g" % v) for v in totals], "levels": levels, "gammas": gl, "other": oth,
                                      "nspec": {"E0": e0, "dE": de if e0 is not None else 0.1, "units": "mb/MeV", "spectra": spec}}
             print(iso, "->", res, "Q=%.3f" % Q, len(levels), "levels, max %.3g mb" % max(totals), flush=True)
     meta = {"grid_MeV": GRID, "units": "mb",

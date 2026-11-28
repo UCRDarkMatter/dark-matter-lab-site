@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261127b">
-<link rel="stylesheet" href="assets/signals.css?v=20261127b">
+<link rel="stylesheet" href="assets/style.css?v=20261128a">
+<link rel="stylesheet" href="assets/signals.css?v=20261128a">
 </head>
 <body>
-<script src="assets/site.js?v=20261127b"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261128a"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -83,10 +83,37 @@
             <label class="sx-field">Detector resolution for recoils (FWHM) <span class="sx-unit"><input type="number" id="a-rfwhm" value="2" min="0" step="any"> keV</span></label>
             <label class="sx-check"><input type="checkbox" id="a-log"> Log scale</label>
           </fieldset>
+          <fieldset><legend>Source in material</legend>
+            <label class="sx-field">Where the decays happen <select id="a-geo">
+              <option value="free">Thin source, no energy loss</option>
+              <option value="surf">Uniformly in a surface layer of thickness d</option>
+              <option value="depth">At depth d below the surface</option>
+              <option value="bulk">Throughout a thick material (bulk)</option></select></label>
+            <div id="a-geo-wrap" hidden>
+              <label class="sx-field">Material <select id="a-mat"></select></label>
+              <div class="sx-grid2"><label>Density (g/cm³) <input type="number" id="a-rho" step="any" value="1.19"></label><label id="a-d-wrap">d (µm) <input type="number" id="a-d" step="any" value="5" min="0"></label></div>
+              <p class="sx-note">Alphas leaving through the surface, emitted isotropically: only the half heading outwards can escape, and each loses energy along its path z / cos θ (SRIM stopping powers, Bragg additivity). Gives the low-energy tail of surface contamination such as ²¹⁰Po.</p>
+            </div>
+          </fieldset>
+          <fieldset><legend>Detector response</legend>
+            <label class="sx-field">Light yield model <select id="a-qm">
+              <option value="none">None: deposited energy</option>
+              <option value="noble">Noble liquid: alpha quenching factor + Lindhard recoils</option>
+              <option value="birks">Organic scintillator: Birks' law</option></select></label>
+            <div id="a-noble-wrap" hidden>
+              <label class="sx-field">Medium <select id="a-noble"><option value="Ar">Liquid argon</option><option value="Xe">Liquid xenon</option></select></label>
+              <label class="sx-field">Alpha quenching factor (scintillation) <input type="number" id="a-qfa" step="any" value="0.71"></label>
+            </div>
+            <label class="sx-field" id="a-kb-wrap" hidden>Birks constant kB <span class="sx-unit"><input type="number" id="a-kb" step="any" value="0.01"> cm/MeV</span></label>
+            <label class="sx-check"><input type="checkbox" id="a-cal"> Decays inside the detector: add the recoil and the daughter's de-excitation</label>
+            <label class="sx-field" id="a-gesc-wrap" hidden>Fraction of gamma energy that escapes <input type="number" id="a-gesc" step="any" value="0.5" min="0" max="1"></label>
+            <p class="sx-note">Visible energy in electron-equivalent keV (keVee). Quenching factors depend on the detector and field; the defaults (DEAP-3600's ≈0.71 for alphas in liquid argon, Lindhard with k = 0.133 Z<sup>2/3</sup>A<sup>−1/2</sup> for recoils, kB = 0.01 cm/MeV) are starting points.</p>
+          </fieldset>
         </form>
         <div class="sx-output">
           <div class="sx-plot"><canvas id="a-plot" role="img" aria-label="Alpha particle energy spectrum"></canvas><div class="sx-legend" id="a-legend"></div></div>
           <div class="sx-plot"><canvas id="a-plot2" role="img" aria-label="Nuclear recoil energy spectrum"></canvas></div>
+          <div class="sx-plot" id="a-plot3-wrap" hidden><canvas id="a-plot3" role="img" aria-label="Alpha spectrum after the source material and detector response"></canvas><div class="sx-legend" id="a-legend3"></div><p class="sx-note" id="a-det-note"></p></div>
           <div class="sx-actions"><button type="button" class="btn" id="a-csv">Download CSV</button></div>
           <div id="a-out" class="sx-text"></div>
         </div>
@@ -116,8 +143,20 @@
             <div class="sx-seg" role="radiogroup" aria-label="Target thickness">
               <label><input type="radio" name="n-thick" value="thick" checked> Thick target (alpha stops)</label>
               <label><input type="radio" name="n-thick" value="thin"> Thin target</label>
+              <label><input type="radio" name="n-thick" value="layer"> Layer on a backing</label>
             </div>
             <label class="sx-field" id="n-areal-wrap" hidden>Areal density <span class="sx-unit"><input type="number" id="n-areal" value="1e-3" min="0" step="any"> g/cm²</span></label>
+            <div id="n-layer-wrap" hidden>
+              <div class="sx-grid2"><label>Layer thickness (µm) <input type="number" id="n-ld" value="10" min="0" step="any"></label><label>Layer density (g/cm³) <input type="number" id="n-lrho" value="1.19" step="any"></label></div>
+              <label class="sx-field">Backing material <select id="n-back"></select></label>
+              <p class="sx-note">The emitter is spread uniformly through a layer of the material chosen above, on a thick backing. Alphas heading into the backing cross the rest of the layer and stop in the backing; those heading out leave through the free surface. Yields are split by region.</p>
+            </div>
+            <label class="sx-check"><input type="checkbox" id="n-sf" checked> Add spontaneous-fission neutrons (²³⁸U, ²³²Th, ²⁴⁰Pu, ²⁴⁴Cm, ²⁵²Cf)</label>
+          </fieldset>
+          <fieldset><legend>Compare a cross section</legend>
+            <label class="sx-field">Target isotope <select id="n-cmp-t"><option value="">(none)</option></select></label>
+            <label class="sx-field">Your σ(E) file <input type="file" id="n-cmp-file" accept=".csv,.txt,.dat,.tsv"></label>
+            <p class="sx-note">Two columns: alpha energy (MeV) and the total (α,n) cross section (mb), e.g. from JENDL/AN-2005, EXFOR or a measurement. The page computes the thick-target yield of that isotope with your cross section and compares it with TALYS.</p>
           </fieldset>
           <fieldset><legend>Plot</legend>
             <label class="sx-field">Final states shown <input type="number" id="n-nparts" value="8" min="1" max="30"></label>
@@ -126,6 +165,7 @@
         </form>
         <div class="sx-output">
           <div class="sx-plot"><canvas id="n-plot" role="img" aria-label="Neutron energy spectrum by final state"></canvas><div class="sx-legend" id="n-legend"></div></div>
+          <div class="sx-plot" id="n-plot2-wrap" hidden><canvas id="n-plot2" role="img" aria-label="Cross section comparison"></canvas><div class="sx-legend" id="n-legend2"></div></div>
           <div class="sx-actions"><button type="button" class="btn" id="n-csv">Download CSV</button> <span class="sx-status" id="n-status" aria-live="polite"></span></div>
           <div id="n-out" class="sx-text"></div>
         </div>
@@ -294,8 +334,13 @@
               <label><input type="radio" name="c-src" value="beta" checked> Beta spectrum from the Beta tab</label>
               <label><input type="radio" name="c-src" value="gamma"> Electrons from the Gamma tab</label>
               <label><input type="radio" name="c-src" value="mono"> Single electron energy</label>
+              <label><input type="radio" name="c-src" value="k40"> ⁴⁰K in PMT glass</label>
             </div>
             <label class="sx-field" id="c-e-wrap" hidden>Electron energy <span class="sx-unit"><input type="number" id="c-e" value="1000" min="1" step="any"> keV</span></label>
+            <div id="c-k40-wrap" hidden>
+              <div class="sx-grid2"><label>Glass thickness (mm) <input type="number" id="c-gt" value="3" min="0" step="any"></label><label>K₂O (% by mass) <input type="number" id="c-k2o" value="1" min="0" step="any"></label></div>
+              <p class="sx-note">Sets the medium to borosilicate glass. Per ⁴⁰K decay: β⁻ (89.28%, unique third-forbidden, 1311 keV endpoint) plus the electrons from the 1461 keV gamma (10.66% EC branch) that interact in the glass (mean path ≈ 2 × thickness).</p>
+            </div>
             <p class="sx-note" id="c-src-note"></p>
           </fieldset>
           <fieldset><legend>Medium</legend>
@@ -317,13 +362,39 @@
               <div class="sx-grid3"><label>ρ (g/cm³) <input type="number" id="c-rho" step="any" value="1"></label><label>Z/A <input type="number" id="c-za" step="any" value="0.5551"></label><label>I (eV) <input type="number" id="c-i" step="any" value="75"></label></div>
               <p class="sx-note">Used to follow the electron as it slows down. Filled in for known materials.</p></details>
           </fieldset>
+          <fieldset><legend>Light production</legend>
+            <label class="sx-check"><input type="checkbox" id="c-delta" checked> Add light from delta rays (Møller knock-on electrons)</label>
+            <label class="sx-check"><input type="checkbox" id="c-ang" checked> Angular distribution with multiple scattering</label>
+          </fieldset>
+          <fieldset><legend>Detection</legend>
+            <label class="sx-field">Photosensor quantum efficiency <select id="c-qe">
+              <option value="none">None (emitted photons)</option><option value="bialkali">Typical bialkali PMT (illustrative)</option><option value="up">Upload or paste a curve…</option></select></label>
+            <div id="c-qe-wrap" hidden>
+              <label class="sx-field">QE file <input type="file" id="c-qe-file" accept=".csv,.txt,.dat,.tsv"></label>
+              <label class="sx-field">…or paste two columns (wavelength, QE) <textarea id="c-qe-text" rows="4" spellcheck="false" placeholder="300, 22&#10;350, 28&#10;400, 30&#10;450, 26"></textarea></label>
+              <p class="sx-note" id="c-qe-note">Wavelength in nm (µm is detected if every value is below 5). QE as a fraction or in % (detected if any value exceeds 1.5). Outside the curve the QE is zero.</p>
+            </div>
+            <label class="sx-field">Transmission to the sensor <select id="c-tr">
+              <option value="none">Perfect</option><option value="att">Attenuation length × path</option><option value="up">Upload a transmission curve…</option></select></label>
+            <div class="sx-grid2" id="c-att-wrap" hidden><label>Path (cm) <input type="number" id="c-path" value="10" min="0" step="any"></label><label>Attenuation length at 400 nm (cm) <input type="number" id="c-att" value="100" min="0" step="any"></label></div>
+            <p class="sx-note" id="c-att-note" hidden>Attenuation length scales as λ⁴ (Rayleigh-like) from its 400 nm value.</p>
+            <label class="sx-field" id="c-tr-wrap" hidden>Transmission file (wavelength nm, T as fraction or %) <input type="file" id="c-tr-file" accept=".csv,.txt,.dat,.tsv"></label>
+            <label class="sx-check"><input type="checkbox" id="c-wls"> Wavelength shifter</label>
+            <div id="c-wls-wrap" hidden>
+              <div class="sx-grid2"><label>Absorbs below (nm) <input type="number" id="c-wcut" value="380" step="any"></label><label>Quantum yield <input type="number" id="c-weff" value="0.9" min="0" max="1" step="any"></label>
+              <label>Re-emitted light collected <input type="number" id="c-wcoll" value="0.5" min="0" max="1" step="any"></label><label>Emission peak (nm) <input type="number" id="c-wpk" value="420" step="any"></label>
+              <label>Emission σ (nm) <input type="number" id="c-wsig" value="21" min="1" step="any"></label></div>
+              <p class="sx-note">Default: TPB-like (absorbs UV, re-emits around 420 nm).</p>
+            </div>
+          </fieldset>
           <fieldset><legend>Wavelengths</legend>
             <div class="sx-grid2"><label>From <span class="sx-unit"><input type="number" id="c-l0" value="200" min="100" step="any"> nm</span></label><label>to <span class="sx-unit"><input type="number" id="c-l1" value="700" min="110" step="any"> nm</span></label></div>
           </fieldset>
         </form>
         <div class="sx-output">
           <div class="sx-plot"><canvas id="c-plot" role="img" aria-label="Cherenkov photon wavelength spectrum"></canvas><div class="sx-legend" id="c-legend"></div></div>
-          <div class="sx-plot"><canvas id="c-plot2" role="img" aria-label="Refractive index versus wavelength"></canvas></div>
+          <div class="sx-plot" id="c-plot3-wrap"><canvas id="c-plot3" role="img" aria-label="Angular distribution of Cherenkov photons"></canvas><div class="sx-legend" id="c-legend3"></div></div>
+          <div class="sx-plot"><canvas id="c-plot2" role="img" aria-label="Refractive index and detection curves versus wavelength"></canvas><div class="sx-legend" id="c-legend2"></div></div>
           <div class="sx-actions"><button type="button" class="btn" id="c-csv">Download CSV</button></div>
           <div id="c-out" class="sx-text"></div>
         </div>
@@ -343,9 +414,10 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261127b"></script>
-<script src="assets/signals-exchange.js?v=20261127b"></script>
-<script src="assets/signals-code.js?v=20261127b"></script>
-<script src="assets/signals.js?v=20261127b"></script>
+<script src="assets/signals-physics.js?v=20261128a"></script>
+<script src="assets/signals-extra.js?v=20261128a"></script>
+<script src="assets/signals-exchange.js?v=20261128a"></script>
+<script src="assets/signals-code.js?v=20261128a"></script>
+<script src="assets/signals.js?v=20261128a"></script>
 </body>
 </html>

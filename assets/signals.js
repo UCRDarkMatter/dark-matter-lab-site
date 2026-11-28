@@ -1,7 +1,7 @@
 /* Radioactive Signal Explorer: user interface. Physics in signals-physics.js. */
 (function () {
   'use strict';
-  var P = window.SignalPhysics;
+  var P = window.SignalPhysics, X = window.SignalExtra;
   if (window.SignalExchange) P.setExchange(window.SignalExchange);
   var $ = function (s) { return document.querySelector(s); };
   var ME = P.ME, NA = 6.02214076e23;
@@ -272,7 +272,10 @@
   INIT.alpha = function () {
     base().then(function () {
       fillList('#a-nuc-list', names('a'));
-      ['#a-nuc', '#a-levels', '#a-tp', '#a-fwhm', '#a-rfwhm', '#a-log'].forEach(function (id) { $(id).addEventListener('change', id === '#a-nuc' ? aNuc : RUN.alpha); });
+      ['#a-nuc', '#a-levels', '#a-tp', '#a-fwhm', '#a-rfwhm', '#a-log', '#a-geo', '#a-rho', '#a-d', '#a-qm', '#a-noble', '#a-qfa', '#a-kb', '#a-cal', '#a-gesc'].forEach(function (id) { $(id).addEventListener('change', id === '#a-nuc' ? aNuc : RUN.alpha); });
+      NMAT.forEach(function (m, i) { if (!m[1]) return; var o = el('option', null, m[0]); o.value = i; $('#a-mat').appendChild(o); });
+      $('#a-mat').addEventListener('change', function () { var d = MATRHO[NMAT[+this.value][0]]; if (d) $('#a-rho').value = d; RUN.alpha(); });
+      $('#a-noble').addEventListener('change', function () { $('#a-qfa').value = this.value === 'Ar' ? 0.71 : 1.0; RUN.alpha(); });
       $('#a-q').addEventListener('change', RUN.alpha);
       $('#a-nuc').addEventListener('input', function () { if (nucInfo(normName(this.value))) aNuc(); });
       $('#a-csv').addEventListener('click', aCSV);
@@ -339,7 +342,61 @@
       ['This decay', 'Q = ' + fmt(Q, 6) + ' keV; ' + (gs && !gs.Ex ? 'ground-state transition' : 'strongest listed transition') + ': T*<sub>α</sub> = ' + fmt(gs ? gs.Ta : NaN, 6) + ' keV, T*<sub>R</sub> = ' + fmt(gs ? gs.Tr : NaN, 5) + ' keV' + (Tp > 0 && bandA ? '; with T<sub>p</sub> = ' + fmt(Tp, 4) + ' keV the lab alpha energy spans ' + fmt(bandA.lo, 6) + ' – ' + fmt(bandA.hi, 6) + ' keV' : '')]]));
     out.appendChild(el('p', 'sx-note', 'Intensities from ENSDF alpha lines; energies are recomputed from Q and the final-state energy, so editing Q moves all lines together. A recoil that is followed by gamma emission gets an extra kick of order E<sub>γ</sub>²/(2Mc²) (eV), not shown. In detectors, nuclear recoils are quenched (Lindhard) and alphas show straggling and dead-layer losses; the detector Gaussians stand in for these.'));
     out.lastChild.innerHTML = out.lastChild.textContent.replace('E<sub>γ</sub>²', 'E<sub>γ</sub>²');
+    alphaDetector(n, lines, fw, lg);
   };
+  var MATRHO = { 'Acrylic (PMMA)': 1.19, 'PTFE (Teflon)': 2.2, 'Water': 1.0, 'Fused silica (SiO₂)': 2.2, 'Borosilicate glass': 2.23, 'Stainless steel 304': 8.0, 'Copper': 8.96, 'Titanium': 4.51,
+    'Aluminium': 2.70, 'Liquid argon (natural)': 1.396, 'Beryllium': 1.85, 'Beryllium oxide': 3.01, 'Boron (natural)': 2.34, 'Silicon': 2.33, 'Magnesium': 1.74, 'Calcium fluoride': 3.18, 'Kapton': 1.42,
+    'Standard rock / concrete': 2.3 };
+  // depth-degraded spectrum, quenching and calorimetric summing (signals-extra.js)
+  function alphaDetector(n, lines, fw, lg) {
+    var geo = $('#a-geo').value, qm = $('#a-qm').value, cal = $('#a-cal').checked;
+    $('#a-geo-wrap').hidden = geo === 'free'; $('#a-d-wrap').hidden = geo === 'bulk'; $('#a-noble-wrap').hidden = qm !== 'noble'; $('#a-kb-wrap').hidden = qm !== 'birks'; $('#a-gesc-wrap').hidden = !cal;
+    var wrap = $('#a-plot3-wrap');
+    if (geo === 'free' && qm === 'none' && !cal) { wrap.hidden = true; return; }
+    load('data/signals/alpha_stopping.json').then(function (ST) {
+      wrap.hidden = false;
+      var mi = +$('#a-mat').value || 0, comp = NMAT[mi][1], els = Object.keys(comp).filter(function (s) { return ST[s]; }), wS = els.reduce(function (s, k) { return s + comp[k]; }, 0);
+      var stop = function (Ek) { var s = 0; els.forEach(function (k) { s += comp[k] * P.stoppingAt(ST[k], Ek / 1000); }); return s / (wS || 1) * 1000; };   // keV per g/cm2
+      var rho = num('#a-rho', 1), z = num('#a-d', 0) * 1e-4 * rho, Emax = Math.max.apply(null, lines.map(function (l) { return l.TaHi; })) * 1.03, nb = 1200, bin = Emax / nb;
+      var raw = new Float64Array(nb), esc = 0, notes = [];
+      // 1) energy of the alphas that leave the material (or all of them for a thin source)
+      lines.forEach(function (l) {
+        if (geo === 'free') { raw[Math.min(nb - 1, Math.floor((l.TaLo + l.TaHi) / 2 / bin))] += l.I / bin; esc += l.I; return; }
+        var R0 = X.rangeTable(stop, l.Ta * 1.02).range(l.Ta), z0 = geo === 'depth' ? z : 0, z1 = geo === 'surf' ? z : geo === 'bulk' ? R0 : z;
+        var d = X.depthSpectrum(l.Ta, stop, z0, z1, { bins: 300 });
+        esc += l.I * d.escaped;
+        for (var k = 0; k < d.E.length; k++) if (d.y[k]) raw[Math.min(nb - 1, Math.floor(d.E[k] / bin))] += l.I * d.y[k] * (d.E[1] - d.E[0]) / bin;
+      });
+      // 2) visible energy: quenched alpha (+ quenched recoil + daughter de-excitation if the decay is inside the detector)
+      var med = $('#a-noble').value, Zm = med === 'Ar' ? 18 : 54, Am = med === 'Ar' ? 40 : 131, qfa = num('#a-qfa', 1), kB = num('#a-kb', 0.01) / 1000 * rho;   // cm/MeV -> (g/cm2)/keV
+      function visA(E) { return qm === 'noble' ? qfa * E : qm === 'birks' ? X.birksVisible(E, stop, kB) : E; }
+      function visR(E) { return qm === 'none' ? E : E * X.lindhard(E, Zm, Am); }
+      var vis = new Float64Array(nb), gesc = Math.min(1, Math.max(0, num('#a-gesc', 0.5))), Vmax = 0;
+      var tab = [];
+      for (var k = 0; k < nb; k++) { var E = (k + 0.5) * bin; tab.push(visA(E)); }
+      function addVis(V, w) { if (w <= 0) return; var kk = Math.min(nb - 1, Math.max(0, Math.floor(V / bin))); vis[kk] += w / bin; }
+      if (cal) {
+        lines.forEach(function (l) { var V = visA(l.Ta) + visR(l.Tr), Ex = l.Ex || 0; addVis(V + Ex * (1 - gesc), l.I * (Ex > 0 ? 1 : 1)); });
+        notes.push('Each decay deposits the alpha, the recoiling ' + pretty(daughterName(n, -2, -4) || 'daughter') + ' and the daughter level energy E<sub>x</sub>, of which a fraction ' + fmt(gesc, 3) + ' escapes as gamma radiation (conversion electrons and X-rays are assumed absorbed; every level is treated as decaying by gamma emission).');
+      } else for (k = 0; k < nb; k++) if (raw[k]) addVis(tab[k], raw[k] * bin);
+      function smear(y, fwhm) {
+        var s = fwhm / 2.3548; if (!(s > bin / 2)) return y; var o = new Float64Array(nb), r = Math.ceil(5 * s / bin), g = [];
+        for (var j = -r; j <= r; j++) g.push(Math.exp(-0.5 * Math.pow(j * bin / s, 2)));
+        var gs = g.reduce(function (a, b) { return a + b; }, 0);
+        for (var i = 0; i < nb; i++) if (y[i]) for (j = -r; j <= r; j++) { var q = i + j; if (q >= 0 && q < nb) o[q] += y[i] * g[j + r] / gs; }
+        return o;
+      }
+      var x = []; for (k = 0; k < nb; k++) x.push((k + 0.5) * bin);
+      var ser = [];
+      if (geo !== 'free') ser.push({ name: 'Alphas leaving the surface (deposited energy)', x: x, y: smear(raw, fw), color: color(0) });
+      if (qm !== 'none' || cal) ser.push({ name: cal ? 'Visible energy, decay inside the detector (keVee)' : 'Visible energy of the escaping alphas (keVee)', x: x, y: smear(vis, fw), color: color(2) });
+      plot($('#a-plot3'), { series: ser, xlab: 'Energy (keV or keVee)', xname: 'E', ylab: 'Per keV per decay', log: lg || ser.length > 1, legend: $('#a-legend3'), ymin: lg || ser.length > 1 ? 1e-7 : undefined });
+      if (geo !== 'free') notes.unshift(fmt(esc * 100, 3) + '% of decays send an alpha out of the surface' + (geo === 'bulk' ? ' (per decay within one alpha range of the surface; range of the most intense line ' + fmt(X.rangeTable(stop, lines[0].Ta * 1.02).range(lines[0].Ta) / rho * 1e4, 3) + ' µm)' : '') + '. Material: ' + NMAT[mi][0] + ', ρ = ' + fmt(rho, 3) + ' g/cm³' + (geo !== 'bulk' ? ', d = ' + fmt(num('#a-d', 0), 4) + ' µm (' + fmt(z * 1000, 4) + ' mg/cm²)' : '') + '.');
+      if (qm === 'noble') notes.push('Alphas quenched by ' + fmt(qfa, 3) + '; recoils by Lindhard in ' + (med === 'Ar' ? 'argon' : 'xenon') + ' (e.g. ' + fmt(X.lindhard(100, Zm, Am), 3) + ' at 100 keV).');
+      if (qm === 'birks') notes.push('Birks: L = ∫ dE / (1 + kB dE/dx) with the stopping power of ' + NMAT[mi][0] + ' (e.g. a ' + fmt(lines[0].Ta, 5) + ' keV alpha gives ' + fmt(visA(lines[0].Ta), 4) + ' keVee).');
+      $('#a-det-note').innerHTML = notes.join(' ');
+    });
+  }
   function aCSV() {
     var a = A.last; if (!a) return;
     var n = Math.max(a.sa.x.length, a.sr.x.length), cols = [[], [], [], []];
@@ -364,7 +421,12 @@
       N.index = r[1].targets; N.stop = r[2]; N.chains = r[3].chains.filter(function (c) { return c.members.some(function (m) { return m.alphas && m.alphas.length; }); });
       N.chains.forEach(function (c) { var o = el('option', null, c.title.replace(/<[^>]+>/g, '')); o.value = c.id; $('#n-chain').appendChild(o); });
       fillList('#a-nuc-list', names('a'));
-      ['#n-mat', '#n-custom', '#n-e', '#n-nuc', '#n-chain', '#n-areal', '#n-nparts', '#n-log'].forEach(function (id) { $(id).addEventListener('change', RUN.an); });
+      ['#n-mat', '#n-custom', '#n-e', '#n-nuc', '#n-chain', '#n-areal', '#n-nparts', '#n-log', '#n-ld', '#n-lrho', '#n-back', '#n-sf', '#n-cmp-t'].forEach(function (id) { $(id).addEventListener('change', RUN.an); });
+      NMAT.forEach(function (m, i) { if (!m[1]) return; var o = el('option', null, m[0]); o.value = i; $('#n-back').appendChild(o); });
+      $('#n-back').value = String(NMAT.map(function (m) { return m[0]; }).indexOf('Copper'));
+      Object.keys(N.index).sort(byA).forEach(function (k) { var o = el('option', null, pretty(k)); o.value = k; $('#n-cmp-t').appendChild(o); });
+      $('#n-cmp-file').addEventListener('change', function () { var f = this.files && this.files[0]; if (!f) return; f.text().then(function (t) { N.cmp = X.parseXY(t); N.cmpName = f.name; RUN.an(); }); });
+      $('#n-mat').addEventListener('change', function () { var d = MATRHO[NMAT[+this.value][0]]; if (d) $('#n-lrho').value = d; });
       document.querySelectorAll('input[name=n-src],input[name=n-thick]').forEach(function (rr) { rr.addEventListener('change', RUN.an); });
       $('#n-csv').addEventListener('click', nCSV);
       RUN.an();
@@ -379,8 +441,8 @@
   RUN.an = function () {
     if (!N.index) return;
     var mi = +$('#n-mat').value, custom = !NMAT[mi][1]; $('#n-custom-wrap').hidden = !custom;
-    var comp = custom ? parseComp($('#n-custom').value) : NMAT[mi][1], src = srcVal('n-src'), thin = srcVal('n-thick') === 'thin';
-    $('#n-e-wrap').hidden = src !== 'e'; $('#n-nuc-wrap').hidden = src !== 'nuc'; $('#n-chain-wrap').hidden = src !== 'chain'; $('#n-areal-wrap').hidden = !thin;
+    var comp = custom ? parseComp($('#n-custom').value) : NMAT[mi][1], src = srcVal('n-src'), mode = srcVal('n-thick'), thin = mode === 'thin', layer = mode === 'layer';
+    $('#n-e-wrap').hidden = src !== 'e'; $('#n-nuc-wrap').hidden = src !== 'nuc'; $('#n-chain-wrap').hidden = src !== 'chain'; $('#n-areal-wrap').hidden = !thin; $('#n-layer-wrap').hidden = !layer;
     var out = $('#n-out'); out.innerHTML = '';
     // alphas
     var alphas = [], srcLabel = '';
@@ -397,29 +459,45 @@
     alphas = alphas.filter(function (a) { return a[0] > 0 && a[1] > 0; });
     if (thin && src !== 'e') { out.appendChild(el('p', 'sx-note', 'A thin target uses one alpha energy: switch the source to Energy.')); }
     if (!alphas.length) { plot($('#n-plot'), { series: [], empty: 'No alphas for this source.' }); return; }
-    // targets
-    var need = [], missing = [], nAt = {};
-    Object.keys(comp).forEach(function (sym) {
-      var isos = isotopesOf(sym), M = isos.reduce(function (s, i) { return s + i.ab * i.mass; }, 0) || 1, any = false;
-      isos.forEach(function (i) { if (N.index[i.name]) { need.push(i.name); nAt[i.name] = comp[sym] * i.ab * NA / M; any = true; } });
-      if (!any && comp[sym] > 0) missing.push(sym);
-    });
-    var stopEls = Object.keys(comp).filter(function (s) { return N.stop[s]; }), wS = stopEls.reduce(function (s, k) { return s + comp[k]; }, 0);
-    var stopping = function (E) { var s = 0; stopEls.forEach(function (k) { s += comp[k] * P.stoppingAt(N.stop[k], E); }); return s / (wS || 1); };
+    // targets of the main material (and of the backing for a layer)
+    var A_ = anMaterial(comp), missing = A_.missing, stopping = A_.stopping;
+    var bcomp = NMAT[+$('#n-back').value][1], B_ = layer ? anMaterial(bcomp) : null;
     $('#n-status').textContent = 'Loading cross sections…';
-    Promise.all(need.map(function (k) { return load('data/signals/alphan/' + k + '.json').then(function (d) { return { key: k, data: d, nAtomsPerGram: nAt[k], label: pretty(k) + '(α,n)' }; }); })).then(function (targets) {
+    Promise.all([A_.load(), B_ ? B_.load() : Promise.resolve([])]).then(function (TT) {
+      var targets = TT[0], btargets = TT[1];
       $('#n-status').textContent = '';
-      var Emax = Math.max.apply(null, alphas.map(function (a) { return a[0]; })) + Math.max.apply([0], targets.map(function (t) { return t.data.Q_MeV; })) + 2;
-      var r = P.alphaNSpectrum({ alphas: thin ? null : alphas, thin: thin ? { E: alphas[0][0], arealDensity: num('#n-areal', 1e-3) } : null, targets: targets, stopping: stopping, dE: 0.05, Emax: Math.min(15, Math.max(4, Emax)) });
+      var Emax = Math.max.apply(null, alphas.map(function (a) { return a[0]; })) + Math.max.apply([0], targets.concat(btargets).map(function (t) { return t.data.Q_MeV; })) + 2;
+      var EmaxS = Math.min(15, Math.max(4, Emax)), lists = null, r;
+      if (layer) {
+        lists = layerLists(alphas, stopping, B_.stopping, num('#n-ld', 10) * 1e-4 * num('#n-lrho', 1));
+        var rA = P.alphaNSpectrum({ alphas: lists.A, targets: targets, stopping: stopping, dE: 0.05, Emax: EmaxS });
+        var rB = P.alphaNSpectrum({ alphas: lists.B, targets: btargets.map(function (t) { return Object.assign({}, t, { label: t.label + ' [backing]' }); }), stopping: B_.stopping, dE: 0.05, Emax: EmaxS });
+        r = mergeAN(rA, rB);
+      } else r = P.alphaNSpectrum({ alphas: thin ? null : alphas, thin: thin ? { E: alphas[0][0], arealDensity: num('#n-areal', 1e-3) } : null, targets: targets, stopping: stopping, dE: 0.05, Emax: EmaxS });
       var np = Math.max(1, Math.min(30, num('#n-nparts', 8) | 0)), lg = $('#n-log').checked, sumParts = new Float64Array(r.E.length);
       r.partial.forEach(function (p) { for (var i = 0; i < r.E.length; i++) sumParts[i] += p.values[i]; });
       var series = [{ name: 'Total: sum of final states (lab two-body kinematics)', x: r.E, y: sumParts, color: css('--ink'), width: 1.8 }, { name: 'TALYS neutron spectra as integrated by NeuCBOT', x: r.E, y: r.total, color: css('--muted'), dash: [5, 4], width: 1.4 }];
       r.partial.forEach(function (p) { p.label = pretty(p.label); });
       r.partial.slice(0, np).forEach(function (p, k) { series.push({ name: p.label, x: r.E, y: p.values, color: color(k), width: 1.4 }); });
       var unit = thin ? 'neutrons per MeV per alpha' : 'neutrons per MeV per ' + (src === 'e' ? 'alpha' : 'decay');
+      // spontaneous fission of the emitter / chain members (per decay of the parent)
+      var sf = $('#n-sf').checked && src !== 'e' ? sfSources(src) : [], sfY = 0, sfSpec = new Float64Array(r.E.length);
+      sf.forEach(function (q) {
+        var tot = 0, tmp = []; for (var i = 0; i < r.E.length; i++) { var v = X.watt(r.E[i], q.a, q.b); tmp.push(v); tot += v * (r.E[1] - r.E[0]); }
+        for (i = 0; i < r.E.length; i++) sfSpec[i] += q.y * tmp[i] / (tot || 1);
+        sfY += q.y;
+      });
+      if (sfY > 0) {
+        series.splice(1, 0, { name: 'Spontaneous fission (Watt spectrum)', x: r.E, y: sfSpec, color: color(7), width: 1.6, dash: [2, 3] });
+        series.unshift({ name: '(α,n) + spontaneous fission', x: r.E, y: Array.prototype.map.call(sumParts, function (v, i) { return v + sfSpec[i]; }), color: color(3), width: 2 });
+      }
       plot($('#n-plot'), { series: series, xlab: 'Neutron energy (MeV)', xname: 'Eₙ', ylab: unit, log: lg, legend: $('#n-legend'), ymin: lg ? max(sumParts) * 1e-5 : undefined });
-      N.last = { r: r, sumParts: sumParts, unit: unit, comp: comp, src: srcLabel, thin: thin };
-      out.appendChild(el('h3', null, 'Neutron yield: ' + fmt(r.yield, 3) + ' ' + unit.replace(' per MeV', '')));
+      N.last = { r: r, sumParts: sumParts, unit: unit, comp: comp, X0: 40.55, src: srcLabel, thin: thin, sf: sfSpec, sfY: sfY };
+      out.appendChild(el('h3', null, 'Neutron yield: ' + fmt(r.yield, 3) + ' ' + unit.replace(' per MeV', '') + ' from (α,n)' + (sfY > 0 ? ' + ' + fmt(sfY, 3) + ' from spontaneous fission = ' + fmt(r.yield + sfY, 3) : '')));
+      if (sfY > 0) out.appendChild(el('p', 'sx-note', 'Spontaneous fission: ' + sf.map(function (q) { return pretty(q.n) + ' (branch ' + fmt(q.br, 3) + ', ν̄ = ' + q.nu + ' neutrons per fission' + (q.af !== 1 ? ', ' + fmt(q.af, 3) + ' decays per parent decay' : '') + '; Watt a = ' + q.a + ' MeV, b = ' + q.b + ' /MeV, mean ' + fmt(X.wattMean(q.a, q.b), 3) + ' MeV)'; }).join('; ') + '. Neutrons come in bursts: P(ν) from Terrell\'s Gaussian (σ ≈ ' + (sf.some(function (q) { return q.n === '252Cf'; }) ? '1.21' : '1.08') + '): ' + terrell(sf[0].nu, sf[0].n === '252Cf' ? 1.21 : 1.08).map(function (p, k) { return 'P(' + k + ') = ' + fmt(p, 2); }).join(', ') + '. Sources: Watt parameters from SOURCES-4A/MCNP (Geant4 G4WattFissionSpectrumValues), branching ratios and multiplicities from JEFF-3.2 via Carvalho et al. (arXiv:1504.05475) and the ENSDF decay modes.'));
+      if (layer) out.appendChild(el('p', 'sx-note', 'Layer: ' + fmt(lists.fracB * 100, 3) + '% of alphas reach the backing (' + NMAT[+$('#n-back').value][0] + ') and ' + fmt(lists.fracOut * 100, 3) + '% leave through the free surface. Yield in the layer ' + fmt(r.yieldA, 3) + ', in the backing ' + fmt(r.yieldB, 3) + ' ' + unit.replace(' per MeV', '') + '.'));
+      anChannels(out, targets, btargets, lists, alphas, thin, stopping, B_, unit, r.yield + 0);
+      anCompare(targets, alphas, thin, stopping, r);
       var notes = [srcLabel + ' in ' + (custom ? 'custom material' : NMAT[mi][0]) + (thin ? ', thin target of ' + fmt(num('#n-areal', 1e-3), 3) + ' g/cm²' : ', thick target (alphas stop in the material)') + '.'];
       if (missing.length) notes.push('No (α,n) data for ' + missing.join(', ') + ' (not in the NeuCBOT/TALYS set, or no isotope with an open channel); they still slow the alphas down if a stopping table exists.');
       var noStop = Object.keys(comp).filter(function (s) { return !N.stop[s]; }); if (noStop.length) notes.push('No stopping-power table for ' + noStop.join(', ') + ': the others are renormalised.');
@@ -428,7 +506,7 @@
       ['Target → residual (final state)', 'Yield', 'Share', 'Eₙ range at the top alpha energy (MeV)'].forEach(function (h) { hd.appendChild(el('th', null, h)); }); tab.appendChild(hd);
       var Etop = Math.max.apply(null, alphas.map(function (a) { return a[0]; }));
       r.partial.slice(0, 25).forEach(function (p) {
-        var t = targets.filter(function (x) { return x.key === p.target; })[0], d = t.data, ma = 4.002603, mn = 1.00866492, mR = d.mass_u + ma - mn - d.Q_MeV / 931.494;
+        var t = targets.concat(btargets).filter(function (x) { return x.key === p.target; })[0], d = t.data, ma = 4.002603, mn = 1.00866492, mR = d.mass_u + ma - mn - d.Q_MeV / 931.494;
         var k = P.anKinematics(Etop, d.Q_MeV, p.Ex / 1000, ma, d.mass_u, mn, mR);
         var tr = el('tr'); [p.label, fmt(p.sum, 3), pc(p.sum / (r.yield || 1)), k ? fmt(k.Emin, 3) + ' – ' + fmt(k.Emax, 3) : 'closed'].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr);
       });
@@ -442,6 +520,128 @@
       out.lastChild.innerHTML = out.lastChild.textContent.replace('E<sub>cm</sub> + Q − E<sub>x</sub>', 'E<sub>cm</sub> + Q − E<sub>x</sub>');
     }).catch(function (e) { $('#n-status').textContent = ''; fail('#n-out')(e); });
   };
+  function anMaterial(comp) {
+    var need = [], missing = [], nAt = {};
+    Object.keys(comp).forEach(function (sym) {
+      var isos = isotopesOf(sym), M = isos.reduce(function (s, i) { return s + i.ab * i.mass; }, 0) || 1, any = false;
+      isos.forEach(function (i) { if (N.index[i.name]) { need.push(i.name); nAt[i.name] = comp[sym] * i.ab * NA / M; any = true; } });
+      if (!any && comp[sym] > 0) missing.push(sym);
+    });
+    var stopEls = Object.keys(comp).filter(function (s) { return N.stop[s]; }), wS = stopEls.reduce(function (s, k) { return s + comp[k]; }, 0);
+    return { missing: missing, stopping: function (E) { var s = 0; stopEls.forEach(function (k) { s += comp[k] * P.stoppingAt(N.stop[k], E); }); return s / (wS || 1); },
+      load: function () { return Promise.all(need.map(function (k) { return load('data/signals/alphan/' + k + '.json').then(function (d) { return { key: k, data: d, nAtomsPerGram: nAt[k], label: pretty(k) + '(α,n)' }; }); })); } };
+  }
+  // alphas emitted uniformly in a layer of mass thickness t (g/cm2) on a thick backing: weighted energy lists for
+  // the layer (E0 minus the energy each alpha still has when it leaves) and for the backing (entry energies)
+  function layerLists(alphas, sA, sB, t) {
+    var A = [], Bm = {}, out = 0, toB = 0, nz = 30, nc = 40;
+    alphas.forEach(function (a) {
+      var E0 = a[0] * 1000, w = a[1], rt = X.rangeTable(function (Ek) { return sA(Ek / 1000) * 1000; }, E0 * 1.02), R0 = rt.range(E0);
+      A.push([a[0], w]);
+      for (var iz = 0; iz < nz; iz++) {
+        var z = t * (iz + 0.5) / nz;                         // depth below the free surface
+        for (var ic = 0; ic < nc; ic++) {
+          var mu = (ic + 0.5) / nc, ww = w / nz / nc / 2;
+          [[z / mu, false], [(t - z) / mu, true]].forEach(function (pr) {
+            if (pr[0] >= R0) return;                         // stops in the layer
+            var Ex = rt.energy(R0 - pr[0]) / 1000, key = (Math.round(Ex / 0.02) * 0.02).toFixed(2);
+            A.push([Ex, -ww]);
+            if (pr[1]) { Bm[key] = (Bm[key] || 0) + ww; toB += ww; } else out += ww;
+          });
+        }
+      }
+    });
+    var tw = alphas.reduce(function (s, a) { return s + a[1]; }, 0) || 1;
+    var Al = {}; A.forEach(function (x) { var k = x[1] > 0 ? 'p' + x[0] : (Math.round(x[0] / 0.02) * 0.02).toFixed(2); Al[k] = Al[k] || [x[1] > 0 ? x[0] : +k, 0]; Al[k][1] += x[1]; });
+    return { A: Object.keys(Al).map(function (k) { return Al[k]; }).filter(function (x) { return x[0] > 0 && x[1] !== 0; }),
+      B: Object.keys(Bm).map(function (k) { return [+k, Bm[k]]; }).filter(function (x) { return x[0] > 0; }), fracB: toB / tw, fracOut: out / tw };
+  }
+  function mergeAN(a, b) {
+    var E = a.E, part = a.partial.concat(b.partial), total = new Float64Array(E.length), pt = {};
+    for (var i = 0; i < E.length; i++) total[i] = a.total[i] + (b.total[i] || 0);
+    Object.keys(a.perTarget).forEach(function (k) { pt[k] = a.perTarget[k]; }); Object.keys(b.perTarget).forEach(function (k) { pt[k + ' [backing]'] = b.perTarget[k]; });
+    part.sort(function (x, y) { return y.sum - x.sum; });
+    return { E: E, total: total, partial: part, perTarget: pt, yield: a.yield + b.yield, yieldA: a.yield, yieldB: b.yield };
+  }
+  // spontaneous fission: Watt parameters (MeV, 1/MeV), multiplicity, SF branch (used if ENSDF has none)
+  var SFT = { '238U': { a: 0.6483, b: 6.811, nu: 2.01, br: 5.46e-7 }, '232Th': { a: 0.5934, b: 8.030, nu: 2.14, br: 1.40e-11 }, '240Pu': { a: 0.799, b: 4.903, nu: 2.16, br: 5.7e-8 },
+    '244Cm': { a: 0.906, b: 3.848, nu: 2.72, br: 1.37e-6 }, '252Cf': { a: 1.025, b: 2.926, nu: 3.757, br: 0.03092 } };
+  function sfSources(src) {
+    var list = [];
+    function add(n, af) { var q = SFT[n]; if (q) list.push({ n: n, a: q.a, b: q.b, nu: q.nu, br: q.br, af: af, y: af * q.br * q.nu }); }
+    if (src === 'nuc') add(normName($('#n-nuc').value), 1);
+    else { var ch = N.chains.filter(function (c) { return c.id === $('#n-chain').value; })[0]; if (ch) ch.members.forEach(function (m) { if (m.af > 0) add(m.nuc, m.af); }); }
+    return list;
+  }
+  function terrell(nu, sig) {                // P(n) for n = 0..7 from Terrell's cumulative Gaussian
+    var b = 0.0, out = [];
+    function Phi(x) { return 0.5 * (1 + erf(x / Math.SQRT2)); }
+    for (var k = 0; k <= 7; k++) out.push(Math.max(0, Phi((k - nu + 0.5 + b) / sig) - (k ? Phi((k - 1 - nu + 0.5 + b) / sig) : 0)));
+    return out;
+  }
+  // thick- or thin-target yield of any channel with cross sections arr (mb) on the 0.1 MeV grid
+  function chanYield(arr, nAt, list, thin, stop) {
+    function xs(E) { var x = E / 0.1 - 1, k = Math.floor(x); if (k < 0) return x > -1 ? arr[0] * (x + 1) : 0; if (k >= arr.length - 1) return arr[arr.length - 1]; return arr[k] + (arr[k + 1] - arr[k]) * (x - k); }
+    var y = 0;
+    if (thin) return nAt * xs(list[0][0]) * 1e-27 * num('#n-areal', 1e-3);
+    var h = 0.01, Emx = Math.max.apply(null, list.map(function (a) { return a[0]; })), n = Math.ceil(Emx / h) + 1, cum = new Float64Array(n + 1);
+    for (var i = 0; i < n; i++) cum[i + 1] = cum[i] + xs((i + 0.5) * h) / stop((i + 0.5) * h) * h;
+    list.forEach(function (a) { var x = a[0] / h, k = Math.min(n - 1, Math.floor(x)); y += a[1] * nAt * (cum[k] + (cum[k + 1] - cum[k]) * (x - k)) * 1e-27; });
+    return y;
+  }
+  // prompt gammas from the (alpha,n) residual, and the (alpha,p) / (alpha,gamma) channels
+  function anChannels(out, targets, btargets, lists, alphas, thin, stopA, B_, unit, ny) {
+    var rows = [], other = {};
+    function run(tgs, list, stop, tag) {
+      tgs.forEach(function (t) {
+        (t.data.gammas || []).forEach(function (g) {
+          var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
+          rows.push({ t: t.key + tag, Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
+        });
+        Object.keys(t.data.other || {}).forEach(function (ch) {
+          var o = t.data.other[ch], y = chanYield(o.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
+          var k = pretty(t.key) + ch.replace('a,g', 'α,γ').replace('a,p', 'α,p') + pretty(o.residual) + tag; other[k] = (other[k] || 0) + y;
+        });
+      });
+    }
+    var listA = lists ? lists.A : alphas;
+    run(targets, listA, stopA, '');
+    if (lists && B_) run(btargets, lists.B, B_.stopping, ' [backing]');
+    rows.sort(function (a, b) { return b.y - a.y; });
+    var u = unit.replace('neutrons per MeV ', '');
+    if (rows.length) {
+      out.appendChild(el('h3', null, 'Prompt gamma rays from the residual nucleus'));
+      var tab = el('table', 'sx-table'), hd = el('tr');
+      ['Target', 'E<sub>γ</sub> (keV)', 'Level (keV) → (keV)', 'Gammas ' + u, 'Per (α,n) neutron'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); }); tab.appendChild(hd);
+      rows.slice(0, 12).forEach(function (q) { var tr = el('tr'); [pretty(q.t), fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
+      out.appendChild(tab);
+      out.appendChild(el('p', 'sx-note', 'TALYS-1.95 gamma-ray production cross sections of the (α,n) residual, integrated like the neutron yield. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
+    }
+    var ok = Object.keys(other).filter(function (k) { return other[k] > 0; }).sort(function (a, b) { return other[b] - other[a]; });
+    if (ok.length) out.appendChild(el('p', 'sx-note', 'Other channels (TALYS residual production, same thick-target integral): ' + ok.slice(0, 8).map(function (k) { return k + ' ' + fmt(other[k], 3) + ' ' + u; }).join('; ') + '. (α,p) leaves a proton of a few MeV that stops locally; (α,γ) gives a capture gamma near Q + E<sub>cm</sub>.'));
+    if (out.lastChild && /Other channels/.test(out.lastChild.textContent)) out.lastChild.innerHTML = out.lastChild.textContent.replace('E<sub>cm</sub>', 'E<sub>cm</sub>');
+  }
+  // compare the TALYS total cross section of one target with an uploaded sigma(E)
+  function anCompare(targets, alphas, thin, stop, r) {
+    var key = $('#n-cmp-t').value, wrap = $('#n-plot2-wrap');
+    if (!key) { wrap.hidden = true; return; }
+    load('data/signals/alphan/' + key + '.json').then(function (d) {
+      wrap.hidden = false;
+      var grid = []; for (var i = 1; i <= d.total.length; i++) grid.push(0.1 * i);
+      var ser = [{ name: 'TALYS-1.95 total (α,n) cross section, ' + pretty(key), x: grid, y: d.total, color: color(0) }], note = '';
+      var t = targets.filter(function (x) { return x.key === key; })[0];
+      if (N.cmp && N.cmp.x.length) {
+        ser.push({ name: 'Uploaded: ' + N.cmpName, x: N.cmp.x, y: N.cmp.y, color: color(1) });
+        if (t) {
+          var arr = grid.map(function (E) { return X.lin(N.cmp.x, N.cmp.y, E); });
+          var yU = chanYield(arr, t.nAtomsPerGram, alphas, thin, stop), yT = chanYield(d.total, t.nAtomsPerGram, alphas, thin, stop);
+          note = pretty(key) + '(α,n) yield with TALYS: ' + fmt(yT, 4) + '; with your cross section: ' + fmt(yU, 4) + ' (ratio ' + fmt(yU / (yT || 1), 3) + '). Total yield with your cross section in place of TALYS for this isotope: ' + fmt(r.yield - yT + yU, 4) + '.';
+        } else note = pretty(key) + ' is not in the chosen material.';
+      } else note = 'Upload a σ(E) file to compare.';
+      plot($('#n-plot2'), { series: ser, xlab: 'Alpha energy (MeV)', xname: 'E', ylab: 'Cross section (mb)', legend: $('#n-legend2'), height: 240, log: true, ymin: 1e-4 });
+      $('#n-legend2').appendChild(el('p', 'sx-note', note));
+    });
+  }
   function nCSV() {
     var n = N.last; if (!n) return;
     var hdr = ['neutron_energy_MeV', 'TALYS_spectra_NeuCBOT', 'total_sum_of_final_states'].concat(n.r.partial.map(function (p) { return p.label.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, function (s) { return s.split('').map(function (c) { return '⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(c); }).join(''); }); }));
@@ -702,20 +902,25 @@
 
   /* ================================================================ CHERENKOV */
   var CMAT = [
-    ['Water (20 °C)', { sell: [[5.684027565e-1, 1.726177391e-1, 2.086189578e-2, 1.130748688e-1], [5.101829712e-3, 1.821153936e-2, 2.620722293e-2, 1.069792721e1]], rho: 0.998, ZA: 0.5551, I: 75, Zeff: 7.4, src: 'Daimon & Masumura 2007' }],
-    ['Fused silica', { sell: [[0.6961663, 0.4079426, 0.8974794], [0.00467914826, 0.0135120631, 97.9340025]], rho: 2.20, ZA: 0.4993, I: 139.2, Zeff: 11, src: 'Malitson 1965' }],
+    ['Water (20 °C)', { sell: [[5.684027565e-1, 1.726177391e-1, 2.086189578e-2, 1.130748688e-1], [5.101829712e-3, 1.821153936e-2, 2.620722293e-2, 1.069792721e1]], rho: 0.998, ZA: 0.5551, I: 75, Zeff: 7.4, X0: 36.08, src: 'Daimon & Masumura 2007' }],
+    ['Fused silica', { sell: [[0.6961663, 0.4079426, 0.8974794], [0.00467914826, 0.0135120631, 97.9340025]], rho: 2.20, ZA: 0.4993, I: 139.2, Zeff: 11, X0: 27.05, src: 'Malitson 1965' }],
     ['Acrylic (PMMA)', { sell: [[1.1819], [0.011313]], rho: 1.19, ZA: 0.5394, I: 74, Zeff: 6.5, src: 'Sultanova et al. 2009' }],
-    ['Borosilicate crown (N-BK7)', { sell: [[1.03961212, 0.231792344, 1.01046945], [0.00600069867, 0.0200179144, 103.560653]], rho: 2.51, ZA: 0.4973, I: 134, Zeff: 11, src: 'Schott' }],
-    ['Sapphire (ordinary ray)', { sell: [[1.4313493, 0.65054713, 5.3414021], [0.00527992610, 0.0142382647, 325.017834]], rho: 3.98, ZA: 0.4904, I: 145.2, Zeff: 11, src: 'Malitson & Dodge 1972' }],
-    ['Diamond', { sell: [[0.3306, 4.3356], [0.030625, 0.011236]], rho: 3.51, ZA: 0.4995, I: 78, Zeff: 6, src: 'Peter 1923' }],
-    ['Liquid argon (n ≈ 1.23)', { n: 1.23, rho: 1.396, ZA: 0.4506, I: 188, Zeff: 18, src: 'approximate visible-range value' }],
-    ['Liquid xenon (n ≈ 1.39)', { n: 1.39, rho: 2.953, ZA: 0.4113, I: 482, Zeff: 54, src: 'approximate visible-range value' }],
-    ['Linear alkylbenzene (n ≈ 1.48)', { n: 1.48, rho: 0.86, ZA: 0.552, I: 63, Zeff: 5.6, src: 'approximate visible-range value' }]];
+    ['Borosilicate crown (N-BK7)', { sell: [[1.03961212, 0.231792344, 1.01046945], [0.00600069867, 0.0200179144, 103.560653]], rho: 2.51, ZA: 0.4973, I: 134, Zeff: 11, X0: 28.2, src: 'Schott' }],
+    ['Sapphire (ordinary ray)', { sell: [[1.4313493, 0.65054713, 5.3414021], [0.00527992610, 0.0142382647, 325.017834]], rho: 3.98, ZA: 0.4904, I: 145.2, Zeff: 11, X0: 24.94, src: 'Malitson & Dodge 1972' }],
+    ['Diamond', { sell: [[0.3306, 4.3356], [0.030625, 0.011236]], rho: 3.51, ZA: 0.4995, I: 78, Zeff: 6, X0: 42.7, src: 'Peter 1923' }],
+    ['Liquid argon (n ≈ 1.23)', { n: 1.23, rho: 1.396, ZA: 0.4506, I: 188, Zeff: 18, X0: 19.55, src: 'approximate visible-range value' }],
+    ['Liquid xenon (n ≈ 1.39)', { n: 1.39, rho: 2.953, ZA: 0.4113, I: 482, Zeff: 54, X0: 8.48, src: 'approximate visible-range value' }],
+    ['Linear alkylbenzene (n ≈ 1.48)', { n: 1.48, rho: 0.86, ZA: 0.552, I: 63, Zeff: 5.6, X0: 44.0, src: 'approximate visible-range value' }],
+    ['Borosilicate PMT glass (n ≈ 1.47)', { sell: [[1.0168, 0.0948, 0.9024], [0.00568, 0.0217, 101.0]], rho: 2.23, ZA: 0.4970, I: 134, Zeff: 11, X0: 28.0, src: 'Borofloat-33-like Sellmeier fit, approximate', comp: { O: 0.539, Si: 0.377, B: 0.040, Na: 0.030, Al: 0.012 } }]];
+  var BIALKALI = [[260, 0.05], [280, 0.15], [300, 0.24], [330, 0.29], [360, 0.31], [400, 0.30], [440, 0.26], [480, 0.20], [520, 0.13], [560, 0.07], [600, 0.03], [650, 0.008], [700, 0.001]];
   var C = {};
   INIT.cher = function () {
     CMAT.forEach(function (m, i) { var o = el('option', null, m[0]); o.value = i; $('#c-mat').appendChild(o); });
     $('#c-mat').addEventListener('change', function () { var m = CMAT[+this.value][1]; $('#c-rho').value = m.rho; $('#c-za').value = m.ZA; $('#c-i').value = m.I; RUN.cher(); });
-    ['#c-e', '#c-const', '#c-b1', '#c-b2', '#c-b3', '#c-c1', '#c-c2', '#c-c3', '#c-rho', '#c-za', '#c-i', '#c-l0', '#c-l1'].forEach(function (id) { $(id).addEventListener('change', RUN.cher); });
+    ['#c-e', '#c-const', '#c-b1', '#c-b2', '#c-b3', '#c-c1', '#c-c2', '#c-c3', '#c-rho', '#c-za', '#c-i', '#c-l0', '#c-l1', '#c-gt', '#c-k2o', '#c-delta', '#c-ang', '#c-qe', '#c-qe-text', '#c-tr', '#c-path', '#c-att',
+      '#c-wls', '#c-wcut', '#c-weff', '#c-wcoll', '#c-wpk', '#c-wsig'].forEach(function (id) { $(id).addEventListener('change', RUN.cher); });
+    function readCurve(inp, key) { inp.addEventListener('change', function () { var f = this.files && this.files[0]; if (!f) return; f.text().then(function (t) { C[key] = t; C[key + 'Name'] = f.name; if (key === 'qeText') $('#c-qe-text').value = t; RUN.cher(); }); }); }
+    readCurve($('#c-qe-file'), 'qeText'); readCurve($('#c-tr-file'), 'trText');
     document.querySelectorAll('input[name=c-src],input[name=c-n]').forEach(function (r) { r.addEventListener('change', RUN.cher); });
     $('#c-csv').addEventListener('click', cCSV);
     var m0 = CMAT[0][1]; $('#c-rho').value = m0.rho; $('#c-za').value = m0.ZA; $('#c-i').value = m0.I;
@@ -723,6 +928,11 @@
   };
   RUN.cher = function () {
     var src = srcVal('c-src'), nm = srcVal('c-n'), out = $('#c-out'); out.innerHTML = '';
+    if (src === 'k40' && nm !== 'mat') { document.querySelector('input[name=c-n][value=mat]').checked = true; nm = 'mat'; }
+    if (src === 'k40' && C.lastSrc !== 'k40') { var gi = CMAT.length - 1; $('#c-mat').value = gi; $('#c-rho').value = CMAT[gi][1].rho; $('#c-za').value = CMAT[gi][1].ZA; $('#c-i').value = CMAT[gi][1].I; }
+    C.lastSrc = src;
+    $('#c-k40-wrap').hidden = src !== 'k40';
+    $('#c-qe-wrap').hidden = $('#c-qe').value !== 'up'; $('#c-att-wrap').hidden = $('#c-att-note').hidden = $('#c-tr').value !== 'att'; $('#c-tr-wrap').hidden = $('#c-tr').value !== 'up'; $('#c-wls-wrap').hidden = !$('#c-wls').checked;
     $('#c-e-wrap').hidden = src !== 'mono'; $('#c-mat-wrap').hidden = nm !== 'mat'; $('#c-const-wrap').hidden = nm !== 'const'; $('#c-sell-wrap').hidden = nm !== 'sell';
     var nf, label, mat = CMAT[+$('#c-mat').value][1];
     if (nm === 'mat') { nf = mat.sell ? function (l) { return P.sellmeier(mat.sell[0], mat.sell[1], l); } : function () { return mat.n; }; label = CMAT[+$('#c-mat').value][0] + ' (' + mat.src + ')'; }
@@ -731,6 +941,10 @@
     // electrons
     var T, w, dT, srcLabel, note = '';
     if (src === 'mono') { var E = num('#c-e', 1000); dT = Math.max(0.5, E / 400); T = [E]; w = [1 / dT]; srcLabel = 'one ' + fmt(E, 4) + ' keV electron'; }
+    else if (src === 'k40') {
+      if (!C.xcom) { load('data/signals/xcom.json').then(function (x) { C.xcom = x; RUN.cher(); }); plot($('#c-plot'), { series: [], empty: 'Loading photon cross sections…' }); return; }
+      var k = k40Electrons(); T = k.T; w = k.w; dT = k.dT; srcLabel = '⁴⁰K decays in ' + fmt(num('#c-gt', 3), 3) + ' mm of PMT glass (per decay)'; C.k40 = k;
+    }
     else if (src === 'beta') {
       var b = B.last; if (!b) { note = 'Open the Beta tab first to compute a spectrum (using 90Y by default).'; }
       if (b) { T = b.spec.T; w = b.spec.dNdT; dT = T.length > 1 ? T[1] - T[0] : 1; srcLabel = 'beta spectrum of ' + pretty(b.n) + (b.all ? ' (per decay)' : ' (per beta)'); }
@@ -746,22 +960,108 @@
     var l0 = num('#c-l0', 200), l1 = Math.max(num('#c-l1', 700), l0 + 10), nl = 300, lam = [];
     for (var i = 0; i < nl; i++) lam.push(l0 + (l1 - l0) * i / (nl - 1));
     var m = { n: nf, rho: num('#c-rho', 1), ZA: num('#c-za', 0.555), I: num('#c-i', 75), Zeff: nm === 'mat' ? mat.Zeff : 7.4 };
-    var Tmax = Math.max.apply(null, T) * 1.01 + 1, tab = P.cherenkovTable(m, lam, Tmax), y = P.cherenkovFromSpectrum(tab, T, w, dT);
-    var total = 0; for (i = 1; i < nl; i++) total += 0.5 * (y[i] + y[i - 1]) * (lam[i] - lam[i - 1]);
-    plot($('#c-plot'), { series: [{ name: 'Cherenkov photons', x: lam, y: y, color: color(6) }], xlab: 'Wavelength (nm)', xname: 'λ', ylab: 'Photons per nm per ' + (src === 'mono' ? 'electron' : src === 'beta' ? (B.last && B.last.all ? 'decay' : 'beta') : 'decay'), legend: $('#c-legend') });
-    plot($('#c-plot2'), { series: [{ name: 'n(λ)', x: lam, y: tab.nl, color: color(0) }], xlab: 'Wavelength (nm)', xname: 'λ', ylab: 'Refractive index n', height: 220, ymin: Math.min.apply(null, tab.nl) * 0.995, ymax: Math.max.apply(null, tab.nl) * 1.005 });
-    C.last = { lam: lam, y: y, n: tab.nl, label: label, srcLabel: srcLabel, total: total };
+    m.X0 = nm === 'mat' && mat.X0 ? mat.X0 : 36.08;
+    var Tmax = Math.max.apply(null, T) * 1.01 + 1, tab = P.cherenkovTable(m, lam, Tmax), y0 = P.cherenkovFromSpectrum(tab, T, w, dT), y = Float64Array.from(y0), yd = null;
+    function integ(a) { var t = 0; for (var q = 1; q < nl; q++) t += 0.5 * (a[q] + a[q - 1]) * (lam[q] - lam[q - 1]); return t; }
+    if ($('#c-delta').checked) { var dtab = X.cherenkovDeltaTable(m, tab); yd = P.cherenkovFromSpectrum(dtab, T, w, dT); for (i = 0; i < nl; i++) y[i] += yd[i]; }
+    var total = integ(y), per = src === 'mono' ? 'electron' : src === 'beta' ? (B.last && B.last.all ? 'decay' : 'beta') : 'decay';
+    // detection: QE, transmission, wavelength shifter
+    var qe = cCurve($('#c-qe').value, 'qe'), tr = cTrans(), wl = $('#c-wls').checked ? { cut: num('#c-wcut', 380), eff: num('#c-weff', 0.9), coll: num('#c-wcoll', 0.5), peak: num('#c-wpk', 420), sigma: Math.max(1, num('#c-wsig', 21)) } : null;
+    var detecting = !!(qe.f || tr.f || wl), det = detecting ? X.detectLight(lam, y, { qe: qe.f, trans: tr.f, wls: wl }) : null, dsum = null, pe = 0;
+    if (det) { dsum = new Float64Array(nl); for (i = 0; i < nl; i++) dsum[i] = det.direct[i] + det.reemitted[i]; pe = integ(dsum); }
+    var ser = [{ name: 'Cherenkov photons emitted' + (yd ? ' (primary + delta rays)' : ''), x: lam, y: y, color: color(6), width: 1.8 }];
+    if (yd) ser.push({ name: 'From delta rays', x: lam, y: yd, color: color(2), dash: [4, 3] });
+    if (det) {
+      var unitDet = qe.f ? 'photoelectrons' : 'photons reaching the sensor';
+      ser.push({ name: 'Detected: ' + unitDet + (wl ? ' (direct + re-emitted)' : ''), x: lam, y: dsum, color: color(0), width: 1.8 });
+      if (wl) ser.push({ name: 'Re-emitted by the wavelength shifter', x: lam, y: det.reemitted, color: color(1), dash: [5, 4] });
+    }
+    plot($('#c-plot'), { series: ser, xlab: 'Wavelength (nm)', xname: 'λ', ylab: 'Photons per nm per ' + per, legend: $('#c-legend') });
+    var s2 = [{ name: 'Refractive index n(λ)', x: lam, y: tab.nl, color: color(0) }];
+    plot($('#c-plot2'), { series: s2, xlab: 'Wavelength (nm)', xname: 'λ', ylab: 'Refractive index n', height: 200, legend: $('#c-legend2'), ymin: Math.min.apply(null, tab.nl) * 0.995, ymax: Math.max.apply(null, tab.nl) * 1.005 });
+    if (qe.f || tr.f) {
+      var eff = [], qq = [], tt = []; lam.forEach(function (l) { var a = qe.f ? qe.f(l) : 1, b = tr.f ? tr.f(l) : 1; qq.push(a); tt.push(b); eff.push(a * b); });
+      var s3 = []; if (qe.f) s3.push({ name: 'Quantum efficiency' + (qe.name ? ' (' + qe.name + ')' : ''), x: lam, y: qq, color: color(4) });
+      if (tr.f) s3.push({ name: 'Transmission', x: lam, y: tt, color: color(5) });
+      if (qe.f && tr.f) s3.push({ name: 'QE × transmission', x: lam, y: eff, color: css('--ink'), dash: [4, 3] });
+      var c4 = $('#c-plot4') || (function () { var d = el('div', 'sx-plot'); d.id = 'c-plot4-wrap'; var cv = el('canvas'); cv.id = 'c-plot4'; cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', 'Detection efficiency versus wavelength'); var lgd = el('div', 'sx-legend'); lgd.id = 'c-legend4'; d.appendChild(cv); d.appendChild(lgd); $('#c-plot2').parentNode.after(d); return cv; })();
+      $('#c-plot4-wrap').hidden = false;
+      plot(c4, { series: s3, xlab: 'Wavelength (nm)', xname: 'λ', ylab: 'Efficiency (fraction)', height: 200, ymin: 0, ymax: 1, legend: $('#c-legend4') });
+    } else if ($('#c-plot4-wrap')) $('#c-plot4-wrap').hidden = true;
+    // angular distribution
+    var ang = null;
+    $('#c-plot3-wrap').hidden = !$('#c-ang').checked;
+    if ($('#c-ang').checked) {
+      var samples = []; for (i = 0; i < T.length; i++) if (w[i] > 0) samples.push({ T0: T[i], w: w[i] * dT });
+      if (samples.length > 120) { var st = Math.ceil(samples.length / 120), sm = []; for (i = 0; i < samples.length; i += st) { var acc = { T0: samples[i].T0, w: 0 }; for (var q = i; q < Math.min(samples.length, i + st); q++) acc.w += samples[q].w; sm.push(acc); } samples = sm; }
+      var lm = 0.5 * (l0 + l1); ang = X.cherenkovAngles(m, samples, lm, { histories: 400, bins: 80 });
+      if (ang.cos.length) {
+        var ideal = ang.cos.map(function (c) { return 0; }), bw = 2 / ang.cos.length, kc = Math.min(ang.cos.length - 1, Math.floor((ang.cosC + 1) / bw)); ideal[kc] = 1 / bw;
+        var thd = ang.cos.map(function (c) { return Math.acos(Math.max(-1, Math.min(1, c))) * 180 / Math.PI; });
+        plot($('#c-plot3'), { series: [{ name: 'With multiple scattering (relative to the initial electron direction)', x: thd.slice().reverse(), y: ang.y.slice().reverse(), color: color(6) }], xlab: 'Angle to the initial electron direction (degrees)', xname: 'θ', ylab: 'Photons per unit cos θ (normalised)', height: 240, legend: $('#c-legend3'),
+          marks: [{ x: Math.acos(ang.cosC) * 180 / Math.PI, label: 'Cherenkov angle for β → 1: ' + fmt(Math.acos(ang.cosC) * 180 / Math.PI, 3) + '°', row: 0 }] });
+      }
+    }
+    C.last = { lam: lam, y: y, yd: yd, det: dsum, n: tab.nl, label: label, srcLabel: srcLabel, total: total, pe: pe, ang: ang };
     var th = tab.threshold[Math.floor(nl / 2)];
-    out.appendChild(el('h3', null, fmt(total, 4) + ' photons between ' + fmt(l0, 4) + ' and ' + fmt(l1, 4) + ' nm'));
+    out.appendChild(el('h3', null, fmt(total, 4) + ' photons between ' + fmt(l0, 4) + ' and ' + fmt(l1, 4) + ' nm' + (det ? '; ' + fmt(pe, 4) + (qe.f ? ' photoelectrons' : ' photons at the sensor') : '')));
+    var dn = [];
+    if (yd) dn.push('Delta rays add ' + pc(integ(yd) / (integ(y0) || 1)) + ' to the light of the primaries (Møller cross section, knock-ons above the Cherenkov threshold, each followed with its own slowing down; the primary keeps its unrestricted stopping power, so this is a slight overestimate).');
+    if (det) dn.push((qe.f ? 'QE: ' + qe.desc + '. ' : '') + (tr.f ? 'Transmission: ' + tr.desc + '. ' : '') + (wl ? 'Wavelength shifter: ' + fmt(det.absorbed, 4) + ' photons absorbed below ' + wl.cut + ' nm, re-emitted with yield ' + wl.eff + ' and collection ' + wl.coll + ' as a Gaussian at ' + wl.peak + ' ± ' + wl.sigma + ' nm. ' : '') + (qe.f ? 'Mean photoelectrons: ' + fmt(pe, 4) + ' per ' + per + (src === 'mono' ? '; P(≥1 pe) ≈ ' + fmt(1 - Math.exp(-pe), 3) + ' if Poisson.' : '.') : ''));
+    if (ang && ang.cos.length) { var mean = 0; ang.cos.forEach(function (c, k) { mean += c * ang.y[k] * 2 / ang.cos.length; }); dn.push('Angular distribution: Monte Carlo of ' + 400 + ' electron histories with Highland multiple scattering (X₀ = ' + m.X0 + ' g/cm²); mean cos θ = ' + fmt(mean, 3) + ' (the ideal cone has cos θ = 1/n = ' + fmt(ang.cosC, 3) + ').'); }
+    if (src === 'k40' && C.k40) dn.push(C.k40.note);
+    dn.forEach(function (t) { out.appendChild(el('p', null, t)); });
     out.appendChild(el('p', null, 'Source: ' + srcLabel + '. Medium: ' + label + '. Electron threshold at ' + fmt(lam[Math.floor(nl / 2)], 4) + ' nm: ' + fmt(th, 4) + ' keV kinetic energy (n = ' + fmt(tab.nl[Math.floor(nl / 2)], 5) + ').'));
     out.appendChild(formulaBox([
       ['Frank–Tamm', 'd²N / dx dλ = (2π α z² / λ²) (1 − 1 / (β² n(λ)²)),&nbsp; emitted while β n(λ) > 1'],
       ['Along the track', 'dN/dλ (T₀) = ∫<sub>T<sub>th</sub></sub><sup>T₀</sup> (d²N/dx dλ) / (dT/dx) dT,&nbsp; dT/dx: Bethe collision stopping power for electrons (ICRU 37, no density effect) plus an approximate radiative term'],
       ['Threshold', 'T<sub>th</sub> = m<sub>e</sub>c² [1/√(1 − 1/n²) − 1]'],
       ['Spectrum of primaries', 'dN/dλ = ∫ (dN<sub>e</sub>/dT₀) · dN/dλ(T₀) dT₀']]));
-    out.appendChild(el('p', 'sx-note', 'Assumes the electron slows down continuously in a uniform medium and ignores secondary electrons (delta rays), multiple scattering and the density effect, which matter above a few MeV. Normalised per primary electron, per beta, or per decay as labelled.'));
+    out.appendChild(el('p', 'sx-note', 'Assumes the electron slows down continuously in a uniform medium (delta rays and multiple scattering optional, as above) and ignores the density effect, which matters above a few MeV. Light is counted where it is emitted: absorption on the way out, reflections and the geometry of the sensor are up to the transmission and collection numbers. Normalised per primary electron, per beta, or per decay as labelled.'));
+    out.appendChild(formulaBox([['Delta rays', 'dN/dλ += ∫ ds n<sub>e</sub> ∫<sub>T<sub>th</sub></sub><sup>T/2</sup> (dσ<sub>Møller</sub>/dT<sub>δ</sub>) dN/dλ(T<sub>δ</sub>) dT<sub>δ</sub>'],
+      ['Multiple scattering (Highland)', 'θ<sub>0</sub> = (13.6 MeV / βpc) √(s/X<sub>0</sub>) per step; photons at cos θ<sub>C</sub> = 1/(βn) around the current direction'],
+      ['Detection', 'dN<sub>pe</sub>/dλ = dN/dλ · T(λ) · QE(λ) (λ above the shifter cut) + ε<sub>WLS</sub> f<sub>coll</sub> N<sub>abs</sub> g(λ) QE(λ)']]));
   };
-  function cCSV() { var c = C.last; if (!c) return; download('cherenkov.csv', ['wavelength_nm', 'photons_per_nm', 'refractive_index'], [c.lam, c.y, c.n], ['Radioactive Signal Explorer: Cherenkov photon spectrum (Frank-Tamm)', 'Source: ' + c.srcLabel + '; medium: ' + c.label, 'Total photons in range: ' + c.total.toPrecision(5)]); }
+  // QE / transmission curves: x in nm (µm if all < 5), y fraction (% if any > 1.5)
+  function curveFrom(text) {
+    var c = X.parseXY(text || ''); if (c.x.length < 2) return null;
+    var um = Math.max.apply(null, c.x) < 5, pct = Math.max.apply(null, c.y) > 1.5;
+    var x = c.x.map(function (v) { return um ? v * 1000 : v; }), y = c.y.map(function (v) { return Math.max(0, pct ? v / 100 : v); });
+    return { x: x, y: y, um: um, pct: pct, f: function (l) { return l < x[0] || l > x[x.length - 1] ? 0 : X.lin(x, y, l); } };
+  }
+  function cCurve(mode) {
+    if (mode === 'bialkali') { var bx = BIALKALI.map(function (p) { return p[0]; }), by = BIALKALI.map(function (p) { return p[1]; }); return { f: function (l) { return l < bx[0] || l > bx[bx.length - 1] ? 0 : X.lin(bx, by, l); }, name: 'typical bialkali', desc: 'illustrative bialkali photocathode behind a UV-transmitting window (peak ≈ 31% near 360 nm); upload your sensor\'s curve for real numbers' }; }
+    if (mode === 'up') {
+      var c = curveFrom($('#c-qe-text').value);
+      if (!c) { $('#c-qe-note').textContent = 'No curve yet: upload a file or paste at least two rows.'; return { f: null }; }
+      $('#c-qe-note').textContent = 'Read ' + c.x.length + ' points, ' + fmt(c.x[0], 4) + '–' + fmt(c.x[c.x.length - 1], 4) + ' nm' + (c.um ? ' (converted from µm)' : '') + ', QE ' + (c.pct ? 'in %' : 'as a fraction') + ', peak ' + fmt(Math.max.apply(null, c.y) * 100, 3) + '%. Zero outside the curve.';
+      return { f: c.f, name: C.qeTextName || 'your curve', desc: 'your curve (' + (C.qeTextName || 'pasted') + ', ' + c.x.length + ' points)' };
+    }
+    return { f: null };
+  }
+  function cTrans() {
+    var mode = $('#c-tr').value;
+    if (mode === 'att') { var L = num('#c-path', 10), A = Math.max(1e-6, num('#c-att', 100)); return { f: function (l) { return Math.exp(-L / (A * Math.pow(l / 400, 4))); }, desc: 'exp(−' + L + ' cm / Λ(λ)), Λ = ' + A + ' cm × (λ/400 nm)⁴' }; }
+    if (mode === 'up') { var c = curveFrom(C.trText); if (!c) return { f: null }; return { f: c.f, desc: 'uploaded curve ' + (C.trTextName || '') }; }
+    return { f: null };
+  }
+  // 40K in borosilicate glass: beta (89.28%) + electrons from the 1460.8 keV gamma (10.66%) that interact in the glass
+  function k40Electrons() {
+    var corr = {}; CORR.forEach(function (c) { corr[c[0]] = c[3]; }); corr.WM = false;
+    var sp = P.betaSpectrum({ Z: 20, A: 40, beta: -1, T0: 1311.07, kind: 'U', k: 3, rho: Infinity, corr: corr, n: 600 });
+    var comp = CMAT[CMAT.length - 1][1].comp, k2o = Math.max(0, num('#c-k2o', 1)) / 100, fK = k2o * 2 * 39.0983 / 94.196;
+    var c2 = {}; Object.keys(comp).forEach(function (e) { c2[e] = comp[e] * (1 - k2o); }); c2.K = fK; c2.O = (c2.O || 0) + k2o - fK;
+    var mu = P.xcomMaterial(C.xcom, c2, 1460.8), muT = (mu.incoh + mu.photo + mu.pair) * 2.23, L = 2 * num('#c-gt', 3) / 10, pint = 1 - Math.exp(-muT * L);
+    var g = P.gammaSpectrum({ E: 1460.8, comp: c2, xcom: C.xcom, edges: {}, Zof: {}, pesc: 1, fwhm662: 0, bin: 2 });
+    var dT = sp.T[1] - sp.T[0], Tmax = 1470, n = Math.ceil(Tmax / dT), T = new Float64Array(n), w = new Float64Array(n);
+    for (var i = 0; i < n; i++) T[i] = (i + 0.5) * dT;
+    for (i = 0; i < sp.T.length; i++) { var k = Math.floor(sp.T[i] / dT); if (k < n) w[k] += 0.8928 * sp.dNdT[i]; }
+    var gb = g.grid[1] - g.grid[0]; for (i = 0; i < g.grid.length; i++) { k = Math.floor(g.grid[i] / dT); if (k < n && k >= 0) w[k] += 0.1066 * pint * g.electrons[i] * gb / dT; }
+    var thick = num('#c-gt', 3) / 10, A = 2.23 * thick * fK * 31.6;   // decays per second per cm2 of glass (31.6 Bq per g of natural K)
+    return { T: T, w: w, dT: dT, note: '⁴⁰K: β⁻ branch 89.28% (unique third-forbidden shape, endpoint 1311.07 keV); EC branch 10.66% to the 1460.8 keV level, whose gamma interacts in ' + fmt(L * 10, 3) + ' mm of glass with probability ' + fmt(pint, 3) + ' (μ = ' + fmt(muT, 3) + ' /cm). With ' + fmt(k2o * 100, 3) + '% K₂O the glass holds ' + fmt(fK * 100, 3) + '% potassium by mass and has ' + fmt(A, 3) + ' ⁴⁰K decays per second per cm² of window (31.6 Bq per g of natural K). The beta electrons start inside the glass; those near the surface may leave before stopping, which this calculation (a thick medium) ignores.', rate: A };
+  }
+  function cCSV() { var c = C.last; if (!c) return; var h = ['wavelength_nm', 'photons_per_nm', 'refractive_index'], cols = [c.lam, c.y, c.n]; if (c.yd) { h.push('delta_ray_photons_per_nm'); cols.push(c.yd); } if (c.det) { h.push('detected_per_nm'); cols.push(c.det); }
+    download('cherenkov.csv', h, cols, ['Radioactive Signal Explorer: Cherenkov photon spectrum (Frank-Tamm)', 'Source: ' + c.srcLabel + '; medium: ' + c.label, 'Total photons in range: ' + c.total.toPrecision(5)]); }
 
   /* ---------------------------------------------------------------- start */
   TABS.forEach(function (t) { $('#tab-' + t).addEventListener('click', function () { showTab(t, true); }); });
