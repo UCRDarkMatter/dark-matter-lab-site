@@ -67,6 +67,20 @@ class Scheme:
                     lines[(i, j)] = lines.get((i, j), 0.0) + flow * fg
         return lines
 
+    def reach(self):
+        """R[i][k] = probability that a cascade passing level i later passes level k (R[i][i] = 1)."""
+        if hasattr(self, "_R"):
+            return self._R
+        n = len(self.E); R = [None] * n
+        for i in range(n):
+            row = {i: 1.0}
+            for j, f, _ in self.out[i]:
+                for k, v in R[j].items():
+                    row[k] = row.get(k, 0.0) + f * v
+            R[i] = row
+        self._R = R
+        return R
+
     def egamma(self, i, j):
         de = self.E[i] - self.E[j]
         return de - de * de / (2 * self.A * AMU_KEV)          # recoil correction
@@ -137,6 +151,7 @@ def lines_from_feeding(schemes, levels, ngrid, min_frac=1e-3):
     lines = [{"Eg", "from", "to", "xs"}] (gamma production cross sections, mb) and unmatched[i] = cross section of
     excited levels with no counterpart in the scheme."""
     acc, unmatched, used = {}, [0.0] * ngrid, set()
+    feed = {}                                              # (scheme index, level) -> weight summed over the energy grid
     for L in levels:
         if L["Ex"] <= 0:
             continue
@@ -150,6 +165,7 @@ def lines_from_feeding(schemes, levels, ngrid, min_frac=1e-3):
                 unmatched[k] += L["xs"][k]
             continue
         used.add(sch.src)
+        si = schemes.index(sch); feed[(si, i)] = feed.get((si, i), 0.0) + sum(L["xs"])
         for (a, b), w in sch.cascade(i).items():
             key = (round(sch.egamma(a, b), 2), round(sch.E[a], 2), round(sch.E[b], 2))
             arr = acc.setdefault(key, [0.0] * ngrid)
@@ -163,4 +179,46 @@ def lines_from_feeding(schemes, levels, ngrid, min_frac=1e-3):
         if max(arr) < min_frac * peak:
             continue
         out.append({"Eg": eg, "from": ea, "to": eb, "xs": [float("%.4g" % v) for v in arr]})
+    coincidences(schemes, feed, out)
     return out, unmatched, used
+
+
+def coincidences(schemes, feed, lines, n_strong=25, pmin=0.02):
+    """For the strongest lines, P(other line in the same cascade | this line), with the level feeding summed over
+    the alpha-energy grid (equal weights). Adds "c": [[E_gamma, P], ...] to the line entries (as in capture.py)."""
+    for si, sch in enumerate(schemes):
+        w = {i: v for (s_, i), v in feed.items() if s_ == si and v > 0}
+        if not w:
+            continue
+        R = sch.reach()
+        edges = []                                         # (i, j, photon prob per passage of i)
+        for i in range(len(sch.E)):
+            for j, f, fg in sch.out[i]:
+                if fg > 0:
+                    edges.append((i, j, f * fg))
+        P = {}                                             # probability per reaction of passing each level
+        for L, v in w.items():
+            for k, x in R[L].items():
+                P[k] = P.get(k, 0.0) + v * x
+        inten = {(i, j): P.get(i, 0.0) * p for i, j, p in edges}
+        strong = sorted([e for e in edges if inten[(e[0], e[1])] > 0], key=lambda e: -inten[(e[0], e[1])])[:n_strong]
+        for a in strong:
+            ia = inten[(a[0], a[1])]; partners = {}
+            for b in strong:
+                if b is a:
+                    continue
+                if sch.E[b[0]] <= sch.E[a[1]] + 1e-6:       # b below a
+                    pb = R[a[1]].get(b[0], 0.0) * b[2]
+                elif sch.E[a[0]] <= sch.E[b[1]] + 1e-6:     # b above a
+                    pb = inten[(b[0], b[1])] * R[b[1]].get(a[0], 0.0) * a[2] / ia
+                else:
+                    continue
+                if pb >= pmin:
+                    eg = round(sch.egamma(b[0], b[1]), 2); partners[eg] = max(partners.get(eg, 0), round(pb, 3))
+            if not partners:
+                continue
+            ega = round(sch.egamma(a[0], a[1]), 2)
+            for item in lines:
+                if abs(item["Eg"] - ega) < 0.01 and abs(item["from"] - round(sch.E[a[0]], 2)) < 0.01:
+                    item["c"] = sorted([[e, p] for e, p in partners.items()], key=lambda t: -t[1])[:6]
+                    break

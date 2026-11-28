@@ -748,7 +748,7 @@
       tgs.forEach(function (t) {
         gammaList(t.data).forEach(function (g) {
           var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
-          rows.push({ t: t.key + tag, src: g.src, nuc: g.nuc || t.data.residual, ch: chanLabel(t.data, g.nuc || t.data.residual), Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && (g.nuc || '16O') === '16O' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
+          rows.push({ t: t.key + tag, src: g.src, c: g.c, nuc: g.nuc || t.data.residual, ch: chanLabel(t.data, g.nuc || t.data.residual), Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && (g.nuc || '16O') === '16O' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
         });
         Object.keys(t.data.other || {}).forEach(function (ch) {
           var o = t.data.other[ch], y = chanYield(o.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
@@ -764,10 +764,10 @@
     if (rows.length) {
       out.appendChild(el('h3', null, 'Strongest prompt gamma lines'));
       var tab = el('table', 'sx-table'), hd = el('tr');
-      ['Target → nucleus', 'E<sub>γ</sub> (keV)', 'Level (keV) → (keV)', 'Gammas ' + u, 'Per (α,n) neutron'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); }); tab.appendChild(hd);
-      rows.slice(0, 16).forEach(function (q) { var tr = el('tr'); [pretty(q.t) + ' → ' + pretty(q.nuc) + ' ' + q.ch + (q.src ? ' ' + q.src : ''), fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
+      ['Target → nucleus', 'E<sub>γ</sub> (keV)', 'Level (keV) → (keV)', 'Gammas ' + u, 'Per (α,n) neutron', 'Emitted with (same cascade)'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); }); tab.appendChild(hd);
+      rows.slice(0, 16).forEach(function (q) { var tr = el('tr'); [pretty(q.t) + ' → ' + pretty(q.nuc) + ' ' + q.ch + (q.src ? ' ' + q.src : ''), fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3), q.c && q.c.length ? q.c.slice(0, 4).map(function (p) { return fmt(p[0], 4) + ' keV (' + (p[1] >= 0.995 ? '100' : fmt(p[1] * 100, 2)) + '%)'; }).join(', ') : (q.src ? 'nothing above 2%' : '–')].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
       out.appendChild(tab);
-      out.appendChild(el('p', 'sx-note', 'Lines marked [E] come from following each level that TALYS-1.95 populates through the ENSDF adopted level scheme ([C]: the G4RiversideCASCADE level scheme; [E+C]: both), with evaluated branching ratios and conversion coefficients, exactly as the Gamma Line Explorer propagates capture cascades. Unmarked lines are TALYS\u2019s own cascade (RIPL branching), used when more than 5% of a nucleus\u2019s populated levels are missing from the evaluated schemes. All are integrated like the neutron yield. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
+      out.appendChild(el('p', 'sx-note', 'Lines marked [E] come from following each level that TALYS-1.95 populates through the ENSDF adopted level scheme ([C]: the G4RiversideCASCADE level scheme; [E+C]: both), with evaluated branching ratios and conversion coefficients, exactly as the Gamma Line Explorer propagates capture cascades. Unmarked lines are TALYS\u2019s own cascade (RIPL branching), used when more than 5% of a nucleus\u2019s populated levels are missing from the evaluated schemes. All are integrated like the neutron yield. “Emitted with” is the probability that another line comes out in the same cascade (from the level scheme, with the level feeding averaged over alpha energies up to 10 MeV): such pairs give coincidences in segmented detectors and sum peaks in close geometries. Every line also comes with the reaction’s neutron or proton. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
     }
     // other channels are listed in the yields table (anOther)
   }
@@ -778,7 +778,7 @@
     Object.keys(c).forEach(function (n) { if (c[n].lines.length && c[n].unmatched <= 0.05) useC[n] = c[n]; });
     (d.gammas || []).forEach(function (g) { var n = g.nuc || d.residual; if (!useC[n]) out.push(Object.assign({ src: '' }, g, { nuc: n })); });
     Object.keys(useC).forEach(function (n) { var tag = /CASCADE/.test(useC[n].src) && !/ENSDF/.test(useC[n].src) ? '[C]' : /CASCADE/.test(useC[n].src) ? '[E+C]' : '[E]';
-      useC[n].lines.forEach(function (g) { out.push({ nuc: n, Eg: g.Eg, from: g.from, to: g.to, xs: g.xs, src: tag }); }); });
+      useC[n].lines.forEach(function (g) { out.push({ nuc: n, Eg: g.Eg, from: g.from, to: g.to, xs: g.xs, src: tag, c: g.c, chan: useC[n].channel }); }); });
     return out;
   }
   // name a channel from the residual: emitted nucleons = compound (Z+2, A+4) minus residual
