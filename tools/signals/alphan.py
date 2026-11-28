@@ -21,34 +21,77 @@ SYM = "n H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co 
 ROW = re.compile(r"^\s*(\d+)\s+(\S+)\s+([\d.]+)\s+--->\s+(\d+)\s+(\S+)\s+([\d.]+)\s+([\d.]+)\s+([\d.Ee+-]+)\s*$")
 
 
+SPEC = re.compile(r"^\s*([\d.]+)\s+([\d.Ee+-]+)\s")
+
+
 def parse(path, res):
-    q = mt = None; tot = 0.0; trans = []; levels = {}; prod = {}
-    sec = None; nuc = None
+    """Read one TALYS output file. Returns a dict with Q values, masses, production cross sections (section 3),
+    residual production (section 4), composite gamma and proton spectra (section 7) and the gamma-ray
+    intensities of every residual (section 10)."""
+    o = {"Q": {}, "mt": None, "part": {}, "prod": {}, "trans": {}, "levels": {}, "spec": {}}
+    sec = None; nuc = None; sp = None
     with open(path, errors="replace") as f:
         for line in f:
-            if line.startswith(" Q(a,n):"):
-                q = float(line.split(":", 1)[1])
+            mq = re.match(r"^ Q\(a,(\w)\):\s*([-\d.Ee+]+)", line)
+            if mq:
+                o["Q"][mq.group(1)] = float(mq.group(2))
             elif line.startswith(" Target ") and "Mass in a.m.u." in line:
-                mt = float(line.split(":")[-1])
+                o["mt"] = float(line.split(":")[-1])
             m = re.match(r"^\s*(\d+)\.\s+(\S.*)$", line)
             if m and len(m.group(1)) <= 2:
-                sec = m.group(1)
-            if sec == "4":
+                sec = m.group(1); sp = None
+            if sec == "3":
+                mm = re.match(r"^\s*(gamma|neutron|proton|alpha)\s*=\s*([\d.Ee+-]+)", line)
+                if mm:
+                    o["part"][mm.group(1)] = float(mm.group(2))
+            elif sec == "4":
                 mm = re.match(r"^\s+\d+\s+\d+\s+\(\s*(\w+)\s*\)\s+([\d.Ee+-]+)", line)
                 if mm:
-                    prod[mm.group(1)] = float(mm.group(2))
-                if mm and mm.group(1) == res:
-                    tot = float(mm.group(2))
+                    o["prod"][mm.group(1)] = float(mm.group(2))
+            elif sec == "7":
+                mm = re.match(r"^\s*Spectra for outgoing (\w+)", line)
+                if mm:
+                    sp = mm.group(1); o["spec"][sp] = []; continue
+                mm = SPEC.match(line)
+                if mm and sp in ("gamma", "proton"):
+                    o["spec"][sp].append((float(mm.group(1)), float(mm.group(2))))
             elif sec == "10":
                 mm = re.match(r"^\s*Nuclide:\s+(\w+)", line)
                 if mm:
                     nuc = mm.group(1); continue
                 mm = ROW.match(line)
-                if mm and nuc == res:
+                if mm and nuc:
                     li, ji, ei, lf, jf, ef, eg, xs = mm.groups()
-                    trans.append((int(li), int(lf), float(xs), float(eg)))
-                    levels[int(li)] = (float(ei), ji); levels.setdefault(int(lf), (float(ef), jf))
-    return q, mt, tot, trans, levels, prod
+                    o["trans"].setdefault(nuc, []).append((int(li), int(lf), float(xs), float(eg)))
+                    lv = o["levels"].setdefault(nuc, {})
+                    lv[int(li)] = (float(ei), ji); lv.setdefault(int(lf), (float(ef), jf))
+    return o
+
+
+def feeding(trans, tot):
+    """Direct feeding of each level: gammas out minus gammas in; ground state gets the remainder."""
+    outg, ing = {}, {}
+    for li, lf, xs, eg in trans:
+        outg[li] = outg.get(li, 0) + xs; ing[lf] = ing.get(lf, 0) + xs
+    d = {L: max(0.0, outg[L] - ing.get(L, 0.0)) for L in outg}
+    d[0] = max(0.0, tot - sum(v for k, v in d.items() if k))
+    return d
+
+
+def rebin(pts, de=0.1, emax=20.0):
+    """Rebin a TALYS spectrum (mb/MeV at given energies) onto 0.1 MeV bins (centres 0.05, 0.15, ...): sparse [first, values...]."""
+    nb = int(round(emax / de)); out = [0.0] * nb
+    for k in range(len(pts) - 1):
+        e0, y0 = pts[k]; e1, y1 = pts[k + 1]
+        if e1 <= e0:
+            continue
+        b = int(0.5 * (e0 + e1) / de)
+        if 0 <= b < nb:
+            out[b] += 0.5 * (y0 + y1) * (e1 - e0) / de
+    nz = [i for i, v in enumerate(out) if v > 1e-4 * (max(out) or 1)]
+    if not nz:
+        return [0]
+    return [nz[0]] + [float("%.2g" % out[i]) for i in range(nz[0], nz[-1] + 1)]
 
 
 def extract(root, dest):
@@ -62,36 +105,51 @@ def extract(root, dest):
             res = "%d%s" % (A + 3, SYM[Z + 2])
             tdir = os.path.join(base, iso, "TalysOut")
             Q = MT = None; lev = {}; tab = {}; totals = []; gam = {}
-            other = {"(a,p)": ("%d%s" % (A + 3, SYM[Z + 1]), [0.0] * len(GRID)), "(a,g)": ("%d%s" % (A + 4, SYM[Z + 2]), [0.0] * len(GRID))}
+            pres = "%d%s" % (A + 3, SYM[Z + 1]); gres = "%d%s" % (A + 4, SYM[Z + 2])
+            Qx = {}; plev = {}; ptab = {}; ptot = []; prod = {}; part = {"neutron": [], "proton": [], "gamma": []}; gspec = []; pspec = []
+            other = {"(a,p)": (pres, [0.0] * len(GRID)), "(a,g)": (gres, [0.0] * len(GRID))}
             for i, E in enumerate(GRID):
                 p = os.path.join(tdir, "outputE" + str(round(E, 2)))
                 if not os.path.exists(p):
-                    totals.append(0.0); continue
-                q, mt, tot, trans, levels, prod = parse(p, res)
+                    totals.append(0.0); ptot.append(0.0); gspec.append([0]); pspec.append([0])
+                    for k in part: part[k].append(0.0)
+                    continue
+                o = parse(p, res)
+                tot = o["prod"].get(res, 0.0)
                 for ch, (rn, arr) in other.items():
-                    arr[i] = prod.get(rn, 0.0)
-                for li, lf, xs, eg in trans:                 # gamma-ray production cross sections of the (a,n) residual
-                    gam.setdefault((li, lf, eg), [0.0] * len(GRID))[i] += xs
-                Q = q if q is not None else Q; MT = mt or MT
-                lev.update(levels)
-                outg, ing = {}, {}
-                for li, lf, xs, eg in trans:
-                    outg[li] = outg.get(li, 0) + xs; ing[lf] = ing.get(lf, 0) + xs
-                direct = {L: max(0.0, outg[L] - ing.get(L, 0.0)) for L in outg}
-                exc = sum(direct.values())
-                direct[0] = max(0.0, tot - exc)
-                for L, v in direct.items():
+                    arr[i] = o["prod"].get(rn, 0.0)
+                for rn, v in o["prod"].items():
+                    prod.setdefault(rn, [0.0] * len(GRID))[i] = v
+                for k in part:
+                    part[k].append(o["part"].get(k, 0.0))
+                Qx.update(o["Q"])
+                for nucl, tr in o["trans"].items():           # gamma-ray production cross sections of every residual
+                    for li, lf, xs, eg in tr:
+                        gam.setdefault((nucl, li, lf, eg), [0.0] * len(GRID))[i] += xs
+                    for L, v in o["levels"].get(nucl, {}).items():
+                        lev.setdefault(nucl, {})[L] = v
+                Q = o["Q"].get("n", Q); MT = o["mt"] or MT
+                for L, v in feeding(o["trans"].get(res, []), tot).items():
                     tab.setdefault(L, [0.0] * len(GRID))[i] = v
+                pt = o["prod"].get(pres, 0.0); ptot.append(pt)
+                for L, v in feeding(o["trans"].get(pres, []), pt).items():
+                    ptab.setdefault(L, [0.0] * len(GRID))[i] = v
+                gspec.append(rebin(o["spec"].get("gamma", [])))
+                pspec.append(rebin(o["spec"].get("proton", [])))
                 totals.append(tot)
             if Q is None or max(totals) < 1e-3:
                 continue
-            levels = []
-            for L in sorted(tab):
-                arr = tab[L]
-                if max(arr) < 1e-3 * max(totals) and L != 0:
-                    continue
-                Ex, jp = lev.get(L, (0.0, "0+")) if L else (0.0, lev.get(0, (0, "?"))[1])
-                levels.append({"n": L, "Ex": round(Ex * 1000, 1), "jp": jp, "xs": [float("%.4g" % v) for v in arr]})
+            def levlist(tb, tots, nucl):
+                out_ = []; lv = lev.get(nucl, {})
+                for L in sorted(tb):
+                    arr = tb[L]
+                    if max(arr) < 1e-3 * (max(tots) or 1) and L != 0:
+                        continue
+                    Ex, jp = lv.get(L, (0.0, "0+")) if L else (0.0, lv.get(0, (0, "?"))[1])
+                    out_.append({"n": L, "Ex": round(Ex * 1000, 1), "jp": jp, "xs": [float("%.4g" % v) for v in arr]})
+                return out_
+            levels = levlist(tab, totals, res)
+            plevels = levlist(ptab, ptot, pres) if max(ptot) > 1e-4 else []
             spec = []
             for E in GRID:                                   # TALYS neutron spectra, sparse: [first bin index, values...]
                 p = os.path.join(base, iso, "NSpectra", "nspec%07.3f.tot" % E)
@@ -121,14 +179,26 @@ def extract(root, dest):
                 if len(es) > 1:
                     e0, de = es[0], es[1] - es[0]
             gl = []
-            for (li, lf, eg), arr in sorted(gam.items(), key=lambda kv: -max(kv[1])):
-                if max(arr) < 1e-3 * max(totals) or len(gl) >= 25:
+            nres = 0
+            for (nucl, li, lf, eg), arr in sorted(gam.items(), key=lambda kv: -max(kv[1])):
+                if nucl == res:
+                    if max(arr) < 1e-3 * max(totals) or nres >= 25:
+                        continue
+                    nres += 1
+                elif max(arr) < 1e-3 * max(totals) or len(gl) >= 40:
                     continue
-                gl.append({"Eg": round(eg * 1000, 1), "from": round(lev.get(li, (0, ""))[0] * 1000, 1), "to": round(lev.get(lf, (0, ""))[0] * 1000, 1),
+                lv = lev.get(nucl, {})
+                gl.append({"nuc": nucl, "Eg": round(eg * 1000, 1), "from": round(lv.get(li, (0, ""))[0] * 1000, 1), "to": round(lv.get(lf, (0, ""))[0] * 1000, 1),
                            "xs": [float("%.4g" % v) for v in arr]})
+            pmax = max(max(v) for v in prod.values()) if prod else 1
+            prod_ = {rn: [float("%.4g" % v) for v in arr] for rn, arr in prod.items() if max(arr) > 1e-4 * pmax}
             oth = {ch: {"residual": rn, "xs": [float("%.4g" % v) for v in arr]} for ch, (rn, arr) in other.items() if max(arr) > 1e-6}
             out["%d%s" % (A, el)] = {"Z": Z, "A": A, "mass_u": MT, "Q_MeV": Q, "residual": res,
                                      "total": [float("%.4g" % v) for v in totals], "levels": levels, "gammas": gl, "other": oth,
+                                     "Q": Qx, "prod": prod_, "part": {k: [float("%.4g" % v) for v in arr] for k, arr in part.items()},
+                                     "p": {"residual": pres, "Q_MeV": Qx.get("p"), "total": [float("%.4g" % v) for v in ptot], "levels": plevels,
+                                           "spec": {"E0": 0.05, "dE": 0.1, "units": "mb/MeV", "spectra": pspec}},
+                                     "g": {"residual": gres, "Q_MeV": Qx.get("g"), "spec": {"E0": 0.05, "dE": 0.1, "units": "mb/MeV", "spectra": gspec}},
                                      "nspec": {"E0": e0, "dE": de if e0 is not None else 0.1, "units": "mb/MeV", "spectra": spec}}
             print(iso, "->", res, "Q=%.3f" % Q, len(levels), "levels, max %.3g mb" % max(totals), flush=True)
     meta = {"grid_MeV": GRID, "units": "mb",

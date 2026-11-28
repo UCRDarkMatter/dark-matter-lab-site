@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261128d">
-<link rel="stylesheet" href="assets/signals.css?v=20261128d">
+<link rel="stylesheet" href="assets/style.css?v=20261128e">
+<link rel="stylesheet" href="assets/signals.css?v=20261128e">
 </head>
 <body>
-<script src="assets/site.js?v=20261128d"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261128e"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -193,8 +193,10 @@
         </form>
         <div class="sx-output">
           <div class="sx-plot"><canvas id="n-plot" role="img" aria-label="Neutron energy spectrum by final state"></canvas><div class="sx-legend" id="n-legend"></div></div>
+          <div class="sx-plot" id="n-plot3-wrap" hidden><canvas id="n-plot3" role="img" aria-label="Proton energy spectrum from (alpha,p)"></canvas><div class="sx-legend" id="n-legend3"></div></div>
+          <div class="sx-plot" id="n-plot4-wrap" hidden><canvas id="n-plot4" role="img" aria-label="Prompt gamma-ray spectrum from all alpha-induced reactions"></canvas><div class="sx-legend" id="n-legend4"></div></div>
           <div class="sx-plot" id="n-plot2-wrap" hidden><canvas id="n-plot2" role="img" aria-label="Cross section comparison"></canvas><div class="sx-legend" id="n-legend2"></div></div>
-          <div class="sx-actions"><button type="button" class="btn" id="n-csv">Download CSV</button> <span class="sx-status" id="n-status" aria-live="polite"></span></div>
+          <div class="sx-actions"><button type="button" class="btn" id="n-csv">Download CSV</button> <button type="button" class="btn" id="n-pcsv">Protons CSV</button> <button type="button" class="btn" id="n-gcsv">Gammas CSV</button> <span class="sx-status" id="n-status" aria-live="polite"></span></div>
           <div id="n-out" class="sx-text"></div>
         </div>
       </div>
@@ -442,10 +444,10 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261128d"></script>
-<script src="assets/signals-extra.js?v=20261128d"></script>
-<script src="assets/signals-exchange.js?v=20261128d"></script>
-<script src="assets/signals-code.js?v=20261128d"></script>
-<script src="assets/signals.js?v=20261128d"></script>
+<script src="assets/signals-physics.js?v=20261128e"></script>
+<script src="assets/signals-extra.js?v=20261128e"></script>
+<script src="assets/signals-exchange.js?v=20261128e"></script>
+<script src="assets/signals-code.js?v=20261128e"></script>
+<script src="assets/signals.js?v=20261128e"></script>
 </body>
 </html>

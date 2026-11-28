@@ -225,7 +225,7 @@
     var mn = MN_KEV / AMU, ma = MALPHA_KEV / AMU + 2 * ME / AMU;   // atomic masses in u (TALYS uses atomic masses)
     ma = 4.002603;
     o.targets.forEach(function (t) {
-      var d = t.data, grid = d.levelsGrid || null, Q = d.Q_MeV, mT = d.mass_u, mR = mT + ma - mn - Q / (AMU / 1000);
+      var d = t.data, grid = d.levelsGrid || null, Q = d.Q_MeV, mT = d.mass_u, mn = t.ejMass || MN_KEV / AMU, mR = mT + ma - mn - Q / (AMU / 1000);
       var yT = 0;
       function xsAt(arr, E) {               // arrays on the 0.1 MeV grid starting at 0.1 MeV
         var x = E / 0.1 - 1, k = Math.floor(x); if (k < 0) return x > -1 ? arr[0] * (x + 1) : 0;
@@ -237,6 +237,7 @@
         return [d.nspec.spectra[k], d.nspec.spectra[k + 1], f];
       }
       function addSpec(weight, E) {         // add weight * TALYS spectrum at E (normalised to the TALYS total sigma)
+        if (!d.nspec) return;
         var s = specAt(E), e0 = d.nspec.E0, de = d.nspec.dE;
         [[s[0], 1 - s[2]], [s[1], s[2]]].forEach(function (pair) {
           var sp = pair[0], f = pair[1]; if (!sp || sp.length < 2 || f <= 0) return;
@@ -253,10 +254,10 @@
         });
       }
       function addLevels(weight, E) {
-        d.levels.forEach(function (L) {
+        (d.levels || []).forEach(function (L) {
           var sig = xsAt(L.xs, E); if (sig <= 0) return;
           var k = anKinematics(E, Q, L.Ex / 1000, ma, mT, mn, mR); if (!k) return;
-          var jp = jpText(L.jp), key = t.label + ' → ' + d.residual + (L.Ex > 0 ? ' (' + (L.Ex / 1000).toFixed(3) + ' MeV' + (jp ? ', ' + jp : '') + ')' : ' (ground state' + (jp ? ', ' + jp : '') + ')');
+          var jp = jpText(L.jp), key = (t.partLabel || t.label) + ' → ' + d.residual + (L.Ex > 0 ? ' (' + (L.Ex / 1000).toFixed(3) + ' MeV' + (jp ? ', ' + jp : '') + ')' : ' (ground state' + (jp ? ', ' + jp : '') + ')');
           var arr = partial[key] || (partial[key] = { label: key, Ex: L.Ex, target: t.key, values: new Float64Array(nb) });
           var w = weight * sig, lo = k.Emin, hi = k.Emax, width = Math.max(hi - lo, 1e-6);
           var b0 = Math.floor(lo / dEn), b1 = Math.min(nb - 1, Math.floor(hi / dEn));

@@ -579,7 +579,7 @@
       $('#n-cmp-file').addEventListener('change', function () { var f = this.files && this.files[0]; if (!f) return; f.text().then(function (t) { N.cmp = X.parseXY(t); N.cmpName = f.name; RUN.an(); }); });
       $('#n-mat').addEventListener('change', function () { var d = MATRHO[NMAT[+this.value][0]]; if (d) $('#n-lrho').value = d; });
       document.querySelectorAll('input[name=n-src],input[name=n-thick]').forEach(function (rr) { rr.addEventListener('change', RUN.an); });
-      $('#n-csv').addEventListener('click', nCSV);
+      $('#n-csv').addEventListener('click', nCSV); $('#n-pcsv').addEventListener('click', nPCSV); $('#n-gcsv').addEventListener('click', nGCSV);
       RUN.an();
     }).catch(fail('#n-out'));
   };
@@ -647,6 +647,7 @@
       out.appendChild(el('h3', null, 'Neutron yield: ' + fmt(r.yield, 3) + ' ' + unit.replace(' per MeV', '') + ' from (α,n)' + (sfY > 0 ? ' + ' + fmt(sfY, 3) + ' from spontaneous fission = ' + fmt(r.yield + sfY, 3) : '')));
       if (sfY > 0) out.appendChild(el('p', 'sx-note', 'Spontaneous fission: ' + sf.map(function (q) { return pretty(q.n) + ' (branch ' + fmt(q.br, 3) + ', ν̄ = ' + q.nu + ' neutrons per fission' + (q.af !== 1 ? ', ' + fmt(q.af, 3) + ' decays per parent decay' : '') + '; Watt a = ' + q.a + ' MeV, b = ' + q.b + ' /MeV, mean ' + fmt(X.wattMean(q.a, q.b), 3) + ' MeV)'; }).join('; ') + '. Neutrons come in bursts: P(ν) from Terrell\'s Gaussian (σ ≈ ' + (sf.some(function (q) { return q.n === '252Cf'; }) ? '1.21' : '1.08') + '): ' + terrell(sf[0].nu, sf[0].n === '252Cf' ? 1.21 : 1.08).map(function (p, k) { return 'P(' + k + ') = ' + fmt(p, 2); }).join(', ') + '. Sources: Watt parameters from SOURCES-4A/MCNP (Geant4 G4WattFissionSpectrumValues), branching ratios and multiplicities from JEFF-3.2 via Carvalho et al. (arXiv:1504.05475) and the ENSDF decay modes.'));
       if (layer) out.appendChild(el('p', 'sx-note', 'Layer: ' + fmt(lists.fracB * 100, 3) + '% of alphas reach the backing (' + NMAT[+$('#n-back').value][0] + ') and ' + fmt(lists.fracOut * 100, 3) + '% leave through the free surface. Yield in the layer ' + fmt(r.yieldA, 3) + ', in the backing ' + fmt(r.yieldB, 3) + ' ' + unit.replace(' per MeV', '') + '.'));
+      anOther(out, series, r, targets, btargets, lists, alphas, thin, stopping, B_, unit, EmaxS, lg);
       anChannels(out, targets, btargets, lists, alphas, thin, stopping, B_, unit, r.yield + 0);
       anCompare(targets, alphas, thin, stopping, r);
       var notes = [srcLabel + ' in ' + (custom ? 'custom material' : NMAT[mi][0]) + (thin ? ', thin target of ' + fmt(num('#n-areal', 1e-3), 3) + ' g/cm²' : ', thick target (alphas stop in the material)') + '.'];
@@ -747,7 +748,7 @@
       tgs.forEach(function (t) {
         (t.data.gammas || []).forEach(function (g) {
           var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
-          rows.push({ t: t.key + tag, Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
+          rows.push({ t: t.key + tag, nuc: g.nuc || t.data.residual, ch: chanLabel(t.data, g.nuc || t.data.residual), Eg: g.Eg, from: g.from, to: g.to, y: y, pair: t.key === '13C' && (g.nuc || '16O') === '16O' && Math.abs(g.from - 6049) < 2 && g.to === 0 });
         });
         Object.keys(t.data.other || {}).forEach(function (ch) {
           var o = t.data.other[ch], y = chanYield(o.xs, t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
@@ -761,16 +762,89 @@
     rows.sort(function (a, b) { return b.y - a.y; });
     var u = unit.replace('neutrons per MeV ', '');
     if (rows.length) {
-      out.appendChild(el('h3', null, 'Prompt gamma rays from the residual nucleus'));
+      out.appendChild(el('h3', null, 'Strongest prompt gamma lines'));
       var tab = el('table', 'sx-table'), hd = el('tr');
-      ['Target', 'E<sub>γ</sub> (keV)', 'Level (keV) → (keV)', 'Gammas ' + u, 'Per (α,n) neutron'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); }); tab.appendChild(hd);
-      rows.slice(0, 12).forEach(function (q) { var tr = el('tr'); [pretty(q.t), fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
+      ['Target → nucleus', 'E<sub>γ</sub> (keV)', 'Level (keV) → (keV)', 'Gammas ' + u, 'Per (α,n) neutron'].forEach(function (h) { var th = el('th'); th.innerHTML = h; hd.appendChild(th); }); tab.appendChild(hd);
+      rows.slice(0, 16).forEach(function (q) { var tr = el('tr'); [pretty(q.t) + ' → ' + pretty(q.nuc) + ' ' + q.ch, fmt(q.Eg, 5) + (q.pair ? ' (e⁺e⁻ pair: 0⁺ → 0⁺ E0)' : ''), fmt(q.from, 5) + ' → ' + fmt(q.to, 5), fmt(q.y, 3), fmt(q.y / (ny || 1), 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
       out.appendChild(tab);
-      out.appendChild(el('p', 'sx-note', 'TALYS-1.95 gamma-ray production cross sections of the (α,n) residual, integrated like the neutron yield. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
+      out.appendChild(el('p', 'sx-note', 'TALYS-1.95 gamma-ray production cross sections of every residual nucleus ((α,n), (α,p), inelastic (α,α′) and capture), integrated like the neutron yield. These prompt gammas (or the e⁺e⁻ pair from the ¹⁶O 6.049 MeV 0⁺ state) accompany the neutron and let a veto tag (α,n) events.'));
     }
-    var ok = Object.keys(other).filter(function (k) { return other[k] > 0; }).sort(function (a, b) { return other[b] - other[a]; });
-    if (ok.length) out.appendChild(el('p', 'sx-note', 'Other channels (TALYS residual production, same thick-target integral): ' + ok.slice(0, 8).map(function (k) { return k + ' ' + fmt(other[k], 3) + ' ' + u; }).join('; ') + '. (α,p) leaves a proton of a few MeV that stops locally; (α,γ) gives a capture gamma near Q + E<sub>cm</sub>.'));
-    if (out.lastChild && /Other channels/.test(out.lastChild.textContent)) out.lastChild.innerHTML = out.lastChild.textContent.replace('E<sub>cm</sub>', 'E<sub>cm</sub>');
+    // other channels are listed in the yields table (anOther)
+  }
+  // name a channel from the residual: emitted nucleons = compound (Z+2, A+4) minus residual
+  function chanLabel(d, res) {
+    var m = /^(\d+)([A-Za-z]+)$/.exec(res || ''); if (!m) return '';
+    var Ar = +m[1], Zr = SYMS.indexOf(m[2]), np = d.Z + 2 - Zr, nn = d.A + 4 - Ar - np, parts = [];
+    if (np === 0 && nn === 0) return '(α,γ)';
+    if (np === 2 && nn === 2) return '(α,α′)';
+    if (np >= 2 && nn >= 2) { parts.push('α'); np -= 2; nn -= 2; }
+    if (nn > 0) parts.push((nn > 1 ? nn : '') + 'n'); if (np > 0) parts.push((np > 1 ? np : '') + 'p');
+    return '(α,' + parts.join('') + ')';
+  }
+  // (alpha,p) protons, all prompt gammas, multi-neutron emission and the yields of every channel
+  function anOther(out, series, r, targets, btargets, lists, alphas, thin, stopA, B_, unit, EmaxS, lg) {
+    var listA = lists ? lists.A : alphas, u = unit.replace('neutrons per MeV ', '');
+    function runSpec(make, Emax, dE) {       // run alphaNSpectrum over layer + backing (or one material) with targets built by make(t)
+      var tA = targets.map(make).filter(Boolean), tB = (btargets || []).map(make).filter(Boolean);
+      var base = { dE: dE, Emax: Emax, rawTalys: !!runSpec.raw };
+      if (lists) { var a = P.alphaNSpectrum(Object.assign({ alphas: lists.A, targets: tA, stopping: stopA }, base)); if (!tB.length) return a; var b = P.alphaNSpectrum(Object.assign({ alphas: lists.B, targets: tB.map(function (t) { return Object.assign({}, t, { label: t.label + ' [backing]', partLabel: (t.partLabel || t.label) + ' [backing]' }); }), stopping: B_.stopping }, base)); return mergeAN(a, b); }
+      return P.alphaNSpectrum(Object.assign({ alphas: thin ? null : alphas, thin: thin ? { E: alphas[0][0], arealDensity: num('#n-areal', 1e-3) } : null, targets: tA, stopping: stopA }, base));
+    }
+    // 1. all neutrons, including (a,np), (a,2n), (a,an): TALYS spectra normalised to the total neutron production
+    var rn = runSpec(function (t) { return t.data.part ? { key: t.key, nAtomsPerGram: t.nAtomsPerGram, label: t.label, data: { Q_MeV: t.data.Q_MeV, mass_u: t.data.mass_u, residual: t.data.residual, total: t.data.part.neutron, nspec: t.data.nspec, levels: [] } } : null; }, EmaxS, 0.05);
+    var multi = rn.yield - r.yield;
+    if (rn.yield > 0 && multi > 0.01 * r.yield) {
+      series.splice(2, 0, { name: 'All neutrons incl. multi-neutron channels (TALYS spectra × total neutron production)', x: rn.E, y: rn.total, color: color(5), dash: [3, 3], width: 1.4 });
+      plot($('#n-plot'), { series: series, xlab: 'Neutron energy (MeV)', xname: 'Eₙ', ylab: unit, log: lg, legend: $('#n-legend'), ymin: lg ? max(N.last.sumParts) * 1e-5 : undefined });
+    }
+    // 2. protons from (a,p): level-resolved kinematics, plus the TALYS proton spectra
+    var pEmax = Math.min(20, Math.max.apply(null, alphas.map(function (a) { return a[0]; })) + Math.max.apply([0], targets.map(function (t) { return t.data.p && t.data.p.Q_MeV || 0; })) + 2);
+    var rp = runSpec(function (t) { var p = t.data.p; return p && p.total && max(p.total) > 0 ? { key: t.key, nAtomsPerGram: t.nAtomsPerGram, label: pretty(t.key) + '(α,p)', partLabel: pretty(t.key), ejMass: 1.00782503, data: { Q_MeV: p.Q_MeV, mass_u: t.data.mass_u, residual: pretty(p.residual), total: p.total, levels: p.levels, nspec: p.spec } } : null; }, Math.max(2, pEmax), 0.05);
+    var wrap3 = $('#n-plot3-wrap'); wrap3.hidden = !(rp.yield > 0);
+    var pSum = new Float64Array(rp.E.length); rp.partial.forEach(function (q) { for (var i = 0; i < pSum.length; i++) pSum[i] += q.values[i]; });
+    if (rp.yield > 0) {
+      var ps = [{ name: 'Protons: sum of final states (lab two-body kinematics)', x: rp.E, y: pSum, color: css('--ink'), width: 1.8 }, { name: 'TALYS proton spectra (all proton-emitting channels)', x: rp.E, y: rp.total, color: css('--muted'), dash: [5, 4], width: 1.4 }];
+      rp.partial.slice(0, 6).forEach(function (q, k) { ps.push({ name: pretty(q.label), x: rp.E, y: q.values, color: color(k), width: 1.2 }); });
+      plot($('#n-plot3'), { series: ps, xlab: 'Proton energy (MeV)', xname: 'Eₚ', ylab: unit.replace('neutrons', 'protons'), log: lg, height: 260, legend: $('#n-legend3'), ymin: lg ? Math.max(max(pSum), max(rp.total)) * 1e-5 : undefined });
+    }
+    // 3. prompt gammas: discrete lines of every residual (TALYS gamma-ray production cross sections, section 10)
+    //    plus the continuum/capture part of the TALYS composite gamma spectrum (raw, which holds the (a,g) primaries)
+    runSpec.raw = true;
+    var rg = runSpec(function (t) { var g = t.data.g; return g ? { key: t.key, nAtomsPerGram: t.nAtomsPerGram, label: pretty(t.key), data: { Q_MeV: 0, mass_u: t.data.mass_u, residual: '', total: [0], nspec: g.spec, levels: [] } } : null; }, 16, 0.02);
+    runSpec.raw = false;
+    var gb = 0.02, gn = Math.round(16 / gb), gx = new Float64Array(gn), gl = new Float64Array(gn), gLines = 0, gCont = 0;
+    for (var i = 0; i < gn; i++) gx[i] = (i + 0.5) * gb;
+    function lines(tgs, list, stop) { tgs.forEach(function (t) { (t.data.gammas || []).forEach(function (g) { var y = chanYield(g.xs, t.nAtomsPerGram, list, thin, stop), k = Math.floor(g.Eg / 1000 / gb); if (y > 0 && k < gn) { gl[k] += y / gb; gLines += y; } }); }); }
+    lines(targets, listA, stopA); if (lists && B_) lines(btargets, lists.B, B_.stopping);
+    for (i = 0; i < rg.total.length; i++) gCont += rg.total[i] * gb;
+    var wrap4 = $('#n-plot4-wrap'); wrap4.hidden = !(gLines > 0 || gCont > 0);
+    if (gLines > 0 || gCont > 0) {
+      var gs = [{ name: 'Discrete lines of the residual nuclei (' + fmt(gLines, 3) + ' ' + u + ')', x: gx, y: gl, color: color(4), width: 1.4 }];
+      if (gCont > 0) gs.push({ name: 'Continuum and capture gammas (TALYS composite spectrum, ' + fmt(gCont, 3) + ' ' + u + ')', x: rg.E, y: rg.total, color: color(1), dash: [4, 3], width: 1.4 });
+      plot($('#n-plot4'), { series: gs, xlab: 'Gamma energy (MeV)', xname: 'E', ylab: unit.replace('neutrons', 'gammas'), log: true, height: 240, legend: $('#n-legend4'), ymin: Math.max(max(gl), max(rg.total)) * 1e-6 });
+    }
+    // 4. yields of every channel from the residual production cross sections
+    var yc = {};
+    function addY(tgs, list, stop, tag) {
+      tgs.forEach(function (t) { var pr = t.data.prod || {}; Object.keys(pr).forEach(function (res) {
+        if (res === t.key) return;                    // inelastic handled below
+        var y = chanYield(pr[res], t.nAtomsPerGram, list, thin, stop); if (!(y > 0)) return;
+        var k = pretty(t.key) + chanLabel(t.data, res) + pretty(res) + tag; yc[k] = (yc[k] || 0) + y;
+      }); if (pr[t.key]) { var yi = chanYield(pr[t.key], t.nAtomsPerGram, list, thin, stop); if (yi > 0) yc[pretty(t.key) + '(α,α′)' + pretty(t.key) + tag] = (yc[pretty(t.key) + '(α,α′)' + pretty(t.key) + tag] || 0) + yi; } });
+    }
+    addY(targets, listA, stopA, ''); if (lists && B_) addY(btargets, lists.B, B_.stopping, ' [backing]');
+    var keys = Object.keys(yc).sort(function (a, b) { return yc[b] - yc[a]; });
+    if (keys.length) {
+      out.appendChild(el('h3', null, 'Yields by channel'));
+      var tab = el('table', 'sx-table'), hd = el('tr'); ['Reaction', 'Yield ' + u].forEach(function (h) { hd.appendChild(el('th', null, h)); }); tab.appendChild(hd);
+      keys.slice(0, 14).forEach(function (k) { var tr = el('tr'); tr.appendChild(el('td', null, k)); tr.appendChild(el('td', 'num', fmt(yc[k], 3))); tab.appendChild(tr); });
+      out.appendChild(tab);
+      var tot = function (pick) { var y = 0; function f(tgs, list, stop) { tgs.forEach(function (t) { if (t.data.part) y += chanYield(t.data.part[pick], t.nAtomsPerGram, list, thin, stop); }); } f(targets, listA, stopA); if (lists && B_) f(btargets, lists.B, B_.stopping); return y; };
+      var nP = tot('neutron'), pP = tot('proton'), gP = gLines + gCont;
+      out.appendChild(el('p', null, 'Particle production ' + u + ': neutrons ' + fmt(nP, 3) + (multi > 0.01 * r.yield ? ' (of which ' + fmt(multi, 3) + ' from multi-particle channels such as (α,np), (α,2n))' : '') + ', protons ' + fmt(pP, 3) + ', gammas ' + fmt(gP, 3) + ' (' + fmt(gLines, 3) + ' in the strongest discrete lines' + (gCont > 0 ? ', ' + fmt(gCont, 3) + ' continuum and capture' : '') + ').' + (rp.yield > 0 ? ' The (α,p) protons stop within tens of µm, so in a scintillator they appear as a quenched local deposit with the residual\'s gamma cascade.' : '')));
+      out.appendChild(el('p', 'sx-note', 'Residual production cross sections from the same TALYS-1.95 runs, integrated over the slowing-down alpha. Multi-particle channel names are inferred from the residual (e.g. (α,np) and (α,pn) are the same residual); "(α,α′)" is inelastic scattering, which leaves the target excited. The proton plot treats (α,p) like (α,n): TALYS cross sections to each level of the residual (from its gamma cascade) with two-body kinematics; the dashed TALYS curve puts each level at the centre-of-mass channel energy instead and also includes protons from other channels. The gamma plot shows the discrete lines of every residual (TALYS gamma-ray production cross sections, up to about 65 lines per target) in 20 keV bins, plus the TALYS composite gamma spectrum, which in these runs holds only the continuum and capture gammas. Capture (α,γ) is usually tiny below 10 MeV.'));
+    }
+    N.last.protons = { E: rp.E, y: pSum, talys: rp.total }; N.last.gammas = { E: gx, y: gl, cont: rg.total }; N.last.allN = { E: rn.E, y: rn.total };
   }
   // compare the TALYS total cross section of one target with an uploaded sigma(E)
   function anCompare(targets, alphas, thin, stop, r) {
@@ -793,6 +867,8 @@
       $('#n-legend2').appendChild(el('p', 'sx-note', note));
     });
   }
+  function nPCSV() { var n = N.last; if (!n || !n.protons) return; download('alpha_p_protons.csv', ['proton_energy_MeV', 'sum_of_final_states', 'TALYS_proton_spectra'], [n.protons.E, n.protons.y, n.protons.talys], ['Radioactive Signal Explorer: (alpha,p) proton spectrum (TALYS-1.95 level cross sections, two-body kinematics)', 'Source: ' + n.src + '; composition: ' + JSON.stringify(n.comp), 'Units: ' + n.unit.replace('neutrons', 'protons')]); }
+  function nGCSV() { var n = N.last; if (!n || !n.gammas) return; download('alpha_induced_gammas.csv', ['gamma_energy_MeV', 'discrete_lines_per_MeV'], [n.gammas.E, n.gammas.y], ['Radioactive Signal Explorer: prompt gamma lines from alpha-induced reactions (TALYS-1.95), 20 keV bins', 'Source: ' + n.src + '; composition: ' + JSON.stringify(n.comp), 'Units: ' + n.unit.replace('neutrons', 'gammas')]); }
   function nCSV() {
     var n = N.last; if (!n) return;
     var hdr = ['neutron_energy_MeV', 'TALYS_spectra_NeuCBOT', 'total_sum_of_final_states'].concat(n.r.partial.map(function (p) { return p.label.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, function (s) { return s.split('').map(function (c) { return '⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(c); }).join(''); }); }));
