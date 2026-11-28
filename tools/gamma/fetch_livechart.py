@@ -53,6 +53,19 @@ def get(params, tries=5):
     raise RuntimeError("failed: " + url)
 
 
+# adopted gammas of every (alpha,n) / (alpha,p) residual and alpha target, for level-scheme cascades in the
+# Radioactive Signal Explorer (tools/signals/cascade.py)
+ALPHA_RESIDUALS = ["9be", "10b", "11b", "12b", "12c", "13c", "13n", "14c", "14n", "15n", "16n", "16o", "17f", "17o",
+    "18f", "18o", "19f", "20f", "20ne", "21f", "21ne", "22na", "22ne", "23na", "24mg", "25mg", "26al", "26mg",
+    "27al", "27si", "28al", "28si", "29al", "29si", "30p", "30si", "31p", "31s", "32p", "32s", "33p", "33s", "34cl",
+    "34s", "36ar", "38ar", "39ca", "39k", "40ar", "40k", "41ca", "41k", "42ca", "42sc", "43ca", "43k", "43sc",
+    "44ca", "44sc", "45sc", "45ti", "46ca", "46sc", "46ti", "47sc", "47ti", "48ca", "48ti", "49cr", "49sc", "49ti",
+    "49v", "50cr", "50ti", "50v", "51cr", "51sc", "51ti", "51v", "52cr", "52v", "53cr", "53fe", "53mn", "53v",
+    "54cr", "54fe", "55fe", "55mn", "56fe", "56mn", "57co", "57fe", "57mn", "57ni", "58co", "58fe", "59co", "59ni",
+    "60co", "60ni", "61co", "61ni", "62ni", "63cu", "63zn", "64cu", "64ni", "64zn", "65cu", "65zn", "66ga", "66zn",
+    "67cu", "67zn", "68ga", "68zn"]
+
+
 def main(out):
     os.makedirs(os.path.join(out, "decay"), exist_ok=True)
     os.makedirs(os.path.join(out, "xray"), exist_ok=True)
@@ -117,7 +130,7 @@ def main(out):
                     open(p, "w").write(txt)
                 time.sleep(0.12)
     print("all alpha/beta spectra done", flush=True)
-    for nm in INELASTIC:
+    for nm in sorted(set(INELASTIC) | set(ALPHA_RESIDUALS)):
         p = os.path.join(out, "gammas", nm + ".csv")
         if not os.path.exists(p):
             open(p, "w").write(get("fields=gammas&nuclides=%s" % nm))
