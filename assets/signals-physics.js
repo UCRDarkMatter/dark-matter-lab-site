@@ -448,6 +448,18 @@
     names.forEach(function (k) { fac[k] = new Float64Array(n); });
     var mnu = (p.mnu || 0) / 1000 / ME, ms = (p.msterile || 0) / ME, U2 = p.Usterile2 || 0;
     var wF = 1 / (1 + rho * rho), wG = 1 - wF;
+    // exotic emission beta -> e nu X of a light boson of mass mX (keV) with branching fraction xBR. Model 'ps':
+    // constant matrix element, four-body phase space of (nu, X) with energy eps (nucleus takes the momentum),
+    //   Phi(eps) = ∫_0^{eps-mX} E_nu^2 E_X p_X dE_nu ;  model 'n': massless X, Phi = eps^n (spectral index, as for
+    // Majoron-emitting double beta decay). Shape only: real models change the matrix element.
+    var xBR = Math.max(0, Math.min(1, p.xBR || 0)), xm = (p.xM || 0) / ME, xn = p.xN || 5, outX = xBR > 0 ? new Float64Array(n) : null;
+    function phiX(eps) {
+      if (p.xModel === 'n') return eps > 0 ? Math.pow(eps, xn) : 0;
+      if (!(eps > xm)) return 0;
+      var N = 48, h = (eps - xm) / N, sum = 0;
+      for (var j = 0; j <= N; j++) { var e = j * h, EX = eps - e, pX = Math.sqrt(Math.max(EX * EX - xm * xm, 0)), w = j === 0 || j === N ? 1 : (j % 2 ? 4 : 2); sum += w * e * e * EX * pX; }
+      return sum * h / 3;
+    }
     for (var i = 0; i < n; i++) {
       var Tk = T0 * (i + 0.5) / n, W = Tk / ME + 1, pp = Math.sqrt(W * W - 1), q0 = W0 - W;
       T[i] = Tk;
@@ -474,6 +486,8 @@
         return sum * fact(2 * K - 1);       // arbitrary normalisation
       }
       var emp = p.shape ? 1 + (p.shape.a || 0) * W + (p.shape.b || 0) / W + (p.shape.c || 0) * W * W : 1;
+      // non-unique first-forbidden 0+ <-> 0- (DeltaJ = 0): C ∝ 1 + (2R/3W) b0, b0 = M011/M000 (Hayen et al. PRC 100, 054323, eq. 7)
+      if (p.kind === 'NU' && p.b0) emp *= 1 + 2 * c.R * p.b0 / (3 * W);
       f.fierz = p.fierz ? 1 + p.fierz * c.g1 / W : 1;
       f.nlo = uniqueNLO(c, W, q0, p);
       // phase space with neutrino masses: active (light) and sterile admixture; each mass state with its own shape
@@ -481,13 +495,20 @@
       var phase = U2 > 0 ? (1 - U2) * ps(mnu) + U2 * ps(ms) : ps(mnu);
       var ps0 = pp * W * q0 * q0;
       f.shape = emp * (ps0 > 0 ? phase / ps0 : ushape(q0));    // shape incl. neutrino-mass effects, relative to massless phase space
-      var v = ps0;
-      names.forEach(function (k) { fac[k][i] = f[k]; v *= f[k]; });
+      var v = ps0, pr = 1;
+      names.forEach(function (k) { fac[k][i] = f[k]; v *= f[k]; if (k !== 'shape') pr *= f[k]; });
       out[i] = Math.max(v, 0);
+      if (xBR > 0) outX[i] = Math.max(pp * W * phiX(q0) * pr * emp, 0);    // exotic four-body branch, same corrections
     }
     var s = 0; for (i = 0; i < n; i++) s += out[i] * T0 / n;
     for (i = 0; i < n; i++) out[i] = s > 0 ? out[i] / s : 0;
-    return { T: T, dNdT: out, factors: fac, ctx: c, norm: s, mean: (function () { var m = 0; for (var k = 0; k < n; k++) m += T[k] * out[k] * T0 / n; return m; })() };
+    var outSM = null, sX = 0;
+    if (xBR > 0) {
+      for (i = 0; i < n; i++) sX += outX[i] * T0 / n;
+      outSM = Float64Array.from(out);
+      for (i = 0; i < n; i++) { outX[i] = sX > 0 ? outX[i] / sX : 0; out[i] = (1 - xBR) * outSM[i] + xBR * outX[i]; }
+    }
+    return { T: T, dNdT: out, dNdT_SM: outSM, dNdT_X: xBR > 0 ? outX : null, factors: fac, ctx: c, norm: s, mean: (function () { var m = 0; for (var k = 0; k < n; k++) m += T[k] * out[k] * T0 / n; return m; })() };
   }
   // ENSDF transition type -> {kind, k}; or derive from spins/parities
   function forbiddenness(type, Ji, Pi, Jf, Pf) {
@@ -513,17 +534,26 @@
   // right-handed x' = -x). Allowed: rho = C_A M_GT / (C_V M_F) weights Fermi and GT parts. Unique (J = k + 1): only
   // axial operators, so only tensor couplings enter (Glick-Magid & Gazit, PRD 107, 075031, eqs. 30-33).
   // Returns { a, b, xi } with b the Fierz coefficient (multiplies gamma/W) and a the coefficient of beta cos(theta_e-nu).
+  // Right-handed currents: vV = C'_V/C_V and vA = C'_A/C_A (Standard Model V-A: 1; pure V+A with right-handed
+  // neutrinos: -1). With massless neutrinos, right-handed and left-handed leptons do not interfere, so the electron
+  // spectrum shape is unchanged; the couplings show up in the overall rate (xi), in a and b when Fermi and GT mix or
+  // exotic couplings are present, and in the electron longitudinal polarisation (helicity)
+  //   G xi = s beta 2[(x_S x'_S - vV) + rho^2 (x_T x'_T - vA)],  s = +1 beta-, -1 beta+  (Jackson-Treiman-Wyld,
+  // real couplings, Coulomb terms omitted), so G = -beta for beta- in the Standard Model.
   function correlations(o) {
     var s = o.beta < 0 ? 1 : -1, xS = o.CS || 0, xSp = o.CSp || 0, xT = o.CT || 0, xTp = o.CTp || 0;
+    var vV = o.vV == null ? 1 : o.vV, vA = o.vA == null ? 1 : o.vA;
     if (o.kind === 'U' || o.kind === 'NU') {
-      if (o.kind === 'NU') return { a: 0, b: 0, xi: 1, undefinedForNU: true };
-      var J = (o.k || 1) + 1, xiu = 2 + xT * xT + xTp * xTp;
-      return { a: -(2 - xT * xT - xTp * xTp) / xiu / (2 * J + 1), b: s * 2 * (xT + xTp) / xiu, xi: xiu, J: J };
+      if (o.kind === 'NU') return { a: 0, b: 0, xi: 1, xiRel: 1, G: -s, undefinedForNU: true };
+      var J = (o.k || 1) + 1, xiu = 1 + vA * vA + xT * xT + xTp * xTp;
+      return { a: -(1 + vA * vA - xT * xT - xTp * xTp) / xiu / (2 * J + 1), b: s * 2 * (xT + xTp * vA) / xiu, xi: xiu, xiRel: xiu / 2,
+        G: s * 2 * (xT * xTp - vA) / xiu, J: J };
     }
     var r2 = o.rho === Infinity ? 1e12 : (o.rho || 0) * (o.rho || 0);
-    var xi = (2 + xS * xS + xSp * xSp) + r2 * (2 + xT * xT + xTp * xTp);
-    return { a: ((2 - xS * xS - xSp * xSp) - r2 / 3 * (2 - xT * xT - xTp * xTp)) / xi,
-      b: s * 2 * ((xS + xSp) + r2 * (xT + xTp)) / xi, xi: xi, J: 1 };
+    var xi = (1 + vV * vV + xS * xS + xSp * xSp) + r2 * (1 + vA * vA + xT * xT + xTp * xTp);
+    return { a: ((1 + vV * vV - xS * xS - xSp * xSp) - r2 / 3 * (1 + vA * vA - xT * xT - xTp * xTp)) / xi,
+      b: s * 2 * ((xS + xSp * vV) + r2 * (xT + xTp * vA)) / xi, xi: xi, xiRel: xi / (2 + 2 * r2),
+      G: s * 2 * ((xS * xSp - vV) + r2 * (xT * xTp - vA)) / xi, J: 1 };      // G multiplies beta = v/c
   }
   // Recoil-nucleus kinetic-energy spectrum. For each electron energy the lepton opening angle x = cos(theta) follows
   //   w(x) = q^(2(J-1)) [1 + a b_e b_v x - (J-1) a k nu b_e b_v (1 - x^2) / q^2],  q^2 = k^2 + nu^2 + 2 k nu x,

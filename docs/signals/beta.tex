@@ -224,6 +224,8 @@ Without Coulomb effects $\lambda_n = 1$; with them the higher partial waves of t
 \subsection{Non-unique forbidden decays}
 Here several nuclear matrix elements contribute with energy-dependent lepton factors, and they can interfere. When one combination dominates and the Coulomb energy $\alpha Z/2R$ is large compared with $W_0$ (the ``$\xi$ approximation''), the shape is close to allowed, which is the default. Otherwise the shape must come from a nuclear-structure calculation or a measurement; the tab accepts an empirical shape factor $1 + aW + b/W + cW^2$ for this (and for any other case where you want to override the theory).
 
+For a $0^+\leftrightarrow0^-$ transition ($\Delta J = 0$) only the pseudoscalar matrix element and $\int\bm\sigma\cdot\bm r$ matter, and $C \propto 1 + \frac{2R}{3W}\,b$ with $b = {}^AM_{011}/{}^AM_{000} \sim -1$ \cite{hayen19}; the page offers $b$ as an input. Where a measured shape exists it is filled in: for \nuc{210}{Bi}, $C(W) = 1 - 0.4470\,W + 0.0552\,W^2$ \cite{alekseev}. For \nuc{214}{Pb} and \nuc{212}{Pb}, the dominant low-energy backgrounds in liquid xenon, shell-model shapes predict 15--23\% fewer events at 1--15~keV than the allowed shape \cite{haselschwardt}.
+
 \subsection{What else changes for forbidden branches}
 The corrections $C$, $R_N$ and $Q$ of \cref{tab:terms} were derived for allowed decays, where the mixing ratio $\rho$ weights their vector and axial forms. For a forbidden branch $\rho$ has no meaning. The page therefore uses the axial form of $C$ and $R_N$ for every forbidden branch (the unique operators are axial; for non-unique ones this is a choice), switches off the allowed weak-magnetism slope (its forbidden analogue involves the ratio of a vector magnetic to an axial multipole, which needs a nuclear model), and in $Q$ replaces the allowed $\beta$--$\nu$ correlation by the leading-order unique value $a = -1/(2J+1)$ with $J = k+1$ (\cref{sec:corr}), or by zero for non-unique branches. All of these are corrections at the $10^{-4}$--$10^{-3}$ level, so the approximation matters only for precision work.
 
@@ -316,6 +318,24 @@ The conclusion is that, at leading order, the energy spectrum of a unique forbid
 \label{fig:corr}
 \end{figure}
 
+\subsection{Right-handed currents and the electron helicity}
+\label{sec:rh}
+In the Jackson--Treiman--Wyld parametrisation the Standard Model has $C_V' = C_V$ and $C_A' = C_A$ (V$-$A); a right-handed current, such as a $W_R$ in a left--right symmetric model, makes $v_V \equiv C_V'/C_V$ and $v_A \equiv C_A'/C_A$ differ from one ($-1$ is pure V$+$A with right-handed neutrinos). With massless neutrinos the left- and right-handed lepton currents do not interfere, so these couplings do not change the electron spectrum shape. They enter through
+\begin{gather}
+\xi = (1 + v_V^2 + x_S^2 + x_S'^2) + \rho^2(1 + v_A^2 + x_T^2 + x_T'^2),\\
+a\xi = (1 + v_V^2 - x_S^2 - x_S'^2) - \tfrac{\rho^2}{3}(1 + v_A^2 - x_T^2 - x_T'^2),\qquad
+b\xi = \pm 2\left[(x_S + x_S' v_V) + \rho^2(x_T + x_T' v_A)\right],\nonumber\\
+G\xi = \pm 2\left[(x_S x_S' - v_V) + \rho^2(x_T x_T' - v_A)\right]\beta,\nonumber
+\end{gather}
+(real couplings, Coulomb terms omitted, upper sign $\beta^-$), where $G$ is the longitudinal polarisation of the electron, $-\beta$ in the Standard Model. The overall rate $\xi$ relative to its V$-$A value enters $ft$ values and $V_{ud}$; $a$ changes only when Fermi and Gamow--Teller parts mix with different $v_V$ and $v_A$; and the helicity is the direct probe. The page shows $G(T)$ as a fourth panel and the rate factor next to the couplings.
+
+\subsection{Emission of a light new boson}
+If a light boson $X$ can be emitted, a fraction of decays is four-body, $\beta\to e\,\nu\,X$. With a constant matrix element the electron spectrum of that fraction is $pW F\cdots\Phi(\varepsilon)$ with $\varepsilon = W_0 - W$ and
+\begin{equation}
+\Phi(\varepsilon) = \int_0^{\varepsilon - m_X} E_\nu^2\,E_X\,p_X\,\dd E_\nu \;\xrightarrow{m_X\to0}\; \frac{\varepsilon^5}{30},
+\end{equation}
+the nucleus absorbing the momentum. The page also offers $\Phi\propto\varepsilon^n$, the spectral-index form used for Majoron emission in double beta decay. Real models fix the matrix element and hence the shape, so these are templates for sensitivity studies, combined with the standard branch as $(1 - \mathrm{BR})\,N_\text{SM} + \mathrm{BR}\,N_X$ with both normalised.
+
 \subsection{The recoil-nucleus spectrum}
 \label{sec:recoil}
 The daughter recoils with momentum $\bm P = -(\bm k + \bm\nu)$, so $P^2 = q^2 = k^2 + \nu^2 + 2k\nu\cos\theta$ and (non-relativistically, which is excellent here) $T_R = q^2/2M$. At fixed electron energy $T_R$ is linear in $\cos\theta$, ranging from $(k-\nu)^2/2M$ to $(k+\nu)^2/2M$, so the shape of the recoil spectrum is the angular distribution itself, smeared over the electron spectrum:
@@ -380,6 +400,9 @@ Show that for an allowed decay $\langle q^2\rangle_x = k^2 + \nu^2 + \tfrac23 a\
 \bibitem{gm17} A.~Glick-Magid \emph{et al.}, ``Beta spectrum of unique first-forbidden decays as a novel test for fundamental symmetries'', Phys.\ Lett.\ B \textbf{767}, 285 (2017), arXiv:1609.03268.
 \bibitem{gm23} A.~Glick-Magid and D.~Gazit, ``Multipole decomposition of tensor interactions of fermionic probes with composite particles and BSM signatures in nuclear reactions'', Phys.\ Rev.\ D \textbf{107}, 075031 (2023), arXiv:2207.01357.
 \bibitem{seng} C.-Y. Seng, A.~Glick-Magid and V.~Cirigliano, ``Unique forbidden beta decays at zero momentum transfer'', Phys.\ Rev.\ Lett.\ \textbf{134}, 081805 (2025), arXiv:2409.18115.
+\bibitem{hayen19} L.~Hayen, J.~Kostensalo, N.~Severijns and J.~Suhonen, ``First-forbidden transitions in the reactor anomaly'', Phys.\ Rev.\ C \textbf{100}, 054323 (2019), arXiv:1908.08302.
+\bibitem{alekseev} I.~E. Alekseev \emph{et al.}, ``Precision measurement of $^{210}$Bi $\beta$-spectrum'', arXiv:2005.08481.
+\bibitem{haselschwardt} S.~J. Haselschwardt, J.~Kostensalo, X.~Mougeot and J.~Suhonen, ``Improved calculations of beta decay backgrounds to new physics in liquid xenon detectors'', arXiv:2007.13686 (2020).
 \bibitem{katrin} KATRIN Collaboration, ``Direct neutrino-mass measurement based on 259 days of KATRIN data'', Science \textbf{388}, 180 (2025).
 \end{thebibliography}
 \end{document}

@@ -139,7 +139,7 @@
     return out;
   }
   function logTicks(a, b) { var out = []; for (var e = Math.ceil(Math.log10(a)); e <= Math.floor(Math.log10(b)); e++) out.push(Math.pow(10, e)); if (out.length > 8) out = out.filter(function (_, i) { return i % 2 === 0; }); return out; }
-  function tickLabel(t, log) { if (log) return '10' + sup(String(Math.round(Math.log10(t)))); var a = Math.abs(t); return a >= 1e5 || (a < 1e-2 && a > 0) ? t.toExponential(0) : String(+t.toPrecision(6)); }
+  function tickLabel(t, log) { if (log) return '10' + sup(String(Math.round(Math.log10(t)))); var a = Math.abs(t); if (a >= 1e5 || (a < 1e-2 && a > 0)) { var e = Math.floor(Math.log10(a) + 1e-9), m = +(t / Math.pow(10, e)).toPrecision(3); if (Math.abs(m) >= 10) { m /= 10; e += 1; } return m + 'e' + e; } return String(+t.toPrecision(6)); }
 
   /* ---------------------------------------------------------------- tabs */
   var TABS = ['gamma', 'alpha', 'an', 'beta', 'cher'], DONE = {};
@@ -465,7 +465,7 @@
       fillList('#b-nuc-list', names('bm|bp'));
       $('#b-nuc').addEventListener('change', bNuc); $('#b-nuc').addEventListener('input', function () { if (has(normName(this.value), 'bm|bp')) bNuc(); });
       $('#b-branch').addEventListener('change', bBranch);
-      ['#b-t0', '#b-sign', '#b-z', '#b-a', '#b-r', '#b-kind', '#b-k', '#b-rho', '#b-bac', '#b-dac', '#b-lam', '#b-um', '#b-uc', '#b-sa', '#b-sb', '#b-sc', '#b-fmode', '#b-fierz', '#b-acorr', '#b-cs', '#b-csp', '#b-ct', '#b-ctp', '#b-mnu', '#b-st', '#b-ms', '#b-u2', '#b-log', '#b-ref', '#b-kurie'].forEach(function (id) { $(id).addEventListener('change', RUN.beta); });
+      ['#b-t0', '#b-sign', '#b-z', '#b-a', '#b-r', '#b-kind', '#b-k', '#b-rho', '#b-bac', '#b-dac', '#b-lam', '#b-um', '#b-uc', '#b-b0', '#b-vv', '#b-va', '#b-x', '#b-xbr', '#b-xmodel', '#b-xm', '#b-xn', '#b-sa', '#b-sb', '#b-sc', '#b-fmode', '#b-fierz', '#b-acorr', '#b-cs', '#b-csp', '#b-ct', '#b-ctp', '#b-mnu', '#b-st', '#b-ms', '#b-u2', '#b-log', '#b-ref', '#b-kurie'].forEach(function (id) { $(id).addEventListener('change', RUN.beta); });
       $('#b-csv').addEventListener('click', bCSV); $('#b-rcsv').addEventListener('click', bRCSV);
       document.querySelectorAll('.sx-gloss-link').forEach(function (l) { l.addEventListener('click', function (ev) { ev.preventDefault(); var d = $('#b-gloss'); d.open = true; d.scrollIntoView({ behavior: 'smooth' }); }); });
       $('#b-py').addEventListener('click', function () { bCode('py'); }); $('#b-cpp').addEventListener('click', function () { bCode('cpp'); });
@@ -490,12 +490,21 @@
     $('#b-t0').value = b[0]; $('#b-sign').value = x.sign; $('#b-z').value = (i.Z + (x.sign < 0 ? 1 : -1)); $('#b-a').value = i.A;
     $('#b-r').value = di.r ? +di.r.toFixed(4) : +(0.836 * Math.pow(i.A, 1 / 3) + 0.57).toFixed(3);
     var rule = classify(n, x);
-    $('#b-kind').value = rule.kind; $('#b-k').value = Math.max(1, rule.k || 1);
+    $('#b-kind').value = rule.kind; $('#b-k').value = Math.max(1, rule.k || 1); B.dJ = rule.dJ;
     var pure = rule.pure; $('#b-rho').value = pure === 'F' ? '0' : pure === 'GT' ? 'inf' : (rule.kind === 'A' ? 'inf' : 'inf');
     $('#b-bac').value = pure === 'F' ? 0 : 5;
     $('#b-rule').innerHTML = rule.text;
+    var ps_ = presetShape(n, x), pn = $('#b-preset-note');
+    $('#b-sa').value = ps_ ? ps_.a : 0; $('#b-sb').value = ps_ ? ps_.b : 0; $('#b-sc').value = ps_ ? ps_.c : 0; $('#b-b0').value = 0;
+    pn.hidden = !ps_; if (ps_) pn.innerHTML = 'Measured shape factor applied: C(W) = 1 ' + (ps_.a < 0 ? '− ' : '+ ') + fmt(Math.abs(ps_.a), 4) + ' W ' + (ps_.c < 0 ? '− ' : '+ ') + fmt(Math.abs(ps_.c), 4) + ' W² (' + SHAPE_PRESETS[n].ref + '). Edit it under “Empirical shape factor”.';
+    else if (rule.kind === 'NU' && /^21[24]Pb$/.test(n)) { pn.hidden = false; pn.innerHTML = 'Full shell-model shape factors for the ²¹⁴Pb and ²¹²Pb ground-state decays exist (Haselschwardt et al. 2020, ancillary files of arXiv:2007.13686; Hayen et al., arXiv:2009.08303) and predict 15–23% fewer events at 1–15 keV than the allowed shape used here.'; }
     RUN.beta();
   }
+  // measured shape factors C(W) = 1 + aW + b/W + cW^2 for specific branches (W in m_e c^2)
+  var SHAPE_PRESETS = {
+    '210Bi': { T0: 1161.2, shape: { a: -0.4470, b: 0, c: 0.0552 }, ref: 'Alekseev et al., arXiv:2005.08481: Si(Li) spectrometer, fitted with a Fermi function including finite-size, screening and other corrections' }
+  };
+  function presetShape(n, x) { var q = SHAPE_PRESETS[n]; return q && x && Math.abs(x.b[0] - q.T0) < 5 ? q.shape : null; }
   function classify(n, x) {
     var i = nucInfo(n), b = x.b, Ji = P.parseJP(/^\d+m/.test(n) ? '' : i.jp), Jf = P.parseJP(b[5]);
     var f = P.forbiddenness(b[4], Ji && Ji.J, Ji && Ji.P, Jf && Jf.J, Jf && Jf.P) || { kind: 'A', k: 0, from: 'default' };
@@ -510,13 +519,14 @@
     } else parts.push('Spins or parities unknown for this branch' + (b[5] === '' ? ' (final level not in the level scheme)' : '') + '.');
     if (b[4]) parts.push('ENSDF classifies it as ' + ({ A: 'allowed', '1U': 'first unique forbidden', '1NU': 'first non-unique forbidden', '2U': 'second unique forbidden', '2NU': 'second non-unique forbidden', '3U': 'third unique forbidden', '3NU': 'third non-unique forbidden', S: 'superallowed', SA: 'superallowed' }[b[4]] || b[4]) + (b[3] ? ' (log ft = ' + b[3] + ')' : '') + '.');
     else if (b[3]) parts.push('log ft = ' + b[3] + '.');
-    return { kind: f.kind, k: f.k, pure: pure, text: parts.join(' ') };
+    return { kind: f.kind, k: f.k, pure: pure, dJ: Ji && Jf ? Math.abs(Ji.J - Jf.J) : null, text: parts.join(' ') };
   }
   function ord(k) { return ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth'][k] || k + 'th'; }
   function bParams(T0, over) {
     var corr = {}; CORR.forEach(function (c) { corr[c[0]] = $('#bc-' + c[0]).checked; });
     var kind = $('#b-kind').value, p = { Z: num('#b-z', 1) | 0, A: num('#b-a', 1) | 0, beta: +$('#b-sign').value, T0: T0, rrms: num('#b-r', 0) || null,
-      kind: kind, k: num('#b-k', 1) | 0, rho: parseRho(), bAc: num('#b-bac', 0), dAc: num('#b-dac', 0), Lambda: num('#b-lam', 0), uM: num('#b-um', 0), uC: num('#b-uc', 0),
+      kind: kind, k: num('#b-k', 1) | 0, rho: parseRho(), bAc: num('#b-bac', 0), dAc: num('#b-dac', 0), Lambda: num('#b-lam', 0), uM: num('#b-um', 0), uC: num('#b-uc', 0), b0: num('#b-b0', 0),
+      xBR: $('#b-x').checked ? Math.min(1, Math.max(0, num('#b-xbr', 0))) : 0, xM: num('#b-xm', 0), xModel: $('#b-xmodel').value, xN: num('#b-xn', 5),
       shape: { a: num('#b-sa', 0), b: num('#b-sb', 0), c: num('#b-sc', 0) }, fierz: fierzValue(over && over.kind, over && over.rho, over && over.beta, over && over.k), mnu: num('#b-mnu', 0),
       msterile: $('#b-st').checked ? num('#b-ms', 0) : 0, Usterile2: $('#b-st').checked ? Math.min(1, Math.max(0, num('#b-u2', 0))) : 0, corr: corr, n: 600 };
     return Object.assign(p, over || {});
@@ -526,12 +536,12 @@
     var m = $('#b-fmode').value, kd = kOver || $('#b-kind').value, sg = sOver != null ? sOver : +$('#b-sign').value;
     var rr = rOver != null ? rOver : parseRho(), kk = kkOver || (num('#b-k', 1) | 0);
     var sm = P.correlations({ kind: kd, k: kk, rho: rr, beta: sg });
-    if (m === 'b') { var av = $('#b-acorr').value.trim(); return { b: num('#b-fierz', 0), a: av === '' ? sm.a : +av, aSM: sm.a, mode: 'b' }; }
+    if (m === 'b') { var av = $('#b-acorr').value.trim(); return { b: num('#b-fierz', 0), a: av === '' ? sm.a : +av, aSM: sm.a, G: sm.G, GSM: sm.G, xiRel: 1, mode: 'b' }; }
     if (m === 'c') {
-      var c = P.correlations({ kind: kd, k: kk, rho: rr, beta: sg, CS: num('#b-cs', 0), CSp: num('#b-csp', 0), CT: num('#b-ct', 0), CTp: num('#b-ctp', 0) });
-      return { b: c.b, a: c.a, aSM: sm.a, mode: 'c', nu: !!c.undefinedForNU };
+      var c = P.correlations({ kind: kd, k: kk, rho: rr, beta: sg, CS: num('#b-cs', 0), CSp: num('#b-csp', 0), CT: num('#b-ct', 0), CTp: num('#b-ctp', 0), vV: num('#b-vv', 1), vA: num('#b-va', 1) });
+      return { b: c.b, a: c.a, aSM: sm.a, G: c.G, GSM: sm.G, xiRel: c.xiRel, mode: 'c', nu: !!c.undefinedForNU };
     }
-    return { b: 0, a: sm.a, aSM: sm.a, mode: 'none' };
+    return { b: 0, a: sm.a, aSM: sm.a, G: sm.G, GSM: sm.G, xiRel: 1, mode: 'none' };
   }
   // recoil spectrum for one branch with its mass states: light (m_beta) and, if switched on, the heavy neutrino;
   // each state's electron spectrum is computed separately and weighted by (1-U^2) or U^2 times its phase-space integral
@@ -561,8 +571,10 @@
     $('#b-fierz-note').innerHTML = kind === 'NU' ? 'For a non-unique forbidden branch, b<sub>F</sub> is a <em>phenomenological</em> 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E tilt: exotic couplings interfere with several matrix elements here, so b<sub>F</sub> cannot be computed from them without nuclear-structure input.'
       : kind === 'U' ? 'For a unique forbidden branch only tensor couplings interfere (the operators are axial), and the leading-order term has the same form as in allowed Gamow–Teller decays: 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E with b<sub>F</sub> = ±Re[(C<sub>T</sub>+C′<sub>T</sub>)/C<sub>A</sub>].'
       : 'Multiplies the spectrum by 1 + b<sub>F</sub> γ m<sub>e</sub>c²/E, which tilts it towards low energies for b<sub>F</sub> &gt; 0.';
-    var fm = $('#b-fmode').value; $('#b-fb-wrap').hidden = fm !== 'b'; $('#b-fc-wrap').hidden = fm !== 'c'; $('#b-st-wrap').hidden = !$('#b-st').checked;
-    if (fm === 'c') { var cc = corrs(); $('#b-fc-out').innerHTML = 'b<sub>F</sub> = ' + fmt(cc.b, 4) + ', a = ' + fmt(cc.a, 5) + ' (Standard Model ' + fmt(cc.aSM, 4) + ')' + (kind === 'U' ? '; unique forbidden: tensor couplings only' : (parseRho() === Infinity ? '; pure Gamow–Teller: tensor couplings only' : parseRho() === 0 ? '; pure Fermi: scalar couplings only' : '')) + ', ' + (+$('#b-sign').value < 0 ? 'β⁻' : 'β⁺') + '.'; }
+    var fm = $('#b-fmode').value; $('#b-fb-wrap').hidden = fm !== 'b'; $('#b-fc-wrap').hidden = fm !== 'c'; $('#b-st-wrap').hidden = !$('#b-st').checked; $('#b-x-wrap').hidden = !$('#b-x').checked;
+    $('#b-xm-wrap').hidden = $('#b-xmodel').value !== 'ps'; $('#b-xn-wrap').hidden = $('#b-xmodel').value !== 'n';
+    $('#b-b0-wrap').hidden = !(kind === 'NU' && (num('#b-k', 1) | 0) === 1 && (B.dJ === 0 || B.dJ == null)); $('#b-vv-wrap').hidden = kind !== 'A';
+    if (fm === 'c') { var cc = corrs(); $('#b-fc-out').innerHTML = 'b<sub>F</sub> = ' + fmt(cc.b, 4) + ', a = ' + fmt(cc.a, 5) + ' (Standard Model ' + fmt(cc.aSM, 4) + '), electron helicity G/β = ' + fmt(cc.G, 5) + ' (Standard Model ' + fmt(cc.GSM, 3) + '), decay rate × ' + fmt(cc.xiRel, 5) + ' relative to V − A' + (kind === 'U' ? '; unique forbidden: tensor couplings only' : (parseRho() === Infinity ? '; pure Gamow–Teller: tensor couplings only' : parseRho() === 0 ? '; pure Fermi: scalar couplings only' : '')) + ', ' + (+$('#b-sign').value < 0 ? 'β⁻' : 'β⁺') + '.'; }
     $('#b-k-wrap').hidden = kind === 'A';
     var T0 = num('#b-t0', NaN);
     if (!(T0 > 0)) { plot($('#b-plot'), { series: [], empty: 'Choose a beta emitter or enter an endpoint energy.' }); plot($('#b-plot2'), { series: [] }); return; }
@@ -574,16 +586,17 @@
       for (var i = 0; i < nb; i++) T[i] = Tmax * (i + 0.5) / nb;
       br.forEach(function (x) {
         var c = classify(n, x), info = nucInfo(n);
-        var pr = bParams(x.b[0], { beta: x.sign, Z: info.Z + (x.sign < 0 ? 1 : -1), kind: c.kind, k: Math.max(1, c.k || 1), rho: c.pure === 'F' ? 0 : Infinity, bAc: c.pure === 'F' ? 0 : 5, shape: null });
+        var pr = bParams(x.b[0], { beta: x.sign, Z: info.Z + (x.sign < 0 ? 1 : -1), kind: c.kind, k: Math.max(1, c.k || 1), rho: c.pure === 'F' ? 0 : Infinity, bAc: c.pure === 'F' ? 0 : 5, shape: presetShape(n, x) });
         var s = P.betaSpectrum(pr);
-        RC.push({ r: recoilFor(pr, corrs(pr.kind, pr.rho, pr.beta, pr.k).a), w: x.b[1] / 100, kind: pr.kind });
+        var cb = corrs(pr.kind, pr.rho, pr.beta, pr.k);
+        RC.push({ r: recoilFor(pr, cb.a), w: x.b[1] / 100, kind: pr.kind, s: s, G: cb.G });
         var s0 = $('#b-ref').checked ? P.betaSpectrum(Object.assign({}, pr, { corr: {} })) : null, w = x.b[1] / 100; tot += w;
         for (var j = 0; j < nb; j++) { Y[j] += w * interp(s.T, s.dNdT, T[j]); if (s0) Yr[j] += w * interp(s0.T, s0.dNdT, T[j]); }
       });
       spec = { T: T, dNdT: Y, mean: meanOf(T, Y) / (tot || 1), factors: null }; ref = $('#b-ref').checked ? { T: T, dNdT: Yr } : null;
     } else {
       spec = P.betaSpectrum(bParams(T0)); ref = $('#b-ref').checked ? P.betaSpectrum(bParams(T0, { corr: {} })) : null;
-      var RC = [{ r: recoilFor(bParams(T0), corrs().a), w: 1, kind: kind }];
+      var RC = [{ r: recoilFor(bParams(T0), corrs().a), w: 1, kind: kind, s: spec, G: corrs().G }];
     }
     // recoil-nucleus spectrum (sum over branches on a common grid)
     var rmax = Math.max.apply(null, RC.map(function (o) { return o.r.max; })), nr = 240, RT = new Float64Array(nr), RY = new Float64Array(nr), rw = 0, rmean = 0;
@@ -600,8 +613,24 @@
       (bParams(T0).mnu || bParams(T0).Usterile2 ? 'Neutrino masses included: each mass state recoils with its own momentum √(E<sub>ν</sub>² − m²) and the correlation carries the neutrino velocity, a β<sub>e</sub>β<sub>ν</sub> cos θ; the heavy state is weighted by |U<sub>e4</sub>|² and its phase space. ' : '') +
       'No Coulomb or recoil-order corrections to the correlation; recoil energies of a few eV can be modified by atomic and molecular binding.';
     B.recoil = { T: RTu, y: RYu, unit: eV ? 'eV' : 'keV' };
+    // electron longitudinal polarisation G(T) = (G/beta) v/c, intensity-weighted over branches
+    var PT = spec.T, PG = new Float64Array(PT.length), PGsm = new Float64Array(PT.length);
+    for (var ip = 0; ip < PT.length; ip++) {
+      var Wp = PT[ip] / 511 + 1, bet = Math.sqrt(Wp * Wp - 1) / Wp, num_ = 0, nsm = 0, den = 0;
+      RC.forEach(function (o) { var y = o.s ? interp(o.s.T, o.s.dNdT, PT[ip]) * o.w : 0; num_ += y * (o.G || 0) * bet; den += y;
+        var smG = P.correlations({ kind: o.kind, k: 1, rho: Infinity, beta: o.s && o.s.ctx ? o.s.ctx.beta : +$('#b-sign').value }).G; nsm += y * smG * bet; });
+      PG[ip] = den > 0 ? num_ / den : (RC[0].G || 0) * bet; PGsm[ip] = den > 0 ? nsm / den : -(+$('#b-sign').value < 0 ? 1 : -1) * bet;
+    }
+    var pser = [{ name: 'Electron longitudinal polarisation G', x: PT, y: PG, color: color(4) }];
+    var gdiff = 0; for (ip = 0; ip < PT.length; ip++) gdiff = Math.max(gdiff, Math.abs(PG[ip] - PGsm[ip]));
+    if (gdiff > 1e-6) pser.push({ name: 'Standard Model (V − A)', x: PT, y: PGsm, color: css('--muted'), dash: [5, 4], width: 1.4 });
+    plot($('#b-plot4'), { series: pser, xlab: 'Kinetic energy (keV)', xname: 'T', ylab: 'Polarisation G', legend: $('#b-legend4'), height: 220 });
+    $('#b-pol-note').innerHTML = 'Electron (positron) longitudinal polarisation: G = (G/β)·v/c, −v/c for β⁻ and +v/c for β⁺ in the V − A Standard Model. Right-handed currents (C′ ≠ C) and products of left- and right-handed exotic couplings change it; with massless neutrinos they leave the energy spectrum shape unchanged, so helicity (Mott or Bhabha polarimetry) and correlations are where right-handed currents are measured. Coulomb terms of order αZ m/p (which need complex couplings) are omitted.';
     var yl = all ? 'Electrons per keV per decay' : 'Probability per keV (normalised)';
     var series = [{ name: 'With selected corrections', x: spec.T, y: kur ? kurie(spec, all) : spec.dNdT, color: color(0) }];
+    if (!all && !kur && spec.dNdT_X) { var xb = bParams(T0).xBR;
+      series.push({ name: 'Standard decays (×' + fmt(1 - xb, 3) + ')', x: spec.T, y: Array.prototype.map.call(spec.dNdT_SM, function (v) { return v * (1 - xb); }), color: color(1), width: 1.2 });
+      series.push({ name: 'Boson-emitting decays (×' + fmt(xb, 3) + ')', x: spec.T, y: Array.prototype.map.call(spec.dNdT_X, function (v) { return v * xb; }), color: color(3), width: 1.2 }); }
     if (ref) series.push({ name: 'Same shape, no corrections (F₀ only)', x: ref.T, y: kur ? kurie(ref, all) : ref.dNdT, color: css('--muted'), dash: [5, 4], width: 1.4 });
     var bp = bParams(T0), marks = [];
     if (bp.Usterile2 > 0 && bp.msterile > 0 && bp.msterile < T0) marks.push({ x: T0 - bp.msterile, label: 'kink: T₀ − m₄c²' });
