@@ -137,6 +137,11 @@ def decays(lc, sig, nucs):
             v[k].sort(key=lambda x: -x[1])
         if "g" in v:
             v["g"] = v["g"][:60]
+        if "e" in v:   # ENSDF gives both "CE N+" (N and higher shells) and "CE N" etc.: keep the inclusive one
+            plus = {t[2][:-1] for t in v["e"] if t[2].endswith("+")}
+            order = "KLMNOPQ"
+            v["e"] = [t for t in v["e"] if not (t[2].startswith("CE ") and not t[2].endswith("+") and any(
+                p.startswith("CE ") and len(p) > 3 and len(t[2]) > 3 and t[2][3] in order and p[3] in order and order.index(t[2][3]) >= order.index(p[3]) for p in plus))]
         for k in ("x", "e"):
             if k in v:
                 v[k] = v[k][:40]

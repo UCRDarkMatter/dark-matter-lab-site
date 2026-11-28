@@ -285,7 +285,7 @@
     var all = $('#g-line').value === 'all';
     if ($('#g-ce').checked) {
       var el_ = [], src = '';
-      if (d.e && d.e.length) { el_ = d.e.filter(function (e) { return all || /CE/i.test(e[2]); }).map(function (e) { return [e[0], e[1], e[2]]; }); src = 'ENSDF conversion and Auger electron lines (IAEA LiveChart)'; }
+      if (d.e && d.e.length) { el_ = d.e.filter(function (e) { return all || /^CE/.test(e[2]); }).map(function (e) { return [e[0], e[1], (e[2] || '').replace(/^AU\b/, 'Auger').replace(/^CE\b/, 'Conversion')]; }); src = 'ENSDF conversion and Auger electron lines (IAEA LiveChart)'; }
       else {
         var Z = daughterZ(n), sym = Z ? SYMS[Z] : null, BK = sym && G.edges[sym] ? G.edges[sym] : 0;
         lines.forEach(function (l) { if (l[6] > 0 && l[2] != null) el_.push([l[0] - BK, l[1] * l[6], 'CE (all shells at E − B_K)']); });
