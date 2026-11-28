@@ -1,0 +1,12 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+10.277,,1.8,1.8,AU,L,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+33.238,,0.03,0.03,AU,KLX,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+42.719,,0.1,0.1,AU,K,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+57.524,,0.06,0.06,AU,KLL,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+81.777,,0.005,0.005,AU,KXY,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+279.464,,5.325,,CE,K,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+349.65,,1.4175,,CE,L,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+361.29,,0.345,,CE,M,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+364.148,,0.087,,CE,N,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+364.861,,0.0162,,CE,O,81,112,Tl,X,365.2,,(9/2-),2.11,,15,m,126.6,9,IT,75,,,,81,112,Tl,31-Mar-2017,M. Shamsuzzoha Basunia,2026-11-28
+

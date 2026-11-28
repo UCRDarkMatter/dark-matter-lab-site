@@ -1,0 +1,11 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1113.56,96,5,0.050,0.01,5.4,0.1,A,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,552.0,658,5,0.0010,0.0001,9.1,,1U,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,431.14,779,5,0.0012,0.0003,9.4,0.1,1NU,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,614.28,596,5,0.0038,0.0008,8.6,0.1,A,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,439.86,770,5,0.0014,0.001,9.3,0.4,1NU,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,875.94,334,5,0.040,0.008,7,0.1,1NU,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,500.2,710,5,0.00051,0.00005,9.5,,A,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+,,,,,307.55,902,5,0.0114,0.0022,8.5,0.1,1NU,,,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+98.2,2.4,0.003,0,,0.0,1210,6,99.888,0.021,4.84,0.01,A,1.06747,0.00045,68,95,Er,,0,,5/2-,75.0,,4,m,4500,24,EC+B+,100,,1211,5,67,96,Ho,12-Apr-2010,C. W. REICH and  BALRAJ SINGH,2026-11-28
+

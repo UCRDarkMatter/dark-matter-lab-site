@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.637,,21.4,1.7,X,L,60,76,Nd,,0,,0+,50.65,,33,m,3039,19.8,EC+B+,100,,2141,16,59,77,Pr,1-Apr-2018,E.A. MCCUTCHAN,2026-11-28
+35.551,,29.9,1,X,KA2,60,76,Nd,,0,,0+,50.65,,33,m,3039,19.8,EC+B+,100,,2141,16,59,77,Pr,1-Apr-2018,E.A. MCCUTCHAN,2026-11-28
+36.027,,54.6,1.9,X,KA1,60,76,Nd,,0,,0+,50.65,,33,m,3039,19.8,EC+B+,100,,2141,16,59,77,Pr,1-Apr-2018,E.A. MCCUTCHAN,2026-11-28
+40.857,,16.6,0.6,X,KpB1,60,76,Nd,,0,,0+,50.65,,33,m,3039,19.8,EC+B+,100,,2141,16,59,77,Pr,1-Apr-2018,E.A. MCCUTCHAN,2026-11-28
+41.266,,20.9,0.8,X,KB,60,76,Nd,,0,,0+,50.65,,33,m,3039,19.8,EC+B+,100,,2141,16,59,77,Pr,1-Apr-2018,E.A. MCCUTCHAN,2026-11-28
+41.766,,4.25,0.18,X,KpB2,60,76,Nd,,0,,0+,50.65,,33,m,3039,19.8,EC+B+,100,,2141,16,59,77,Pr,1-Apr-2018,E.A. MCCUTCHAN,2026-11-28
+

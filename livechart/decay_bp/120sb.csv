@@ -1,0 +1,7 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,0.0000118,2482.2,199,,100,0,5.174,0.02,A,,,51,69,Sb,X,0,,8-,5.76,,2,d,497664,1728,EC+B+,100,,2681,7,50,70,Sn,1-Dec-2001,K. KITAO and  Y. TENDOW AND A. HASHIZUME,2026-11-28
+,,,,,2159.8,521,7,0.063,0.006,6.03,0.05,A,,,51,69,Sb,,0,,1+,15.89,,4,m,953.4,2.4,EC+B+,100,,2681,7,50,70,Sn,1-DEC-2001,K. KITAO and  Y. TENDOW AND A. HASHIZUME,2026-11-28
+,,,,,1875.0,806,7,0.149,0.013,6.05,0.04,A,,,51,69,Sb,,0,,1+,15.89,,4,m,953.4,2.4,EC+B+,100,,2681,7,50,70,Sn,1-DEC-2001,K. KITAO and  Y. TENDOW AND A. HASHIZUME,2026-11-28
+224.3,3.1,0.0147,0.0012,,1171.2,1510,7,1.47,0.08,5.61,0.024,A,7.83,0.41,51,69,Sb,,0,,1+,15.89,,4,m,953.4,2.4,EC+B+,100,,2681,7,50,70,Sn,1-DEC-2001,K. KITAO and  Y. TENDOW AND A. HASHIZUME,2026-11-28
+741.6,3.2,41,0.7,,0.0,2681,7,57.3,0.9,4.525,0.008,A,911.5,3.8,51,69,Sb,,0,,1+,15.89,,4,m,953.4,2.4,EC+B+,100,,2681,7,50,70,Sn,1-DEC-2001,K. KITAO and  Y. TENDOW AND A. HASHIZUME,2026-11-28
+

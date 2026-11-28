@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+17.604,,6,6,X,L,95,140,Am,,0,,5/2-,10.3,,6,m,618,36,EC,99.6,0.05,2442,57,94,141,Pu,1-Feb-2014,E. BROWNE and  J. K. TULI,2026-11-28
+99.533,,3,3,X,KA2,95,140,Am,,0,,5/2-,10.3,,6,m,618,36,EC,99.6,0.05,2442,57,94,141,Pu,1-Feb-2014,E. BROWNE and  J. K. TULI,2026-11-28
+103.741,,6,6,X,KA1,95,140,Am,,0,,5/2-,10.3,,6,m,618,36,EC,99.6,0.05,2442,57,94,141,Pu,1-Feb-2014,E. BROWNE and  J. K. TULI,2026-11-28
+117.13,,2,2,X,KpB1,95,140,Am,,0,,5/2-,10.3,,6,m,618,36,EC,99.6,0.05,2442,57,94,141,Pu,1-Feb-2014,E. BROWNE and  J. K. TULI,2026-11-28
+118.619,,3,3,X,KB,95,140,Am,,0,,5/2-,10.3,,6,m,618,36,EC,99.6,0.05,2442,57,94,141,Pu,1-Feb-2014,E. BROWNE and  J. K. TULI,2026-11-28
+120.544,,0.7,0.7,X,KpB2,95,140,Am,,0,,5/2-,10.3,,6,m,618,36,EC,99.6,0.05,2442,57,94,141,Pu,1-Feb-2014,E. BROWNE and  J. K. TULI,2026-11-28
+

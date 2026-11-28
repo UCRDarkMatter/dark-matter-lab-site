@@ -1,0 +1,5 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5988,8,0.064,0.0128,,351.8,23,,82,104,Pb,,0,,0+,4.81,,3,s,4.81,0.03,A,40,8,6471,5,80,102,Hg,15-Jul-2015,BALRAJ SINGH,2026-11-28
+6014,13,0.08,0.025612496949731396,,328,23,5,82,104,Pb,,0,,0+,4.81,,3,s,4.81,0.03,A,40,8,6471,5,80,102,Hg,15-Jul-2015,BALRAJ SINGH,2026-11-28
+6331,6,39.84,7.968401596305246,,0.0,1,,82,104,Pb,,0,,0+,4.81,,3,s,4.81,0.03,A,40,8,6471,5,80,102,Hg,15-Jul-2015,BALRAJ SINGH,2026-11-28
+

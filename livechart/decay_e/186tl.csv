@@ -1,0 +1,21 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+10.277,,12.0802887677376,,AU,L,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+33.238,,0.12027369121775924,,AU,KLX,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+42.719,,0.3540258272,,AU,K,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+57.524,,0.21710052566382534,,AU,KLL,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+81.777,,0.016651610318415402,,AU,KXY,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+2.849999999999999,,0.9495,,CE,L,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+14.49,,0.396,,CE,M,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+17.348,,0.1035,,CE,N,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+18.061,,0.0171,,CE,O,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+180.964,,0.1352,,CE,K,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+251.15,,0.0338,,CE,L,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+262.79,,0.008268,,CE,M,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+265.648,,0.00208,,CE,N,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+266.361,,0.00039,,CE,O,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+288.664,,9.4330656,,CE,K,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+358.85,,10.3314528,,CE,L,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+370.49,,2.7232362,,CE,M,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+373.348,,0.6878277,,CE,N,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+374.061,,0.12212451,,CE,O,81,105,Tl,,414,39,(10-),3.32,,11,s,3.32,0.11,IT,94.1,0.3,,,81,105,Tl,1-Mar-2022,J. C. Batchelder and A. M. Hurst and  M. S. Basunia,2026-11-28
+

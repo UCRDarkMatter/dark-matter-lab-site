@@ -1,0 +1,5 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1674.736,632.9,1.2,1.21,0.02,7.69,0.01,A,,,27,31,Co,,0,,2+,70.86,,6,d,6122304,5184,EC+B+,100,,2308.0,12,26,32,Fe,12-Jan-2010,CAROLINE D. NESARAJA and  SCOTT D. GERAEDTS AND BALRAJ SINGH,2026-11-28
+201.1,0.51,14.9,0.2,0.000000001,810.7666,1496,5,83.9,0.2,6.61,0.01,A,271,0.7,27,31,Co,,0,,2+,70.86,,6,d,6122304,5184,EC+B+,100,,2308.0,12,26,32,Fe,12-Jan-2010,CAROLINE D. NESARAJA and  SCOTT D. GERAEDTS AND BALRAJ SINGH,2026-11-28
+553.12,0.54,0.00063,0,,0.0,2307.6,1.2,0.00012,0,12.8,,2NU,700,0.7,27,31,Co,,0,,2+,70.86,,6,d,6122304,5184,EC+B+,100,,2308.0,12,26,32,Fe,12-Jan-2010,CAROLINE D. NESARAJA and  SCOTT D. GERAEDTS AND BALRAJ SINGH,2026-11-28
+

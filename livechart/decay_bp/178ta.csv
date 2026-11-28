@@ -1,0 +1,18 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1309.92,627,15,0.033,0.002,6.96,0.04,1NU,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1174.61,762,15,0.014,0.005,7.52,0.16,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1478.989,458,15,35.8,0.3,4.81,0.04,A,,,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1566.46,371,15,0.013,0.003,6.85,0.11,1NU,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1496.01,441,15,0.82,0.01,5.23,0.04,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1362.37,575,15,0.014,0.004,7.25,0.13,1NU,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1199.22,738,15,0.54,0.01,5.904,0.021,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1771.93,165,15,0.039,0.005,5.47,0.14,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1513.65,423,15,0.028,0.002,6.65,0.05,,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1433.99,503,15,1.03,0.03,5.26,0.04,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1276.54,660,15,0.26,0.01,6.12,0.03,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,4,1147.381,790,15,64.2,0.3,5.074,0.024,A,,,73,105,Ta,X,0,,7-,2.36,,8,h,8496,288,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1561.27,376,15,0.058,0.002,6.22,0.05,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+,,,,,1443.83,493,15,1.20,0.03,5.17,0.04,A,,,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+384.4,6.6,0.34,0.05,0.0000000015,93.14,1844,15,34,5,4.95,0.07,A,15,1,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+425.2,6.6,0.9,0.09,,0.0,1937,15,61,5,4.73,0.04,A,333,11,73,105,Ta,Y,0,,(1+),9.31,,3,m,558.6,1.8,EC+B+,100,,1837,52,72,106,Hf,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+

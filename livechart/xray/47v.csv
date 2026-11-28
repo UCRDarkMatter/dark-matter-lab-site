@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.477,,0.0165143374493728,0.003295134283306518,X,L,23,24,V,,0,,3/2-,32.6,,3,m,1956,18,EC+B+,100,,2930.54,14,22,25,Ti,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+4.505,,0.20635406535234693,0.004975927953450603,X,KA2,23,24,V,,0,,3/2-,32.6,,3,m,1956,18,EC+B+,100,,2930.54,14,22,25,Ti,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+4.511,,0.40652889155308697,0.009596200799382157,X,KA1,23,24,V,,0,,3/2-,32.6,,3,m,1956,18,EC+B+,100,,2930.54,14,22,25,Ti,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+4.947,,0.08120699178997,0.0022075846541773736,X,KB,23,24,V,,0,,3/2-,32.6,,3,m,1956,18,EC+B+,100,,2930.54,14,22,25,Ti,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+4.947,,0.08120699178997,0.0022075846541773736,X,KpB1,23,24,V,,0,,3/2-,32.6,,3,m,1956,18,EC+B+,100,,2930.54,14,22,25,Ti,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+

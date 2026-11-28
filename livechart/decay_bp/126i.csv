@@ -1,0 +1,8 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,2045.11,109,4,0.0070,0.0004,8.55,0.05,1NU,,,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+,,,,,1361.3,793,4,0.0002000,0.0000019,12.4,,1U,,,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+,,,,,1420.166,734,4,4.46,0.11,7.625,0.013,1NU,,,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+,,,,,1873.1,281,4,0.00046,0.00014,10.13,0.14,1U,,,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+216,1.8,0.196,0.008,,666.338,1488,4,28.7,0.8,7.448,0.013,1NU,3.04,0.07,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+529.3,1.8,0.8,0.03,,0.0,2154,4,18.6,0.7,9.201,0.018,1U,591.7,2.3,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+

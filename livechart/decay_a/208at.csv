@@ -1,0 +1,6 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5586,2,0.004785,0.000522,,53.40,163,,85,123,At,,0,,6+,1.63,,3,h,5868,108,A,0.55,0.06,5751.1,22,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+5626,4,0.01177,0.0016907560439046196,,15.08,102,15,85,123,At,,0,,6+,1.63,,3,h,5868,108,A,0.55,0.06,5751.1,22,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+5634,,,,,5.55,,,85,123,At,,0,,6+,1.63,,3,h,5868,108,A,0.55,0.06,5751.1,22,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+5640.3,2.1,0.53295,0.05816340860025313,,0,2.7,0.3,85,123,At,,0,,6+,1.63,,3,h,5868,108,A,0.55,0.06,5751.1,22,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+

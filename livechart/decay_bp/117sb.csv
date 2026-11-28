@@ -1,0 +1,10 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1019.91,725,18,0.41,0.05,6.55,0.06,A,,,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+,,,,,1578.3,167,18,0.036,0.009,6.26,0.12,,,,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+,,,,,1179.6,565,18,0.110,0.02,6.9,0.08,A,,,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+,,,,,711.56,1033,18,0.082,0.013,7.56,0.07,A,0.68,0.006,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+,,,,,1446.4,299,18,0.084,0.017,6.44,0.1,A,,,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+,,,,,1004.51,740,18,0.26,0.03,6.76,0.06,A,,,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+,,,,,1498.1,247,18,0.009,0.004,7.23,0.2,,,,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+261.9,3.9,1.81,0.11,0.000000000279,158.6,1586,18,97.2,0.7,4.863,0.007,A,14.2,0.8,51,66,Sb,,0,,5/2+,2.80,,1,h,10080,36,EC+B+,100,,1758,8,50,67,Sn,1-Mar-2009,JEAN BLACHOT,2026-11-28
+

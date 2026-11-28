@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+14.92,,67.98339525317719,7.043348388042574,X,L,87,142,Fr,,0,,(1/2+),50.2,,4,s,50.2,0.4,B-,100,,3106,16,88,141,Ra,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+85.432,,5.820514466919444,0.33238330550546985,X,KA2,87,142,Fr,,0,,(1/2+),50.2,,4,s,50.2,0.4,B-,100,,3106,16,88,141,Ra,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+88.471,,9.50753751538622,0.5415425631484015,X,KA1,87,142,Fr,,0,,(1/2+),50.2,,4,s,50.2,0.4,B-,100,,3106,16,88,141,Ra,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+100.119,,3.3356980594023624,0.19586258113357982,X,KpB1,87,142,Fr,,0,,(1/2+),50.2,,4,s,50.2,0.4,B-,100,,3106,16,88,141,Ra,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+101.37,,4.4298070228863375,0.2595702277244093,X,KB,87,142,Fr,,0,,(1/2+),50.2,,4,s,50.2,0.4,B-,100,,3106,16,88,141,Ra,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+102.948,,1.094108963483975,0.06637262732662057,X,KpB2,87,142,Fr,,0,,(1/2+),50.2,,4,s,50.2,0.4,B-,100,,3106,16,88,141,Ra,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+

@@ -1,0 +1,14 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.135,,4.02,0.18,X,L,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+4.54,,0.059385276368,0.003255791667076439,X,L,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,B-,47.3,0.5,1236,4,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+27.202,,11.05,0.24,X,KA2,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+27.473,,20.6,0.4,X,KA1,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+29.458,,0.14624691004647325,0.003287200928279287,X,KA2,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,B-,47.3,0.5,1236,4,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+29.778,,0.2709279548841668,0.005958992341542873,X,KA1,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,B-,47.3,0.5,1236,4,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+31.093,,5.89,0.14,X,KpB1,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+31.359,,7.17,0.17,X,KB,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+31.698,,1.28,0.04,X,KpB2,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,EC+B+,52.7,0.5,2154,4,52,74,Te,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+33.726,,0.07854093128588993,0.0019300465727200532,X,KpB1,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,B-,47.3,0.5,1236,4,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+34.03,,0.09707659106935995,0.0023529922485020275,X,KB,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,B-,47.3,0.5,1236,4,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+34.414,,0.018535659783470024,0.0006014058448427749,X,KpB2,53,73,I,,0,,2-,12.93,,5,d,1117152,4320,B-,47.3,0.5,1236,4,54,72,Xe,1-Oct-2021,H. Iimura and  J.Katakura and  S. Ohya,2026-11-28
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+11.07,,39,3,X,L,79,104,Au,,0,,(5/2)-,42.8,,10,s,42.8,1,EC+B+,99.45,0.25,5582,17,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+65.122,,21.6,1.4,X,KA2,79,104,Au,,0,,(5/2)-,42.8,,10,s,42.8,1,EC+B+,99.45,0.25,5582,17,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+66.832,,36.9,2.4,X,KA1,79,104,Au,,0,,(5/2)-,42.8,,10,s,42.8,1,EC+B+,99.45,0.25,5582,17,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+75.821,,12.4,0.8,X,KpB1,79,104,Au,,0,,(5/2)-,42.8,,10,s,42.8,1,EC+B+,99.45,0.25,5582,17,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+76.725,,15.9,1.1,X,KB,79,104,Au,,0,,(5/2)-,42.8,,10,s,42.8,1,EC+B+,99.45,0.25,5582,17,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+77.832,,3.5,0.2,X,KpB2,79,104,Au,,0,,(5/2)-,42.8,,10,s,42.8,1,EC+B+,99.45,0.25,5582,17,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+

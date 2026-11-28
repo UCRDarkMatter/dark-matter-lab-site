@@ -1,0 +1,9 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5497,10,,,,197+X,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+5497,10,,,,,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+5611,10,,,,,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+5611,10,,,,79+X,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+5648,10,,,0.0000000069,37+X,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+5648,10,,,,,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+5685,10,,,,0.0+X,,,79,101,Au,,0,,,8.4,,6,s,8.4,0.6,A,1.8,,5831,7,77,99,Ir,15-Sep-2005,M.S. BASUNIA,2026-11-28
+

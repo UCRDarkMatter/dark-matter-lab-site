@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.586,,1.09277412159675,0.07732386303002939,X,L,42,63,Mo,,0,,(5/2-),36.3,,8,s,36.3,0.8,B-,100,,4960,40,43,62,Tc,1-Apr-2019,S. LALKOVSKI and  J. TIMAR and Z. ELEKES,2026-11-28
+18.25,,5.206967873311513,0.3865146929810741,X,KA2,42,63,Mo,,0,,(5/2-),36.3,,8,s,36.3,0.8,B-,100,,4960,40,43,62,Tc,1-Apr-2019,S. LALKOVSKI and  J. TIMAR and Z. ELEKES,2026-11-28
+18.367,,9.901060797321758,0.7334498777587443,X,KA1,42,63,Mo,,0,,(5/2-),36.3,,8,s,36.3,0.8,B-,100,,4960,40,43,62,Tc,1-Apr-2019,S. LALKOVSKI and  J. TIMAR and Z. ELEKES,2026-11-28
+20.695,,2.6315106933218746,0.19647594094175094,X,KpB1,42,63,Mo,,0,,(5/2-),36.3,,8,s,36.3,0.8,B-,100,,4960,40,43,62,Tc,1-Apr-2019,S. LALKOVSKI and  J. TIMAR and Z. ELEKES,2026-11-28
+20.82,,3.0472893828667305,0.22713836680732113,X,KB,42,63,Mo,,0,,(5/2-),36.3,,8,s,36.3,0.8,B-,100,,4960,40,43,62,Tc,1-Apr-2019,S. LALKOVSKI and  J. TIMAR and Z. ELEKES,2026-11-28
+21.003,,0.4157786895448562,0.033716485534780495,X,KpB2,42,63,Mo,,0,,(5/2-),36.3,,8,s,36.3,0.8,B-,100,,4960,40,43,62,Tc,1-Apr-2019,S. LALKOVSKI and  J. TIMAR and Z. ELEKES,2026-11-28
+

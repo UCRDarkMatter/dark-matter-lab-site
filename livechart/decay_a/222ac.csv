@@ -1,0 +1,12 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+6460,20,1.88,0.9476286192385707,,550,15,8,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6710,20,7.52,3.7905144769542827,,295,40,21,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6750,20,14.1,4.78539444560216,,255,30,11,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6810,20,25.38,9.538574316951145,,193,29,12,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6840,20,9.4,4.738143096192854,,163,101,53,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6890,20,14.1,4.78539444560216,,112,105,38,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6963,10,5.94,0.9918165152889924,,46,35,7,89,133,Ac,,0,,1-,4.9,,5,s,4.9,0.5,A,99,1,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+6970,20,7.52,2.8605593858544522,,31,390,160,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+7000,20,14.1,4.78539444560216,0.0011,0.0,270,100,89,133,Ac,X,0,,,64,,3,s,64,3,A,94,5,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+7008.6,2,93.06,1.3651739815862298,0.0011,0,3.2,0.4,89,133,Ac,,0,,1-,4.9,,5,s,4.9,0.5,A,99,1,7137.4,20,87,131,Fr,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+

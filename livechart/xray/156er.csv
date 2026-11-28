@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+7.656,,48.490043404908,,X,L,68,88,Er,,0,,0+,19.5,,10,m,1170,60,EC+B+,100,,1327,46,67,89,Ho,1-Mar-2012,C. W. REICH,2026-11-28
+46.7,,22.64443922667118,,X,KA2,68,88,Er,,0,,0+,19.5,,10,m,1170,60,EC+B+,100,,1327,46,67,89,Ho,1-Mar-2012,C. W. REICH,2026-11-28
+47.547,,40.32847591571003,,X,KA1,68,88,Er,,0,,0+,19.5,,10,m,1170,60,EC+B+,100,,1327,46,67,89,Ho,1-Mar-2012,C. W. REICH,2026-11-28
+53.982,,13.029396013983161,,X,KpB1,68,88,Er,,0,,0+,19.5,,10,m,1170,60,EC+B+,100,,1327,46,67,89,Ho,1-Mar-2012,C. W. REICH,2026-11-28
+54.577,,16.417038977618784,,X,KB,68,88,Er,,0,,0+,19.5,,10,m,1170,60,EC+B+,100,,1327,46,67,89,Ho,1-Mar-2012,C. W. REICH,2026-11-28
+55.293,,3.387642963635622,,X,KpB2,68,88,Er,,0,,0+,19.5,,10,m,1170,60,EC+B+,100,,1327,46,67,89,Ho,1-Mar-2012,C. W. REICH,2026-11-28
+

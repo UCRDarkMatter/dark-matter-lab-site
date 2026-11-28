@@ -1,0 +1,8 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1143,47,9.7,0,,2200,3580,70,3.3,0,3.6,,A,1402,38,50,52,Sn,,0,,0+,3.8,,2,s,3.8,0.2,EC+B+,100,,5760,100,49,53,In,31-Dec-2008,D. DE FRENNE,2026-11-28
+1279,47,7,0,,1908,3872,70,2,0,3.9,,A,1557,37,50,52,Sn,,0,,0+,3.8,,2,s,3.8,0.2,EC+B+,100,,5760,100,49,53,In,31-Dec-2008,D. DE FRENNE,2026-11-28
+1326,47,12,0,,1808,3972,70,2.7,0,3.8,,A,1611,37,50,52,Sn,,0,,0+,3.8,,2,s,3.8,0.2,EC+B+,100,,5760,100,49,53,In,31-Dec-2008,D. DE FRENNE,2026-11-28
+1448,47,39,0,,1546,4234,70,6.5,0,3.4,,A,1749,37,50,52,Sn,,0,,0+,3.8,,2,s,3.8,0.2,EC+B+,100,,5760,100,49,53,In,31-Dec-2008,D. DE FRENNE,2026-11-28
+1460,47,11,0,,1521,4259,70,1.8,0,4,,A,1765,37,50,52,Sn,,0,,0+,3.8,,2,s,3.8,0.2,EC+B+,100,,5760,100,49,53,In,31-Dec-2008,D. DE FRENNE,2026-11-28
+1578,48,4,0,,1270,4510,70,0.5,0,4.6,,A,1898,37,50,52,Sn,,0,,0+,3.8,,2,s,3.8,0.2,EC+B+,100,,5760,100,49,53,In,31-Dec-2008,D. DE FRENNE,2026-11-28
+

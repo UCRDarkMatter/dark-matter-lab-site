@@ -1,0 +1,6 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.8,,0.00036339173533728,0.00007267883951196436,AU,KLL,11,10,Na,,0,,3/2+,22.49,,4,s,22.49,0.04,EC+B+,100,,3546.92,6,10,11,Ne,15-Jan-2015,R.B. FIRESTONE,2026-11-28
+0.8,,0.00036339173533728,0.00007267883951196436,AU,K,11,10,Na,,0,,3/2+,22.49,,4,s,22.49,0.04,EC+B+,100,,3546.92,6,10,11,Ne,15-Jan-2015,R.B. FIRESTONE,2026-11-28
+2793.0699,,0.0000000005436,0.00000000010898531277195107,CE,K,11,10,Na,,0,,3/2+,22.49,,4,s,22.49,0.04,EC+B+,100,,3546.92,6,10,11,Ne,15-Jan-2015,R.B. FIRESTONE,2026-11-28
+2793.89153,,0.00000000003008,0.0000000000060320689651229945,CE,L,11,10,Na,,0,,3/2+,22.49,,4,s,22.49,0.04,EC+B+,100,,3546.92,6,10,11,Ne,15-Jan-2015,R.B. FIRESTONE,2026-11-28
+

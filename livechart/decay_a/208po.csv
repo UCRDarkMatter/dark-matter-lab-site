@@ -1,0 +1,4 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4220,15,0.0002399904,0.00006999720000658311,,899.166,0.62,0.19,84,124,Po,,0,,0+,2.898,,2,Y,91451971.47436762,63113.851949184,A,99.996,0.0004,5215.7,13,82,122,Pb,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+5114.9,1.4,99.9957600096,0.0004060773817990379,,0.0,1,,84,124,Po,,0,,0+,2.898,,2,Y,91451971.47436762,63113.851949184,A,99.996,0.0004,5215.7,13,82,122,Pb,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+

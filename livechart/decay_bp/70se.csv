@@ -1,0 +1,10 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1650.95,759,50,0.81,0.11,4.99,0.09,A,,,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+216,22,0.056,0.021,,890.57,1519,50,0.72,0.07,5.64,0.06,A,277,29,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+349,22,1.6,0.3,,581.58,1828,50,3.9,0.4,5.08,0.06,A,456,28,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+402,22,18.2,2.2,,458.21,1952,50,26.7,2.4,4.29,0.06,A,524,28,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+452,22,0.5,0.6,,344.75,2065,50,0.5,0.6,6.1,0.6,S,586,28,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+459,22,0.42,0.09,,328.70,2081,50,0.41,0.09,6.17,0.11,A,597,28,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+501,23,2.7,0.23,,234.78,2175,50,1.95,0.21,5.53,0.06,A,647,28,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+569,23,27.2,1.9,,81.56,2328,50,13.2,1.4,4.76,0.06,A,736,28,34,36,Se,,0,,0+,41.1,,3,m,2466,18,EC+B+,100,,2404.1,21,33,37,As,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+

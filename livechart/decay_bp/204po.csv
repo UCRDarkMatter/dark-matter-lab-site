@@ -1,0 +1,9 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1369.34,961,30,51.3,1.8,5.87,0.04,1NU,,,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+,,,,,1634.17,696,30,23.8,0.9,5.9,0.05,1NU,,,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+,,,,,1404.23,926,30,4.5,0.3,6.9,0.05,1NU,,,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+,,,,,1478.37,852,30,2.05,0.08,7.16,0.04,,,,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+,,,,,1255.30,1075,30,11.2,0.5,6.64,0.04,A,1.613,0.034,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+,,,,,1546.42,784,30,2.51,0.1,6.99,0.05,1NU,,,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+208,14,0.0013,0.0005,,895.70,1434,30,4.9,0.3,7.27,0.04,A,1.627,0.01,84,120,Po,,0,,0+,3.519,,12,h,12668.4,43.2,EC+B+,99.33,0.03,2305,14,83,121,Bi,1-Oct-2009,C.J. CHIARA and F.G. KONDEV,2026-11-28
+

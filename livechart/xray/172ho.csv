@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+7.933,,16.521536189952,,X,L,67,105,Ho,,0,,,25,,3,s,25,3,B-,100,,5000,200,68,104,Er,08-DEC-2015,BALRAJ SINGH,2026-11-28
+48.222,,8.660847098433809,,X,KA2,67,105,Ho,,0,,,25,,3,s,25,3,B-,100,,5000,200,68,104,Er,08-DEC-2015,BALRAJ SINGH,2026-11-28
+49.128,,15.372465563425292,,X,KA1,67,105,Ho,,0,,,25,,3,s,25,3,B-,100,,5000,200,68,104,Er,08-DEC-2015,BALRAJ SINGH,2026-11-28
+55.779,,4.995495703286427,,X,KpB1,67,105,Ho,,0,,,25,,3,s,25,3,B-,100,,5000,200,68,104,Er,08-DEC-2015,BALRAJ SINGH,2026-11-28
+56.399,,6.294324586140898,,X,KB,67,105,Ho,,0,,,25,,3,s,25,3,B-,100,,5000,200,68,104,Er,08-DEC-2015,BALRAJ SINGH,2026-11-28
+57.145,,1.298828882854471,,X,KpB2,67,105,Ho,,0,,,25,,3,s,25,3,B-,100,,5000,200,68,104,Er,08-DEC-2015,BALRAJ SINGH,2026-11-28
+

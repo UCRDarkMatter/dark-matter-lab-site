@@ -1,0 +1,6 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+6759,3,0.022999471,0.004999885000211605,,285,230,50,100,152,Fm,,0,,0+,25.39,,4,h,91404,144,A,99.9977,0.0002,7153.7,10,98,150,Cf,30-Jun-2024,C.D. Nesaraja,2026-11-28
+6904,2,0.96997769,0.03999908004704608,,137.81,23,1,100,152,Fm,,0,,0+,25.39,,4,h,91404,144,A,99.9977,0.0002,7153.7,10,98,150,Cf,30-Jun-2024,C.D. Nesaraja,2026-11-28
+6998,2,14.999655,0.19999540225005175,,41.53,3.77,0.07,100,152,Fm,,0,,0+,25.39,,4,h,91404,144,A,99.9977,0.0002,7153.7,10,98,150,Cf,30-Jun-2024,C.D. Nesaraja,2026-11-28
+7039,2,83.998068,0.49998852822464834,28814400,0.0,1,,100,152,Fm,,0,,0+,25.39,,4,h,91404,144,A,99.9977,0.0002,7153.7,10,98,150,Cf,30-Jun-2024,C.D. Nesaraja,2026-11-28
+

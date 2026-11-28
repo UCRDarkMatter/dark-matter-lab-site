@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+7.794,,52.096,1.3774875680019765,AU,L,72,99,Hf,,21.93,0.09,1/2(-),29.5,,9,s,29.5,0.9,IT,100,,,,72,99,Hf,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+10.655,,70.4,1.6,CE,L,72,99,Hf,,21.93,0.09,1/2(-),29.5,,9,s,29.5,0.9,IT,100,,,,72,99,Hf,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+19.326,,23.4,0.9,CE,M,72,99,Hf,,21.93,0.09,1/2(-),29.5,,9,s,29.5,0.9,IT,100,,,,72,99,Hf,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+21.388,,6.23,0.25,CE,N,72,99,Hf,,21.93,0.09,1/2(-),29.5,,9,s,29.5,0.9,IT,100,,,,72,99,Hf,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+21.388,,6.23,0.25,CE,N+,72,99,Hf,,21.93,0.09,1/2(-),29.5,,9,s,29.5,0.9,IT,100,,,,72,99,Hf,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+21.862,,0.64,0.03,CE,O,72,99,Hf,,21.93,0.09,1/2(-),29.5,,9,s,29.5,0.9,IT,100,,,,72,99,Hf,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+

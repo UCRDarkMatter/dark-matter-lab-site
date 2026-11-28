@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.637,,11.4,0.4,X,L,60,78,Nd,,0,,0+,5.04,,9,h,18144,324,EC+B+,100,,1112,15,59,79,Pr,30-Sep-2017,JUN CHEN,2026-11-28
+35.551,,22,0.2,X,KA2,60,78,Nd,,0,,0+,5.04,,9,h,18144,324,EC+B+,100,,1112,15,59,79,Pr,30-Sep-2017,JUN CHEN,2026-11-28
+36.027,,40.2,0.4,X,KA1,60,78,Nd,,0,,0+,5.04,,9,h,18144,324,EC+B+,100,,1112,15,59,79,Pr,30-Sep-2017,JUN CHEN,2026-11-28
+40.857,,12.23,0.18,X,KpB1,60,78,Nd,,0,,0+,5.04,,9,h,18144,324,EC+B+,100,,1112,15,59,79,Pr,30-Sep-2017,JUN CHEN,2026-11-28
+41.266,,15.36,0.22,X,KB,60,78,Nd,,0,,0+,5.04,,9,h,18144,324,EC+B+,100,,1112,15,59,79,Pr,30-Sep-2017,JUN CHEN,2026-11-28
+41.766,,3.13,0.08,X,KpB2,60,78,Nd,,0,,0+,5.04,,9,h,18144,324,EC+B+,100,,1112,15,59,79,Pr,30-Sep-2017,JUN CHEN,2026-11-28
+

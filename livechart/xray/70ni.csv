@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.952,,0.00694058219622447,,X,L,28,42,Ni,,0,,0+,6.0,,3,s,6,0.3,B-,100,,3762.5,24,29,41,Cu,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+8.028,,0.0661822223060515,,X,KA2,28,42,Ni,,0,,0+,6.0,,3,s,6,0.3,B-,100,,3762.5,24,29,41,Cu,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+8.048,,0.1289347794779885,,X,KA1,28,42,Ni,,0,,0+,6.0,,3,s,6,0.3,B-,100,,3762.5,24,29,41,Cu,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+8.94,,0.02714077494815997,,X,KB,28,42,Ni,,0,,0+,6.0,,3,s,6,0.3,B-,100,,3762.5,24,29,41,Cu,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+8.94,,0.02714077494815997,,X,KpB1,28,42,Ni,,0,,0+,6.0,,3,s,6,0.3,B-,100,,3762.5,24,29,41,Cu,1-Jul-2016,G. G~URDAL and  E.A. MCCUTCHAN,2026-11-28
+

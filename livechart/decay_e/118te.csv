@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.459,,83.1710256,0.4523003700378314,AU,L,52,66,Te,,0,,0+,6.00,,2,d,518400,1728,EC,100,,305,19,51,67,Sb,1-Feb-1993,K. KITAO,2026-11-28
+21.656,,7.413867735470942,0.22657386012825376,AU,KLL,52,66,Te,,0,,0+,6.00,,2,d,518400,1728,EC,100,,305,19,51,67,Sb,1-Feb-1993,K. KITAO,2026-11-28
+25.597,,3.313998877755511,0.10784930953542578,AU,KLX,52,66,Te,,0,,0+,6.00,,2,d,518400,1728,EC,100,,305,19,51,67,Sb,1-Feb-1993,K. KITAO,2026-11-28
+25.778,,11.09856,0.33706779140107707,AU,K,52,66,Te,,0,,0+,6.00,,2,d,518400,1728,EC,100,,305,19,51,67,Sb,1-Feb-1993,K. KITAO,2026-11-28
+29.532,,0.3706933867735471,0.013539007350341485,AU,KXY,52,66,Te,,0,,0+,6.00,,2,d,518400,1728,EC,100,,305,19,51,67,Sb,1-Feb-1993,K. KITAO,2026-11-28
+

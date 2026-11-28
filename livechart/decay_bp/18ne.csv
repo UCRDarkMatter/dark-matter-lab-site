@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+733.4,2.2,0.188,0.006,,1700.81,2745,5,0.000400,0.000014,4.47,0.015,A,989.4,2.6,10,8,Ne,,0,,0+,1672,,8,ms,1.672,0.008,EC+B+,100,,4444.5,6,9,9,F,31-OCT-1994,TILLEY and  WELLER and  CHEVES and  CHASTELER,2026-11-28
+1023,2.3,0.0021,0.0003,,1080.54,3365,5,,,7,0.07,1NU,1320.4,2.5,10,8,Ne,,0,,0+,1672,,8,ms,1.672,0.008,EC+B+,100,,4444.5,6,9,9,F,31-OCT-1994,TILLEY and  WELLER and  CHEVES and  CHASTELER,2026-11-28
+1041.4,2.3,7.69,0.21,,1041.55,3404,5,0.00619,0.00018,3.468,0.013,S,1340.9,2.5,10,8,Ne,,0,,0+,1672,,8,ms,1.672,0.008,EC+B+,100,,4444.5,6,9,9,F,31-OCT-1994,TILLEY and  WELLER and  CHEVES and  CHASTELER,2026-11-28
+1539.5,2.3,92.08,0.21,6586.2,0,4446,5,0.0251,0.0003,3.091,0.004,A,1884.7,2.4,10,8,Ne,,0,,0+,1672,,8,ms,1.672,0.008,EC+B+,100,,4444.5,6,9,9,F,31-OCT-1994,TILLEY and  WELLER and  CHEVES and  CHASTELER,2026-11-28
+

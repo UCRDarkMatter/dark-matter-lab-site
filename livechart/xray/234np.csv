@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+16.678,,56.6,2.2,X,L,93,141,Np,,0,,(0+),4.4,,1,d,380160,8640,EC+B+,100,,1810,8,92,142,U,1-Dec-2023,S. Ota,2026-11-28
+94.657,,18.4,0.3,X,KA2,93,141,Np,,0,,(0+),4.4,,1,d,380160,8640,EC+B+,100,,1810,8,92,142,U,1-Dec-2023,S. Ota,2026-11-28
+98.439,,29.5,0.5,X,KA1,93,141,Np,,0,,(0+),4.4,,1,d,380160,8640,EC+B+,100,,1810,8,92,142,U,1-Dec-2023,S. Ota,2026-11-28
+111.238,,10.6,0.2,X,KpB1,93,141,Np,,0,,(0+),4.4,,1,d,380160,8640,EC+B+,100,,1810,8,92,142,U,1-Dec-2023,S. Ota,2026-11-28
+112.645,,14.3,0.3,X,KB,93,141,Np,,0,,(0+),4.4,,1,d,380160,8640,EC+B+,100,,1810,8,92,142,U,1-Dec-2023,S. Ota,2026-11-28
+114.446,,3.63,0.1,X,KpB2,93,141,Np,,0,,(0+),4.4,,1,d,380160,8640,EC+B+,100,,1810,8,92,142,U,1-Dec-2023,S. Ota,2026-11-28
+

@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2963,,74,14,,2626.8,8383,150,0.81,0.17,4.77,,,,,43,45,Tc,X,,,(5+ 6+ 7+),6.4,,8,s,6.4,0.8,EC+B+,100,,11016,6,42,46,Mo,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+3220,,25,11,,2100.7,8909,150,0.22,0.1,5.41,,,,,43,45,Tc,X,,,(5+ 6+ 7+),6.4,,8,s,6.4,0.8,EC+B+,100,,11016,6,42,46,Mo,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+3938,74,26,2.6,,1654.77,9355,150,0.13,0.00013,5.7,0.057,,,,43,45,Tc,Y,,,(2+ 3+),5.8,,2,s,5.8,0.2,EC+B+,100,,11016,6,42,46,Mo,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+4388,74,74,7.4,,740.53,10269,150,0.27,0.00027,5.5,0.055,,,,43,45,Tc,Y,,,(2+ 3+),5.8,,2,s,5.8,0.2,EC+B+,100,,11016,6,42,46,Mo,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+

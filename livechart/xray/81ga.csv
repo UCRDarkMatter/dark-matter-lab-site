@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.221,,0.0048572804686,0.0013353331891442885,X,L,31,50,Ga,,0,,5/2(-),1.219,,5,s,1.219,0.005,B-,100,,8664,4,32,49,Ge,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+9.856,,0.04115243904662924,0.012114785614512935,X,KA2,31,50,Ga,,0,,5/2(-),1.219,,5,s,1.219,0.005,B-,100,,8664,4,32,49,Ge,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+9.887,,0.07992316769592006,0.02352522392050108,X,KA1,31,50,Ga,,0,,5/2(-),1.219,,5,s,1.219,0.005,B-,100,,8664,4,32,49,Ge,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+11.026,,0.0178770147333177,0.005263914990351642,X,KpB1,31,50,Ga,,0,,5/2(-),1.219,,5,s,1.219,0.005,B-,100,,8664,4,32,49,Ge,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+11.038,,0.01827030905745069,0.0053797065656522895,X,KB,31,50,Ga,,0,,5/2(-),1.219,,5,s,1.219,0.005,B-,100,,8664,4,32,49,Ge,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+11.099,,0.0003932943241329894,0.00011648028866612522,X,KpB2,31,50,Ga,,0,,5/2(-),1.219,,5,s,1.219,0.005,B-,100,,8664,4,32,49,Ge,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+

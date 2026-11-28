@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.874,,0.024731570961230746,0.0012088736245434223,X,L,29,33,Cu,,0,,1+,9.672,,8,m,580.32,0.48,EC+B+,100,,3958.9,8,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+7.461,,0.24600148793676135,0.003908721470031771,X,KA2,29,33,Cu,,0,,1+,9.672,,8,m,580.32,0.48,EC+B+,100,,3958.9,8,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+7.478,,0.48009658067283634,0.00725972336959727,X,KA1,29,33,Cu,,0,,1+,9.672,,8,m,580.32,0.48,EC+B+,100,,3958.9,8,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+8.296,,0.10005631385440256,0.0018152495244466618,X,KB,29,33,Cu,,0,,1+,9.672,,8,m,580.32,0.48,EC+B+,100,,3958.9,8,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+8.296,,0.10005631385440256,0.0018152495244466616,X,KpB1,29,33,Cu,,0,,1+,9.672,,8,m,580.32,0.48,EC+B+,100,,3958.9,8,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+

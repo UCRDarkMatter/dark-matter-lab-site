@@ -1,0 +1,4 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4870,20,0.025,0,,316.9,0.05,0.01,80,107,Hg,X,0,,13/2(+),2.4,,3,m,144,18,A,0.00037,0.0001,5230,14,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+5035,20,0.012,0,,84.73,0.77,0.14,80,107,Hg,,0,,3/2(-),1.9,,3,m,114,18,A,0.00037,,5230,14,78,105,Pt,15-Apr-2015,CORAL M. BAGLIN,2026-11-28
+

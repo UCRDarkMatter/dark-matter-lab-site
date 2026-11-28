@@ -1,0 +1,13 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.571,,71.93316049934,5.122111464043437,AU,L,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+16.797,,8.929200837394466,0.7348901526248568,AU,KLL,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+19.69,,3.696689146681309,0.3063338373908589,AU,KLX,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+19.776,,13.0089527,1.0700472938488894,AU,K,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+22.56,,0.3830627159242226,0.03214041599906922,AU,KXY,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+101.675,,10.5777,0.5755597651200091,CE,K,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+121.482,,1.28115,0.0705714121032731,CE,L,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+124.266,,0.239148,0.012845663967269267,CE,M,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+124.813,,0.0395514,0.0021260315296109792,CE,N,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+124.813,,0.0415881,0.0022455640837048046,CE,N+,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+124.89114,,0.00197757,0.00010630157648054896,CE,O,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+

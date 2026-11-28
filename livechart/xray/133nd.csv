@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.637,,16,1.7,X,L,60,73,Nd,,0,,(7/2+),70,,10,s,70,10,EC+B+,100,,5605,48,59,74,Pr,31-Oct-2010,YU. KHAZOV AND A. RODIONOV and  F.G. KONDEV,2026-11-28
+35.551,,28,3,X,KA2,60,73,Nd,,0,,(7/2+),70,,10,s,70,10,EC+B+,100,,5605,48,59,74,Pr,31-Oct-2010,YU. KHAZOV AND A. RODIONOV and  F.G. KONDEV,2026-11-28
+36.027,,52,6,X,KA1,60,73,Nd,,0,,(7/2+),70,,10,s,70,10,EC+B+,100,,5605,48,59,74,Pr,31-Oct-2010,YU. KHAZOV AND A. RODIONOV and  F.G. KONDEV,2026-11-28
+40.857,,15.7,1.9,X,KpB1,60,73,Nd,,0,,(7/2+),70,,10,s,70,10,EC+B+,100,,5605,48,59,74,Pr,31-Oct-2010,YU. KHAZOV AND A. RODIONOV and  F.G. KONDEV,2026-11-28
+41.266,,19.8,2.4,X,KB,60,73,Nd,,0,,(7/2+),70,,10,s,70,10,EC+B+,100,,5605,48,59,74,Pr,31-Oct-2010,YU. KHAZOV AND A. RODIONOV and  F.G. KONDEV,2026-11-28
+41.766,,4,0.5,X,KpB2,60,73,Nd,,0,,(7/2+),70,,10,s,70,10,EC+B+,100,,5605,48,59,74,Pr,31-Oct-2010,YU. KHAZOV AND A. RODIONOV and  F.G. KONDEV,2026-11-28
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.637,,18,6,X,L,59,76,Pr,,358.06,0.06,(11/2-),105,,10,us,0.000105,0.00001,IT,100,,,,59,76,Pr,22-Jan-2008,BALRAJ SINGH and  ALEXANDER A. RODIONOV and YURI L. KHAZOV,2026-11-28
+35.551,,15,11,X,KA2,59,76,Pr,,358.06,0.06,(11/2-),105,,10,us,0.000105,0.00001,IT,100,,,,59,76,Pr,22-Jan-2008,BALRAJ SINGH and  ALEXANDER A. RODIONOV and YURI L. KHAZOV,2026-11-28
+36.027,,27,21,X,KA1,59,76,Pr,,358.06,0.06,(11/2-),105,,10,us,0.000105,0.00001,IT,100,,,,59,76,Pr,22-Jan-2008,BALRAJ SINGH and  ALEXANDER A. RODIONOV and YURI L. KHAZOV,2026-11-28
+40.857,,8,6,X,KpB1,59,76,Pr,,358.06,0.06,(11/2-),105,,10,us,0.000105,0.00001,IT,100,,,,59,76,Pr,22-Jan-2008,BALRAJ SINGH and  ALEXANDER A. RODIONOV and YURI L. KHAZOV,2026-11-28
+41.266,,10,8,X,KB,59,76,Pr,,358.06,0.06,(11/2-),105,,10,us,0.000105,0.00001,IT,100,,,,59,76,Pr,22-Jan-2008,BALRAJ SINGH and  ALEXANDER A. RODIONOV and YURI L. KHAZOV,2026-11-28
+41.766,,2.1,1.6,X,KpB2,59,76,Pr,,358.06,0.06,(11/2-),105,,10,us,0.000105,0.00001,IT,100,,,,59,76,Pr,22-Jan-2008,BALRAJ SINGH and  ALEXANDER A. RODIONOV and YURI L. KHAZOV,2026-11-28
+

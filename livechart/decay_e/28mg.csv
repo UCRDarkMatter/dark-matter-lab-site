@@ -1,0 +1,10 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.082,,10.6274745852,0.17398919707893118,AU,L,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+1.366,,4.924352480718315,0.08704796957558547,AU,KLL,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+1.435,,5.133342,0.08579533942173083,AU,K,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+1.457,,0.20682280419016924,0.029771451902881656,AU,KLX,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+1.547,,0.0021667150915160587,0.0005921622553578837,AU,KXY,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+29.0743,,5.34,0.089,CE,K,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+30.5173,,0.3738,0.00623,CE,L,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+30.62923,,0.01958,0.000356,CE,M,12,16,Mg,,0,,0+,20.915,,9,h,75294,32.4,B-,100,,1830.77,27,13,15,Al,1-Apr-2013,M. Shamsuzzoha Basunia,2026-11-28
+

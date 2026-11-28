@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+6.858,,1.45,0.13,X,L,65,75,Tb,,0,,(7+),2.29,,15,s,2.29,0.15,EC+B+,100,,11300,801,64,76,Gd,20-Nov-2018,N. NICA,2026-11-28
+42.308,,2.11,0.21,X,KA2,65,75,Tb,,0,,(7+),2.29,,15,s,2.29,0.15,EC+B+,100,,11300,801,64,76,Gd,20-Nov-2018,N. NICA,2026-11-28
+42.996,,3.8,0.4,X,KA1,65,75,Tb,,0,,(7+),2.29,,15,s,2.29,0.15,EC+B+,100,,11300,801,64,76,Gd,20-Nov-2018,N. NICA,2026-11-28
+48.802,,1.2,0.12,X,KpB1,65,75,Tb,,0,,(7+),2.29,,15,s,2.29,0.15,EC+B+,100,,11300,801,64,76,Gd,20-Nov-2018,N. NICA,2026-11-28
+49.326,,1.52,0.15,X,KB,65,75,Tb,,0,,(7+),2.29,,15,s,2.29,0.15,EC+B+,100,,11300,801,64,76,Gd,20-Nov-2018,N. NICA,2026-11-28
+49.957,,0.32,0.03,X,KpB2,65,75,Tb,,0,,(7+),2.29,,15,s,2.29,0.15,EC+B+,100,,11300,801,64,76,Gd,20-Nov-2018,N. NICA,2026-11-28
+

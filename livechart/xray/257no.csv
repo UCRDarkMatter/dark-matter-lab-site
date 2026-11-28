@@ -1,0 +1,3 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+20.618,,26.934201,4.481252868872722,X,L,102,155,No,,0,,(3/2+),24.5,,5,s,24.5,0.5,A,85,15,8477,6,100,153,Fm,1-Mar-2012,E. BROWNE and  J. K. TULI,2026-11-28
+

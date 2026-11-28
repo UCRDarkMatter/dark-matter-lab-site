@@ -1,0 +1,10 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9014,7,3.85,0.4,,344,117,11.7,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9089,10,21.56,2.2399999999999998,,268,34,3.4,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9109,5,,,,248,,,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9134,2,,,,222,,,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9166,10,45.43,4.72,,190,25,,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9196,10,,,,0+X,,,105,153,Db,X,0,,(1-),1.9,,5,s,1.9,0.5,A,64,10,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9280,20,6.16,0.64,,74,513,51.3,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+9353,15,,,18.1,0,,,105,153,Db,,0,,(5+ 6+),4.3,,5,s,4.3,0.5,A,77,8,9437,10,103,151,Lr,31-Jan-2019,BALRAJ SINGH,2026-11-28
+

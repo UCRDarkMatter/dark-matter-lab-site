@@ -1,0 +1,27 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+11.178,,9.07090091136,0.5154774684727135,AU,L,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+36.004,,0.13610618898691815,0.018105565764792175,AU,KLX,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+46.478,,0.3966144,0.05242073043506881,AU,K,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+62.353,,0.24132303011864922,0.03191904800343861,AU,KLL,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+88.87,,0.019185180894432614,0.0025925082053435554,AU,KXY,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+169.894,,3.53584,0.47800968462574067,CE,K,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+246.063,,2.8812,0.3896822621380142,CE,L,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+258.839,,0.75264,0.10185062756802239,CE,M,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+262.006,,0.193256,0.0261218807517759,CE,N,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+262.819,,0.0374752,0.005067200715029947,CE,O,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+292.594,,3.072,0.38858542226902953,CE,K,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+332.394,,2.66216,0.3435023401972685,CE,K,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+368.763,,1.408,0.17786567515965526,CE,L,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+381.539,,0.36,0.045534272806315904,CE,M,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+384.706,,0.09248,0.01168784506399704,CE,N,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+385.519,,0.01824,0.0023118102344266925,CE,O,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+408.563,,1.077704,0.13883171512593942,CE,L,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+416.594,,2.06184,0.2617731921358641,CE,K,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+421.339,,0.27392,0.03532907335325963,CE,M,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+424.506,,0.0703632,0.00906668935215054,CE,N,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+425.319,,0.01392712,0.0017938690895739856,CE,O,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+492.763,,0.68244,0.08665082851450412,CE,L,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+505.539,,0.1712392,0.02174160275611943,CE,M,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+508.706,,0.0439472,0.005586386322516552,CE,N,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+509.519,,0.00878944,0.0011161444892915972,CE,O,83,135,Bi,,0,,(6- 7- 8-),33,,1,s,33,1,B-,100,,4859,27,84,134,Po,30-Oct-2019,Balraj Singh and  M.S. Basunia and  Murray Martin et al. and ,2026-11-28
+

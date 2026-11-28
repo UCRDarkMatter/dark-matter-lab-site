@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.892,,8.73,0.22,X,L,46,57,Pd,,0,,5/2+,16.991,,19,d,1468022.4,1641.6,EC,100,,574.7,25,45,58,Rh,1-Mar-2009,D. DE FRENNE,2026-11-28
+20.073,,22.09,0.16,X,KA2,46,57,Pd,,0,,5/2+,16.991,,19,d,1468022.4,1641.6,EC,100,,574.7,25,45,58,Rh,1-Mar-2009,D. DE FRENNE,2026-11-28
+20.215,,41.83,0.24,X,KA1,46,57,Pd,,0,,5/2+,16.991,,19,d,1468022.4,1641.6,EC,100,,574.7,25,45,58,Rh,1-Mar-2009,D. DE FRENNE,2026-11-28
+22.806,,11.36,0.12,X,KpB1,46,57,Pd,,0,,5/2+,16.991,,19,d,1468022.4,1641.6,EC,100,,574.7,25,45,58,Rh,1-Mar-2009,D. DE FRENNE,2026-11-28
+22.957,,13.25,0.13,X,KB,46,57,Pd,,0,,5/2+,16.991,,19,d,1468022.4,1641.6,EC,100,,574.7,25,45,58,Rh,1-Mar-2009,D. DE FRENNE,2026-11-28
+23.17,,1.89,0.06,X,KpB2,46,57,Pd,,0,,5/2+,16.991,,19,d,1468022.4,1641.6,EC,100,,574.7,25,45,58,Rh,1-Mar-2009,D. DE FRENNE,2026-11-28
+

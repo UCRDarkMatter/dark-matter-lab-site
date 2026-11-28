@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+7.057,,48.68354,8.285239926598384,AU,L,69,91,Tm,,70,20,5,74.5,,15,s,74.5,1.5,IT,85,5,,,69,91,Tm,1-May-2021,N. NICA,2026-11-28
+31.902,,62.98,10.693180069558354,CE,L,69,91,Tm,,70,20,5,74.5,,15,s,74.5,1.5,IT,85,5,,,69,91,Tm,1-May-2021,N. NICA,2026-11-28
+39.711,,15.04,2.687154628970949,CE,M,69,91,Tm,,70,20,5,74.5,,15,s,74.5,1.5,IT,85,5,,,69,91,Tm,1-May-2021,N. NICA,2026-11-28
+41.549,,3.337,0.5682006687782055,CE,N,69,91,Tm,,70,20,5,74.5,,15,s,74.5,1.5,IT,85,5,,,69,91,Tm,1-May-2021,N. NICA,2026-11-28
+41.964,,0.4136,0.0676544898731784,CE,O,69,91,Tm,,70,20,5,74.5,,15,s,74.5,1.5,IT,85,5,,,69,91,Tm,1-May-2021,N. NICA,2026-11-28
+

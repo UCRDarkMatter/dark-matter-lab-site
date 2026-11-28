@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+18.579,,42.883036448875,,X,L,95,152,Am,,0,,(5/2),23.0,,13,m,1380,78,B-,100,,1620,100,96,151,Cm,31-Mar-2014,C. D. NESARAJA,2026-11-28
+104.606,,10.101113758089932,,X,KA2,95,152,Am,,0,,(5/2),23.0,,13,m,1380,78,B-,100,,1620,100,96,151,Cm,31-Mar-2014,C. D. NESARAJA,2026-11-28
+109.286,,15.81511469874735,,X,KA1,95,152,Am,,0,,(5/2),23.0,,13,m,1380,78,B-,100,,1620,100,96,151,Cm,31-Mar-2014,C. D. NESARAJA,2026-11-28
+123.28,,5.923161681333372,,X,KpB1,95,152,Am,,0,,(5/2),23.0,,13,m,1380,78,B-,100,,1620,100,96,151,Cm,31-Mar-2014,C. D. NESARAJA,2026-11-28
+124.855,,8.00811459316272,,X,KB,95,152,Am,,0,,(5/2),23.0,,13,m,1380,78,B-,100,,1620,100,96,151,Cm,31-Mar-2014,C. D. NESARAJA,2026-11-28
+126.917,,2.084952911829347,,X,KpB2,95,152,Am,,0,,(5/2),23.0,,13,m,1380,78,B-,100,,1620,100,96,151,Cm,31-Mar-2014,C. D. NESARAJA,2026-11-28
+

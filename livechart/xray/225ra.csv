@@ -1,0 +1,3 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+15.349,,15.312,4.233138433644711,X,L,88,137,Ra,,0,,1/2+,14.9,,2,d,1287360,17280,B-,100,,356,5,89,136,Ac,25-OCT-2019,BALRAJ SINGH,2026-11-28
+

@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.035,,0.68,0.06,X,L,31,34,Ga,,0,,3/2-,15.133,,28,m,907.98,1.68,EC+B+,100,,3254.5,10,30,35,Zn,25-Feb-2025,Jun Chen,2026-11-28
+8.616,,6.2,0.5,X,KA2,31,34,Ga,,0,,3/2-,15.133,,28,m,907.98,1.68,EC+B+,100,,3254.5,10,30,35,Zn,25-Feb-2025,Jun Chen,2026-11-28
+8.639,,12.1,1,X,KA1,31,34,Ga,,0,,3/2-,15.133,,28,m,907.98,1.68,EC+B+,100,,3254.5,10,30,35,Zn,25-Feb-2025,Jun Chen,2026-11-28
+9.61,,2.6,0.22,X,KB,31,34,Ga,,0,,3/2-,15.133,,28,m,907.98,1.68,EC+B+,100,,3254.5,10,30,35,Zn,25-Feb-2025,Jun Chen,2026-11-28
+9.61,,2.6,0.22,X,KpB1,31,34,Ga,,0,,3/2-,15.133,,28,m,907.98,1.68,EC+B+,100,,3254.5,10,30,35,Zn,25-Feb-2025,Jun Chen,2026-11-28
+

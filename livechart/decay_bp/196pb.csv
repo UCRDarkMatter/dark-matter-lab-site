@@ -1,0 +1,8 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,954.1,1182,19,7.0,1.5,6.11,0.1,1NU,1.5184,0.0006,82,114,Pb,,0,,0+,37,,3,m,2220,180,EC+B+,100,,2148,14,81,115,Tl,1-Jan-2006,Huang Xiaolong,2026-11-28
+182.6,8.8,0.0056,0.0016,,755.2,1381,19,33,4,5.58,0.07,1NU,1.449,0.005,82,114,Pb,,0,,0+,37,,3,m,2220,180,EC+B+,100,,2148,14,81,115,Tl,1-Jan-2006,Huang Xiaolong,2026-11-28
+300.4,8.5,0.019,0.004,,493.9,1642,19,11.5,2.1,6.2,0.09,1NU,2.137,0.019,82,114,Pb,,0,,0+,37,,3,m,2220,180,EC+B+,100,,2148,14,81,115,Tl,1-Jan-2006,Huang Xiaolong,2026-11-28
+356.7,8.7,0.087,0.016,,366.5,1769,19,25,4,5.93,0.08,1NU,2.307,0.035,82,114,Pb,,0,,0+,37,,3,m,2220,180,EC+B+,100,,2148,14,81,115,Tl,1-Jan-2006,Huang Xiaolong,2026-11-28
+406.5,8.6,0.08,0.03,,253.1,1883,19,13,5,6.27,0.17,1NU,2.56,0.05,82,114,Pb,,0,,0+,37,,3,m,2220,180,EC+B+,100,,2148,14,81,115,Tl,1-Jan-2006,Huang Xiaolong,2026-11-28
+433.5,8.4,0.083,0.024,,191.7,1944,19,11,3,6.37,0.13,1NU,73,6,82,114,Pb,,0,,0+,37,,3,m,2220,180,EC+B+,100,,2148,14,81,115,Tl,1-Jan-2006,Huang Xiaolong,2026-11-28
+

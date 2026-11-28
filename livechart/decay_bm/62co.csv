@@ -1,0 +1,18 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,max_energy,unc_me,log_ft,unc_lf,transition_type,anti_nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,0.00000000000064,2301.87,3042,20,,,2U,,,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+,,,,0.000000000001442,1172.93,4171,20,,,2U,,,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+475,8,0.33,0.08,,4063.1,1259,19,5.91,0.11,,782,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+488,9,10.2,0.6,0.000000000000042,4055.23,1289,20,5.413,0.037,A,,,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+720,9,1.42,0.34,0.00000000000041,3518.9,1803,19,5.9,0.11,A,1079,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+789,9,0.37,0.17,0.0000000000003,3369.6,1952,19,6.63,0.22,A,1161,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+835,9,1.17,0.19,0.000000000000125,3270.6,2051,19,6.21,0.08,,1214,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+842,9,4.7,0.9,0.00000000000031,3277.69,2066,20,6.58,0.09,A,,,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+842,9,0.33,0.17,0.00000000000071,3256.0,2066,19,6.88,0.25,A,1220,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+888,9,2.6,0.6,0.00000000000062,3158.1,2164,19,5.97,0.11,A,1274,12,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+889,9,19.8,0.6,0.00000000000073,3176.74,2167,20,6.043,0.022,A,,,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+934,9,0.42,0.25,0.0000000000023,3059.3,2263,19,6.8,0.3,A,1326,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+1286,10,61.3,1,0.00000000000088,2336.45,3008,20,6.159,0.015,A,,,27,35,Co,,22,5,(5)+,13.86,,9,m,831.6,5.4,B-,99.5,0.5,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+1292,9,25,0.7,0.00000000000064,2301.85,3020,19,5.6,0.033,A,1723,10,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+1834,9,68.2,1,0.000000000001442,1172.94,4149,19,5.772,0.03,A,2309,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+2402,9,0.5,,,0.0,5322,19,10.3,,2NU,2912,11,27,35,Co,,0,,(2)+,1.54,,10,m,92.4,6,B-,100,,5322,19,28,34,Ni,30-Jun-2023,Balraj Singh and  Huang Xiaolong and  and Wang Xianghan,2026-11-28
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.135,,0.136,0.01,X,L,51,80,Sb,,0,,(7/2+),23.03,,4,m,1381.8,2.4,B-,100,,3229.6,21,52,79,Te,17-Jul-2006,YU. KHAZOV and  I. MITROPOLSKY and  A. RODIONOV,2026-11-28
+27.202,,0.311,0.023,X,KA2,51,80,Sb,,0,,(7/2+),23.03,,4,m,1381.8,2.4,B-,100,,3229.6,21,52,79,Te,17-Jul-2006,YU. KHAZOV and  I. MITROPOLSKY and  A. RODIONOV,2026-11-28
+27.473,,0.58,0.04,X,KA1,51,80,Sb,,0,,(7/2+),23.03,,4,m,1381.8,2.4,B-,100,,3229.6,21,52,79,Te,17-Jul-2006,YU. KHAZOV and  I. MITROPOLSKY and  A. RODIONOV,2026-11-28
+31.093,,0.166,0.012,X,KpB1,51,80,Sb,,0,,(7/2+),23.03,,4,m,1381.8,2.4,B-,100,,3229.6,21,52,79,Te,17-Jul-2006,YU. KHAZOV and  I. MITROPOLSKY and  A. RODIONOV,2026-11-28
+31.359,,0.202,0.015,X,KB,51,80,Sb,,0,,(7/2+),23.03,,4,m,1381.8,2.4,B-,100,,3229.6,21,52,79,Te,17-Jul-2006,YU. KHAZOV and  I. MITROPOLSKY and  A. RODIONOV,2026-11-28
+31.698,,0.036,0.003,X,KpB2,51,80,Sb,,0,,(7/2+),23.03,,4,m,1381.8,2.4,B-,100,,3229.6,21,52,79,Te,17-Jul-2006,YU. KHAZOV and  I. MITROPOLSKY and  A. RODIONOV,2026-11-28
+

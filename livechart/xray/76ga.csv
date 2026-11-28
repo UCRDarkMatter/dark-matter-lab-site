@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.221,,0.002603503709891,0.00012699590525107733,X,L,31,45,Ga,,0,,2(-),30.5,,4,s,30.5,0.4,B-,100,,6916.3,20,32,44,Ge,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-28
+9.856,,0.021928836856453856,0.000954890800758326,X,KA2,31,45,Ga,,0,,2(-),30.5,,4,s,30.5,0.4,B-,100,,6916.3,20,32,44,Ge,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-28
+9.887,,0.04258853535920345,0.001842952810696397,X,KA1,31,45,Ga,,0,,2(-),30.5,,4,s,30.5,0.4,B-,100,,6916.3,20,32,44,Ge,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-28
+11.026,,0.009526097326167013,0.0004188857960350662,X,KpB1,31,45,Ga,,0,,2(-),30.5,,4,s,30.5,0.4,B-,100,,6916.3,20,32,44,Ge,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-28
+11.038,,0.009735671467342687,0.000428049346659325,X,KB,31,45,Ga,,0,,2(-),30.5,,4,s,30.5,0.4,B-,100,,6916.3,20,32,44,Ge,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-28
+11.099,,0.00020957414117567428,0.000011375016919951096,X,KpB2,31,45,Ga,,0,,2(-),30.5,,4,s,30.5,0.4,B-,100,,6916.3,20,32,44,Ge,8-Jan-2024,Balraj Singh and  Jun Chen and Ameenah R. Farhan,2026-11-28
+

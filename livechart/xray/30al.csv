@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.118,,0.0000012,0.0000003,X,L,13,17,Al,,0,,3+,3.62,,6,s,3.62,0.06,B-,100,,8568.8,19,14,16,Si,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+1.74,,0.0000183,0.0000006,X,KA2,13,17,Al,,0,,3+,3.62,,6,s,3.62,0.06,B-,100,,8568.8,19,14,16,Si,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+1.74,,0.0000364,0.0000012,X,KA1,13,17,Al,,0,,3+,3.62,,6,s,3.62,0.06,B-,100,,8568.8,19,14,16,Si,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+1.836,,0.00000159,0.00000017,X,KB,13,17,Al,,0,,3+,3.62,,6,s,3.62,0.06,B-,100,,8568.8,19,14,16,Si,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+1.836,,0.00000159,0.00000017,X,KpB1,13,17,Al,,0,,3+,3.62,,6,s,3.62,0.06,B-,100,,8568.8,19,14,16,Si,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+

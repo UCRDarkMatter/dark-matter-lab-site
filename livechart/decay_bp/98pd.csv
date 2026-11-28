@@ -1,0 +1,9 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1262.3,592,13,2.4,0.3,4.42,0.06,A,,,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+,,,,,837.0,1017,13,23.5,1.5,3.92,0.03,A,,,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+,,,,,1007.5,846,13,5.9,0.5,4.35,0.04,A,,,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+,,,,,1111.9,742,13,0.96,0.15,5.03,0.07,A,,,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+294.2,5.7,0.12,,,174.64,1679,13,2.4,,5.4,,2NU,329,7,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+321.4,5.7,4.4,0.4,,112.06,1742,13,62,5,3.97,0.04,A,390,7,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+323.6,5.7,0.11,,,106.87,1747,13,1.5,,5.6,,2U,346,7,46,52,Pd,,0,,0+,17.7,,4,m,1062,24,EC+B+,100,,1854,13,45,53,Rh,15-Feb-2020,Jun Chen and  Balraj Singh,2026-11-28
+

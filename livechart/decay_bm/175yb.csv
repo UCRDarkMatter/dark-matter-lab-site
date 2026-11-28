@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,max_energy,unc_me,log_ft,unc_lf,transition_type,anti_nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+18.78,0.32,20.82,0.27,0.00000000331,396.322,73.8,1.2,4.511,0.023,A,54.9,1,70,105,Yb,,0,,7/2-,4.1615,,30,d,359553.6,259.2,B-,100,,470.1,12,71,104,Lu,29-Oct-2024,Jin Wu,2026-11-28
+61.21,0.18,6.71,0.18,0.000000000086,113.804,356.3,1.2,7.136,0.013,1NU,254.8,0.9,70,105,Yb,,0,,7/2-,4.1615,,30,d,359553.6,259.2,B-,100,,470.1,12,71,104,Lu,29-Oct-2024,Jin Wu,2026-11-28
+68.22,0.39,0.05,,0.0000000000324,251.461,218.6,1.2,8.1,,1U,152.2,0.9,70,105,Yb,,0,,7/2-,4.1615,,30,d,359553.6,259.2,B-,100,,470.1,12,71,104,Lu,29-Oct-2024,Jin Wu,2026-11-28
+138.83,0.4,72.5,0.4,,0.0,470.1,1.2,6.4977,0.0044,1NU,331.3,0.9,70,105,Yb,,0,,7/2-,4.1615,,30,d,359553.6,259.2,B-,100,,470.1,12,71,104,Lu,29-Oct-2024,Jin Wu,2026-11-28
+

@@ -1,0 +1,8 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1782.86,358,3,0.038,0.004,6.38,0.06,A,,,67,95,Ho,,0,,1+,15.0,,10,m,900,60,EC+B+,100,,2141,3,66,96,Dy,19-Sep-2023,N. NICA,2026-11-28
+,,,,,1275.8,865,3,0.088,0.012,6.86,0.07,1NU,,,67,95,Ho,,0,,1+,15.0,,10,m,900,60,EC+B+,100,,2141,3,66,96,Dy,19-Sep-2023,N. NICA,2026-11-28
+,,,,,1400.29,741,3,4.1,0.3,5.04,0.05,A,,,67,95,Ho,,0,,1+,15.0,,10,m,900,60,EC+B+,100,,2141,3,66,96,Dy,19-Sep-2023,N. NICA,2026-11-28
+,,,,,1742.5,398,3,0.013,0.005,6.95,0.17,A,,,67,95,Ho,,0,,1+,15.0,,10,m,900,60,EC+B+,100,,2141,3,66,96,Dy,19-Sep-2023,N. NICA,2026-11-28
+475.8,1.4,1.9,0,,80.54,2060,3,50,0,4.9,,A,523.3,1.8,67,95,Ho,,0,,1+,15.0,,10,m,900,60,EC+B+,100,,2141,3,66,96,Dy,19-Sep-2023,N. NICA,2026-11-28
+511.3,1.4,1.9,0,,0.0,2141,3,40,0,5,,A,572.3,1.8,67,95,Ho,,0,,1+,15.0,,10,m,900,60,EC+B+,100,,2141,3,66,96,Dy,19-Sep-2023,N. NICA,2026-11-28
+

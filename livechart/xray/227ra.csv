@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+15.349,,29,2.3,X,L,88,139,Ra,,0,,3/2+,42.2,,5,m,2532,30,B-,100,,1327.9,23,89,138,Ac,15-Jan-2016,ICTP-2014 Workshop Group,2026-11-28
+87.674,,2.106690791411832,0.30277422847593277,X,KA2,88,139,Ra,,0,,3/2+,42.2,,5,m,2532,30,B-,100,,1327.9,23,89,138,Ac,15-Jan-2016,ICTP-2014 Workshop Group,2026-11-28
+90.886,,3.424399856001027,0.49195899271513155,X,KA1,88,139,Ra,,0,,3/2+,42.2,,5,m,2532,30,B-,100,,1327.9,23,89,138,Ac,15-Jan-2016,ICTP-2014 Workshop Group,2026-11-28
+102.818,,1.2074623993977058,0.17430851466091796,X,KpB1,88,139,Ra,,0,,3/2+,42.2,,5,m,2532,30,B-,100,,1327.9,23,89,138,Ac,15-Jan-2016,ICTP-2014 Workshop Group,2026-11-28
+104.107,,1.609547378397142,0.2322748020543718,X,KB,88,139,Ra,,0,,3/2+,42.2,,5,m,2532,30,B-,100,,1327.9,23,89,138,Ac,15-Jan-2016,ICTP-2014 Workshop Group,2026-11-28
+105.738,,0.402084978999436,0.05835786529445136,X,KpB2,88,139,Ra,,0,,3/2+,42.2,,5,m,2532,30,B-,100,,1327.9,23,89,138,Ac,15-Jan-2016,ICTP-2014 Workshop Group,2026-11-28
+

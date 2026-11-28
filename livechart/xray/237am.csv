@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+17.604,,67,4,X,L,95,142,Am,,0,,5/2(-),73.6,,8,m,4416,48,EC+B+,99.975,0.003,1478,59,94,143,Pu,15-Mar-2006,M. S. Basunia,2026-11-28
+99.533,,26.8,1.8,X,KA2,95,142,Am,,0,,5/2(-),73.6,,8,m,4416,48,EC+B+,99.975,0.003,1478,59,94,143,Pu,15-Mar-2006,M. S. Basunia,2026-11-28
+103.741,,42,3,X,KA1,95,142,Am,,0,,5/2(-),73.6,,8,m,4416,48,EC+B+,99.975,0.003,1478,59,94,143,Pu,15-Mar-2006,M. S. Basunia,2026-11-28
+117.13,,15.6,1.1,X,KpB1,95,142,Am,,0,,5/2(-),73.6,,8,m,4416,48,EC+B+,99.975,0.003,1478,59,94,143,Pu,15-Mar-2006,M. S. Basunia,2026-11-28
+118.619,,21,1.4,X,KB,95,142,Am,,0,,5/2(-),73.6,,8,m,4416,48,EC+B+,99.975,0.003,1478,59,94,143,Pu,15-Mar-2006,M. S. Basunia,2026-11-28
+120.544,,5.4,0.4,X,KpB2,95,142,Am,,0,,5/2(-),73.6,,8,m,4416,48,EC+B+,99.975,0.003,1478,59,94,143,Pu,15-Mar-2006,M. S. Basunia,2026-11-28
+

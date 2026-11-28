@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.185,,0.6292703679389808,0.02996666309902972,X,L,56,83,Ba,,0,,7/2-,82.93,,9,m,4975.8,5.4,B-,100,,2308.5,7,57,82,La,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+33.034,,1.359430288982238,0.03333579729713504,X,KA2,56,83,Ba,,0,,7/2-,82.93,,9,m,4975.8,5.4,B-,100,,2308.5,7,57,82,La,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+33.442,,2.4971166219365135,0.06015069238864006,X,KA1,56,83,Ba,,0,,7/2-,82.93,,9,m,4975.8,5.4,B-,100,,2308.5,7,57,82,La,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+37.908,,0.7436087259999765,0.019682639304709728,X,KpB1,56,83,Ba,,0,,7/2-,82.93,,9,m,4975.8,5.4,B-,100,,2308.5,7,57,82,La,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+38.273,,0.9317417336779705,0.024380474021661984,X,KB,56,83,Ba,,0,,7/2-,82.93,,9,m,4975.8,5.4,B-,100,,2308.5,7,57,82,La,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+38.725,,0.18813300767799404,0.006214606797790844,X,KpB2,56,83,Ba,,0,,7/2-,82.93,,9,m,4975.8,5.4,B-,100,,2308.5,7,57,82,La,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+

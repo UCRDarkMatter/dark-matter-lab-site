@@ -1,0 +1,3 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,925.06,475.4,2.4,0.0040,0.0004,13.13,0.06,2NU,,,84,124,Po,,0,,0+,2.898,,2,Y,91451971.47436762,63113.851949184,EC+B+,0.004,0.0004,1400.9,28,83,125,Bi,1-Jun-2007,M. J. MARTIN,2026-11-28
+

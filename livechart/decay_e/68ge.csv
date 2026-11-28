@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.041,,121.77975551,0.35693964352045127,AU,L,32,36,Ge,,0,,0+,270.93,,13,d,23408352,11232,EC,100,,107.3,24,31,37,Ga,1-Mar-2012,E.A. McCutchan,2026-11-28
+7.95,,31.82087334247828,0.27454282581371614,AU,KLL,32,36,Ge,,0,,0+,270.93,,13,d,23408352,11232,EC,100,,107.3,24,31,37,Ga,1-Mar-2012,E.A. McCutchan,2026-11-28
+9.061,,41.75535,0.347012219381393,AU,K,32,36,Ge,,0,,0+,270.93,,13,d,23408352,11232,EC,100,,107.3,24,31,37,Ga,1-Mar-2012,E.A. McCutchan,2026-11-28
+9.077,,9.259874142661179,0.12448227771265716,AU,KLX,32,36,Ge,,0,,0+,270.93,,13,d,23408352,11232,EC,100,,107.3,24,31,37,Ga,1-Mar-2012,E.A. McCutchan,2026-11-28
+10.201,,0.6746025148605396,0.016941604977236284,AU,KXY,32,36,Ge,,0,,0+,270.93,,13,d,23408352,11232,EC,100,,107.3,24,31,37,Ga,1-Mar-2012,E.A. McCutchan,2026-11-28
+

@@ -1,0 +1,9 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,2197.89,364.6,1.7,0.051,0.004,8.28,0.04,1NU,,,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+,,,,,1463.6,1098.9,1.7,0.0022,0.001,11.28,0.2,1U,0.3913,0.0012,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+,,,,,1482.81,1079.7,1.7,0.018,0.003,10.34,0.08,1U,0.33857,0.00038,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+,,,,,1696.97,865.5,1.7,0.0071,0.0018,9.91,0.11,1NU,,,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+147.6,0.8,0.0161,0.0011,,1204.36,1422,50,0.80,0.05,8.247,0.022,1NU,181.6,1,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+408,0.8,26.1,2.2,,595.86,1962.9,1,33.1,2.2,6.96,0.03,1NU,533.4,1,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+701.1,0.8,3,2,,0.0,2556,1.2,3.0,2,9.7,0.3,1U,835,0.9,33,41,As,,0,,2-,17.77,,2,d,1535328,1728,EC+B+,66,2,2562.4,17,32,42,Ge,30-Apr-2006,BALRAJ SINGH and  AMEENAH R. FARHAN,2026-11-28
+

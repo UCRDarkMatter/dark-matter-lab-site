@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3044,,10,1,,1142.0,7967.969841747566,0,1,0.1,5.2,0.052,A,,,67,78,Ho,,0,,(11/2-),2.4,,1,s,2.4,0.1,EC+B+,100,,9122,10,66,79,Dy,1-Oct-2008,E. BROWNE and  J. K. TULI,2026-11-28
+3199,,4.8,0.048,,818.7,8291.26861808253,0,0.4,0.004,5.6,0.056,A,,,67,78,Ho,,0,,(11/2-),2.4,,1,s,2.4,0.1,EC+B+,100,,9122,10,66,79,Dy,1-Oct-2008,E. BROWNE and  J. K. TULI,2026-11-28
+3385,,7.7,0.077,,431.1,8678.867151047058,0,0.5,0.005,5.5,0.055,A,,,67,78,Ho,,0,,(11/2-),2.4,,1,s,2.4,0.1,EC+B+,100,,9122,10,66,79,Dy,1-Oct-2008,E. BROWNE and  J. K. TULI,2026-11-28
+3536,,38,,,118.2,8991.7659667452,0,2,,4.9,,A,,,67,78,Ho,,0,,(11/2-),2.4,,1,s,2.4,0.1,EC+B+,100,,9122,10,66,79,Dy,1-Oct-2008,E. BROWNE and  J. K. TULI,2026-11-28
+

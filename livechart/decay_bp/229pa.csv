@@ -1,0 +1,9 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,0.00000000012,71.8213,239,4,,,,,A,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+,,,,249520613681.09894,0.0,311,4,93.1,1.1,5.774,0.023,A,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+,,,,0.00000000017,42.4329,269,4,6.2,1,6.77,0.07,A,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+,,,,0.000000000689,148.163,163,4,0.209,0.01,7.548,0.047,1NU,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+,,,,0.0000000000822,29.18995,282,4,0.3,0.3,7.7,,A,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+,,,,0.000000000332,146.3542,165,4,0.207,0.01,7.569,0.047,1NU,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+,,,,0.000007,8355734E-9,311,4,,,,,A,,,91,138,Pa,,0,,5/2+,1.54,,5,d,133056,4320,EC,99.51,0.05,311,4,90,139,Th,23-Oct-2025,F.G. KONDEV and  J.K. TULI and E. BROWNE,2026-11-28
+

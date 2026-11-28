@@ -1,0 +1,6 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5814,4,3.968,0.9481118077526511,,211.2,6.7,1.6,78,97,Pt,,0,,(7/2-),2.41,,4,s,2.41,0.04,A,64,5,6164,4,76,95,Os,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+5819,4,0.704,0.1997223072167954,,207.7,39,12,78,97,Pt,,0,,(7/2-),2.41,,4,s,2.41,0.04,A,64,5,6164,4,76,95,Os,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+5948,4,54.4,6.654088968446394,,76.8,1.75,0.23,78,97,Pt,,0,,(7/2-),2.41,,4,s,2.41,0.04,A,64,5,6164,4,76,95,Os,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+6021,4,4.736,0.8524810848341446,,0.0,41,8,78,97,Pt,,0,,(7/2-),2.41,,4,s,2.41,0.04,A,64,5,6164,4,76,95,Os,30-Jun-2018,CORAL M. BAGLIN and  E.A. MCCUTCHAN,2026-11-28
+

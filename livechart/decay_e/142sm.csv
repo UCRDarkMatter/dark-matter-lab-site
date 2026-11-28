@@ -1,0 +1,13 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.28,,66.90788214970296,,AU,L,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+31.292,,3.8898050274805263,,AU,KLL,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+37.411,,1.9565719288227048,,AU,KLX,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+37.731,,6.09221263404,,AU,K,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+43.51,,0.24583567773676926,,AU,KXY,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+633.812,,0.00018018,,CE,K,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+671.568,,0.000023265,,CE,L,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+677.347,,0.0000049302,,CE,M,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+678.665,,0.00000128403,,CE,N+,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+678.665,,0.00000110781,,CE,N,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+678.957,,0.000000166419,,CE,O,62,80,Sm,,0,,0+,72.49,,5,m,4349.4,3,EC+B+,100,,2160,24,61,81,Pm,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+

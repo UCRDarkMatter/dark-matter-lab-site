@@ -1,0 +1,11 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.398,,0.8124780912,0.08456694748151175,AU,L,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+10.138,,0.17546912766424963,0.020005555985854157,AU,KLL,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+11.673,,0.059133096022852126,0.006762392161722593,AU,KLX,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+11.682,,0.239568,0.02730837152886272,AU,K,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+13.207,,0.0049657763128982645,0.0005729147997336943,AU,KXY,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+145.719,,0.644,0.07308226597472194,CE,K,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+157.413,,0.072496,0.008314299739605254,CE,L,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+158.938,,0.0115184,0.0013196208037159767,CE,M,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+159.1762,,0.00105616,0.00012035608607793792,CE,N,34,54,Se,,0,,0+,1.53,,6,s,1.53,0.06,B-,100,,6832,5,35,53,Br,1-Nov-2013,E.A. McCutchan and A.A. Sonzogni,2026-11-28
+

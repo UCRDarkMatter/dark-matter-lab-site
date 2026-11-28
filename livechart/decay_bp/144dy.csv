@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,475.5,5616.478593642548,0,,,5.5,,A,,,66,78,Dy,,0,,0+,9.1,,4,s,9.1,0.4,EC+B+,100,,5798,29,65,79,Tb,1-Dec-2000,A.A. Sonzogni,2026-11-28
+,,,,1,0.0,6091.976781353227,0,,,4.5,,A,,,66,78,Dy,,0,,0+,9.1,,4,s,9.1,0.4,EC+B+,100,,5798,29,65,79,Tb,1-Dec-2000,A.A. Sonzogni,2026-11-28
+,,,,,196.5,5895.47753028036,0,,,5.2,,A,,,66,78,Dy,,0,,0+,9.1,,4,s,9.1,0.4,EC+B+,100,,5798,29,65,79,Tb,1-Dec-2000,A.A. Sonzogni,2026-11-28
+,,,,,298.6,5793.377919417562,0,,,5.2,,A,,,66,78,Dy,,0,,0+,9.1,,4,s,9.1,0.4,EC+B+,100,,5798,29,65,79,Tb,1-Dec-2000,A.A. Sonzogni,2026-11-28
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.89,,2.3,0.4,X,L,39,42,Y,,0,,(5/2+),70.4,,11,s,70.4,1.1,EC+B+,100,,5815,6,38,43,Sr,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+14.098,,10.88,0.22,X,KA2,39,42,Y,,0,,(5/2+),70.4,,11,s,70.4,1.1,EC+B+,100,,5815,6,38,43,Sr,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+14.165,,20.9,0.4,X,KA1,39,42,Y,,0,,(5/2+),70.4,,11,s,70.4,1.1,EC+B+,100,,5815,6,38,43,Sr,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+15.898,,5.16,0.11,X,KpB1,39,42,Y,,0,,(5/2+),70.4,,11,s,70.4,1.1,EC+B+,100,,5815,6,38,43,Sr,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+15.955,,5.83,0.12,X,KB,39,42,Y,,0,,(5/2+),70.4,,11,s,70.4,1.1,EC+B+,100,,5815,6,38,43,Sr,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+16.085,,0.67,0.03,X,KpB2,39,42,Y,,0,,(5/2+),70.4,,11,s,70.4,1.1,EC+B+,100,,5815,6,38,43,Sr,1-Sep-2024,M. Shamsuzzoha Basunia,2026-11-28
+

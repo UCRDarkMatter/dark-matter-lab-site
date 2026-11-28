@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.852,,56.445498,5.795137698474958,AU,L,46,66,Pd,,0,,0+,21.04,,17,h,75744,612,B-,100,,263,7,47,65,Ag,1-Aug-2014,S. LALKOVSKI and  F.G. KONDEV,2026-11-28
+14.688,,59.94,6.153265474526513,CE,L,46,66,Pd,,0,,0+,21.04,,17,h,75744,612,B-,100,,263,7,47,65,Ag,1-Aug-2014,S. LALKOVSKI and  F.G. KONDEV,2026-11-28
+17.776,,11.286,1.1608946377686478,CE,M,46,66,Pd,,0,,0+,21.04,,17,h,75744,612,B-,100,,263,7,47,65,Ag,1-Aug-2014,S. LALKOVSKI and  F.G. KONDEV,2026-11-28
+18.399,,1.782,0.175538713678778,CE,N,46,66,Pd,,0,,0+,21.04,,17,h,75744,612,B-,100,,263,7,47,65,Ag,1-Aug-2014,S. LALKOVSKI and  F.G. KONDEV,2026-11-28
+18.49242,,0.04455,0.004085208073036183,CE,O,46,66,Pd,,0,,0+,21.04,,17,h,75744,612,B-,100,,263,7,47,65,Ag,1-Aug-2014,S. LALKOVSKI and  F.G. KONDEV,2026-11-28
+

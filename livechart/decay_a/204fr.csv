@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+6916,8,0.576,0.19237463450257677,,113,152,52,87,117,Fr,,0,,(3+),1.8,,3,s,1.8,0.3,A,92,2,7170.3,24,85,115,At,1-Aug-2023,F.G. KONDEV,2026-11-28
+6969,5,89.37,1.9941404163197736,47,112.9,1.67,0.13,87,117,Fr,,41,7,(7+),1.6,,+5-3,s,1.6,0.4,A,90,2,7170.3,24,85,115,At,1-Aug-2023,F.G. KONDEV,2026-11-28
+7013,5,53,10,6.3,343.8,2.9,0.7,87,117,Fr,,316,7,(10-),0.8,,2,s,0.8,0.2,A,74,8,7170.3,24,85,115,At,1-Aug-2023,F.G. KONDEV,2026-11-28
+7031,5,95.424,1.9972501095255948,43.1,0,2.32,0.16,87,117,Fr,,0,,(3+),1.8,,3,s,1.8,0.3,A,92,2,7170.3,24,85,115,At,1-Aug-2023,F.G. KONDEV,2026-11-28
+7077,8,0.63,0.1805436235373601,43.1,0,590,180,87,117,Fr,,41,7,(7+),1.6,,+5-3,s,1.6,0.4,A,90,2,7170.3,24,85,115,At,1-Aug-2023,F.G. KONDEV,2026-11-28
+

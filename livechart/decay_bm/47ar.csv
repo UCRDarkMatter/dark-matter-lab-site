@@ -1,0 +1,8 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,max_energy,unc_me,log_ft,unc_lf,transition_type,anti_nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2021.4,1.2,4,1,,5842.4,4502,3,5.17,0.11,,2190,50,18,29,Ar,,0,,(3/2)-,1.23,,3,s,1.23,0.03,B-,100,,10344.7,18,19,28,K,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+3035.8,1.2,27,3,,3762.1,6583,3,5.097,0.049,,3260,50,18,29,Ar,,0,,(3/2)-,1.23,,3,s,1.23,0.03,B-,100,,10344.7,18,19,28,K,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+3057.6,0.9,9,2,,3717.6,6627,1.9,5.59,0.1,,3280,50,18,29,Ar,,0,,(3/2)-,1.23,,3,s,1.23,0.03,B-,100,,10344.7,18,19,28,K,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+3891.3,1.1,8,6,0.0000000063,2020.0,8324.6,2.3,8.33,0.33,2NU,4130,50,18,29,Ar,,0,,(3/2)-,1.23,,3,s,1.23,0.03,B-,100,,10344.7,18,19,28,K,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+4701.5,1,26,5,0.0000000011,360.0,9984.6,2.1,5.96,0.08,1NU,4980,50,18,29,Ar,,0,,(3/2)-,1.23,,3,s,1.23,0.03,B-,100,,10344.7,18,19,28,K,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+4877.9,0.9,26,8,17.38,0.0,10344.6,1.8,6.04,0.13,1NU,5160,50,18,29,Ar,,0,,(3/2)-,1.23,,3,s,1.23,0.03,B-,100,,10344.7,18,19,28,K,1-Apr-2025,S. Ota and E.A. McCutchan,2026-11-28
+

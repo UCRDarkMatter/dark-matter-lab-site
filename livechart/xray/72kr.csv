@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.535,,0.21,0.05,X,L,36,36,Kr,,0,,0+,17.1,,2,s,17.1,0.2,EC+B+,100,,5121,8,35,37,Br,1-May-2009,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+11.879,,1.4,0.4,X,KA2,36,36,Kr,,0,,0+,17.1,,2,s,17.1,0.2,EC+B+,100,,5121,8,35,37,Br,1-May-2009,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+11.925,,2.8,0.7,X,KA1,36,36,Kr,,0,,0+,17.1,,2,s,17.1,0.2,EC+B+,100,,5121,8,35,37,Br,1-May-2009,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+13.345,,0.65,0.16,X,KpB1,36,36,Kr,,0,,0+,17.1,,2,s,17.1,0.2,EC+B+,100,,5121,8,35,37,Br,1-May-2009,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+13.377,,0.7,0.18,X,KB,36,36,Kr,,0,,0+,17.1,,2,s,17.1,0.2,EC+B+,100,,5121,8,35,37,Br,1-May-2009,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+13.469,,0.051,0.013,X,KpB2,36,36,Kr,,0,,0+,17.1,,2,s,17.1,0.2,EC+B+,100,,5121,8,35,37,Br,1-May-2009,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+

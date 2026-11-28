@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.077,,16.4,0.4,AU,L,61,81,Pm,,0,,1+,40.5,,5,s,40.5,0.5,EC+B+,100,,4809,24,60,82,Nd,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+30.23,,1,0.05,AU,KLL,61,81,Pm,,0,,1+,40.5,,5,s,40.5,0.5,EC+B+,100,,4809,24,60,82,Nd,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+36.11,,0.5,0.03,AU,KLX,61,81,Pm,,0,,1+,40.5,,5,s,40.5,0.5,EC+B+,100,,4809,24,60,82,Nd,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+36.418,,1.55,0.09,AU,K,61,81,Pm,,0,,1+,40.5,,5,s,40.5,0.5,EC+B+,100,,4809,24,60,82,Nd,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+41.97,,0.062,0.004,AU,KXY,61,81,Pm,,0,,1+,40.5,,5,s,40.5,0.5,EC+B+,100,,4809,24,60,82,Nd,1-Jun-2010,T.D. Johnson and  D. Symochko(a) and  M. Fadil(b) and  and J.K. Tuli,2026-11-28
+

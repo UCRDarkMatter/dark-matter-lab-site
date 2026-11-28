@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.621,,2.28215400126,0.08136231751196468,AU,L,53,63,I,,0,,1+,2.91,,15,s,2.91,0.15,EC+B+,100,,7843,79,52,64,Te,1-Dec-2009,Jean Blachot,2026-11-28
+22.528,,0.19819018812736822,0.010166905236378516,AU,KLL,53,63,I,,0,,1+,2.91,,15,s,2.91,0.15,EC+B+,100,,7843,79,52,64,Te,1-Dec-2009,Jean Blachot,2026-11-28
+26.663,,0.0897801552216978,0.004711009390815581,AU,KLX,53,63,I,,0,,1+,2.91,,15,s,2.91,0.15,EC+B+,100,,7843,79,52,64,Te,1-Dec-2009,Jean Blachot,2026-11-28
+26.862,,0.2981375,0.015260651484209315,AU,K,53,63,I,,0,,1+,2.91,,15,s,2.91,0.15,EC+B+,100,,7843,79,52,64,Te,1-Dec-2009,Jean Blachot,2026-11-28
+30.795,,0.010167156650933989,0.0005579484917362475,AU,KXY,53,63,I,,0,,1+,2.91,,15,s,2.91,0.15,EC+B+,100,,7843,79,52,64,Te,1-Dec-2009,Jean Blachot,2026-11-28
+

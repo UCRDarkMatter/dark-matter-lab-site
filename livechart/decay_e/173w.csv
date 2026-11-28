@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+8.064,,44.49621176,,AU,L,74,99,W,,0,,5/2-,7.6,,2,m,456,12,EC+B+,100,,3669,40,73,100,Ta,1-Oct-1993,V. S. SHIRLEY,2026-11-28
+45.851,,1.8451878153616146,,AU,KLL,74,99,W,,0,,5/2-,7.6,,2,m,456,12,EC+B+,100,,3669,40,73,100,Ta,1-Oct-1993,V. S. SHIRLEY,2026-11-28
+55.275,,0.9853302934031022,,AU,KLX,74,99,W,,0,,5/2-,7.6,,2,m,456,12,EC+B+,100,,3669,40,73,100,Ta,1-Oct-1993,V. S. SHIRLEY,2026-11-28
+55.697,,2.96208,,AU,K,74,99,W,,0,,5/2-,7.6,,2,m,456,12,EC+B+,100,,3669,40,73,100,Ta,1-Oct-1993,V. S. SHIRLEY,2026-11-28
+64.669,,0.1315618912352831,,AU,KXY,74,99,W,,0,,5/2-,7.6,,2,m,456,12,EC+B+,100,,3669,40,73,100,Ta,1-Oct-1993,V. S. SHIRLEY,2026-11-28
+

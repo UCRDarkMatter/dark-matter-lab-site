@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.952,,0.0198,0.0009,X,L,30,31,Zn,,0,,3/2-,89.1,,2,s,89.1,0.2,EC+B+,100,,5635,16,29,32,Cu,25-Jan-2015,KAZIMIERZ ZUBER and  BALRAJ SINGH,2026-11-28
+8.028,,0.188,0.005,X,KA2,30,31,Zn,,0,,3/2-,89.1,,2,s,89.1,0.2,EC+B+,100,,5635,16,29,32,Cu,25-Jan-2015,KAZIMIERZ ZUBER and  BALRAJ SINGH,2026-11-28
+8.048,,0.367,0.009,X,KA1,30,31,Zn,,0,,3/2-,89.1,,2,s,89.1,0.2,EC+B+,100,,5635,16,29,32,Cu,25-Jan-2015,KAZIMIERZ ZUBER and  BALRAJ SINGH,2026-11-28
+8.94,,0.0772,0.002,X,KB,30,31,Zn,,0,,3/2-,89.1,,2,s,89.1,0.2,EC+B+,100,,5635,16,29,32,Cu,25-Jan-2015,KAZIMIERZ ZUBER and  BALRAJ SINGH,2026-11-28
+8.94,,0.0772,0.002,X,KpB1,30,31,Zn,,0,,3/2-,89.1,,2,s,89.1,0.2,EC+B+,100,,5635,16,29,32,Cu,25-Jan-2015,KAZIMIERZ ZUBER and  BALRAJ SINGH,2026-11-28
+

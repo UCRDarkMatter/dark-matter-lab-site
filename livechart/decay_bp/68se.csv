@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1475.4,0.96,91,4,0.000000107,425.85,4279.1,2,2.6,0.1,4.145,0.021,A,1780.1,1,34,34,Se,,0,,0+,35.5,,7,s,35.5,0.7,EC+B+,100,,4705.1,19,33,35,As,1-Mar-2012,E.A. McCutchan,2026-11-28
+1504.94,0.97,5.2,1.6,,363.8,4341.2,2,0.14,0.04,5.43,0.14,A,1812.6,1,34,34,Se,,0,,0+,35.5,,7,s,35.5,0.7,EC+B+,100,,4705.1,19,33,35,As,1-Mar-2012,E.A. McCutchan,2026-11-28
+1510.09,0.97,5,,,353.0,4352,2,0.1,,5.5,,A,1818.3,1.1,34,34,Se,,0,,0+,35.5,,7,s,35.5,0.7,EC+B+,100,,4705.1,19,33,35,As,1-Mar-2012,E.A. McCutchan,2026-11-28
+1601.81,0.96,6,,0.00000001,160.81,4544.2,2,0.1,,5.5,,2NU,1902.9,1.1,34,34,Se,,0,,0+,35.5,,7,s,35.5,0.7,EC+B+,100,,4705.1,19,33,35,As,1-Mar-2012,E.A. McCutchan,2026-11-28
+

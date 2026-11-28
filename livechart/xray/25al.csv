@@ -1,0 +1,5 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.046,,0.000045989757652884,0.000018579618831198642,X,L,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.254,,0.001447593215676785,0.0000964138082613828,X,KA1,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.254,,0.0007282841468069906,0.000048640604483783445,X,KA2,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+

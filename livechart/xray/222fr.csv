@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+14.92,,28.20746963436996,3.8753529299046496,X,L,87,135,Fr,,0,,2-,14.2,,3,m,852,18,B-,100,,2058,9,88,134,Ra,25-Sep-2023,Balraj Singh and  M.S. Basunia and  Jun Chen et al. and ,2026-11-28
+85.432,,2.111367542337104,0.19091531519961072,X,KA2,87,135,Fr,,0,,2-,14.2,,3,m,852,18,B-,100,,2058,9,88,134,Ra,25-Sep-2023,Balraj Singh and  M.S. Basunia and  Jun Chen et al. and ,2026-11-28
+88.471,,3.44881989927655,0.3115330330762654,X,KA1,87,135,Fr,,0,,2-,14.2,,3,m,852,18,B-,100,,2058,9,88,134,Ra,25-Sep-2023,Balraj Singh and  M.S. Basunia and  Jun Chen et al. and ,2026-11-28
+100.119,,1.210010670652369,0.11065418804775944,X,KpB1,87,135,Fr,,0,,2-,14.2,,3,m,852,18,B-,100,,2058,9,88,134,Ra,25-Sep-2023,Balraj Singh and  M.S. Basunia and  Jun Chen et al. and ,2026-11-28
+101.37,,1.606894170626346,0.14682416499897444,X,KB,87,135,Fr,,0,,2-,14.2,,3,m,852,18,B-,100,,2058,9,88,134,Ra,25-Sep-2023,Balraj Singh and  M.S. Basunia and  Jun Chen et al. and ,2026-11-28
+102.948,,0.39688349997397704,0.03679536960224687,X,KpB2,87,135,Fr,,0,,2-,14.2,,3,m,852,18,B-,100,,2058,9,88,134,Ra,25-Sep-2023,Balraj Singh and  M.S. Basunia and  Jun Chen et al. and ,2026-11-28
+

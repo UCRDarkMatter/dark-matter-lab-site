@@ -1,0 +1,13 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+10.872,,16.5848601555,0.5937717534998802,AU,L,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+35.066,,0.07894072265625,0.009147887099508714,AU,KLX,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+45.201,,0.230958,0.026534190795306795,AU,K,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+60.712,,0.140965576171875,0.016210910165346315,AU,KLL,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+86.461,,0.011051701171875,0.0013082254174720505,AU,KXY,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+157.966,,6.4155,0.18742290011895557,CE,K,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+232.104,,22.0428,0.6439600191321198,CE,L,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+244.493,,6.0294,0.17614334564371145,CE,M,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+247.554,,1.86186,0.054392518247288385,CE,N+,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+247.554,,2.5467,0.07813129974600448,CE,N,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+248.333,,0.47619,0.014702387561209234,CE,O,83,115,Bi,X,248.5,0.5,10-,7.7,,5,s,7.7,0.5,IT,100,,,,83,115,Bi,1-Dec-2015,Huang Xiaolong and Kang Mengxiao,2026-11-28
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+6.354,,0.4019751464569224,0.024046244562984032,X,L,61,89,Pm,,0,,(1-),2.698,,15,h,9712.8,54,B-,100,,3454,20,62,88,Sm,1-Apr-2013,S. K. Basu and  A. A. Sonzogni,2026-11-28
+39.522,,0.6302993139595248,0.03523507845795344,X,KA2,61,89,Pm,,0,,(1-),2.698,,15,h,9712.8,54,B-,100,,3454,20,62,88,Sm,1-Apr-2013,S. K. Basu and  A. A. Sonzogni,2026-11-28
+40.117,,1.1408132379357914,0.06356463839236119,X,KA1,61,89,Pm,,0,,(1-),2.698,,15,h,9712.8,54,B-,100,,3454,20,62,88,Sm,1-Apr-2013,S. K. Basu and  A. A. Sonzogni,2026-11-28
+45.523,,0.35661590571946233,0.020246044778111448,X,KpB1,61,89,Pm,,0,,(1-),2.698,,15,h,9712.8,54,B-,100,,3454,20,62,88,Sm,1-Apr-2013,S. K. Basu and  A. A. Sonzogni,2026-11-28
+45.998,,0.4486228093950836,0.02540703243267857,X,KB,61,89,Pm,,0,,(1-),2.698,,15,h,9712.8,54,B-,100,,3454,20,62,88,Sm,1-Apr-2013,S. K. Basu and  A. A. Sonzogni,2026-11-28
+46.575,,0.09200690367562128,0.005519430336848987,X,KpB2,61,89,Pm,,0,,(1-),2.698,,15,h,9712.8,54,B-,100,,3454,20,62,88,Sm,1-Apr-2013,S. K. Basu and  A. A. Sonzogni,2026-11-28
+

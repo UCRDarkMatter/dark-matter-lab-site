@@ -1,0 +1,13 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1.826,,0.03521310041106,0.0017567829472227442,AU,L,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+12.583,,0.006053206547155104,0.0003447510832900725,AU,KLL,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+14.61,,0.002276005661730319,0.00013089223529091755,AU,KLX,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+14.648,,0.0085428904,0.0004861946306929586,AU,K,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+16.626,,0.00021367819111457517,0.000012700109911655717,AU,KXY,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+243.559,,0.0300806,0.0016587001508410132,CE,K,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+258.225,,0.003743916,0.000206178258136012,CE,L,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+260.203,,0.0006458628,0.000035570957693039414,CE,M,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+260.552,,0.00008616476,0.000004740967413345087,CE,N,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+260.552,,0.000091982,0.000005106694288872205,CE,N+,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+260.59355,,0.000005722772,0.00000031540075629585926,CE,O,38,57,Sr,,0,,1/2+,23.90,,14,s,23.9,0.14,B-,100,,6091,7,39,56,Y,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-11-28
+

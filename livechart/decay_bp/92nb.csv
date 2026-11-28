@@ -1,0 +1,9 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,2066.66,74.7,1.9,0.0052,0,7.8,,A,,,41,51,Nb,,135.5,0.4,(2)+,10.15,,2,d,876960,1728,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+,,,,,1383,758.4,1.8,3.3E-3,,10.2,,2NU,,,41,51,Nb,,135.5,0.4,(2)+,10.15,,2,d,876960,1728,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+,,,,,1495.6,510.3,1.8,100,0,14.44,0.04,2U,,,41,51,Nb,,0,,7+,3.47E+7,,24,Y,1095025331318342.4,75736622339020.8,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+,,,,,1495,646.4,1.8,4.5E-3,,10,,2NU,,,41,51,Nb,,135.5,0.4,(2)+,10.15,,2,d,876960,1728,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+,,,,,1847.22,294.2,1.9,2.64,0.11,6.475,0.019,A,,,41,51,Nb,,135.5,0.4,(2)+,10.15,,2,d,876960,1728,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+87.53,0.81,0.059,0.003,,934.48,1206.9,1.8,97.30,0.11,6.171,0.0017,A,,,41,51,Nb,,135.5,0.4,(2)+,10.15,,2,d,876960,1728,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+492.24,0.82,0.012,,,0.0,2141.4,1.8,0.022,,10.3,,2NU,,,41,51,Nb,,135.5,0.4,(2)+,10.15,,2,d,876960,1728,EC+B+,100,,2005.7,18,40,52,Zr,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+

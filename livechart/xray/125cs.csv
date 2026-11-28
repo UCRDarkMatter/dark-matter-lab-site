@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+4.54,,5.6453415744362,,X,L,55,70,Cs,,0,,1/2(+),46.7,,1,m,2802,6,EC+B+,100,,3110,8,54,71,Xe,1-Jan-2010,J. KATAKURA,2026-11-28
+29.458,,14.163101606536594,,X,KA2,55,70,Cs,,0,,1/2(+),46.7,,1,m,2802,6,EC+B+,100,,3110,8,54,71,Xe,1-Jan-2010,J. KATAKURA,2026-11-28
+29.778,,26.237683598622812,,X,KA1,55,70,Cs,,0,,1/2(+),46.7,,1,m,2802,6,EC+B+,100,,3110,8,54,71,Xe,1-Jan-2010,J. KATAKURA,2026-11-28
+33.726,,7.606199609417957,,X,KpB1,55,70,Cs,,0,,1/2(+),46.7,,1,m,2802,6,EC+B+,100,,3110,8,54,71,Xe,1-Jan-2010,J. KATAKURA,2026-11-28
+34.03,,9.401262717240595,,X,KB,55,70,Cs,,0,,1/2(+),46.7,,1,m,2802,6,EC+B+,100,,3110,8,54,71,Xe,1-Jan-2010,J. KATAKURA,2026-11-28
+34.414,,1.7950631078226378,,X,KpB2,55,70,Cs,,0,,1/2(+),46.7,,1,m,2802,6,EC+B+,100,,3110,8,54,71,Xe,1-Jan-2010,J. KATAKURA,2026-11-28
+

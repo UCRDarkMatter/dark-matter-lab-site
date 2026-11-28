@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+915.17,0.11,2.27,0.05,0.000000000000002,3019.2,3122.34,0.22,0.0138,0.0003,3.553,0.01,A,1182.7,1.6,16,14,S,,0,,0+,1.1798,,6,s,1.1798,0.0006,EC+B+,100,,6141.60,22,15,15,P,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+2022.95,,0.29,0.07,0.000000000034,708.70,5432.8,0.2,,,5.89,0.11,A,2386.6,1.6,16,14,S,,0,,0+,1.1798,,6,s,1.1798,0.0006,EC+B+,100,,6141.60,22,15,15,P,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+2038.39,,76.1,0.4,0.000000000000093,677.01,5464.49,0.2,0.0494,0.0006,3.4871,0.0023,S,2402.8,1.5,16,14,S,,0,,0+,1.1798,,6,s,1.1798,0.0006,EC+B+,100,,6141.60,22,15,15,P,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+2369.13,,21.3,0.5,150,0,6141.49,0.2,0.00908,0.00023,4.324,0.011,A,2749.4,1.5,16,14,S,,0,,0+,1.1798,,6,s,1.1798,0.0006,EC+B+,100,,6141.60,22,15,15,P,31-May-2024,M. S. Basunia and  A. Chakraborty,2026-11-28
+

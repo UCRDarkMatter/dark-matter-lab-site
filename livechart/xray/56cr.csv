@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.66,,0.393018865064,0.05886040680751002,X,L,24,32,Cr,,0,,0+,5.94,,10,m,356.4,6,B-,100,,1626.5,6,25,31,Mn,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+5.888,,5.054792862786566,0.11809186470098014,X,KA2,24,32,Cr,,0,,0+,5.94,,10,m,356.4,6,B-,100,,1626.5,6,25,31,Mn,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+5.899,,9.913302339255866,0.2264405234865854,X,KA1,24,32,Cr,,0,,0+,5.94,,10,m,356.4,6,B-,100,,1626.5,6,25,31,Mn,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+6.512,,2.0341641379575663,0.05085997678981798,X,KB,24,32,Cr,,0,,0+,5.94,,10,m,356.4,6,B-,100,,1626.5,6,25,31,Mn,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+6.512,,2.0341641379575663,0.05085997678981798,X,KpB1,24,32,Cr,,0,,0+,5.94,,10,m,356.4,6,B-,100,,1626.5,6,25,31,Mn,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+

@@ -1,0 +1,6 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+7654,6,1.2,0.5,,128,53,23,99,146,Es,,0,,(3/2-),66.6,,60,s,66.6,6,A,54,7,7909,3,97,144,Bk,30-Sep-2015,C.D. NESARAJA,2026-11-28
+7699,5,5.2,2.0615528128088303,,82,18,8,99,146,Es,,0,,(3/2-),66.6,,60,s,66.6,6,A,54,7,7909,3,97,144,Bk,30-Sep-2015,C.D. NESARAJA,2026-11-28
+7730,1,31.6,8.256512580987206,,51,3.8,1.1,99,146,Es,,0,,(3/2-),66.6,,60,s,66.6,6,A,54,7,7909,3,97,144,Bk,30-Sep-2015,C.D. NESARAJA,2026-11-28
+7780,3,2,0.6403124237432849,276,0.0,90,30,99,146,Es,,0,,(3/2-),66.6,,60,s,66.6,6,A,54,7,7909,3,97,144,Bk,30-Sep-2015,C.D. NESARAJA,2026-11-28
+

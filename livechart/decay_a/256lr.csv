@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+8319,15,5.67,1.4897650821522164,,359,19,1.9,103,153,Lr,,0,,,27.9,,10,s,27.9,1,A,85,10,8855,123,101,151,Md,1-Jan-2021,A.M. MATTERA and  S. ZHU and  A.B. HAYES and  E.A. MCCUTCHAN,2026-11-28
+8390,15,16.92,2.7303479631724596,,287,11,1.1,103,153,Lr,,0,,,27.9,,10,s,27.9,1,A,85,10,8855,123,101,151,Md,1-Jan-2021,A.M. MATTERA and  S. ZHU and  A.B. HAYES and  E.A. MCCUTCHAN,2026-11-28
+8430,15,34.47,4.634759972209996,,246,7,0.7,103,153,Lr,,0,,,27.9,,10,s,27.9,1,A,85,10,8855,123,101,151,Md,1-Jan-2021,A.M. MATTERA and  S. ZHU and  A.B. HAYES and  E.A. MCCUTCHAN,2026-11-28
+8472,15,11.97,1.895098942008042,,204,28,2.8,103,153,Lr,,0,,,27.9,,10,s,27.9,1,A,85,10,8855,123,101,151,Md,1-Jan-2021,A.M. MATTERA and  S. ZHU and  A.B. HAYES and  E.A. MCCUTCHAN,2026-11-28
+8517,15,17.19,2.3389313799254565,,158,27,2.7,103,153,Lr,,0,,,27.9,,10,s,27.9,1,A,85,10,8855,123,101,151,Md,1-Jan-2021,A.M. MATTERA and  S. ZHU and  A.B. HAYES and  E.A. MCCUTCHAN,2026-11-28
+8624,25,3.78,1.0754068997360953,,49,267,26.7,103,153,Lr,,0,,,27.9,,10,s,27.9,1,A,85,10,8855,123,101,151,Md,1-Jan-2021,A.M. MATTERA and  S. ZHU and  A.B. HAYES and  E.A. MCCUTCHAN,2026-11-28
+

@@ -1,0 +1,7 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,3239.797,775.1,1,7.871,0.007,6.174,0.001,A,,,23,25,V,,0,,4+,15.974,,3,d,1380153.6,259.2,EC+B+,100,,4014.9,10,22,26,Ti,30-Nov-2021,JUN CHEN,2026-11-28
+,,,,,3358.80,656.1,1,0.138,0.011,7.78,0.04,1NU,,,23,25,V,,0,,4+,15.974,,3,d,1380153.6,259.2,EC+B+,100,,4014.9,10,22,26,Ti,30-Nov-2021,JUN CHEN,2026-11-28
+,,,,,3223.992,790.9,1,3.252,0.018,6.576,0.003,A,,,23,25,V,,0,,4+,15.974,,3,d,1380153.6,259.2,EC+B+,100,,4014.9,10,22,26,Ti,30-Nov-2021,JUN CHEN,2026-11-28
+238.32,0.42,0.001,,,2421.068,1072,50,0.002,,10.4,,2NU,306.1,0.6,23,25,V,,0,,4+,15.974,,3,d,1380153.6,259.2,EC+B+,100,,4014.9,10,22,26,Ti,30-Nov-2021,JUN CHEN,2026-11-28
+291.4,0.43,50.4,0.3,,2295.658,1722,4,39.1,0.3,6.173,0.003,A,404,0.6,23,25,V,,0,,4+,15.974,,3,d,1380153.6,259.2,EC+B+,100,,4014.9,10,22,26,Ti,30-Nov-2021,JUN CHEN,2026-11-28
+

@@ -1,0 +1,7 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,0.00000000158,1450.69,685,12,0.50,,7.1,,S,,,28,28,Ni,,0,,0+,6.075,,10,d,524880,864,EC+B+,100,,2132.9,6,27,29,Co,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+,,,,,1720.19,416,12,100,0,4.4,,A,,,28,28,Ni,,0,,0+,6.075,,10,d,524880,864,EC+B+,100,,2132.9,6,27,29,Co,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+65,5,0.0012,,0.0000000001,970.24,1166,12,0.77,,7.4,,2NU,8.3,2.8,28,28,Ni,,0,,0+,6.075,,10,d,524880,864,EC+B+,100,,2132.9,6,27,29,Co,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+408,5,0.000058,,0.0000000001,158.38,1978,12,4.8E-4,,11.4,,2U,493,7,28,28,Ni,,0,,0+,6.075,,10,d,524880,864,EC+B+,100,,2132.9,6,27,29,Co,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+478,5,0.00006,,,0.0,2136,12,2.2E-5,,12.5,,4NU,559,7,28,28,Ni,,0,,0+,6.075,,10,d,524880,864,EC+B+,100,,2132.9,6,27,29,Co,29-Oct-2009,HUO JUNDE and  HUO SU and  YANG DONG,2026-11-28
+

@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+9.698,,13.54077,4.5289835206257925,AU,L,79,105,Au,,68.46,0.04,2+,47.6,,14,s,47.6,1.4,IT,30,10,,,79,105,Au,1-Oct-2009,CORAL M. BAGLIN,2026-11-28
+54.104,,20.61,6.879425848135875,CE,L,79,105,Au,,68.46,0.04,2+,47.6,,14,s,47.6,1.4,IT,30,10,,,79,105,Au,1-Oct-2009,CORAL M. BAGLIN,2026-11-28
+65.03,,6.246,2.083944337068531,CE,M,79,105,Au,,68.46,0.04,2+,47.6,,14,s,47.6,1.4,IT,30,10,,,79,105,Au,1-Oct-2009,CORAL M. BAGLIN,2026-11-28
+67.696,,1.602,0.5346821485705315,CE,N,79,105,Au,,68.46,0.04,2+,47.6,,14,s,47.6,1.4,IT,30,10,,,79,105,Au,1-Oct-2009,CORAL M. BAGLIN,2026-11-28
+67.696,,1.872,0.6245838614629744,CE,N+,79,105,Au,,68.46,0.04,2+,47.6,,14,s,47.6,1.4,IT,30,10,,,79,105,Au,1-Oct-2009,CORAL M. BAGLIN,2026-11-28
+68.346,,0.2646,0.0883147213096435,CE,O,79,105,Au,,68.46,0.04,2+,47.6,,14,s,47.6,1.4,IT,30,10,,,79,105,Au,1-Oct-2009,CORAL M. BAGLIN,2026-11-28
+

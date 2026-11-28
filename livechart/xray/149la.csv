@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5.41,,4.025581514955,,X,L,57,92,La,,0,,(3/2),1.091,,34,s,1.091,0.034,B-,100,,6450,200,58,91,Ce,23-Aug-2022,Balraj Singh and Jun Chen,2026-11-28
+34.279,,7.113975609433818,,X,KA2,57,92,La,,0,,(3/2),1.091,,34,s,1.091,0.034,B-,100,,6450,200,58,91,Ce,23-Aug-2022,Balraj Singh and Jun Chen,2026-11-28
+34.72,,13.029259357937395,,X,KA1,57,92,La,,0,,(3/2),1.091,,34,s,1.091,0.034,B-,100,,6450,200,58,91,Ce,23-Aug-2022,Balraj Singh and Jun Chen,2026-11-28
+39.366,,3.9242362859081243,,X,KpB1,57,92,La,,0,,(3/2),1.091,,34,s,1.091,0.034,B-,100,,6450,200,58,91,Ce,23-Aug-2022,Balraj Singh and Jun Chen,2026-11-28
+39.753,,4.920992302528788,,X,KB,57,92,La,,0,,(3/2),1.091,,34,s,1.091,0.034,B-,100,,6450,200,58,91,Ce,23-Aug-2022,Balraj Singh and Jun Chen,2026-11-28
+40.229,,0.9967560166206636,,X,KpB2,57,92,La,,0,,(3/2),1.091,,34,s,1.091,0.034,B-,100,,6450,200,58,91,Ce,23-Aug-2022,Balraj Singh and Jun Chen,2026-11-28
+

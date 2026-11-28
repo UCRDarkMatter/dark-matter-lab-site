@@ -1,0 +1,5 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+619.3,2.3,0.4,0.05,,5462.3,2423,5,0.44,0.05,5.67,0.06,,776.9,2.8,43,49,Tc,,0,,(8)+,4.25,,15,m,255,9,EC+B+,100,,7883,3,42,50,Mo,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+866.6,2.4,1.53,0.09,,4917.4,2968,5,0.59,0.04,5.72,0.03,A,1075.1,2.7,43,49,Tc,,0,,(8)+,4.25,,15,m,255,9,EC+B+,100,,7883,3,42,50,Mo,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+1880.8,2.5,87,6,0.000000192,2760.0,4100,100,3.4,0.2,5.43,0.04,A,2220.4,2.6,43,49,Tc,,0,,(8)+,4.25,,15,m,255,9,EC+B+,100,,7883,3,42,50,Mo,15-Sep-2012,CORAL M. BAGLIN,2026-11-28
+

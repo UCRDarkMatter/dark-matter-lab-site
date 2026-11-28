@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+538.871,0.027,0.006,0.004,0.00000000000069,1964.58,2312.18,0.06,0.00008,0.00005,6.05,0.29,A,749.668,0.033,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+698.416,0.019,0.783,0.028,0.000000000000017,1611.764,2664.99,0.04,0.0048,0.00034,4.373,0.015,A,942.4,0.27,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+993.384,0.023,0.047,0.006,0.0000000000112,974.76,3301.98,0.05,0.000106,0.000015,6.21,0.06,A,1283.42,0.27,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1455.304,0.019,99.07,0.04,,0.0,4276.72,0.04,0.089,0.0049,3.5739,0.0007,A,1794.18,0.26,13,12,Al,,0,,5/2+,7.168,,4,s,7.168,0.004,EC+B+,100,,4276.81,8,12,13,Mg,31-May-2025,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+

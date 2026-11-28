@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3.753,,0.5064911409592128,0.03215457136491604,X,L,51,59,Sb,,0,,(3+),23.6,,3,s,23.6,0.3,EC+B+,100,,8392,15,50,60,Sn,1-Aug-2011,G. G~URDAL and F.G. KONDEV,2026-11-28
+25.044,,1.5803480663741654,0.09634523171417726,X,KA2,51,59,Sb,,0,,(3+),23.6,,3,s,23.6,0.3,EC+B+,100,,8392,15,50,60,Sn,1-Aug-2011,G. G~URDAL and F.G. KONDEV,2026-11-28
+25.271,,2.9577916271273916,0.17978860216497156,X,KA1,51,59,Sb,,0,,(3+),23.6,,3,s,23.6,0.3,EC+B+,100,,8392,15,50,60,Sn,1-Aug-2011,G. G~URDAL and F.G. KONDEV,2026-11-28
+28.579,,0.836352227557597,0.05144643083776749,X,KpB1,51,59,Sb,,0,,(3+),23.6,,3,s,23.6,0.3,EC+B+,100,,8392,15,50,60,Sn,1-Aug-2011,G. G~URDAL and F.G. KONDEV,2026-11-28
+28.81,,1.0011136163864436,0.0613765803809566,X,KB,51,59,Sb,,0,,(3+),23.6,,3,s,23.6,0.3,EC+B+,100,,8392,15,50,60,Sn,1-Aug-2011,G. G~URDAL and F.G. KONDEV,2026-11-28
+29.107,,0.1647613888288466,0.011309226759922493,X,KpB2,51,59,Sb,,0,,(3+),23.6,,3,s,23.6,0.3,EC+B+,100,,8392,15,50,60,Sn,1-Aug-2011,G. G~URDAL and F.G. KONDEV,2026-11-28
+

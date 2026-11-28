@@ -1,0 +1,8 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+3390,150,8.2,1.4,,1966.7,8233.2,0.4,0.050,0.011,6.19,0.13,,3823.38,0.2,41,43,Nb,,0,,(1+ 2+ 3+),9.8,,9,s,9.8,0.9,EC+B+,100,,10228,6,40,44,Zr,30-Sep-2009,T. Kibedi and J. Timar,2026-11-28
+3580,150,10,4,,1575.7,8624.2,0.3,0.052,0.022,6.21,0.2,,4023.1,0.15,41,43,Nb,,0,,(1+ 2+ 3+),9.8,,9,s,9.8,0.9,EC+B+,100,,10228,6,40,44,Zr,30-Sep-2009,T. Kibedi and J. Timar,2026-11-28
+3740,150,4.4,,,1244,8955.9,1,0.020,,6.7,,,4192.3,0.5,41,43,Nb,,0,,(1+ 2+ 3+),9.8,,9,s,9.8,0.9,EC+B+,100,,10228,6,40,44,Zr,30-Sep-2009,T. Kibedi and J. Timar,2026-11-28
+3740,150,5.9,1.6,,1263.0,8936.9,0.4,0.027,0.008,6.52,0.15,,4182.6,0.2,41,43,Nb,,0,,(1+ 2+ 3+),9.8,,9,s,9.8,0.9,EC+B+,100,,10228,6,40,44,Zr,30-Sep-2009,T. Kibedi and J. Timar,2026-11-28
+3810,150,35,3,,1119.5,9080.44,0.1,0.15,0.02,5.79,0.1,,4255.74,0.05,41,43,Nb,,0,,(1+ 2+ 3+),9.8,,9,s,9.8,0.9,EC+B+,100,,10228,6,40,44,Zr,30-Sep-2009,T. Kibedi and J. Timar,2026-11-28
+4090,150,39,6,,540.0,9659.94,0.1,0.14,0.03,5.88,0.11,,4550.72,0.05,41,43,Nb,,0,,(1+ 2+ 3+),9.8,,9,s,9.8,0.9,EC+B+,100,,10228,6,40,44,Zr,30-Sep-2009,T. Kibedi and J. Timar,2026-11-28
+

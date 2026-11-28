@@ -1,0 +1,13 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.046,,0.0000259905923095302,0.000010428756385731632,X,L,13,11,Al,,0,,4+,2.053,,4,s,2.053,0.004,EC+B+,100,,13884.77,23,12,12,Mg,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+0.046,,0.000000832681191162,0.00000034165182559083105,X,L,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,EC+B+,30.4,0.7,13884.77,23,12,12,Mg,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+0.091,,0.00006197933133,0.000019212909924790607,X,L,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,IT,69.6,0.7,,,13,11,Al,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.254,,0.0008146472577363715,0.0000369972087710361,X,KA1,13,11,Al,,0,,4+,2.053,,4,s,2.053,0.004,EC+B+,100,,13884.77,23,12,12,Mg,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.254,,0.00002610145041643534,0.000002617645915469277,X,KA1,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,EC+B+,30.4,0.7,13884.77,23,12,12,Mg,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.254,,0.0004098490353671685,0.000018724384943146043,X,KA2,13,11,Al,,0,,4+,2.053,,4,s,2.053,0.004,EC+B+,100,,13884.77,23,12,12,Mg,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.254,,0.00001313163970450862,0.0000013185533118645554,X,KA2,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,EC+B+,30.4,0.7,13884.77,23,12,12,Mg,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.487,,0.0009410565457365003,0.00003388623608273601,X,KA2,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,IT,69.6,0.7,,,13,11,Al,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.487,,0.001869772592363402,0.00006668444408097237,X,KA1,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,IT,69.6,0.7,,,13,11,Al,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.558,,0.000059027411900097956,0.000008690741969303404,X,KB,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,IT,69.6,0.7,,,13,11,Al,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+1.558,,0.000059027411900097956,0.000008690741969303404,X,KpB1,13,11,Al,,425.81,0.1,1+,130.7,,13,ms,0.1307,0.0013,IT,69.6,0.7,,,13,11,Al,31-Mar-2022,M. Shamsuzzoha Basunia and  Anagha Chakraborty,2026-11-28
+

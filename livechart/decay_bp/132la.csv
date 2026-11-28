@@ -1,0 +1,6 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+681,21,1.2,,,2357.7,2520,40,3.70,,6.1,,A,818,22,57,75,La,,188.2,0.11,6-,24.3,,5,m,1458,30,EC+B+,24,,4711,36,56,76,Ba,10-Feb-2005,YU. KHAZOV and  A.A. RODIONOV AND S. SAKHAROV and  BALRAJ SINGH,2026-11-28
+702,21,2.2,,,2312.6,2566,40,6.31,,5.8,,A,843,22,57,75,La,,188.2,0.11,6-,24.3,,5,m,1458,30,EC+B+,24,,4711,36,56,76,Ba,10-Feb-2005,YU. KHAZOV and  A.A. RODIONOV AND S. SAKHAROV and  BALRAJ SINGH,2026-11-28
+788,21,1.2,,,2119.6,2759,40,2.40,,6.3,,A,950,22,57,75,La,,188.2,0.11,6-,24.3,,5,m,1458,30,EC+B+,24,,4711,36,56,76,Ba,10-Feb-2005,YU. KHAZOV and  A.A. RODIONOV AND S. SAKHAROV and  BALRAJ SINGH,2026-11-28
+830,21,2.7,,,2026.95,2851,40,4.70,,6.1,,2NU,982,22,57,75,La,,188.2,0.11,6-,24.3,,5,m,1458,30,EC+B+,24,,4711,36,56,76,Ba,10-Feb-2005,YU. KHAZOV and  A.A. RODIONOV AND S. SAKHAROV and  BALRAJ SINGH,2026-11-28
+

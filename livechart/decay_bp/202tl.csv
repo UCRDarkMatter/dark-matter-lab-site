@@ -1,0 +1,5 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,0.0000000000135,959.92,405,1.8,0.68,0.04,8.74,0.03,1NU,,,81,121,Tl,,0,,2-,12.4706,,55,d,1077459.84,475.2,EC+B+,100,,1364.9,20,80,122,Hg,1-Sep-2023,F.G. KONDEV,2026-11-28
+,,,,,0.0,1364.9,1.8,5.0,1,9.86,0.09,1U,1.3715,0.0034,81,121,Tl,,0,,2-,12.4706,,55,d,1077459.84,475.2,EC+B+,100,,1364.9,20,80,122,Hg,1-Sep-2023,F.G. KONDEV,2026-11-28
+,,,,0.00000000002735,439.512,925.4,1.8,94.3,1,7.41,0.005,1NU,,,81,121,Tl,,0,,2-,12.4706,,55,d,1077459.84,475.2,EC+B+,100,,1364.9,20,80,122,Hg,1-Sep-2023,F.G. KONDEV,2026-11-28
+

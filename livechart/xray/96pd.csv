@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.892,,3.73816340066,0.281204684040078,X,L,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+20.073,,15.775984239754077,1.2599823936890702,X,KA2,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+20.215,,29.86744460385096,2.381234297404746,X,KA1,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+22.806,,8.110907767062576,0.6508660019130686,X,KpB1,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+22.957,,9.457318456394963,0.7578254089944073,X,KB,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+23.17,,1.3464106893323877,0.11540417626479214,X,KpB2,46,50,Pd,,0,,0+,122,,2,s,122,2,EC+B+,100,,3504,11,45,51,Rh,1-Apr-2008,D. Abriola(a) and  A.A. Sonzogni,2026-11-28
+

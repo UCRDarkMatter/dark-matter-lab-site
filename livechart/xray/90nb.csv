@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+2.161,,2.55,0.08,X,L,41,49,Nb,,0,,8+,14.60,,5,h,52560,180,EC+B+,100,,6111,3,40,50,Zr,1-Mar-2020,S. K. Basu and  E.A. MCCUTCHAN,2026-11-28
+15.691,,14,0.3,X,KA2,41,49,Nb,,0,,8+,14.60,,5,h,52560,180,EC+B+,100,,6111,3,40,50,Zr,1-Mar-2020,S. K. Basu and  E.A. MCCUTCHAN,2026-11-28
+15.775,,26.8,0.6,X,KA1,41,49,Nb,,0,,8+,14.60,,5,h,52560,180,EC+B+,100,,6111,3,40,50,Zr,1-Mar-2020,S. K. Basu and  E.A. MCCUTCHAN,2026-11-28
+17.736,,6.83,0.17,X,KpB1,41,49,Nb,,0,,8+,14.60,,5,h,52560,180,EC+B+,100,,6111,3,40,50,Zr,1-Mar-2020,S. K. Basu and  E.A. MCCUTCHAN,2026-11-28
+17.824,,7.82,0.19,X,KB,41,49,Nb,,0,,8+,14.60,,5,h,52560,180,EC+B+,100,,6111,3,40,50,Zr,1-Mar-2020,S. K. Basu and  E.A. MCCUTCHAN,2026-11-28
+17.968,,1,0.04,X,KpB2,41,49,Nb,,0,,8+,14.60,,5,h,52560,180,EC+B+,100,,6111,3,40,50,Zr,1-Mar-2020,S. K. Basu and  E.A. MCCUTCHAN,2026-11-28
+

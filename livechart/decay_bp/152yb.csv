@@ -1,0 +1,7 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+1521,93,0.4,0.2,,1090.9,4359,140,0.4,0.1,5.32,0.19,A,1820,80,70,82,Yb,,0,,0+,3.03,,6,s,3.03,0.06,EC+B+,100,,5450,159,69,83,Tm,31-Aug-2013,M. J. MARTIN,2026-11-28
+1577,93,0.3,0.06,,968,4482,140,0.22,0.05,5.56,0.12,A,1880,80,70,82,Yb,,0,,0+,3.03,,6,s,3.03,0.06,EC+B+,100,,5450,159,69,83,Tm,31-Aug-2013,M. J. MARTIN,2026-11-28
+1802,93,58,3,,482.4,4968,140,29,3,3.52,0.08,A,2150,80,70,82,Yb,,0,,0+,3.03,,6,s,3.03,0.06,EC+B+,100,,5450,159,69,83,Tm,31-Aug-2013,M. J. MARTIN,2026-11-28
+1813,93,5.4,0.5,,458.6,4991,140,2.6,0.4,4.57,0.09,A,2160,80,70,82,Yb,,0,,0+,3.03,,6,s,3.03,0.06,EC+B+,100,,5450,159,69,83,Tm,31-Aug-2013,M. J. MARTIN,2026-11-28
+1961,94,2.5,0.7,,141.7,5308,140,1.0,0.3,5.05,0.14,A,2330,80,70,82,Yb,,0,,0+,3.03,,6,s,3.03,0.06,EC+B+,100,,5450,159,69,83,Tm,31-Aug-2013,M. J. MARTIN,2026-11-28
+

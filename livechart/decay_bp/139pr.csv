@@ -1,0 +1,15 @@
+mean_energy,unc_me,intensity_beta,unc_ib,daughter_level_hl,daughter_level_energy,energy_ec,unc_eec,intensity_ec,unc_ie,log_ft,unc_lf,transition_type,nu_mean_energy,unc_ame,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+,,,,,1907.661,221,3,0.063,0.005,6.69,0.04,A,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1630.674,498,3,0.485,0.017,6.59,0.01,A,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1347.337,782,3,0.473,0.011,7.02,0.01,A,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,2090.0,39,3,0.00047,,6.5,,,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1965.36,164,3,0.0021,0.0006,7.8,0.1,,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1818.436,311,3,0.072,0.004,6.97,0.03,,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1578.24,551,3,0.0132,0.0024,8.3,0.1,1NU,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1984.84,144,3,0.023,0.003,6.66,0.07,,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1842.9,286,3,0.0031,0.0011,8.3,0.2,1NU,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1596.590,533,3,0.039,0.004,7.75,0.05,A,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,1320.249,809,3,0.062,0.004,7.93,0.03,A,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+,,,,,2016.27,113,3,0.0132,0.0016,6.62,0.07,A,,,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+500.8,1.4,8.28,0.1,,0.0,2129,3,90.47,0.11,5.631,0.005,A,594.3,1.7,59,80,Pr,,0,,5/2+,4.41,,4,h,15876,144,EC+B+,100,,2129,4,58,81,Ce,15-Oct-2016,P.K. JOSHI and  B. SINGH and  S. SINGH and  A.K. JAIN,2026-11-28
+

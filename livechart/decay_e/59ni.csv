@@ -1,0 +1,7 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+0.743,,134.43296077818337,0.35878030647729664,AU,L,28,31,Ni,,0,,3/2-,7.6E+4,,5,Y,2398326374068.992,157784629872.96,EC+B+,100,,1073.0,5,27,32,Co,1-Apr-2018,M. Shamsuzzoha Basunia,2026-11-28
+5.999,,41.9979974480198,0.2915767394142625,AU,KLL,28,31,Ni,,0,,3/2-,7.6E+4,,5,Y,2398326374068.992,157784629872.96,EC+B+,100,,1073.0,5,27,32,Co,1-Apr-2018,M. Shamsuzzoha Basunia,2026-11-28
+6.776,,54.2950111008,0.35487309201612566,AU,K,28,31,Ni,,0,,3/2-,7.6E+4,,5,Y,2398326374068.992,157784629872.96,EC+B+,100,,1073.0,5,27,32,Co,1-Apr-2018,M. Shamsuzzoha Basunia,2026-11-28
+6.8,,11.507451300757426,0.14918854520696748,AU,KLX,28,31,Ni,,0,,3/2-,7.6E+4,,5,Y,2398326374068.992,157784629872.96,EC+B+,100,,1073.0,5,27,32,Co,1-Apr-2018,M. Shamsuzzoha Basunia,2026-11-28
+7.6,,0.7895623520227723,0.01767092224656984,AU,KXY,28,31,Ni,,0,,3/2-,7.6E+4,,5,Y,2398326374068.992,157784629872.96,EC+B+,100,,1073.0,5,27,32,Co,1-Apr-2018,M. Shamsuzzoha Basunia,2026-11-28
+

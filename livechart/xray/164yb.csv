@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+8.215,,19,0.8,X,L,70,94,Yb,,0,,0+,75.8,,17,m,4548,102,EC,100,,897,29,69,95,Tm,30-Nov-2017,BALRAJ SINGH AND JUN CHEN{+#},2026-11-28
+49.773,,22.2,0.3,X,KA2,70,94,Yb,,0,,0+,75.8,,17,m,4548,102,EC,100,,897,29,69,95,Tm,30-Nov-2017,BALRAJ SINGH AND JUN CHEN{+#},2026-11-28
+50.742,,39.1,0.4,X,KA1,70,94,Yb,,0,,0+,75.8,,17,m,4548,102,EC,100,,897,29,69,95,Tm,30-Nov-2017,BALRAJ SINGH AND JUN CHEN{+#},2026-11-28
+57.612,,12.8,0.2,X,KpB1,70,94,Yb,,0,,0+,75.8,,17,m,4548,102,EC,100,,897,29,69,95,Tm,30-Nov-2017,BALRAJ SINGH AND JUN CHEN{+#},2026-11-28
+58.257,,16.1,0.2,X,KB,70,94,Yb,,0,,0+,75.8,,17,m,4548,102,EC,100,,897,29,69,95,Tm,30-Nov-2017,BALRAJ SINGH AND JUN CHEN{+#},2026-11-28
+59.034,,3.33,0.08,X,KpB2,70,94,Yb,,0,,0+,75.8,,17,m,4548,102,EC,100,,897,29,69,95,Tm,30-Nov-2017,BALRAJ SINGH AND JUN CHEN{+#},2026-11-28
+

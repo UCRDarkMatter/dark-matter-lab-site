@@ -1,0 +1,8 @@
+energy,unc_en,intensity,unc_i,type,shell,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+10.393,,32.3,1.4,X,L,77,111,Ir,,0,,1-,41.5,,5,h,149400,1800,EC+B+,100,,2792,9,76,112,Os,1-Feb-2018,F.G. KONDEV and  S. JUUTINEN and  D.J. HARTLEY,2026-11-28
+61.486,,26.1,0.7,X,KA2,77,111,Ir,,0,,1-,41.5,,5,h,149400,1800,EC+B+,100,,2792,9,76,112,Os,1-Feb-2018,F.G. KONDEV and  S. JUUTINEN and  D.J. HARTLEY,2026-11-28
+63,,44.9,1.2,X,KA1,77,111,Ir,,0,,1-,41.5,,5,h,149400,1800,EC+B+,100,,2792,9,76,112,Os,1-Feb-2018,F.G. KONDEV and  S. JUUTINEN and  D.J. HARTLEY,2026-11-28
+71.496,,15,0.5,X,KpB1,77,111,Ir,,0,,1-,41.5,,5,h,149400,1800,EC+B+,100,,2792,9,76,112,Os,1-Feb-2018,F.G. KONDEV and  S. JUUTINEN and  D.J. HARTLEY,2026-11-28
+72.338,,19.2,0.6,X,KB,77,111,Ir,,0,,1-,41.5,,5,h,149400,1800,EC+B+,100,,2792,9,76,112,Os,1-Feb-2018,F.G. KONDEV and  S. JUUTINEN and  D.J. HARTLEY,2026-11-28
+73.364,,4.21,0.15,X,KpB2,77,111,Ir,,0,,1-,41.5,,5,h,149400,1800,EC+B+,100,,2792,9,76,112,Os,1-Feb-2018,F.G. KONDEV and  S. JUUTINEN and  D.J. HARTLEY,2026-11-28
+

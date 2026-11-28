@@ -1,0 +1,5 @@
+energy,unc_en,intensity,unc_i,daughter_level_hl,daughter_level_energy,hindrance_factor,unc_hf,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+5455,10,0.03648,0.009319914162694848,0.0000000007,422.0,5.2,1.4,80,102,Hg,,0,,0+,10.83,,6,s,10.83,0.06,A,13.8,0.9,5996,5,78,100,Pt,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+5700,5,0.08664,0.015869265893544038,,170.7,31,6,80,102,Hg,,0,,0+,10.83,,6,s,10.83,0.06,A,13.8,0.9,5996,5,78,100,Pt,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+5867,5,15.048,0.792,20.7,0.0,1,,80,102,Hg,,0,,0+,10.83,,6,s,10.83,0.06,A,13.8,0.9,5996,5,78,100,Pt,31-May-2008,E. Achterberg and  O.A. Capurro and  G.V. Marti,2026-11-28
+
