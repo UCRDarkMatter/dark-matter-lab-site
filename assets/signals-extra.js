@@ -302,6 +302,16 @@
       }
       return dep;
     }
+    function entry(p, d) {
+      if (geo === 'sphere') {
+        var bq = p[0] * d[0] + p[1] * d[1] + p[2] * d[2], cq = p[0] * p[0] + p[1] * p[1] + p[2] * p[2] - R * R, disc = bq * bq - cq;
+        if (disc <= 0 || -bq - Math.sqrt(disc) < 0) return null;
+        var t = -bq - Math.sqrt(disc) + 1e-9; return [p[0] + t * d[0], p[1] + t * d[1], p[2] + t * d[2]];
+      }
+      if (d[2] >= 0) return null;
+      var t2 = (H - p[2]) / d[2] + 1e-9, q = [p[0] + t2 * d[0], p[1] + t2 * d[1], p[2] + t2 * d[2]];
+      return q[0] * q[0] + q[1] * q[1] < R * R ? q : null;
+    }
     var cascades = o.cascades;                     // [{w, gammas:[E...], A22, A44}]
     var cw = cascades.reduce(function (a, c) { return a + c.w; }, 0), cdf = [], acc = 0;
     cascades.forEach(function (c) { acc += c.w / cw; cdf.push(acc); });
@@ -310,6 +320,7 @@
       var c = cascades[ci], p0;
       if (o.source === 'volume') { do { p0 = [(2 * r() - 1) * R, (2 * r() - 1) * R, (2 * r() - 1) * H]; } while (!inside(p0)); } else p0 = [0, 0, 0];
       var tot = 0, d1 = isoDir();
+      if (o.source === 'external') p0 = [0, 0, (geo === 'sphere' ? R : H) + (o.dist || 0)];
       c.gammas.forEach(function (E, gi) {
         var d = gi === 0 ? d1 : isoDir();
         if (gi === 1 && (c.A22 || c.A44)) {        // sample the second direction from W(theta) relative to the first
@@ -319,8 +330,14 @@
             if (r() * wmax <= 1 + (c.A22 || 0) * P2 + (c.A44 || 0) * P4) { var sn = Math.sqrt(1 - cz * cz), ph = 2 * Math.PI * r(); d = rotate(d1, sn * Math.cos(ph), sn * Math.sin(ph), cz); break; }
           }
         }
-        tot += track(E, p0.slice(), d);
+        if (o.source === 'external') {             // on the axis outside the detector: move to the entry point, if any
+          var pe = entry(p0, d); if (pe) tot += track(E, pe, d);
+        } else tot += track(E, p0.slice(), d);
       });
+      (o.extras || []).forEach(function (x) {      // independent emissions (e.g. X-rays) with probability p per decay
+        if (r() < x.p) { var dx = isoDir(); if (o.source === 'external') { var px = entry(p0, dx); if (px) tot += track(x.E, px, dx); } else tot += track(x.E, p0.slice(), dx); }
+      });
+      if (c.local && o.source !== 'external') tot += c.local;   // conversion electrons etc. absorbed where emitted
       if (tot > 0) hist[Math.min(nb - 1, Math.floor(tot / bin))] += cw / N / bin;
     }
     var x = []; for (var i = 0; i < nb; i++) x.push((i + 0.5) * bin);

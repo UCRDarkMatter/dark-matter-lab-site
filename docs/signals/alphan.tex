@@ -135,6 +135,23 @@ For \nuc{13}{C}$(\alpha,n)$\nuc{16}{O} at \SI{5.3}{MeV} the factor is $16/17$ an
 \end{itemize}
 The explorer's fix is to use the level-resolved cross sections with two-body lab kinematics (\cref{eq:spec}). This covers the discrete levels only; a complete fix would also transform any continuum part of the TALYS spectrum (higher excitation energies) from the channel energy to the lab, using \cref{eq:encm} and the boost averaged over angles. For the light targets and $E_\alpha < \SI{9}{MeV}$ that dominate underground backgrounds, essentially all of the yield goes to discrete levels, so the omission is small; for heavier targets, where the continuum matters, the frame difference is itself small.
 
+
+\section{Related signals}
+\subsection{Spontaneous fission}
+\nuc{238}{U} also fissions spontaneously (branch $5.5\times10^{-7}$), emitting $\bar\nu = 2.01$ neutrons per fission with a Watt spectrum
+\begin{equation}
+\chi(E) \propto e^{-E/a}\sinh\sqrt{bE},\qquad \langle E\rangle = \tfrac32 a + \tfrac14 a^2 b,
+\end{equation}
+($a = \SI{0.6483}{MeV}$, $b = \SI{6.811}{MeV^{-1}}$ \cite{sources4}). Per decay of the \nuc{238}{U} chain in secular equilibrium this is $1.1\times10^{-6}$ neutrons, comparable to the $(\alpha,n)$ yield in many low-$Z$ materials. The neutrons come in bursts; the multiplicity follows Terrell's Gaussian with $\sigma \approx 1.08$ \cite{terrell}, so a capture-tagging veto sees several neutrons at once.
+
+\subsection{Prompt gammas and other channels}
+Most $(\alpha,n)$ reactions leave the residual nucleus excited, and its de-excitation gammas accompany the neutron: the \SI{6.13}{MeV} gamma (and the \SI{6.05}{MeV} $0^+\to0^+$ E0 pair) from \nuc{13}{C}$(\alpha,n)$\nuc{16}{O}, or the \SI{583}{keV} and \SI{891}{keV} lines from \nuc{19}{F}$(\alpha,n)$\nuc{22}{Na} (whose ground state is itself a $\beta^+$ emitter, giving a delayed \SI{1275}{keV} gamma). Their yields follow from the same thick-target integral with the TALYS gamma-production cross sections in place of $\sigma_n$. The tab applies the same integral to the $(\alpha,p)$ and $(\alpha,\gamma)$ residual-production cross sections.
+
+\subsection{Layers}
+When the emitter sits in a layer of thickness $t$ on a backing, an alpha emitted at depth $z$ toward the backing reaches it with energy $E\big(R(E_0) - (t-z)/\cos\theta\big)$ and continues its thick-target yield in the backing's material. The layer then sees only the part of each track inside it: $Y_\text{layer} = Y(E_0) - Y(E_\text{exit})$.
+
+\subsection{Checking the cross sections}
+TALYS is a statistical-model code and can be off by tens of percent for light targets. You can upload a measured or evaluated $\sigma(E)$ (e.g.\ JENDL/AN-2005 or EXFOR) to compare. The tab recomputes that isotope's thick-target yield with your cross section and shows the ratio to TALYS.
 \section{What the $(\alpha,n)$ tab outputs}
 Choose a material (preset compositions or a custom element list), and either an alpha energy or an emitter (whose alpha lines are used with their intensities, or a whole chain in equilibrium). The tab returns the yield per alpha and per decay, the per-target contributions, the spectrum of \cref{eq:spec} with its final-state partials, the TALYS/NeuCBOT spectrum for comparison, the formula, and a CSV.
 
@@ -164,5 +181,7 @@ A neutron veto tags $(\alpha,n)$ events by the accompanying gamma. Using the par
 \bibitem{srim} J.~F. Ziegler, M.~D. Ziegler and J.~P. Biersack, ``SRIM -- The stopping and range of ions in matter'', Nucl.\ Instrum.\ Meth.\ B \textbf{268}, 1818 (2010).
 \bibitem{jendl} T.~Murata, H.~Matsunobu and K.~Shibata, ``Evaluation of the $(\alpha,xn)$ reaction data for JENDL/AN-2005'', JAEA-Research 2006-052 (2006).
 \bibitem{sag4n} E.~Mendoza \emph{et al.}, ``Neutron production induced by $\alpha$-decay with Geant4'', Nucl.\ Instrum.\ Meth.\ A \textbf{960}, 163659 (2020).
+\bibitem{sources4} W.~B. Wilson \emph{et al.}, \emph{SOURCES 4A}, LA-13639-MS (1999); Watt parameters as used in MCNP and Geant4.
+\bibitem{terrell} J.~Terrell, ``Distributions of fission neutron numbers'', Phys.\ Rev.\ \textbf{108}, 783 (1957).
 \end{thebibliography}
 \end{document}

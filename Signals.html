@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261128a">
-<link rel="stylesheet" href="assets/signals.css?v=20261128a">
+<link rel="stylesheet" href="assets/style.css?v=20261128b">
+<link rel="stylesheet" href="assets/signals.css?v=20261128b">
 </head>
 <body>
-<script src="assets/site.js?v=20261128a"></script><!-- writes the header, menu and footer -->
+<script src="assets/site.js?v=20261128b"></script><!-- writes the header, menu and footer -->
 <main id="main">
   <div class="wrap page-title">
     <h1>Radioactive Signal Explorer <span class="beta">beta</span></h1>
@@ -52,12 +52,40 @@
               <span class="sx-range"><input type="range" id="g-esc" min="0" max="1" step="0.01" value="1"><output id="g-esc-o">100%</output></span></label>
             <p class="sx-note">100% describes a single interaction in a thin detector (scattered photons, X-rays and annihilation photons all leave); 0% a detector large enough to absorb them all.</p>
           </fieldset>
+          <fieldset><legend>Atomic and nuclear extras</legend>
+            <label class="sx-check"><input type="checkbox" id="g-x" checked> Include X-rays from the decay</label>
+            <label class="sx-check"><input type="checkbox" id="g-ce" checked> Conversion and Auger electrons</label>
+            <label class="sx-check"><input type="checkbox" id="g-ipc" checked> Internal pair creation (lines above 1022 keV)</label>
+          </fieldset>
+          <fieldset><legend>Detector Monte Carlo</legend>
+            <label class="sx-check"><input type="checkbox" id="g-mc"> Simulate a real detector (coincidence summing, escapes)</label>
+            <div id="g-mc-wrap" hidden>
+              <label class="sx-field">Shape <select id="g-geo"><option value="cyl">Cylinder</option><option value="sphere">Sphere</option></select></label>
+              <div class="sx-grid2"><label>Radius (cm) <input type="number" id="g-R" value="3.81" min="0.01" step="any"></label><label id="g-H-l">Height (cm) <input type="number" id="g-H" value="7.62" min="0.01" step="any"></label>
+              <label>Density (g/cm³) <input type="number" id="g-rho" value="3.67" min="0.01" step="any"></label><label>Decays simulated <input type="number" id="g-n" value="20000" min="1000" max="400000" step="1000"></label></div>
+              <label class="sx-field">Source <select id="g-pos"><option value="center">Point at the centre</option><option value="volume">Spread through the volume</option><option value="external">Point on the axis, outside</option></select></label>
+              <label class="sx-field" id="g-dist-wrap" hidden>Distance from the face <span class="sx-unit"><input type="number" id="g-dist" value="1" min="0" step="any"> cm</span></label>
+              <label class="sx-check"><input type="checkbox" id="g-corr" checked> γ–γ angular correlation in cascades</label>
+              <p class="sx-note">Defaults: 3″ × 3″ NaI. Cascades follow the level scheme (feeding, branching, conversion), so gammas emitted together sum.</p>
+            </div>
+          </fieldset>
+          <fieldset><legend>Doppler-broadened line</legend>
+            <label class="sx-check"><input type="checkbox" id="g-dop"> Emitter recoiling when it decays</label>
+            <div id="g-dop-wrap" hidden>
+              <label class="sx-field">Preset <select id="g-dop-pre"><option value="">(custom)</option><option value="b10">¹⁰B(n,α)⁷Li*: 478 keV</option><option value="c12">¹²C* 4439 keV from ⁹Be(α,n)</option></select></label>
+              <div class="sx-grid2"><label>E<sub>γ</sub> (keV) <input type="number" id="g-dE" value="477.6" step="any"></label><label>Recoil energy (keV) <input type="number" id="g-dT" value="840" min="0" step="any"></label>
+              <label>Mass (u) <input type="number" id="g-dM" value="7" min="1" step="any"></label><label>Mean life τ (fs) <input type="number" id="g-dtau" value="105" min="0" step="any"></label>
+              <label>Stopping time (fs) <input type="number" id="g-dstop" value="300" min="0" step="any"></label></div>
+            </div>
+          </fieldset>
           <fieldset><legend>Plot</legend>
             <label class="sx-check"><input type="checkbox" id="g-log" checked> Log scale</label>
           </fieldset>
         </form>
         <div class="sx-output">
           <div class="sx-plot"><canvas id="g-plot" role="img" aria-label="Energy deposited by one gamma interaction"></canvas><div class="sx-legend" id="g-legend"></div></div>
+          <div class="sx-plot" id="g-plot2-wrap" hidden><canvas id="g-plot2" role="img" aria-label="Monte Carlo deposited-energy spectrum"></canvas><div class="sx-legend" id="g-legend2"></div></div>
+          <div class="sx-plot" id="g-plot3-wrap" hidden><canvas id="g-plot3" role="img" aria-label="Doppler-broadened line shape"></canvas><div class="sx-legend" id="g-legend3"></div></div>
           <div class="sx-actions"><button type="button" class="btn" id="g-csv">Download CSV</button></div>
           <div id="g-out" class="sx-text"></div>
         </div>
@@ -414,10 +442,10 @@
     </aside>
   </div>
 </main>
-<script src="assets/signals-physics.js?v=20261128a"></script>
-<script src="assets/signals-extra.js?v=20261128a"></script>
-<script src="assets/signals-exchange.js?v=20261128a"></script>
-<script src="assets/signals-code.js?v=20261128a"></script>
-<script src="assets/signals.js?v=20261128a"></script>
+<script src="assets/signals-physics.js?v=20261128b"></script>
+<script src="assets/signals-extra.js?v=20261128b"></script>
+<script src="assets/signals-exchange.js?v=20261128b"></script>
+<script src="assets/signals-code.js?v=20261128b"></script>
+<script src="assets/signals.js?v=20261128b"></script>
 </body>
 </html>

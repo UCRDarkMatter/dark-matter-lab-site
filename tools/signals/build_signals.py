@@ -105,16 +105,41 @@ def decays(lc, sig, nucs):
                 out.setdefault(key(r), {}).setdefault(kind, []).append(
                     [round(emax, 2), float("%.4g" % i), ex, fnum(r.get("log_ft")), (r.get("transition_type") or "").strip(),
                      match_jp(cache[dname], ex) if ex else (nucs.get(dname, [0, 0, ""])[2]), fnum(r.get("mean_energy"))])
+    # gammas: [E, I, from level, to level, multipolarity, mixing ratio, total conversion coefficient, Jpi from, Jpi to]
+    jcache = {}
     for p in files("decay"):
         for r in rows(p):
             e, i = fnum(r.get("energy")), fnum(r.get("intensity"))
             if e and i and i >= 0.01:
-                out.setdefault(key(r), {}).setdefault("g", []).append([float("%.6g" % e), float("%.3g" % i)])
+                dname = "%d%s" % (int(r["d_z"]) + int(r["d_n"]), r["d_symbol"]) if r.get("d_z") else ""
+                if dname and dname not in jcache:
+                    jcache[dname] = level_jp(sig, dname) if sig else {}
+                lf, lt = fnum(r.get("start_level_energy")), fnum(r.get("end_level_energy"))
+                jl = jcache.get(dname, {})
+                out.setdefault(key(r), {}).setdefault("g", []).append(
+                    [float("%.6g" % e), float("%.3g" % i), lf, lt, (r.get("multipolarity") or "").strip(), fnum(r.get("mixing_ratio")),
+                     fnum(r.get("conversion_coeff")), match_jp(jl, lf), match_jp(jl, lt)])
+    # X-rays [E, I, shell] and conversion / Auger electrons [E, I, type]
+    for sub, kk in (("xray", "x"), ("decay_e", "e")):
+        for p in files(sub):
+            for r in rows(p):
+                e, i = fnum(r.get("energy")), fnum(r.get("intensity"))
+                if e and i and i >= 0.05:
+                    t = ((r.get("type") or "") + " " + (r.get("shell") or "")).strip()
+                    out.setdefault(key(r), {}).setdefault(kk, []).append([float("%.6g" % e), float("%.3g" % i), t])
     for v in out.values():
+        if "g" in v and "x" in v:   # X-rays listed among the decay radiations (no levels) now live in "x"
+            xe = [x[0] for x in v["x"]]
+            v["g"] = [g for g in v["g"] if g[2] is not None or not any(abs(g[0] - e) < 0.01 for e in xe)]
+            if not v["g"]:
+                del v["g"]
         for k in v:
             v[k].sort(key=lambda x: -x[1])
         if "g" in v:
             v["g"] = v["g"][:60]
+        for k in ("x", "e"):
+            if k in v:
+                v[k] = v[k][:40]
     return out
 
 

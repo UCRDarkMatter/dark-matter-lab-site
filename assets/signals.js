@@ -177,10 +177,16 @@
       G.xcom = r[1]; G.edges = {}; G.Zof = {};
       Object.keys(G.xcom).forEach(function (k) { G.edges[k] = G.xcom[k].K; G.Zof[k] = G.xcom[k].Z; });
       fillList('#g-nuc-list', names('g'));
-      ['#g-nuc', '#g-line', '#g-e', '#g-mat', '#g-fwhm', '#g-esc', '#g-log'].forEach(function (id) { $(id).addEventListener(id === '#g-esc' ? 'input' : 'change', id === '#g-nuc' ? gNuc : RUN.gamma); });
+      ['#g-nuc', '#g-line', '#g-e', '#g-mat', '#g-fwhm', '#g-esc', '#g-log', '#g-x', '#g-ce', '#g-ipc', '#g-mc', '#g-geo', '#g-R', '#g-H', '#g-rho', '#g-n', '#g-pos', '#g-dist', '#g-corr',
+        '#g-dop', '#g-dE', '#g-dT', '#g-dM', '#g-dtau', '#g-dstop'].forEach(function (id) { $(id).addEventListener(id === '#g-esc' ? 'input' : 'change', id === '#g-nuc' ? gNuc : RUN.gamma); });
       $('#g-nuc').addEventListener('input', function () { if (has(normName(this.value), 'g')) gNuc(); });
       document.querySelectorAll('input[name=g-src]').forEach(function (r) { r.addEventListener('change', function () { var nuc = srcVal('g-src') === 'nuc'; $('#g-nuc-wrap').hidden = $('#g-line-wrap').hidden = !nuc; $('#g-e-wrap').hidden = nuc; RUN.gamma(); }); });
       $('#g-csv').addEventListener('click', gCSV);
+      $('#g-mat').addEventListener('change', function () { var d = GRHO[GMAT[+this.value][0]]; if (d) $('#g-rho').value = d; });
+      $('#g-dop-pre').addEventListener('change', function () {
+        var pr = { b10: [477.6, 840, 7.016, 105, 300], c12: [4438.9, 1500, 12, 61, 300] }[this.value]; if (!pr) return;
+        ['#g-dE', '#g-dT', '#g-dM', '#g-dtau', '#g-dstop'].forEach(function (id, i) { $(id).value = pr[i]; }); RUN.gamma();
+      });
       gNuc();
     }).catch(fail('#g-out'));
   };
@@ -199,7 +205,10 @@
   function gLines() {
     if (srcVal('g-src') === 'e') { var E = num('#g-e', 1460.8); return [[E, 100]]; }
     var d = DEC[normName($('#g-nuc').value)]; if (!d || !d.g) return [];
-    var v = $('#g-line').value; return v === 'all' ? d.g.filter(function (l) { return l[0] > 10; }) : [d.g[+v || 0]];
+    var v = $('#g-line').value; if (v !== 'all') return [d.g[+v || 0]];
+    var L = d.g.filter(function (l) { return l[0] > 10; });
+    if ($('#g-x').checked && d.x) d.x.forEach(function (x) { if (x[0] > 10) L.push([x[0], x[1], null, null, 'X-ray', null, null, '', '', x[2]]); });
+    return L;
   }
   RUN.gamma = function () {
     if (!G.xcom) return;
@@ -229,6 +238,7 @@
     if (res.length <= 3) res.forEach(function (o, k) { marks.push({ x: o.r.edge, label: 'Compton edge' + (res.length > 1 ? ' ' + fmt(o.l[0], 4) : ''), row: k }); });
     plot($('#g-plot'), { series: series, xlab: 'Energy deposited (keV)', xname: 'E', ylab: 'Probability per keV, ' + per, log: lg, legend: $('#g-legend'), marks: marks, ymin: lg ? Math.max(1e-8, max(sum.total) * 1e-6) : undefined });
     G.last = { x: x, sum: sum, per: per, lines: lines, comp: comp, electrons: electrons, bin: bin };
+    $('#g-mc-wrap').hidden = !$('#g-mc').checked; $('#g-dist-wrap').hidden = $('#g-pos').value !== 'external'; $('#g-H-l').hidden = $('#g-geo').value === 'sphere'; $('#g-dop-wrap').hidden = !$('#g-dop').checked;
     // text
     var r0 = res[0].r, E0 = res[0].l[0];
     var tab = el('table', 'sx-table'), hd = el('tr');
@@ -250,7 +260,144 @@
       ['Photoelectric', 'photoelectron at E<sub>γ</sub> − B<sub>K</sub>' + (r0.BK ? ' = ' + fmt(E0 - r0.BK, 5) + ' keV (B<sub>K</sub> = ' + fmt(r0.BK, 4) + ' keV, ' + r0.dominant + '); the K X-ray (≈ ' + fmt(r0.EKa, 3) + ' keV, fluorescence yield ' + fmt(r0.omegaK, 2) + ') escapes or is absorbed, giving the escape or full-energy peak' : '')],
       ['Pair production', 'E<sub>γ</sub> > 2m<sub>e</sub>c²: e⁺ and e⁻ share E<sub>γ</sub> − 1022 keV; escape peaks at E<sub>γ</sub> − 511 and E<sub>γ</sub> − 1022 keV. Positron spectrum (Bethe–Heitler, unscreened, Born): dσ/dE₊ ∝ (E₊² + E₋² + ⅔E₊E₋)(ln(2E₊E₋/E<sub>γ</sub>m<sub>e</sub>c²) − ½)']]));
     out.appendChild(el('p', 'sx-note', 'Model: one interaction, with the energy of the electron(s) set in motion deposited locally; secondary photons escape with the probability set on the left (otherwise they are absorbed, adding to the full-energy peak). Multiple Compton scattering in a real detector fills the region between the Compton edge and the peak; electron escape, bremsstrahlung and Doppler broadening are not modelled. The pair-production shape is approximate near threshold.'));
+    gExtras(out, lines, comp, bin, x);
+    gMC(out, lines, comp);
+    gDoppler(out, comp);
   };
+  var GRHO = { 'NaI(Tl)': 3.67, 'CsI': 4.51, 'Germanium (HPGe)': 5.32, 'Silicon': 2.33, 'Liquid argon': 1.396, 'Liquid xenon': 2.953, 'Water': 1.0, 'Plastic scintillator (PVT)': 1.023,
+    'Liquid scintillator (LAB)': 0.86, 'BGO': 7.13, 'LaBr₃': 5.08, 'CdTe': 5.85, 'Lead': 11.35, 'Acrylic (PMMA)': 1.19 };
+  function smear(E0, w, x, bin, out) {   // add a resolution-smeared line (per keV) at E0 with weight w to out on grid x
+    var f = num('#g-fwhm', 0), sg = f ? f / 2.3548 * Math.sqrt(Math.max(E0, 1) / 662) : 0;
+    if (!(sg > bin)) { var k = Math.floor(E0 / bin); if (k >= 0 && k < out.length) out[k] += w / bin; return; }
+    for (var i = Math.max(0, Math.floor((E0 - 5 * sg) / bin)); i < Math.min(out.length, Math.ceil((E0 + 5 * sg) / bin)); i++) out[i] += w * Math.exp(-0.5 * Math.pow((x[i] - E0) / sg, 2)) / (sg * Math.sqrt(2 * Math.PI));
+  }
+  function daughterZ(n) {
+    var i = nucInfo(n), d = DEC[n]; if (!i) return null;
+    if (/m$|m\d*$/.test(n.replace(/^\d+/, '')) || /^\d+m/.test(n)) return i.Z;   // isomer: IT
+    return d && d.bm ? i.Z + 1 : d && d.bp ? i.Z - 1 : d && d.a ? i.Z - 2 : i.Z;
+  }
+  function multL(m) { var t = (m || '').replace(/[\[\]\(\)]/g, ''), q = /([EM])(\d)/.exec(t); return q ? { type: q[1], L: +q[2], mixed: /\+/.test(t) } : null; }
+  function jpNum(j) { var q = /(\d+)(\/2)?/.exec((j || '').replace(/[()]/g, '')); return q ? (q[2] ? +q[1] / 2 : +q[1]) : null; }
+  // conversion / Auger electrons and internal pair creation for the current lines
+  function gExtras(out, lines, comp, bin, x) {
+    if (srcVal('g-src') !== 'nuc') return;
+    var n = normName($('#g-nuc').value), d = DEC[n]; if (!d) return;
+    var all = $('#g-line').value === 'all';
+    if ($('#g-ce').checked) {
+      var el_ = [], src = '';
+      if (d.e && d.e.length) { el_ = d.e.filter(function (e) { return all || /CE/i.test(e[2]); }).map(function (e) { return [e[0], e[1], e[2]]; }); src = 'ENSDF conversion and Auger electron lines (IAEA LiveChart)'; }
+      else {
+        var Z = daughterZ(n), sym = Z ? SYMS[Z] : null, BK = sym && G.edges[sym] ? G.edges[sym] : 0;
+        lines.forEach(function (l) { if (l[6] > 0 && l[2] != null) el_.push([l[0] - BK, l[1] * l[6], 'CE (all shells at E − B_K)']); });
+        src = 'estimated from the total conversion coefficients α (ENSDF/BrIcc), all placed at E<sub>γ</sub> − B<sub>K</sub>' + (BK ? ' (B<sub>K</sub> = ' + fmt(BK, 4) + ' keV for ' + sym + ')' : '');
+      }
+      el_ = el_.filter(function (e) { return e[0] > 0 && e[1] > 0; }).sort(function (a, b) { return b[1] - a[1]; });
+      if (el_.length) {
+        var tot = 0; el_.forEach(function (e) { tot += e[1] / 100; });
+        var tab = el('table', 'sx-table'), hd = el('tr'); ['Electron', 'Energy (keV)', 'Per decay'].forEach(function (h) { hd.appendChild(el('th', null, h)); }); tab.appendChild(hd);
+        el_.slice(0, 10).forEach(function (e) { var tr = el('tr'); [e[2] || 'CE', fmt(e[0], 5), fmt(e[1] / 100, 3)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); tab.appendChild(tr); });
+        out.appendChild(el('h3', null, 'Conversion and Auger electrons: ' + fmt(tot, 3) + ' per decay'));
+        var p_ = el('p', 'sx-note'); p_.innerHTML = 'Source: ' + src + '. These electrons (and the X-rays and Auger electrons that follow the vacancy) deposit their energy where they are emitted, so in a source inside a calorimeter they appear as mono-energetic lines, and they add to any gamma emitted in the same cascade.'; out.appendChild(p_);
+        out.appendChild(tab);
+        // electron lines in the main plot data (for the CSV): store
+        var y = new Float64Array(x.length); el_.forEach(function (e) { smear(e[0], e[1] / 100, x, bin, y); }); G.last.ce = y;
+        var c = $('#g-plot'); if (c && G.lastPlot) {}
+      }
+    }
+    if ($('#g-ipc').checked) {
+      var rows = [];
+      lines.forEach(function (l) { if (l[0] > 1022 && l[2] != null) { var m = multL(l[4]), r = m && m.L === 1 ? X.ipc(l[0], m.type + '1') : null; rows.push({ l: l, m: l[4] || '?', a: r ? r.alpha : null }); } });
+      if (rows.length) {
+        var t2 = el('table', 'sx-table'), h2 = el('tr'); ['Line (keV)', 'Multipolarity', 'IPC coefficient α<sub>π</sub>', 'Pairs per decay', 'e⁺ + e⁻ kinetic energy (keV)'].forEach(function (h) { var th = el('th'); th.innerHTML = h; h2.appendChild(th); }); t2.appendChild(h2);
+        rows.slice(0, 10).forEach(function (q) { var tr = el('tr'); [fmt(q.l[0], 5), q.m, q.a == null ? 'not E1/M1' : fmt(q.a, 3), q.a == null ? '–' : fmt(q.a * q.l[1] / 100, 3), fmt(q.l[0] - 1022, 5)].forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); t2.appendChild(tr); });
+        out.appendChild(el('h3', null, 'Internal pair creation'));
+        var p2 = el('p', 'sx-note'); p2.innerHTML = 'Instead of a gamma, the nucleus can emit an e⁺e⁻ pair directly (Born approximation, Goldring/Rose; E1 and M1 only, reliable for Z ≲ 40 and E ≳ 2.5 MeV; mixed transitions use their leading multipole). The pair deposits E − 1022 keV locally and the two 511 keV annihilation photons follow, so a calorimeter sees the full transition energy. The opening-angle distribution is what ATOMKI-type X17 searches look at.'; out.appendChild(p2);
+        out.appendChild(t2);
+      }
+    }
+  }
+  // level-scheme cascades for the Monte Carlo: feeding of each level, branching, conversion
+  function gCascades(n, lines) {
+    var d = DEC[n], g = d && d.g ? d.g.filter(function (l) { return l[2] != null && l[3] != null; }) : [];
+    var useCorr = $('#g-corr').checked, cas = [];
+    if (srcVal('g-src') === 'nuc' && $('#g-line').value === 'all' && g.length) {
+      var key = function (e) { return (Math.round(e * 10) / 10).toFixed(1); }, outOf = {}, into = {}, lv = {};
+      g.forEach(function (l) { var a = l[6] || 0, w = l[1] * (1 + a), kf = key(l[2]), kt = key(l[3]); (outOf[kf] = outOf[kf] || []).push({ E: l[0], w: w, a: a, to: kt, m: l[4], dl: l[5], jf: l[7], jt: l[8] }); into[kt] = (into[kt] || 0) + w; lv[kf] = l[7]; lv[kt] = l[8]; });
+      var starts = Object.keys(outOf).map(function (k) { var tot = outOf[k].reduce(function (s, b) { return s + b.w; }, 0); return { k: k, f: tot - (into[k] || 0) }; }).filter(function (s) { return s.f > 1e-6; });
+      var count = 0;
+      function walk(k, p, gam, local, steps) {
+        if (count > 3000) return;
+        var br = outOf[k]; if (!br || p < 1e-6) { if (gam.length || local) { cas.push({ w: p, gammas: gam.map(function (q) { return q.E; }), local: local, steps: steps }); count++; } return; }
+        var tot = br.reduce(function (s, b) { return s + b.w; }, 0);
+        br.forEach(function (b) {
+          var pb = p * b.w / tot;
+          walk(b.to, pb / (1 + b.a), gam.concat([b]), local, steps.concat([b]));
+          if (b.a > 0) walk(b.to, pb * b.a / (1 + b.a), gam, local + b.E, steps.concat([b]));
+        });
+      }
+      starts.forEach(function (s0) { walk(s0.k, s0.f / 100, [], 0, []); });
+      cas.forEach(function (c) {   // angular correlation between the first two consecutive gammas of the cascade
+        var st = c.steps; delete c.steps;
+        if (!useCorr || st.length < 2 || c.gammas.length < 2 || c.gammas[0] !== st[0].E || c.gammas[1] !== st[1].E) return;
+        var J1 = jpNum(st[0].jf), J = jpNum(st[0].jt), J2 = jpNum(st[1].jt), m1 = multL(st[0].m), m2 = multL(st[1].m);
+        if (J1 == null || J == null || J2 == null || !m1 || !m2) return;
+        var A = X.cascadeCorrelation(J1, J, J2, m1.L, m1.mixed ? (st[0].dl || 0) : 0, m2.L, m2.mixed ? (st[1].dl || 0) : 0);
+        if (isFinite(A.A22) && isFinite(A.A44)) { c.A22 = A.A22; c.A44 = A.A44; }
+      });
+      var sw = cas.reduce(function (a, c) { return a + c.w; }, 0); if (sw < 1) cas.push({ w: 1 - sw, gammas: [] });
+      var extras = d.x && $('#g-x').checked ? d.x.filter(function (x) { return x[0] > 10; }).map(function (x) { return { p: Math.min(1, x[1] / 100), E: x[0] }; }) : [];
+      return { cas: cas, levels: true, extras: extras };
+    }
+    lines.forEach(function (l) { cas.push({ w: l[1] / 100, gammas: [l[0]] }); });
+    return { cas: cas, levels: false };
+  }
+  function gMC(out, lines, comp) {
+    var wrap = $('#g-plot2-wrap'); wrap.hidden = !$('#g-mc').checked; if (!$('#g-mc').checked) return;
+    var n = normName($('#g-nuc').value), C_ = gCascades(n, lines), Emax = 0;
+    C_.cas.forEach(function (c) { var s = c.gammas.reduce(function (a, b) { return a + b; }, 0) + (c.local || 0); if (s > Emax) Emax = s; });
+    if (!Emax) return;
+    var o = { xcom: G.xcom, comp: comp, rho: num('#g-rho', 3.67), R: num('#g-R', 3.81), H: $('#g-geo').value === 'sphere' ? null : num('#g-H', 7.62) / 2, geometry: $('#g-geo').value, Emax: Emax, bins: 1200,
+      events: Math.max(1000, Math.min(400000, num('#g-n', 20000) | 0)), edges: G.edges, Zof: G.Zof, source: $('#g-pos').value === 'center' ? 'point' : $('#g-pos').value, dist: num('#g-dist', 1), cascades: C_.cas, extras: C_.extras || [] };
+    var r = X.photonMC(o), y = new Float64Array(r.y.length), x = r.x;
+    for (var i = 0; i < r.y.length; i++) if (r.y[i]) smear(x[i], r.y[i] * r.bin, x, r.bin, y);
+    var ser = [{ name: 'Monte Carlo: energy deposited per decay', x: x, y: y, color: css('--ink'), width: 1.6 }];
+    var lg = $('#g-log').checked, marks = [];
+    // full-energy and sum peaks
+    function area(E) { var s = 0, f = num('#g-fwhm', 0), hw = Math.max(2 * r.bin, f ? f * Math.sqrt(E / 662) : 2 * r.bin); for (var k = 0; k < r.y.length; k++) if (Math.abs(x[k] - E) <= hw) s += r.y[k] * r.bin; return s; }
+    var totDep = 0; for (i = 0; i < r.y.length; i++) totDep += r.y[i] * r.bin;
+    var rows = lines.filter(function (l) { return l[2] != null || srcVal('g-src') === 'e'; }).slice(0, 6).map(function (l) { var a = area(l[0]); return [fmt(l[0], 5), fmt(a, 3), fmt(a / (l[1] / 100), 3)]; });
+    var sums = {};
+    C_.cas.forEach(function (c) { if (c.gammas.length > 1) { var s = Math.round(c.gammas.reduce(function (a, b) { return a + b; }, 0) * 10) / 10; sums[s] = (sums[s] || 0) + c.w; } });
+    var sk = Object.keys(sums).sort(function (a, b) { return sums[b] - sums[a]; }).slice(0, 3);
+    sk.forEach(function (s, k) { marks.push({ x: +s, label: 'sum ' + fmt(+s, 5), row: k }); });
+    plot($('#g-plot2'), { series: ser, xlab: 'Energy deposited (keV)', xname: 'E', ylab: 'Probability per keV per decay', log: lg, legend: $('#g-legend2'), marks: marks, ymin: lg ? Math.max(1e-9, max(y) * 1e-5) : undefined });
+    G.last.mc = { x: x, y: y };
+    out.appendChild(el('h3', null, 'Detector Monte Carlo'));
+    var geo = $('#g-geo').value === 'sphere' ? 'sphere of radius ' + o.R + ' cm' : 'cylinder ' + o.R * 2 + ' cm across × ' + o.H * 2 + ' cm tall';
+    out.appendChild(el('p', null, fmt(r.events, 6) + ' decays in a ' + geo + ' of ' + GMAT[+$('#g-mat').value][0] + ' (ρ = ' + o.rho + ' g/cm³), source ' + ({ point: 'at the centre', volume: 'spread through the volume', external: 'on the axis ' + o.dist + ' cm from the face' })[o.source] + '. Something is deposited in ' + pc(totDep) + ' of decays. ' +
+      (C_.levels ? C_.cas.length + ' cascade paths from the level scheme' + ($('#g-corr').checked ? ', with γ–γ angular correlations from the level spins and multipolarities' : '') + '; conversion electrons are absorbed at the source (internal sources only); X-rays of the daughter are emitted independently with their per-decay probabilities.' : 'Each line on its own (no level information for this choice, so no summing).') +
+      (sk.length ? ' Strongest sum peaks: ' + sk.map(function (s) { return fmt(+s, 5) + ' keV (' + fmt(sums[s], 3) + ' cascades per decay, ' + fmt(area(+s), 3) + ' counts per decay in the peak)'; }).join('; ') + '.' : '')));
+    if (rows.length) {
+      var t = el('table', 'sx-table'), h = el('tr'); ['Line (keV)', 'Full-energy peak per decay', 'Peak efficiency (per emitted gamma)'].forEach(function (q) { h.appendChild(el('th', null, q)); }); t.appendChild(h);
+      rows.forEach(function (rr) { var tr = el('tr'); rr.forEach(function (v, i) { tr.appendChild(el('td', i ? 'num' : null, v)); }); t.appendChild(tr); }); out.appendChild(t);
+      out.appendChild(el('p', 'sx-note', 'Peak areas within ±1 FWHM (or ±2 bins); neighbouring lines inside that window are counted too. Summing removes counts from the single-line peaks (summing-out) and builds sum peaks (summing-in); both grow as the source gets closer. Photon transport: photoelectric (with K X-ray escape), Klein–Nishina Compton and pair production (annihilation photons tracked); electrons deposit locally (no bremsstrahlung or edge leakage); coherent scattering ignored. Beta particles and X-rays from the atomic shell of the parent are not coincident here.'));
+    }
+  }
+  function gDoppler(out, comp) {
+    var wrap = $('#g-plot3-wrap'); wrap.hidden = !$('#g-dop').checked; if (!$('#g-dop').checked) return;
+    var Eg = num('#g-dE', 477.6), Tr = num('#g-dT', 840), M = num('#g-dM', 7), tau = num('#g-dtau', 105), ts = num('#g-dstop', 300);
+    var r = X.dopplerLine(Eg, Tr, M, tau, ts, { bins: 400 }), bin = r.E[1] - r.E[0];
+    var f = num('#g-fwhm', 0), sg = f / 2.3548 * Math.sqrt(Eg / 662), span = Math.max(r.E[r.E.length - 1] - Eg, 0) + 4 * sg, nb = Math.ceil(2 * span / bin) + 1, gx = new Float64Array(nb), y = new Float64Array(nb);
+    for (var i = 0; i < nb; i++) gx[i] = Eg - span + i * bin;
+    for (i = 0; i < r.E.length; i++) { var k = Math.round((r.E[i] - gx[0]) / bin); if (k >= 0 && k < nb) { if (f > 0) smear(r.E[i], r.y[i] * bin, gx, bin, y); else y[k] += r.y[i]; } }
+    var ser = [{ name: 'Emitted line shape (the spike is the fraction emitted at rest)', x: r.E, y: r.y, color: color(0) }];
+    if (f > 0) ser.push({ name: 'With detector resolution (' + fmt(f * Math.sqrt(Eg / 662), 3) + ' keV FWHM here)', x: gx, y: y, color: css('--ink'), width: 1.6 });
+    plot($('#g-plot3'), { series: ser, xlab: 'Gamma energy (keV)', xname: 'E', ylab: 'Probability per keV', height: 240, legend: $('#g-legend3') });
+    var half = Eg * r.beta0;
+    out.appendChild(el('h3', null, 'Doppler-broadened line'));
+    out.appendChild(el('p', null, fmt(Eg, 5) + ' keV from an emitter of ' + M + ' u recoiling with ' + fmt(Tr, 4) + ' keV (β = ' + fmt(r.beta0, 3) + ', full width up to ±' + fmt(half, 3) + ' keV). With τ = ' + tau + ' fs and a stopping time of ' + ts + ' fs, ' + pc(r.inflight) + ' of the photons are emitted in flight and the rest at rest. Constant deceleration and isotropic emission give a flat box of half-width E<sub>γ</sub>β(t) at each instant.'));
+    out.lastChild.innerHTML = out.lastChild.textContent.replace('E<sub>γ</sub>β(t)', 'E<sub>γ</sub>β(t)');
+  }
   function pc(f) { return f >= 0.0995 ? (f * 100).toFixed(1) + '%' : f > 0 ? fmt(f * 100, 2) + '%' : '0'; }
   function max(a) { var m = 0; for (var i = 0; i < a.length; i++) if (a[i] > m) m = a[i]; return m; }
   function formulaBox(rows) {
@@ -376,8 +523,12 @@
       for (var k = 0; k < nb; k++) { var E = (k + 0.5) * bin; tab.push(visA(E)); }
       function addVis(V, w) { if (w <= 0) return; var kk = Math.min(nb - 1, Math.max(0, Math.floor(V / bin))); vis[kk] += w / bin; }
       if (cal) {
-        lines.forEach(function (l) { var V = visA(l.Ta) + visR(l.Tr), Ex = l.Ex || 0; addVis(V + Ex * (1 - gesc), l.I * (Ex > 0 ? 1 : 1)); });
-        notes.push('Each decay deposits the alpha, the recoiling ' + pretty(daughterName(n, -2, -4) || 'daughter') + ' and the daughter level energy E<sub>x</sub>, of which a fraction ' + fmt(gesc, 3) + ' escapes as gamma radiation (conversion electrons and X-rays are assumed absorbed; every level is treated as decaying by gamma emission).');
+        var dg = (DEC[n] && DEC[n].g || []).filter(function (g) { return g[2] != null; }), haveA = dg.some(function (g) { return g[6] != null; });
+        function fGamma(Ex) {   // photon share of the de-excitation of level Ex: sum I / sum I (1 + alpha) of the gammas leaving it
+          var a = 0, b = 0; dg.forEach(function (g) { if (Math.abs(g[2] - Ex) < Math.max(1, 1e-3 * Ex)) { a += g[1]; b += g[1] * (1 + (g[6] || 0)); } }); return b > 0 ? a / b : 1;
+        }
+        lines.forEach(function (l) { var V = visA(l.Ta) + visR(l.Tr), Ex = l.Ex || 0; addVis(V + Ex * (1 - gesc * (Ex > 0 ? fGamma(Ex) : 0)), l.I); });
+        notes.push('Each decay deposits the alpha, the recoiling ' + pretty(daughterName(n, -2, -4) || 'daughter') + ' and the daughter level energy E<sub>x</sub>, of which a fraction ' + fmt(gesc, 3) + ' escapes as gamma radiation (conversion electrons and X-rays are assumed absorbed; ' + (haveA ? 'the photon share of each level\'s de-excitation, Σ I<sub>γ</sub> / Σ I<sub>γ</sub>(1+α), comes from the ENSDF conversion coefficients of the gammas leaving it, so highly converted levels (low-energy E2/M1 transitions in heavy nuclei) deposit nearly all of E<sub>x</sub>' : 'no conversion coefficients for this nuclide, so every level is treated as decaying by gamma emission') + ').');
       } else for (k = 0; k < nb; k++) if (raw[k]) addVis(tab[k], raw[k] * bin);
       function smear(y, fwhm) {
         var s = fwhm / 2.3548; if (!(s > bin / 2)) return y; var o = new Float64Array(nb), r = Math.ceil(5 * s / bin), g = [];

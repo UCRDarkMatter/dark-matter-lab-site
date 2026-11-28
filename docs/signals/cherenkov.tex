@@ -115,6 +115,27 @@ The tab takes $\dd N_e/\dd T$ from:
 In a liquid-scintillator or liquid-argon detector, Cherenkov light in the PMT glass, acrylic vessel or light guides from \nuc{40}{K}, \nuc{208}{Tl} or \nuc{214}{Bi} decays gives prompt, low-photon-count pulses with almost no late light. They can look like fast scintillation (nuclear-recoil-like in argon pulse-shape discrimination). Estimating them requires exactly \cref{eq:fold}, with the beta and gamma-electron spectra of each contaminant and the transmission of each material.
 \end{keyidea}
 
+
+\section{From emitted to detected light}
+\subsection{Delta rays}
+An electron above about $2T_\text{th}$ can knock out a secondary (Møller scattering) that is itself above threshold. The tab adds the light of these delta rays:
+\begin{equation}
+\frac{\dd N_\delta}{\dd\lambda} = \int \dd s\; n_e \int_{T_\text{th}}^{T/2}\frac{\dd\sigma_\text{M}}{\dd T_\delta}\,\frac{\dd N}{\dd\lambda}(T_\delta)\,\dd T_\delta .
+\end{equation}
+For MeV-scale betas the contribution is small, a fraction of a percent to a few percent. It grows with energy and dominates the light of high-energy showers.
+
+\subsection{Multiple scattering and the cone}
+Photons go out at $\cos\theta_C = 1/(\beta n)$ relative to the electron's \emph{current} direction, and an MeV electron is deflected by tens of degrees as it slows down. The Highland formula gives the plane-projected deflection per step: $\theta_0 = (\SI{13.6}{MeV}/\beta pc)\sqrt{s/X_0}$. A Monte Carlo over the track gives the photon distribution relative to the initial direction. The sharp cone at $\theta_C$ is smeared into a broad distribution, which is why Cherenkov direction reconstruction at low energies has a resolution of tens of degrees.
+
+\subsection{Detection: quantum efficiency, transmission, wavelength shifters}
+The number of photoelectrons is
+\begin{equation}
+N_\text{pe} = \int \frac{\dd N}{\dd\lambda}\,T(\lambda)\,\text{QE}(\lambda)\,\dd\lambda .
+\end{equation}
+Because $\dd N/\dd\lambda \propto 1/\lambda^2$, the result depends strongly on the UV end of the QE curve and on the window's transmission. A wavelength shifter absorbs the UV photons below its cut and re-emits a fraction (quantum yield $\times$ collection efficiency) near its emission peak, where the QE is higher. Users can upload their own QE curve. The simple attenuation model uses $\Lambda(\lambda) = \Lambda_{400}(\lambda/\SI{400}{nm})^4$ (Rayleigh-like).
+
+\subsection{\nuc{40}{K} in PMT glass}
+Borosilicate PMT windows contain potassium. \nuc{40}{K} decays by $\beta^-$ (89.3\%, unique third-forbidden, $T_0 = \SI{1311}{keV}$) and by electron capture to the \SI{1461}{keV} level (10.7\%). Both produce Cherenkov light inside the glass, right in front of the photocathode, which is a source of PMT dark counts. With 1\% K$_2$O, a \SI{3}{mm} window has about 0.18 decays per second per cm$^2$.
 \section{What the Cherenkov tab outputs}
 The photon spectrum per nm (per electron or per decay), the total in the chosen wavelength window, the electron threshold at the centre of the wavelength window, the plot of $n(\lambda)$, the formula, and a CSV with wavelength, $n$, and photons per nm.
 

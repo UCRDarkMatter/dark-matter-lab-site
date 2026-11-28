@@ -102,6 +102,20 @@ G = \frac{1}{\hbar}\int_R^{b}\sqrt{2\mu\left(\frac{2Z_d e^2}{4\pi\epsilon_0 r} -
 \end{equation}
 where $x = R/b$, $\eta = 2Z_d\,\alpha\,c/v = Z_d\,\alpha\sqrt{2\mu c^2/Q}$ is the Sommerfeld parameter, $\mu$ the reduced mass, $R$ the nuclear radius, and $b = 2Z_d e^2/(4\pi\epsilon_0 Q)$ the classical turning point. The leading term gives $\log_{10} t_{1/2} \approx a Z_d/\sqrt{Q} + c$ (Geiger--Nuttall): a factor of two in $Q$ changes the half-life by over twenty orders of magnitude. The same barrier-penetration physics explains why branches to excited daughter states (lower $Q - E_x$) and with angular momentum $\ell > 0$ (centrifugal barrier) are suppressed.
 
+
+\section{Alphas in a detector}
+\subsection{Emitters below a surface}
+An alpha emitted at depth $z$ (mass thickness) heading at angle $\theta$ to the outward normal crosses $z/\cos\theta$ of material and leaves with $E = E\big(R(E_0) - z/\cos\theta\big)$, where $R(E)$ is the CSDA range. For uniform emitters in a layer of thickness $t$ the escaping spectrum is flat-topped, with a tail down to zero energy; for a thick (bulk) source only alphas from within one range escape. For isotropic emission the escaping fraction is $\tfrac14 R/z_\text{max}$ in the bulk limit. That is why bulk \nuc{210}{Po} in acrylic gives a broad continuum while surface \nuc{210}{Po} gives a peak at \SI{5.3}{MeV}.
+
+\subsection{Quenching}
+Scintillation from a heavily ionising particle is quenched. Birks' law gives the light per unit length,
+\begin{equation}
+\frac{\dd L}{\dd x} = \frac{S\,\dd E/\dd x}{1 + kB\,\dd E/\dd x},
+\end{equation}
+integrated over the alpha's slowing down. For the nuclear recoil, most of the energy goes into atomic motion; Lindhard's theory gives the electronic fraction $f_n = k\,g(\varepsilon)/(1+k\,g(\varepsilon))$ with $k = 0.133Z^{2/3}A^{-1/2}$, $\varepsilon = 11.5\,E_R[\text{keV}]\,Z^{-7/3}$ and $g = 3\varepsilon^{0.15} + 0.7\varepsilon^{0.6} + \varepsilon$. In liquid argon and xenon the alpha quenching factor (about 0.7 in argon) is set by recombination and biexcitonic quenching rather than Birks' formula, so the tab offers a fixed factor for noble liquids.
+
+\subsection{Calorimetric summing}
+In a source inside a calorimeter, each decay deposits the alpha, the recoil and the daughter level energy $E_x$. The level energy is carried by gammas, which may escape, and by conversion electrons and X-rays, which do not. The photon share of a level's de-excitation is $\sum I_\gamma / \sum I_\gamma(1+\alpha)$ over the gammas leaving it, so heavily converted low-energy transitions sum almost completely.
 \section{What the Alpha tab outputs}
 Given a parent, the tab lists every alpha branch with its intensity, daughter level and exact $T_\alpha$, $T_R$ (\cref{eq:exact}); draws the alpha and recoil spectra as lines (parent at rest) or boxes (\cref{eq:range}) convolved with a Gaussian detector resolution; and exports the formula and a CSV. The parent's $Q$ is looked up from the mass table when you type a nuclide.
 

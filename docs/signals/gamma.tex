@@ -147,6 +147,30 @@ which is symmetric and fairly flat except near the ends (\cref{fig:pair}). Close
 \label{fig:pair}
 \end{figure}
 
+
+\section{Beyond the gamma: conversion, pairs and cascades}
+\subsection{Internal conversion, X-rays and Auger electrons}
+A nuclear transition can give its energy to an atomic electron instead of emitting a photon. The total conversion coefficient $\alpha = N_e/N_\gamma$ (tabulated by BrIcc \cite{bricc} and carried in ENSDF) grows steeply with multipolarity and $Z$ and falls with energy. Per decay, a line with photon intensity $I_\gamma$ is accompanied by $I_\gamma\alpha$ conversion electrons of energy $E_\gamma - B_i$, with $B_i$ the binding energy of the shell ($K$, $L$, \dots). The vacancy then fills by X-ray emission (fluorescence yield $\omega_K$) or Auger electrons. The tab lists the ENSDF electron lines when they exist; otherwise it estimates them from $\alpha$, placing all of them at $E_\gamma - B_K$. In a source embedded in a calorimeter the electron, X-ray and Auger energies are all absorbed, so the full transition energy is seen even though no gamma left the nucleus.
+
+\subsection{Internal pair creation}
+Above $2\me$ the nucleus can create an $e^+e^-$ pair directly. In the Born approximation (Rose; Goldring \cite{goldring}) the differential coefficient for an electric (E1) or magnetic (M1) dipole of energy $k$ (in units of $\me$) is
+\begin{equation}
+\frac{\dd\alpha_\pi}{\dd E_+\,\dd\Omega_+\,\dd\Omega_-} = \frac{\alpha}{16\pi^3}\frac{p_+p_-}{k^3}\left[\frac{4k^2}{(k^2-q^2)^2} + \frac{2(p_+^2+p_-^2)}{k^2-q^2} \pm 1\right],
+\end{equation}
+with $q = |\vec p_+ + \vec p_-|$, $+$ for E1 and $-$ for M1. Integrated it gives $\alpha_\pi \sim 10^{-4}$--$10^{-3}$ (e.g.\ $3.2\times10^{-3}$ for an \SI{18.15}{MeV} M1, the \nuc{8}{Be} transition behind the ATOMKI ``X17'' anomaly \cite{atomki}). The pair deposits $E - 2\me$ locally and two \SI{511}{keV} photons follow. The opening-angle distribution peaks at small angles and falls monotonically; a light boson decaying to $e^+e^-$ would instead give a bump at $\cos\theta \approx 1 - 2m_X^2/E^2$.
+
+\subsection{Cascades: coincidence summing and angular correlations}
+When a level decays through intermediate states, the gammas are emitted within picoseconds and a detector sees them together. If both interact, their deposits add (true coincidence summing): counts move out of the single-line peaks and into sum peaks such as \SI{2505.7}{keV} for \nuc{60}{Co}. The tab's Monte Carlo builds the cascades from the level scheme. The net feeding of each level is the intensity leaving it minus the intensity arriving. Each branch is chosen with probability $\propto I_\gamma(1+\alpha)$, and a branch is a photon with probability $1/(1+\alpha)$ and a conversion electron otherwise. The directions of successive gammas are correlated:
+\begin{equation}
+W(\theta) = 1 + A_{22}P_2(\cos\theta) + A_{44}P_4(\cos\theta),\qquad A_{kk} = A_k(\gamma_1)A_k(\gamma_2),
+\end{equation}
+with $A_k$ built from the $F_k(L,L',J_i,J)$ coefficients and the mixing ratios $\delta$ \cite{krane}. For \nuc{60}{Co} ($4^+\to2^+\to0^+$, E2--E2) $A_{22} = 0.102$ and $A_{44} = 0.009$. Close geometries enhance the effect because the second photon prefers to go along or against the first.
+
+\subsection{Doppler broadening}
+A gamma emitted by a recoiling nucleus is shifted by $E_\gamma\beta\cos\theta$. For isotropic emission at constant speed this gives a flat box of half-width $E_\gamma\beta$. If the emitter slows down over a time comparable to the level's mean life $\tau$, the box shrinks as it decays, and a fraction $e^{-t_\text{stop}/\tau}$ is emitted at rest as a narrow line. The \SI{478}{keV} line from \nuc{10}{B}$(n,\alpha)$\nuc{7}{Li}$^*$ (\nuc{7}{Li} recoiling with \SI{840}{keV}, $\tau \approx \SI{105}{fs}$) is about \SI{15}{keV} wide, which matters when using boron-loaded scintillators for neutron tagging.
+
+\subsection{A small photon Monte Carlo}
+The single-knob model of \cref{eq:model} is replaced in the Monte Carlo by actual tracking in a sphere or cylinder. Interaction points are sampled from $\mu(E)$. Compton scattering is sampled from Klein--Nishina (Kahn's method). Photoabsorption may emit a $K$ X-ray, which is tracked. Pair production deposits $E - 2\me$ and tracks two back-to-back annihilation photons. Electrons deposit locally. The source can sit at the centre, be spread through the volume, or sit on the axis outside.
 \section{What the Gamma tab outputs}
 For an energy, or for every line of a chosen isotope weighted by its intensity, the tab shows the components of \cref{eq:model} on a common grid and lists the discrete features (full-energy peak, X-ray escape, single and double escape, Compton edge, back-scatter energy) with their weights. The CSV contains the same columns. The ``electrons'' spectrum passed to the Cherenkov tab is different: it is the kinetic energy given to \emph{electrons} by the first interaction (KN recoils, photoelectrons at $E - B_K$, and both pair leptons), because that is what radiates.
 
@@ -176,5 +200,9 @@ In an HPGe spectrum of a thorium source you see a peak at \SI{1592}{keV}, one at
 \bibitem{bethe-heitler} H.~Bethe and W.~Heitler, ``On the stopping of fast particles and on the creation of positive electrons'', Proc.\ R.\ Soc.\ A \textbf{146}, 83 (1934).
 \bibitem{motz} J.~W. Motz, H.~A. Olsen and H.~W. Koch, ``Pair production by photons'', Rev.\ Mod.\ Phys.\ \textbf{41}, 581 (1969).
 \bibitem{knoll} G.~F. Knoll, \emph{Radiation Detection and Measurement}, 4th ed.\ (Wiley, 2010), ch.~2 and 10.
+\bibitem{bricc} T.~Kib\'edi \emph{et al.}, ``Evaluation of theoretical conversion coefficients using BrIcc'', Nucl.\ Instrum.\ Meth.\ A \textbf{589}, 202 (2008).
+\bibitem{goldring} G.~Goldring, ``Internal pair formation'', Proc.\ Phys.\ Soc.\ A \textbf{66}, 341 (1953); M.~E. Rose, Phys.\ Rev.\ \textbf{76}, 678 (1949).
+\bibitem{atomki} A.~J. Krasznahorkay \emph{et al.}, Phys.\ Rev.\ Lett.\ \textbf{116}, 042501 (2016).
+\bibitem{krane} K.~S. Krane, R.~M. Steffen and R.~M. Wheeler, ``Directional correlations of gamma radiations emitted from nuclear states'', Nucl.\ Data Tables \textbf{11}, 351 (1973).
 \end{thebibliography}
 \end{document}
